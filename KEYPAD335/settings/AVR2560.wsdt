@@ -24,7 +24,7 @@
     <Windows>
       
       
-    <Wnd1>
+    <Wnd0>
         <Tabs>
           <Tab>
             <Identity>TabID-14552-12567</Identity>
@@ -36,7 +36,7 @@
           </Tab>
         </Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd1><Wnd3>
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd2>
         <Tabs>
           <Tab>
             <Identity>TabID-21955-14679</Identity>
@@ -46,20 +46,20 @@
           </Tab>
         <Tab><Identity>TabID-10240-30437</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab><Tab><Identity>TabID-22331-23438</Identity><TabName>Tool Output</TabName><Factory>Tool-Output</Factory><Session/></Tab></Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd3></Windows>
+      <SelectedTab>0</SelectedTab></Wnd2></Windows>
     <Editor>
       
       
       
       
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\source\main.c</Filename><XPos>0</XPos><YPos>234</YPos><SelStart>3793</SelStart><SelEnd>3793</SelEnd></Tab><ActiveTab>0</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\source\mcu\16by2CLCD.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>338</SelStart><SelEnd>338</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\source\mcu\display.c</Filename><XPos>0</XPos><YPos>25280</YPos><SelStart>583401</SelStart><SelEnd>583401</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\Debug\List\AVR2560.map</Filename><XPos>0</XPos><YPos>58418</YPos><SelStart>2787490</SelStart><SelEnd>2787490</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\source\main.c</Filename><XPos>0</XPos><YPos>234</YPos><SelStart>3765</SelStart><SelEnd>3765</SelEnd></Tab><ActiveTab>0</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\source\mcu\16by2CLCD.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>338</SelStart><SelEnd>338</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\source\mcu\display.c</Filename><XPos>0</XPos><YPos>25280</YPos><SelStart>583401</SelStart><SelEnd>583401</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\Debug\List\AVR2560.map</Filename><XPos>0</XPos><YPos>58418</YPos><SelStart>2787490</SelStart><SelEnd>2787490</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>Z:\work\SEOHO_VD\KEYPAD335_101230_IAR\source\mcu\display.c</Filename><XPos>0</XPos><YPos>13971</YPos><SelStart>347200</SelStart><SelEnd>347200</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>Z:\work\SEOHO_VD\KEYPAD335_101230_IAR\Debug\List\AVR2560.map</Filename><XPos>0</XPos><YPos>61756</YPos><SelStart>2933060</SelStart><SelEnd>2933066</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
       
       
       
       
       
-    <Top><Row0><Sizes><Toolbar-00b09b90><key>iaridepm.enu1</key></Toolbar-00b09b90></Sizes></Row0><Row1><Sizes/></Row1></Top><Left><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>738</Bottom><Right>267</Right><x>-2</x><y>-2</y><xscreen>189</xscreen><yscreen>193</yscreen><sizeHorzCX>135000</sizeHorzCX><sizeHorzCY>198152</sizeHorzCY><sizeVertCX>192143</sizeVertCX><sizeVertCY>759754</sizeVertCY></Rect></Wnd1></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>191</Bottom><Right>1402</Right><x>-2</x><y>-2</y><xscreen>1404</xscreen><yscreen>193</yscreen><sizeHorzCX>1002857</sizeHorzCX><sizeHorzCY>198152</sizeHorzCY><sizeVertCX>135000</sizeVertCX><sizeVertCY>198152</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-00b09b90><key>iaridepm.enu1</key></Toolbar-00b09b90></Sizes></Row0><Row1><Sizes/></Row1><Row2><Sizes><Toolbar-063da518><key>debuggergui.enu1</key></Toolbar-063da518></Sizes></Row2></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>738</Bottom><Right>267</Right><x>-2</x><y>-2</y><xscreen>189</xscreen><yscreen>193</yscreen><sizeHorzCX>135000</sizeHorzCX><sizeHorzCY>198152</sizeHorzCY><sizeVertCX>192143</sizeVertCX><sizeVertCY>759754</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>191</Bottom><Right>1402</Right><x>-2</x><y>-2</y><xscreen>1404</xscreen><yscreen>193</yscreen><sizeHorzCX>1002857</sizeHorzCX><sizeHorzCY>198152</sizeHorzCY><sizeVertCX>135000</sizeVertCX><sizeVertCY>198152</sizeVertCY></Rect></Wnd2></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Workspace>
 
