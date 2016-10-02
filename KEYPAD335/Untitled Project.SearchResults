@@ -1,2 +1,7 @@
----- MODE_59 Matches (1 in 1 files) ----
-Display.c (source\mcu):#define MODE_59 59
+---- MODE_3d_1u_Vrms Matches (6 in 2 files) ----
+Display.c (source\mcu):	else if(mode == MODE_3d_1u_Vrms)
+Display.c (source\mcu):		SYS_ParameterDisplay(MODE_3d_1u_Vrms);
+Display.c (source\mcu):		SYS_ParameterDisplay(MODE_3d_1u_Vrms);
+Display.c (source\mcu):		SYS_ParameterDisplay(MODE_3d_1u_Vrms);
+Display.c (source\mcu):		SYS_ParameterDisplay(MODE_3d_1u_Vrms);
+Display_def.h (source\mcu):#define MODE_3d_1u_Vrms 6

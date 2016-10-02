@@ -72,22 +72,22 @@ unsigned int KeyScan(void)
 		{
 			key_press_time = 9;
 
-			switch(key_data){
-				case 0xFFFD:		key_output = UP;		break;
-				case 0xFF7F:		key_output = DN;		break;
-				case 0xFFDF:		key_output = RIGHT;	break;
-				case 0xFFF7:		key_output = LEFT;	break;
-				case 0xFFFE:		key_output = ESC;		break;
-				case 0xFFFB:		key_output = ENTER;	break;
-				case 0xFFEF:		key_output = MENU;	break;
-				case 0xFFBF:		key_output = RUN;		break;
-				case 0xFEFF:		key_output = STOP;	break;
-				case 0xFEBA:		key_output = 0xFE;	break;
-				default:			key_output = 0xFF;	break;
-				}
+			//switch(key_data){
+				//case 0xFFFD:		key_output = UP;		break;
+				//case 0xFF7F:		key_output = DN;		break;
+				//case 0xFFDF:		key_output = RIGHT;	break;
+				//case 0xFFF7:		key_output = LEFT;	break;
+				//case 0xFFFE:		key_output = ESC;		break;
+				//case 0xFFFB:		key_output = ENTER;	break;
+				//case 0xFFEF:		key_output = MENU;	break;
+				//case 0xFFBF:		key_output = RUN;		break;
+				//case 0xFEFF:		key_output = STOP;	break;
+				//case 0xFEBA:		key_output = 0xFE;	break;
+			//	default:			key_output = 0xFF;	break;
+			//	}
 			
-			LongKeyFlag=1;
-			return key_output;
+			//LongKeyFlag=1;
+			//return key_output;
 		}
 	}
 	else if((!key_signal_A)&&(key_signal_B))// key down edge

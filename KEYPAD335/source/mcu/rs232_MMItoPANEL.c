@@ -205,6 +205,7 @@ __interrupt void USART0_RX_ISR(void)
 				else if(RxType == QUERY)
 				{
 					Communication_Fault_Cnt = 3;
+					device_type = RxData;
 				}
 				
 			}
@@ -307,6 +308,11 @@ void SCI_Process(void)
 				Communication_Fault_Flag=0;
 			}
 		}
+
+		if(TimeTic_500ms)
+		{
+			SCI_RequestData(gRequestAddr);
+		}
 	}
 	else
 	{
@@ -334,6 +340,31 @@ void SCI_RequestData(unsigned int addr)
 
 }
 
+void SCI_SendData(unsigned int addr, unsigned int data)
+{
+	CRC.Word = 0;
+	
+	
+	TX0_char(0xAB); 			CRC_16(0xAB);
+	TX0_char(0xCD); 			CRC_16(0xCD);
+	
+	TX0_char(SEND); 			CRC_16(SEND);
+	
+	TX0_char((char)(addr>>8));	CRC_16((char)(addr>>8));
+	TX0_char((char)addr);		CRC_16((char)addr);
+			
+	TX0_char((char)(data>>8));	CRC_16((char)(data>>8));
+	TX0_char((char)data);		CRC_16((char)data);
+	
+	TX0_char(CRC.Byte.b1);
+	TX0_char(CRC.Byte.b0);
+
+	DATA_Registers[addr] = data;
+
+
+}
+
+
 void SCI_RegisterRefresh(void)
 {
 	int i;
@@ -357,6 +388,10 @@ void SCI_RegisterRefresh(void)
 	
 	TX0_char(CRC.Byte.b1);
 	TX0_char(CRC.Byte.b0);
+
+	DATA_Registers[0x0C7B]=1;
+	SCI_Registers[0x0C7B]=0;
+
 
 }
 

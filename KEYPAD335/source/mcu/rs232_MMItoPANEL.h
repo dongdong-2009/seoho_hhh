@@ -67,6 +67,7 @@ void CRC_16(unsigned char input);
 void SCI_Process(void);
 
 void SCI_RequestData(unsigned int addr);
+void SCI_SendData(unsigned int addr, unsigned int data);
 void SCI_RegisterRefresh(void);
 
 void InputDataReg(unsigned int addr, unsigned int dat);

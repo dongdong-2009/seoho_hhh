@@ -1,18 +1,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                            /
-// IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR   30/Jan/2011  23:58:51 /
+// IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR   28/Jul/2011  21:59:29 /
 // Copyright 1996-2009 IAR Systems AB.                                        /
 //                                                                            /
-//    Source file  =  C:\Documents and Settings\idonno2000\¹ÙÅÁ               /
-//                    È­¸é\KEYPAD335_110128_IAR\source\mcu\rs232_MMItoPANEL.c /
-//    Command line =  "C:\Documents and Settings\idonno2000\¹ÙÅÁ              /
-//                    È­¸é\KEYPAD335_110128_IAR\source\mcu\rs232_MMItoPANEL.c /
-//                    " --cpu=m2560 -ms -o "C:\Documents and                  /
-//                    Settings\idonno2000\¹ÙÅÁ È­¸é\KEYPAD335_110128_IAR\Debu /
-//                    g\Obj\" -lC "C:\Documents and Settings\idonno2000\¹ÙÅÁ  /
-//                    È­¸é\KEYPAD335_110128_IAR\Debug\List\" -lA              /
-//                    "C:\Documents and Settings\idonno2000\¹ÙÅÁ              /
-//                    È­¸é\KEYPAD335_110128_IAR\Debug\List\" -y               /
+//    Source file  =  C:\work\KEYPAD335_110727_HHH\source\mcu\rs232_MMItoPANE /
+//                    L.c                                                     /
+//    Command line =  C:\work\KEYPAD335_110727_HHH\source\mcu\rs232_MMItoPANE /
+//                    L.c --cpu=m2560 -ms -o C:\work\KEYPAD335_110727_HHH\Deb /
+//                    ug\Obj\ -lC C:\work\KEYPAD335_110727_HHH\Debug\List\    /
+//                    -lA C:\work\KEYPAD335_110727_HHH\Debug\List\ -y         /
 //                    --initializers_in_flash -z3 --no_cse --no_inline        /
 //                    --no_code_motion --no_cross_call --no_clustering        /
 //                    --no_tbaa --debug --enable_external_bus                 /
@@ -21,9 +17,8 @@
 //                    5.3\avr\INC\" -I "C:\Program Files\IAR                  /
 //                    Systems\Embedded Workbench 5.3\avr\INC\CLIB\"           /
 //                    --eeprom_size 4096                                      /
-//    List file    =  C:\Documents and Settings\idonno2000\¹ÙÅÁ               /
-//                    È­¸é\KEYPAD335_110128_IAR\Debug\List\rs232_MMItoPANEL.s /
-//                    90                                                      /
+//    List file    =  C:\work\KEYPAD335_110727_HHH\Debug\List\rs232_MMItoPANE /
+//                    L.s90                                                   /
 //                                                                            /
 //                                                                            /
 ///////////////////////////////////////////////////////////////////////////////
@@ -42,6 +37,8 @@
         RSEG CSTACK:DATA:NOROOT(0)
         RSEG RSTACK:DATA:NOROOT(0)
 
+        EXTERN ?EPILOGUE_B4_L09
+        EXTERN ?PROLOGUE4_L09
         EXTERN ?need_segment_init
         EXTERN __RSTACK_in_external_ram_new_way
 
@@ -78,7 +75,12 @@
         PUBLIC SCI_Registers
         PUBLIC SCI_RequestData
         FUNCTION SCI_RequestData,021203H
+        ARGFRAME RSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC SCI_SendData
+        FUNCTION SCI_SendData,021203H
         ARGFRAME CSTACK, 0, STACK
+        LOCFRAME CSTACK, 4, STACK
         LOCFRAME RSTACK, 3, STACK
         PUBLIC SCI_TxOffset
         PUBLIC SciC_RxFlag
@@ -237,8 +239,11 @@ USART0_TX_ISR       SYMBOL "USART0_TX_ISR"
 
         EXTERN DATA_Registers
         EXTERN TimeTic_1s
+        EXTERN TimeTic_500ms
+        EXTERN device_type
+        EXTERN gRequestAddr
 
-// C:\Documents and Settings\idonno2000\¹ÙÅÁ È­¸é\KEYPAD335_110128_IAR\source\mcu\rs232_MMItoPANEL.c
+// C:\work\KEYPAD335_110727_HHH\source\mcu\rs232_MMItoPANEL.c
 //    1 //==============================================================================================
 //    2 //
 //    3 // Copyright(C) 2008 HanYoung ELEC. Co., LTD.
@@ -1125,23 +1130,26 @@ USART0_RX_ISR:
         LDI     R17, 0
         STS     Communication_Fault_Cnt, R16
         STS     (Communication_Fault_Cnt + 1), R17
-//  208 				}
-//  209 				
-//  210 			}
-//  211 			SciC_RxStep=0;
+//  208 					device_type = RxData;
+        LDS     R16, RxData
+        STS     device_type, R16
+//  209 				}
+//  210 				
+//  211 			}
+//  212 			SciC_RxStep=0;
 ??USART0_RX_ISR_12:
         LDI     R16, 0
         STS     SciC_RxStep, R16
         RJMP    ??USART0_RX_ISR_3
-//  212 		}
-//  213 	}
-//  214 	else SciC_RxStep=0;
+//  213 		}
+//  214 	}
+//  215 	else SciC_RxStep=0;
 ??USART0_RX_ISR_0:
         LDI     R16, 0
         STS     SciC_RxStep, R16
-//  215 
 //  216 
-//  217 	return ;
+//  217 
+//  218 	return ;
 ??USART0_RX_ISR_3:
         OUT     0x3C, R26
         OUT     0x3B, R25
@@ -1200,56 +1208,56 @@ USART0_RX_ISR:
         RETI
         CFI EndBlock cfiBlock3
         REQUIRE _A_UDR0
-//  218 }
-//  219 
+//  219 }
 //  220 
 //  221 
+//  222 
 
         RSEG FARCODE:CODE:NOROOT(1)
-//  222 void TX0_char( char data)		/* transmit a character by USART0 */
+//  223 void TX0_char( char data)		/* transmit a character by USART0 */
 TX0_char:
         CFI Block cfiBlock4 Using cfiCommon0
         CFI Function TX0_char
-//  223 {
+//  224 {
         REQUIRE __RSTACK_in_external_ram_new_way
-//  224 	while((UCSR0A & 0x20) == 0x00);		// data register empty ?
+//  225 	while((UCSR0A & 0x20) == 0x00);		// data register empty ?
 ??TX0_char_0:
         LDS     R17, _A_UCSR0A
         MOV     R18, R17
         SBRS    R18, 5
         RJMP    ??TX0_char_0
-//  225 	UDR0 = data;
+//  226 	UDR0 = data;
         STS     _A_UDR0, R16
-//  226 }
+//  227 }
         RET
         CFI EndBlock cfiBlock4
         REQUIRE _A_UDR0
         REQUIRE _A_UCSR0A
-//  227 
-//  228 //===============================================================================================
+//  228 
+//  229 //===============================================================================================
 
         RSEG FARCODE:CODE:NOROOT(1)
-//  229 void CRC_16(unsigned char input)
+//  230 void CRC_16(unsigned char input)
 CRC_16:
         CFI Block cfiBlock5 Using cfiCommon0
         CFI Function CRC_16
-//  230 {
+//  231 {
         REQUIRE __RSTACK_in_external_ram_new_way
-//  231 	unsigned char 	i ;
-//  232 	unsigned int 	tmp_CRC ;
-//  233 
-//  234 	tmp_CRC=((CRC.Word >> 8) ^ input) << 8 ;
+//  232 	unsigned char 	i ;
+//  233 	unsigned int 	tmp_CRC ;
+//  234 
+//  235 	tmp_CRC=((CRC.Word >> 8) ^ input) << 8 ;
         LDS     R21, (CRC + 1)
         MOV     R20, R21
         EOR     R20, R16
         MOV     R21, R20
         LDI     R20, 0
-//  235 	for (i = 0 ; i < 8 ; i++)
+//  236 	for (i = 0 ; i < 8 ; i++)
         LDI     R18, 0
         RJMP    ??CRC_16_0
-//  236 	{
-//  237 		if (tmp_CRC & 0x8000) tmp_CRC = (tmp_CRC << 1) ^ GEN_POLYNOMAL ;
-//  238 		else tmp_CRC <<= 1 ;
+//  237 	{
+//  238 		if (tmp_CRC & 0x8000) tmp_CRC = (tmp_CRC << 1) ^ GEN_POLYNOMAL ;
+//  239 		else tmp_CRC <<= 1 ;
 ??CRC_16_1:
         LSL     R20
         ROL     R21
@@ -1267,8 +1275,8 @@ CRC_16:
         EOR     R20, R16
         EOR     R21, R17
         RJMP    ??CRC_16_2
-//  239 	}
-//  240 	CRC.Word = (CRC.Word << 8) ^ tmp_CRC ;
+//  240 	}
+//  241 	CRC.Word = (CRC.Word << 8) ^ tmp_CRC ;
 ??CRC_16_3:
         LDS     R16, CRC
         MOV     R17, R16
@@ -1277,32 +1285,32 @@ CRC_16:
         EOR     R17, R21
         STS     CRC, R16
         STS     (CRC + 1), R17
-//  241 }
+//  242 }
         RET
         CFI EndBlock cfiBlock5
-//  242 
 //  243 
 //  244 
-//  245 //WORD SCI_Registers[Buf_MAX];
+//  245 
+//  246 //WORD SCI_Registers[Buf_MAX];
 
         RSEG NEAR_Z:DATA:NOROOT(0)
         REQUIRE `?<Segment init: NEAR_Z>`
-//  246 WORD SCI_TxOffset=0;
+//  247 WORD SCI_TxOffset=0;
 SCI_TxOffset:
         DS8 2
 
         RSEG NEAR_Z:DATA:NOROOT(0)
         REQUIRE `?<Segment init: NEAR_Z>`
-//  247 WORD TxDelyCnt=0;
+//  248 WORD TxDelyCnt=0;
 TxDelyCnt:
         DS8 2
 
         RSEG FARCODE:CODE:NOROOT(1)
-//  248 void SCI_Process(void)
+//  249 void SCI_Process(void)
 SCI_Process:
         CFI Block cfiBlock6 Using cfiCommon0
         CFI Function SCI_Process
-//  249 {
+//  250 {
         FUNCALL SCI_Process, TX0_char
         LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
@@ -1428,31 +1436,35 @@ SCI_Process:
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL SCI_Process, TX0_char
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL SCI_Process, SCI_RequestData
         LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         REQUIRE __RSTACK_in_external_ram_new_way
-//  250 //Rx================================
-//  251 	 if(SciC_RxFlag)
+//  251 //Rx================================
+//  252 	 if(SciC_RxFlag)
         LDS     R16, SciC_RxFlag
         TST     R16
         BREQ    ??SCI_Process_0
-//  252       	{
-//  253 		SciC_RxFlag = 0;
+//  253       	{
+//  254 		SciC_RxFlag = 0;
         LDI     R16, 0
         STS     SciC_RxFlag, R16
-//  254       	}
-//  255 	 
-//  256 //Tx================================
-//  257 	if(!TxDelyCnt)
+//  255       	}
+//  256 	 
+//  257 //Tx================================
+//  258 	if(!TxDelyCnt)
 ??SCI_Process_0:
         LDS     R16, TxDelyCnt
         LDS     R17, (TxDelyCnt + 1)
         OR      R16, R17
         BREQ    $+2+2
         RJMP    ??SCI_Process_1
-//  258 	{
-//  259 		if(DATA_Registers[SCI_TxOffset] != SCI_Registers[SCI_TxOffset])
+//  259 	{
+//  260 		if(DATA_Registers[SCI_TxOffset] != SCI_Registers[SCI_TxOffset])
         LDS     R16, SCI_TxOffset
         LDS     R17, (SCI_TxOffset + 1)
         LSL     R16
@@ -1475,45 +1487,45 @@ SCI_Process:
         CPC     R19, R17
         BRNE    $+2+2
         RJMP    ??SCI_Process_2
-//  260 		{
-//  261 			CRC.Word = 0;
+//  261 		{
+//  262 			CRC.Word = 0;
         LDI     R16, 0
         LDI     R17, 0
         STS     CRC, R16
         STS     (CRC + 1), R17
-//  262 
 //  263 
-//  264 			TX0_char(0xAB);										CRC_16(0xAB);
+//  264 
+//  265 			TX0_char(0xAB);										CRC_16(0xAB);
         LDI     R16, 171
         RCALL   TX0_char
         LDI     R16, 171
         RCALL   CRC_16
-//  265 			TX0_char(0xCD);										CRC_16(0xCD);
+//  266 			TX0_char(0xCD);										CRC_16(0xCD);
         LDI     R16, 205
         RCALL   TX0_char
         LDI     R16, 205
         RCALL   CRC_16
-//  266 
-//  267 			TX0_char(SEND);										CRC_16(SEND);
+//  267 
+//  268 			TX0_char(SEND);										CRC_16(SEND);
         LDI     R16, 2
         RCALL   TX0_char
         LDI     R16, 2
         RCALL   CRC_16
-//  268 
-//  269 			TX0_char((char)(SCI_TxOffset>>8));					CRC_16((char)(SCI_TxOffset>>8));
+//  269 
+//  270 			TX0_char((char)(SCI_TxOffset>>8));					CRC_16((char)(SCI_TxOffset>>8));
         LDS     R17, (SCI_TxOffset + 1)
         MOV     R16, R17
         RCALL   TX0_char
         LDS     R17, (SCI_TxOffset + 1)
         MOV     R16, R17
         RCALL   CRC_16
-//  270 			TX0_char((char)SCI_TxOffset);							CRC_16((char)SCI_TxOffset);
+//  271 			TX0_char((char)SCI_TxOffset);							CRC_16((char)SCI_TxOffset);
         LDS     R16, SCI_TxOffset
         RCALL   TX0_char
         LDS     R16, SCI_TxOffset
         RCALL   CRC_16
-//  271 	                
-//  272 	            TX0_char((char)(DATA_Registers[SCI_TxOffset]>>8));	CRC_16((char)(DATA_Registers[SCI_TxOffset]>>8));
+//  272 	                
+//  273 	            TX0_char((char)(DATA_Registers[SCI_TxOffset]>>8));	CRC_16((char)(DATA_Registers[SCI_TxOffset]>>8));
         LDS     R16, SCI_TxOffset
         LDS     R17, (SCI_TxOffset + 1)
         LSL     R16
@@ -1534,7 +1546,7 @@ SCI_Process:
         LDD     R17, Z+1
         MOV     R16, R17
         RCALL   CRC_16
-//  273 			TX0_char((char)DATA_Registers[SCI_TxOffset]);		CRC_16((char)DATA_Registers[SCI_TxOffset]);
+//  274 			TX0_char((char)DATA_Registers[SCI_TxOffset]);		CRC_16((char)DATA_Registers[SCI_TxOffset]);
         LDS     R16, SCI_TxOffset
         LDS     R17, (SCI_TxOffset + 1)
         LSL     R16
@@ -1553,21 +1565,21 @@ SCI_Process:
         SBCI    R31, (-(DATA_Registers) & 0xFFFF) >> 8
         LD      R16, Z
         RCALL   CRC_16
-//  274 
-//  275 			TX0_char(CRC.Byte.b1);
+//  275 
+//  276 			TX0_char(CRC.Byte.b1);
         LDS     R16, (CRC + 1)
         RCALL   TX0_char
-//  276 			TX0_char(CRC.Byte.b0);
+//  277 			TX0_char(CRC.Byte.b0);
         LDS     R16, CRC
         RCALL   TX0_char
-//  277 			TxDelyCnt = 10;
+//  278 			TxDelyCnt = 10;
         LDI     R16, 10
         LDI     R17, 0
         STS     TxDelyCnt, R16
         STS     (TxDelyCnt + 1), R17
-//  278 		}
-//  279 
-//  280 		SCI_TxOffset ++;
+//  279 		}
+//  280 
+//  281 		SCI_TxOffset ++;
 ??SCI_Process_2:
         LDI     R30, LOW(SCI_TxOffset)
         LDI     R31, (SCI_TxOffset) >> 8
@@ -1577,90 +1589,89 @@ SCI_Process:
         SBCI    R17, 255
         ST      Z, R16
         STD     Z+1, R17
-//  281 		if(BUF_MAX <= SCI_TxOffset) 
+//  282 		if(BUF_MAX <= SCI_TxOffset) 
         LDS     R16, SCI_TxOffset
         LDS     R17, (SCI_TxOffset + 1)
         CPI     R16, 72
         LDI     R18, 13
         CPC     R17, R18
         BRCS    ??SCI_Process_3
-//  282 		{
-//  283 			SCI_TxOffset = 0;
+//  283 		{
+//  284 			SCI_TxOffset = 0;
         LDI     R16, 0
         LDI     R17, 0
         STS     SCI_TxOffset, R16
         STS     (SCI_TxOffset + 1), R17
-//  284 		}
-//  285 
-//  286 		if(TimeTic_1s)
+//  285 		}
+//  286 
+//  287 		if(TimeTic_1s)
 ??SCI_Process_3:
         LDS     R16, TimeTic_1s
         TST     R16
-        BRNE    $+2+2
-        RJMP    ??SCI_Process_4
-//  287 		{
-//  288 			CRC.Word = 0;
+        BREQ    ??SCI_Process_4
+//  288 		{
+//  289 			CRC.Word = 0;
         LDI     R16, 0
         LDI     R17, 0
         STS     CRC, R16
         STS     (CRC + 1), R17
-//  289 			TX0_char(0xAB);			CRC_16(0xAB);
+//  290 			TX0_char(0xAB);			CRC_16(0xAB);
         LDI     R16, 171
         RCALL   TX0_char
         LDI     R16, 171
         RCALL   CRC_16
-//  290 			TX0_char(0xCD);			CRC_16(0xCD);
+//  291 			TX0_char(0xCD);			CRC_16(0xCD);
         LDI     R16, 205
         RCALL   TX0_char
         LDI     R16, 205
         RCALL   CRC_16
-//  291 
-//  292 			TX0_char(QUERY);			CRC_16(QUERY);
+//  292 
+//  293 			TX0_char(QUERY);			CRC_16(QUERY);
         LDI     R16, 1
         RCALL   TX0_char
         LDI     R16, 1
         RCALL   CRC_16
-//  293 
-//  294 			TX0_char(0);				CRC_16(0);
-        LDI     R16, 0
-        RCALL   TX0_char
-        LDI     R16, 0
-        RCALL   CRC_16
+//  294 
 //  295 			TX0_char(0);				CRC_16(0);
         LDI     R16, 0
         RCALL   TX0_char
         LDI     R16, 0
         RCALL   CRC_16
-//  296 
-//  297 			TX0_char(0);				CRC_16(0);
+//  296 			TX0_char(0);				CRC_16(0);
         LDI     R16, 0
         RCALL   TX0_char
         LDI     R16, 0
         RCALL   CRC_16
+//  297 
 //  298 			TX0_char(0);				CRC_16(0);
         LDI     R16, 0
         RCALL   TX0_char
         LDI     R16, 0
         RCALL   CRC_16
-//  299 
-//  300 			TX0_char(CRC.Byte.b1);
+//  299 			TX0_char(0);				CRC_16(0);
+        LDI     R16, 0
+        RCALL   TX0_char
+        LDI     R16, 0
+        RCALL   CRC_16
+//  300 
+//  301 			TX0_char(CRC.Byte.b1);
         LDS     R16, (CRC + 1)
         RCALL   TX0_char
-//  301 			TX0_char(CRC.Byte.b0);
+//  302 			TX0_char(CRC.Byte.b0);
         LDS     R16, CRC
         RCALL   TX0_char
-//  302 
-//  303 			if(!Communication_Fault_Cnt)Communication_Fault_Flag=1;
+//  303 
+//  304 			if(!Communication_Fault_Cnt)Communication_Fault_Flag=1;
         LDS     R16, Communication_Fault_Cnt
         LDS     R17, (Communication_Fault_Cnt + 1)
         OR      R16, R17
         BRNE    ??SCI_Process_5
         LDI     R16, 1
         STS     Communication_Fault_Flag, R16
-        RET
-//  304 			else 
-//  305 			{
-//  306 				Communication_Fault_Cnt--;
+        RJMP    ??SCI_Process_4
+//  305 			else 
+//  306 			{
+//  307 				Communication_Fault_Cnt--;
 ??SCI_Process_5:
         LDI     R30, LOW(Communication_Fault_Cnt)
         LDI     R31, (Communication_Fault_Cnt) >> 8
@@ -1670,16 +1681,28 @@ SCI_Process:
         SBCI    R17, 0
         ST      Z, R16
         STD     Z+1, R17
-//  307 				Communication_Fault_Flag=0;
+//  308 				Communication_Fault_Flag=0;
         LDI     R16, 0
         STS     Communication_Fault_Flag, R16
+//  309 			}
+//  310 		}
+//  311 
+//  312 		if(TimeTic_500ms)
+??SCI_Process_4:
+        LDS     R16, TimeTic_500ms
+        TST     R16
+        BREQ    ??SCI_Process_6
+//  313 		{
+//  314 			SCI_RequestData(gRequestAddr);
+        LDS     R16, gRequestAddr
+        LDS     R17, (gRequestAddr + 1)
+        RCALL   SCI_RequestData
         RET
-//  308 			}
-//  309 		}
-//  310 	}
-//  311 	else
-//  312 	{
-//  313 		TxDelyCnt--;
+//  315 		}
+//  316 	}
+//  317 	else
+//  318 	{
+//  319 		TxDelyCnt--;
 ??SCI_Process_1:
         LDI     R30, LOW(TxDelyCnt)
         LDI     R31, (TxDelyCnt) >> 8
@@ -1689,20 +1712,20 @@ SCI_Process:
         SBCI    R17, 0
         ST      Z, R16
         STD     Z+1, R17
-//  314 	}
-//  315 }
-??SCI_Process_4:
+//  320 	}
+//  321 }
+??SCI_Process_6:
         RET
         CFI EndBlock cfiBlock6
-//  316 
-//  317 
+//  322 
+//  323 
 
         RSEG FARCODE:CODE:NOROOT(1)
-//  318 void SCI_RequestData(unsigned int addr)
+//  324 void SCI_RequestData(unsigned int addr)
 SCI_RequestData:
         CFI Block cfiBlock7 Using cfiCommon0
         CFI Function SCI_RequestData
-//  319 {
+//  325 {
         FUNCALL SCI_RequestData, TX0_char
         LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
@@ -1768,68 +1791,221 @@ SCI_RequestData:
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         REQUIRE __RSTACK_in_external_ram_new_way
-//  320 	CRC.Word = 0;
+//  326 	CRC.Word = 0;
         LDI     R16, 0
         LDI     R17, 0
         STS     CRC, R16
         STS     (CRC + 1), R17
-//  321 	TX0_char(0xAB); 		CRC_16(0xAB);
+//  327 	TX0_char(0xAB); 		CRC_16(0xAB);
         LDI     R16, 171
         RCALL   TX0_char
         LDI     R16, 171
         RCALL   CRC_16
-//  322 	TX0_char(0xCD); 		CRC_16(0xCD);
+//  328 	TX0_char(0xCD); 		CRC_16(0xCD);
         LDI     R16, 205
         RCALL   TX0_char
         LDI     R16, 205
         RCALL   CRC_16
-//  323 	
-//  324 	TX0_char(REQUEST);		CRC_16(REQUEST);
+//  329 	
+//  330 	TX0_char(REQUEST);		CRC_16(REQUEST);
         LDI     R16, 4
         RCALL   TX0_char
         LDI     R16, 4
-        RCALL   CRC_16
-//  325 	
-//  326 	TX0_char(0);				CRC_16(0);
-        LDI     R16, 0
-        RCALL   TX0_char
-        LDI     R16, 0
-        RCALL   CRC_16
-//  327 	TX0_char(0);				CRC_16(0);
-        LDI     R16, 0
-        RCALL   TX0_char
-        LDI     R16, 0
-        RCALL   CRC_16
-//  328 	
-//  329 	TX0_char(0);				CRC_16(0);
-        LDI     R16, 0
-        RCALL   TX0_char
-        LDI     R16, 0
-        RCALL   CRC_16
-//  330 	TX0_char(0);				CRC_16(0);
-        LDI     R16, 0
-        RCALL   TX0_char
-        LDI     R16, 0
         RCALL   CRC_16
 //  331 	
-//  332 	TX0_char(CRC.Byte.b1);
+//  332 	TX0_char(0);				CRC_16(0);
+        LDI     R16, 0
+        RCALL   TX0_char
+        LDI     R16, 0
+        RCALL   CRC_16
+//  333 	TX0_char(0);				CRC_16(0);
+        LDI     R16, 0
+        RCALL   TX0_char
+        LDI     R16, 0
+        RCALL   CRC_16
+//  334 	
+//  335 	TX0_char(0);				CRC_16(0);
+        LDI     R16, 0
+        RCALL   TX0_char
+        LDI     R16, 0
+        RCALL   CRC_16
+//  336 	TX0_char(0);				CRC_16(0);
+        LDI     R16, 0
+        RCALL   TX0_char
+        LDI     R16, 0
+        RCALL   CRC_16
+//  337 	
+//  338 	TX0_char(CRC.Byte.b1);
         LDS     R16, (CRC + 1)
         RCALL   TX0_char
-//  333 	TX0_char(CRC.Byte.b0);
+//  339 	TX0_char(CRC.Byte.b0);
         LDS     R16, CRC
         RCALL   TX0_char
-//  334 
-//  335 }
+//  340 
+//  341 }
         RET
         CFI EndBlock cfiBlock7
-//  336 
+//  342 
 
         RSEG FARCODE:CODE:NOROOT(1)
-//  337 void SCI_RegisterRefresh(void)
-SCI_RegisterRefresh:
+//  343 void SCI_SendData(unsigned int addr, unsigned int data)
+SCI_SendData:
         CFI Block cfiBlock8 Using cfiCommon0
+        CFI Function SCI_SendData
+//  344 {
+        FUNCALL SCI_SendData, TX0_char
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL SCI_SendData, CRC_16
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL SCI_SendData, TX0_char
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL SCI_SendData, CRC_16
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL SCI_SendData, TX0_char
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL SCI_SendData, CRC_16
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL SCI_SendData, TX0_char
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL SCI_SendData, CRC_16
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL SCI_SendData, TX0_char
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL SCI_SendData, CRC_16
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL SCI_SendData, TX0_char
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL SCI_SendData, CRC_16
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL SCI_SendData, TX0_char
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL SCI_SendData, CRC_16
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL SCI_SendData, TX0_char
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL SCI_SendData, TX0_char
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        CALL    ?PROLOGUE4_L09
+        CFI R27 Frame(CFA_Y, -1)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R24 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        REQUIRE __RSTACK_in_external_ram_new_way
+        MOVW    R25:R24, R17:R16
+        MOVW    R27:R26, R19:R18
+//  345 	CRC.Word = 0;
+        LDI     R16, 0
+        LDI     R17, 0
+        STS     CRC, R16
+        STS     (CRC + 1), R17
+//  346 	
+//  347 	
+//  348 	TX0_char(0xAB); 			CRC_16(0xAB);
+        LDI     R16, 171
+        RCALL   TX0_char
+        LDI     R16, 171
+        RCALL   CRC_16
+//  349 	TX0_char(0xCD); 			CRC_16(0xCD);
+        LDI     R16, 205
+        RCALL   TX0_char
+        LDI     R16, 205
+        RCALL   CRC_16
+//  350 	
+//  351 	TX0_char(SEND); 			CRC_16(SEND);
+        LDI     R16, 2
+        RCALL   TX0_char
+        LDI     R16, 2
+        RCALL   CRC_16
+//  352 	
+//  353 	TX0_char((char)(addr>>8));	CRC_16((char)(addr>>8));
+        MOVW    R17:R16, R25:R24
+        MOV     R16, R17
+        RCALL   TX0_char
+        MOVW    R17:R16, R25:R24
+        MOV     R16, R17
+        RCALL   CRC_16
+//  354 	TX0_char((char)addr);		CRC_16((char)addr);
+        MOV     R16, R24
+        RCALL   TX0_char
+        MOV     R16, R24
+        RCALL   CRC_16
+//  355 			
+//  356 	TX0_char((char)(data>>8));	CRC_16((char)(data>>8));
+        MOVW    R17:R16, R27:R26
+        MOV     R16, R17
+        RCALL   TX0_char
+        MOVW    R17:R16, R27:R26
+        MOV     R16, R17
+        RCALL   CRC_16
+//  357 	TX0_char((char)data);		CRC_16((char)data);
+        MOV     R16, R26
+        RCALL   TX0_char
+        MOV     R16, R26
+        RCALL   CRC_16
+//  358 	
+//  359 	TX0_char(CRC.Byte.b1);
+        LDS     R16, (CRC + 1)
+        RCALL   TX0_char
+//  360 	TX0_char(CRC.Byte.b0);
+        LDS     R16, CRC
+        RCALL   TX0_char
+//  361 
+//  362 	DATA_Registers[addr] = data;
+        LSL     R24
+        ROL     R25
+        MOVW    R31:R30, R25:R24
+        SUBI    R30, LOW((-(DATA_Registers) & 0xFFFF))
+        SBCI    R31, (-(DATA_Registers) & 0xFFFF) >> 8
+        ST      Z, R26
+        STD     Z+1, R27
+//  363 
+//  364 
+//  365 }
+        LDI     R30, 4
+        JMP     ?EPILOGUE_B4_L09
+        CFI EndBlock cfiBlock8
+//  366 
+//  367 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  368 void SCI_RegisterRefresh(void)
+SCI_RegisterRefresh:
+        CFI Block cfiBlock9 Using cfiCommon0
         CFI Function SCI_RegisterRefresh
-//  338 {
+//  369 {
         FUNCALL SCI_RegisterRefresh, TX0_char
         LOCFRAME CSTACK, 2, STACK
         LOCFRAME RSTACK, 3, STACK
@@ -1901,13 +2077,13 @@ SCI_RegisterRefresh:
         CFI R24 Frame(CFA_Y, -2)
         CFI CFA_Y Y+2
         REQUIRE __RSTACK_in_external_ram_new_way
-//  339 	int i;
-//  340 	for(i=0;i<BUF_MAX;i++)
+//  370 	int i;
+//  371 	for(i=0;i<BUF_MAX;i++)
         LDI     R24, 0
         LDI     R25, 0
         RJMP    ??SCI_RegisterRefresh_0
-//  341 	{
-//  342 		DATA_Registers[i]=0;
+//  372 	{
+//  373 		DATA_Registers[i]=0;
 ??SCI_RegisterRefresh_1:
         LDI     R16, 0
         LDI     R17, 0
@@ -1919,7 +2095,7 @@ SCI_RegisterRefresh:
         SBCI    R31, (-(DATA_Registers) & 0xFFFF) >> 8
         ST      Z, R16
         STD     Z+1, R17
-//  343 		SCI_Registers[i]=0;
+//  374 		SCI_Registers[i]=0;
         LDI     R16, 0
         LDI     R17, 0
         MOVW    R19:R18, R25:R24
@@ -1930,66 +2106,78 @@ SCI_RegisterRefresh:
         SBCI    R31, (-(SCI_Registers) & 0xFFFF) >> 8
         ST      Z, R16
         STD     Z+1, R17
-//  344 	}
+//  375 	}
         ADIW    R25:R24, 1
 ??SCI_RegisterRefresh_0:
         CPI     R24, 72
         LDI     R16, 13
         CPC     R25, R16
         BRLT    ??SCI_RegisterRefresh_1
-//  345 
-//  346 	CRC.Word = 0;
+//  376 
+//  377 	CRC.Word = 0;
         LDI     R16, 0
         LDI     R17, 0
         STS     CRC, R16
         STS     (CRC + 1), R17
-//  347 	TX0_char(0xAB); 		CRC_16(0xAB);
+//  378 	TX0_char(0xAB); 		CRC_16(0xAB);
         LDI     R16, 171
         RCALL   TX0_char
         LDI     R16, 171
         RCALL   CRC_16
-//  348 	TX0_char(0xCD); 		CRC_16(0xCD);
+//  379 	TX0_char(0xCD); 		CRC_16(0xCD);
         LDI     R16, 205
         RCALL   TX0_char
         LDI     R16, 205
         RCALL   CRC_16
-//  349 	
-//  350 	TX0_char(SEND);		CRC_16(SEND);
+//  380 	
+//  381 	TX0_char(SEND);		CRC_16(SEND);
         LDI     R16, 2
         RCALL   TX0_char
         LDI     R16, 2
         RCALL   CRC_16
-//  351 	
-//  352 	TX0_char(0x0C);				CRC_16(0x0C);
+//  382 	
+//  383 	TX0_char(0x0C);				CRC_16(0x0C);
         LDI     R16, 12
         RCALL   TX0_char
         LDI     R16, 12
         RCALL   CRC_16
-//  353 	TX0_char(0x7B);				CRC_16(0x7B);
+//  384 	TX0_char(0x7B);				CRC_16(0x7B);
         LDI     R16, 123
         RCALL   TX0_char
         LDI     R16, 123
         RCALL   CRC_16
-//  354 	
-//  355 	TX0_char(0);				CRC_16(0);
+//  385 	
+//  386 	TX0_char(0);				CRC_16(0);
         LDI     R16, 0
         RCALL   TX0_char
         LDI     R16, 0
         RCALL   CRC_16
-//  356 	TX0_char(1);				CRC_16(1);
+//  387 	TX0_char(1);				CRC_16(1);
         LDI     R16, 1
         RCALL   TX0_char
         LDI     R16, 1
         RCALL   CRC_16
-//  357 	
-//  358 	TX0_char(CRC.Byte.b1);
+//  388 	
+//  389 	TX0_char(CRC.Byte.b1);
         LDS     R16, (CRC + 1)
         RCALL   TX0_char
-//  359 	TX0_char(CRC.Byte.b0);
+//  390 	TX0_char(CRC.Byte.b0);
         LDS     R16, CRC
         RCALL   TX0_char
-//  360 
-//  361 }
+//  391 
+//  392 	DATA_Registers[0x0C7B]=1;
+        LDI     R16, 1
+        LDI     R17, 0
+        STS     (DATA_Registers + 6390), R16
+        STS     (DATA_Registers + 6391), R17
+//  393 	SCI_Registers[0x0C7B]=0;
+        LDI     R16, 0
+        LDI     R17, 0
+        STS     (SCI_Registers + 6390), R16
+        STS     (SCI_Registers + 6391), R17
+//  394 
+//  395 
+//  396 }
         LD      R24, Y+
         CFI R24 SameValue
         CFI CFA_Y Y+1
@@ -1997,18 +2185,18 @@ SCI_RegisterRefresh:
         CFI R25 SameValue
         CFI CFA_Y Y+0
         RET
-        CFI EndBlock cfiBlock8
-//  362 
-//  363 
-//  364 #pragma vector = USART0_TX_vect
+        CFI EndBlock cfiBlock9
+//  397 
+//  398 
+//  399 #pragma vector = USART0_TX_vect
 
         RSEG FARCODE:CODE:NOROOT(1)
-//  365 __interrupt void USART0_TX_ISR(void)
+//  400 __interrupt void USART0_TX_ISR(void)
 USART0_TX_ISR:
-        CFI Block cfiBlock9 Using cfiCommon1
+        CFI Block cfiBlock10 Using cfiCommon1
         CFI Function USART0_TX_ISR
-//  366 //ISR(USART0_TX_vect)             // USART2 Tx Complete interrupt
-//  367 {
+//  401 //ISR(USART0_TX_vect)             // USART2 Tx Complete interrupt
+//  402 {
         ST      -Y, R19
         CFI R19 Frame(CFA_Y, -1)
         CFI CFA_Y Y+1
@@ -2025,11 +2213,11 @@ USART0_TX_ISR:
         IN      R18, 0x3B
         IN      R19, 0x3C
         REQUIRE __RSTACK_in_external_ram_new_way
-//  368 	UCSR0B = UCSR0B | 0x10;
+//  403 	UCSR0B = UCSR0B | 0x10;
         LDS     R16, 193
         ORI     R16, 0x10
         STS     193, R16
-//  369 }
+//  404 }
         OUT     0x3C, R19
         OUT     0x3B, R18
         OUT     0x3F, R17
@@ -2046,7 +2234,7 @@ USART0_TX_ISR:
         CFI R19 SameValue
         CFI CFA_Y Y+0
         RETI
-        CFI EndBlock cfiBlock9
+        CFI EndBlock cfiBlock10
         REQUIRE _A_UCSR0B
 
         ASEGN ABSOLUTE:DATA:NOROOT,01fH
@@ -2093,18 +2281,18 @@ __?XMCRA:
         REQUIRE ?need_segment_init
 
         END
-//  370 
-//  371 
+//  405 
+//  406 
 // 
 //     6 bytes in segment ABSOLUTE
-// 1 842 bytes in segment FARCODE
+// 2 006 bytes in segment FARCODE
 //    14 bytes in segment INITTAB
 //     8 bytes in segment INTVEC
 //     2 bytes in segment NEAR_I
 //     2 bytes in segment NEAR_ID
 // 6 829 bytes in segment NEAR_Z
 // 
-// 1 844 bytes of CODE memory (+ 22 bytes shared)
+// 2 008 bytes of CODE memory (+ 22 bytes shared)
 // 6 831 bytes of DATA memory (+  6 bytes shared)
 //
 //Errors: none

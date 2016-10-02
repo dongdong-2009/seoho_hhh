@@ -23,6 +23,9 @@
 #define MENU_STOP 0
 
 
+
+extern unsigned char device_type;
+
 //extern unsigned long naviMENU;
 extern unsigned char RefreshFlag;
 
@@ -42,6 +45,7 @@ extern unsigned char TimeTic_500ms;
 
 extern unsigned char MenuDisplay_Handler;
 
+extern unsigned int gRequestAddr;
 
 extern void(*MenuDisplay)(void);
 
@@ -144,6 +148,7 @@ void SYS_cursor_ON_Mode(unsigned char mode);
 	void 	SYS_2_22				(void);
 	void 	SYS_2_23				(void);
 	void 	SYS_2_24				(void);
+        void    SYS_2_29				(void);
 
 	void 	SYS_2_00_00			(void);		
 	void 	SYS_2_00_01			(void);		
@@ -826,6 +831,35 @@ void SYS_cursor_ON_Mode(unsigned char mode);
 	void 	SYS_2_23_09			(void);		
 	void 	SYS_2_23_10			(void);		
 	void 	SYS_2_23_11			(void);
+
+	void 	SYS_2_29_00			(void);		
+	void 	SYS_2_29_01			(void);		
+	void 	SYS_2_29_02			(void);		
+	void 	SYS_2_29_03			(void);		
+	void 	SYS_2_29_04			(void);		
+	void 	SYS_2_29_05			(void);		
+	void 	SYS_2_29_06			(void);		
+	void 	SYS_2_29_07			(void);		
+	void 	SYS_2_29_08			(void);		
+	void 	SYS_2_29_09			(void);		
+	void 	SYS_2_29_10			(void);		
+	void 	SYS_2_29_11			(void);		
+	void 	SYS_2_29_12			(void);		
+	void 	SYS_2_29_13			(void);		
+	void 	SYS_2_29_14			(void);		
+	void 	SYS_2_29_15			(void);		
+	void 	SYS_2_29_16			(void);		
+	void 	SYS_2_29_17			(void);		
+	void 	SYS_2_29_18			(void);		
+	void 	SYS_2_29_19			(void);		
+	void 	SYS_2_29_20			(void);	
+	void 	SYS_2_29_21			(void);		
+	void 	SYS_2_29_22			(void);		
+	void 	SYS_2_29_23			(void);		
+	void 	SYS_2_29_24			(void);		
+	void 	SYS_2_29_25			(void);		
+	void 	SYS_2_29_26			(void);
+
 
 	void 	SYS_3_00				(void);		
 	void 	SYS_3_01				(void);

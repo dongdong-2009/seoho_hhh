@@ -1,27 +1,27 @@
 ###############################################################################
 #                                                                             #
-# IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR    07/Jan/2011  17:48:32 #
+# IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR    28/Jul/2011  20:45:27 #
 # Copyright 1996-2009 IAR Systems AB.                                         #
 #                                                                             #
-#    Source file  =  Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\source\mcu\key.c   #
-#    Command line =  Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\source\mcu\key.c   #
-#                    --cpu=m2560 -ms -o Z:\work\SEOHO_VD\KEYPAD335_110107_IAR #
-#                    \Debug\Obj\ -lC Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\De #
-#                    bug\List\ -lA Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\Debu #
-#                    g\List\ -y --initializers_in_flash -z3 --no_cse          #
-#                    --no_inline --no_code_motion --no_cross_call             #
-#                    --no_clustering --no_tbaa --debug --enable_external_bus  #
+#    Source file  =  C:\work\KEYPAD335_110727_HHH\source\mcu\key.c            #
+#    Command line =  C:\work\KEYPAD335_110727_HHH\source\mcu\key.c            #
+#                    --cpu=m2560 -ms -o C:\work\KEYPAD335_110727_HHH\Debug\Ob #
+#                    j\ -lC C:\work\KEYPAD335_110727_HHH\Debug\List\ -lA      #
+#                    C:\work\KEYPAD335_110727_HHH\Debug\List\ -y              #
+#                    --initializers_in_flash -z3 --no_cse --no_inline         #
+#                    --no_code_motion --no_cross_call --no_clustering         #
+#                    --no_tbaa --debug --enable_external_bus                  #
 #                    -DENABLE_BIT_DEFINITIONS -e --enable_multibytes -I       #
 #                    "C:\Program Files\IAR Systems\Embedded Workbench         #
 #                    5.3\avr\INC\" -I "C:\Program Files\IAR Systems\Embedded  #
 #                    Workbench 5.3\avr\INC\CLIB\" --eeprom_size 4096          #
-#    List file    =  Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\Debug\List\key.lst #
-#    Object file  =  Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\Debug\Obj\key.r90  #
+#    List file    =  C:\work\KEYPAD335_110727_HHH\Debug\List\key.lst          #
+#    Object file  =  C:\work\KEYPAD335_110727_HHH\Debug\Obj\key.r90           #
 #                                                                             #
 #                                                                             #
 ###############################################################################
 
-Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\source\mcu\key.c
+C:\work\KEYPAD335_110727_HHH\source\mcu\key.c
       1          //====================================================
       2          //
       3          // Copyright(C) 2008 HanYoung ELEC. Co., LTD.
@@ -185,10 +185,10 @@ Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\source\mcu\key.c
    \                     ??KeyScan_1:
    \   0000003E   9110....           LDS     R17, key_signal_A
    \   00000042   2311               TST     R17
-   \   00000044   F5C9               BRNE    ??KeyScan_2
+   \   00000044   F4B1               BRNE    ??KeyScan_2
    \   00000046   9110....           LDS     R17, key_signal_B
    \   0000004A   2311               TST     R17
-   \   0000004C   F5A9               BRNE    ??KeyScan_2
+   \   0000004C   F491               BRNE    ??KeyScan_2
      68          	{
      69          		//key_press_time++;
      70          		if( key_press_time <= 10 ) key_data = key;
@@ -198,188 +198,145 @@ Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\source\mcu\key.c
    \   00000058   F428               BRCC    ??KeyScan_3
    \   0000005A   9320....           STS     key_data, R18
    \   0000005E   9330....           STS     (key_data + 1), R19
-   \   00000062   C06F               RJMP    ??KeyScan_4
+   \   00000062   C04C               RJMP    ??KeyScan_4
      71          		else
      72          		{
      73          			key_press_time = 9;
    \                     ??KeyScan_3:
-   \   00000064   E009               LDI     R16, 9
-   \   00000066   E010               LDI     R17, 0
-   \   00000068   9300....           STS     key_press_time, R16
-   \   0000006C   9310....           STS     (key_press_time + 1), R17
+   \   00000064   E029               LDI     R18, 9
+   \   00000066   E030               LDI     R19, 0
+   \   00000068   9320....           STS     key_press_time, R18
+   \   0000006C   9330....           STS     (key_press_time + 1), R19
+   \   00000070   C045               RJMP    ??KeyScan_4
      74          
-     75          			switch(key_data){
-   \   00000070   9100....           LDS     R16, key_data
-   \   00000074   9110....           LDS     R17, (key_data + 1)
-   \   00000078   ....               LDI     R30, LOW(`?<Jumptable for KeyScan>_0`)
-   \   0000007A   ....               LDI     R31, (`?<Jumptable for KeyScan>_0`) >> 16
-   \   0000007C   BFFB               OUT     0x3B, R31
-   \   0000007E   ....               LDI     R31, HIGH(`?<Jumptable for KeyScan>_0`)
-   \   00000080   ........           JMP     ?SV_SWITCH_L06
-     76          				case 0xFFFD:		key_output = UP;		break;
-   \                     ??KeyScan_5:
-   \   00000084   E001               LDI     R16, 1
-   \   00000086   C013               RJMP    ??KeyScan_6
-     77          				case 0xFF7F:		key_output = DN;		break;
-   \                     ??KeyScan_7:
-   \   00000088   E002               LDI     R16, 2
-   \   0000008A   C011               RJMP    ??KeyScan_6
-     78          				case 0xFFDF:		key_output = RIGHT;	break;
-   \                     ??KeyScan_8:
-   \   0000008C   E003               LDI     R16, 3
-   \   0000008E   C00F               RJMP    ??KeyScan_6
-     79          				case 0xFFF7:		key_output = LEFT;	break;
-   \                     ??KeyScan_9:
-   \   00000090   E004               LDI     R16, 4
-   \   00000092   C00D               RJMP    ??KeyScan_6
-     80          				case 0xFFFE:		key_output = ESC;		break;
-   \                     ??KeyScan_10:
-   \   00000094   E005               LDI     R16, 5
-   \   00000096   C00B               RJMP    ??KeyScan_6
-     81          				case 0xFFFB:		key_output = ENTER;	break;
-   \                     ??KeyScan_11:
-   \   00000098   E006               LDI     R16, 6
-   \   0000009A   C009               RJMP    ??KeyScan_6
-     82          				case 0xFFEF:		key_output = MENU;	break;
-   \                     ??KeyScan_12:
-   \   0000009C   E007               LDI     R16, 7
-   \   0000009E   C007               RJMP    ??KeyScan_6
-     83          				case 0xFFBF:		key_output = RUN;		break;
-   \                     ??KeyScan_13:
-   \   000000A0   E008               LDI     R16, 8
-   \   000000A2   C005               RJMP    ??KeyScan_6
-     84          				case 0xFEFF:		key_output = STOP;	break;
-   \                     ??KeyScan_14:
-   \   000000A4   E009               LDI     R16, 9
-   \   000000A6   C003               RJMP    ??KeyScan_6
-     85          				case 0xFEBA:		key_output = 0xFE;	break;
-   \                     ??KeyScan_15:
-   \   000000A8   EF0E               LDI     R16, 254
-   \   000000AA   C001               RJMP    ??KeyScan_6
-     86          				default:			key_output = 0xFF;	break;
-   \                     ??KeyScan_16:
-   \   000000AC   EF0F               LDI     R16, 255
-     87          				}
+     75          			//switch(key_data){
+     76          				//case 0xFFFD:		key_output = UP;		break;
+     77          				//case 0xFF7F:		key_output = DN;		break;
+     78          				//case 0xFFDF:		key_output = RIGHT;	break;
+     79          				//case 0xFFF7:		key_output = LEFT;	break;
+     80          				//case 0xFFFE:		key_output = ESC;		break;
+     81          				//case 0xFFFB:		key_output = ENTER;	break;
+     82          				//case 0xFFEF:		key_output = MENU;	break;
+     83          				//case 0xFFBF:		key_output = RUN;		break;
+     84          				//case 0xFEFF:		key_output = STOP;	break;
+     85          				//case 0xFEBA:		key_output = 0xFE;	break;
+     86          			//	default:			key_output = 0xFF;	break;
+     87          			//	}
      88          			
-     89          			LongKeyFlag=1;
-   \                     ??KeyScan_6:
-   \   000000AE   E011               LDI     R17, 1
-   \   000000B0   9310....           STS     LongKeyFlag, R17
-     90          			return key_output;
-   \   000000B4   E010               LDI     R17, 0
-   \   000000B6   9508               RET
+     89          			//LongKeyFlag=1;
+     90          			//return key_output;
      91          		}
      92          	}
      93          	else if((!key_signal_A)&&(key_signal_B))// key down edge
    \                     ??KeyScan_2:
-   \   000000B8   9110....           LDS     R17, key_signal_A
-   \   000000BC   2311               TST     R17
-   \   000000BE   F471               BRNE    ??KeyScan_17
-   \   000000C0   9110....           LDS     R17, key_signal_B
-   \   000000C4   2311               TST     R17
-   \   000000C6   F051               BREQ    ??KeyScan_17
+   \   00000072   9110....           LDS     R17, key_signal_A
+   \   00000076   2311               TST     R17
+   \   00000078   F471               BRNE    ??KeyScan_5
+   \   0000007A   9110....           LDS     R17, key_signal_B
+   \   0000007E   2311               TST     R17
+   \   00000080   F051               BREQ    ??KeyScan_5
      94          	{
      95          		key_press_time=0;
-   \   000000C8   E020               LDI     R18, 0
-   \   000000CA   E030               LDI     R19, 0
-   \   000000CC   9320....           STS     key_press_time, R18
-   \   000000D0   9330....           STS     (key_press_time + 1), R19
+   \   00000082   E020               LDI     R18, 0
+   \   00000084   E030               LDI     R19, 0
+   \   00000086   9320....           STS     key_press_time, R18
+   \   0000008A   9330....           STS     (key_press_time + 1), R19
      96          		LongKeyFlag=0;
-   \   000000D4   E010               LDI     R17, 0
-   \   000000D6   9310....           STS     LongKeyFlag, R17
-   \   000000DA   C033               RJMP    ??KeyScan_4
+   \   0000008E   E010               LDI     R17, 0
+   \   00000090   9310....           STS     LongKeyFlag, R17
+   \   00000094   C033               RJMP    ??KeyScan_4
      97          	}
      98          	else if((key_signal_A)&&(!key_signal_B))// key up edge
-   \                     ??KeyScan_17:
-   \   000000DC   9110....           LDS     R17, key_signal_A
-   \   000000E0   2311               TST     R17
-   \   000000E2   F161               BREQ    ??KeyScan_18
-   \   000000E4   9110....           LDS     R17, key_signal_B
-   \   000000E8   2311               TST     R17
-   \   000000EA   F541               BRNE    ??KeyScan_18
+   \                     ??KeyScan_5:
+   \   00000096   9110....           LDS     R17, key_signal_A
+   \   0000009A   2311               TST     R17
+   \   0000009C   F161               BREQ    ??KeyScan_6
+   \   0000009E   9110....           LDS     R17, key_signal_B
+   \   000000A2   2311               TST     R17
+   \   000000A4   F541               BRNE    ??KeyScan_6
      99          	{
     100          
     101          		if(!LongKeyFlag)
-   \   000000EC   9110....           LDS     R17, LongKeyFlag
-   \   000000F0   2311               TST     R17
-   \   000000F2   F539               BRNE    ??KeyScan_4
+   \   000000A6   9110....           LDS     R17, LongKeyFlag
+   \   000000AA   2311               TST     R17
+   \   000000AC   F539               BRNE    ??KeyScan_4
     102          		{
     103          			switch(key_data){
-   \   000000F4   9100....           LDS     R16, key_data
-   \   000000F8   9110....           LDS     R17, (key_data + 1)
-   \   000000FC   ....               LDI     R30, LOW(`?<Jumptable for KeyScan>_1`)
-   \   000000FE   ....               LDI     R31, (`?<Jumptable for KeyScan>_1`) >> 16
-   \   00000100   BFFB               OUT     0x3B, R31
-   \   00000102   ....               LDI     R31, HIGH(`?<Jumptable for KeyScan>_1`)
-   \   00000104   ........           JMP     ?SV_SWITCH_L06
+   \   000000AE   9100....           LDS     R16, key_data
+   \   000000B2   9110....           LDS     R17, (key_data + 1)
+   \   000000B6   ....               LDI     R30, LOW(`?<Jumptable for KeyScan>_0`)
+   \   000000B8   ....               LDI     R31, (`?<Jumptable for KeyScan>_0`) >> 16
+   \   000000BA   BFFB               OUT     0x3B, R31
+   \   000000BC   ....               LDI     R31, HIGH(`?<Jumptable for KeyScan>_0`)
+   \   000000BE   ........           JMP     ?SV_SWITCH_L06
     104          				case 0xFFFD:		key_output = UP;		break;
-   \                     ??KeyScan_19:
-   \   00000108   E001               LDI     R16, 1
-   \   0000010A   C011               RJMP    ??KeyScan_20
+   \                     ??KeyScan_7:
+   \   000000C2   E001               LDI     R16, 1
+   \   000000C4   C011               RJMP    ??KeyScan_8
     105          				case 0xFF7F:		key_output = DN;		break;
-   \                     ??KeyScan_21:
-   \   0000010C   E002               LDI     R16, 2
-   \   0000010E   C00F               RJMP    ??KeyScan_20
+   \                     ??KeyScan_9:
+   \   000000C6   E002               LDI     R16, 2
+   \   000000C8   C00F               RJMP    ??KeyScan_8
     106          				case 0xFFDF:		key_output = RIGHT;	break;
-   \                     ??KeyScan_22:
-   \   00000110   E003               LDI     R16, 3
-   \   00000112   C00D               RJMP    ??KeyScan_20
+   \                     ??KeyScan_10:
+   \   000000CA   E003               LDI     R16, 3
+   \   000000CC   C00D               RJMP    ??KeyScan_8
     107          				case 0xFFF7:		key_output = LEFT;	break;
-   \                     ??KeyScan_23:
-   \   00000114   E004               LDI     R16, 4
-   \   00000116   C00B               RJMP    ??KeyScan_20
+   \                     ??KeyScan_11:
+   \   000000CE   E004               LDI     R16, 4
+   \   000000D0   C00B               RJMP    ??KeyScan_8
     108          				case 0xFFFE:		key_output = ESC;		break;
-   \                     ??KeyScan_24:
-   \   00000118   E005               LDI     R16, 5
-   \   0000011A   C009               RJMP    ??KeyScan_20
+   \                     ??KeyScan_12:
+   \   000000D2   E005               LDI     R16, 5
+   \   000000D4   C009               RJMP    ??KeyScan_8
     109          				case 0xFFFB:		key_output = ENTER;	break;
-   \                     ??KeyScan_25:
-   \   0000011C   E006               LDI     R16, 6
-   \   0000011E   C007               RJMP    ??KeyScan_20
+   \                     ??KeyScan_13:
+   \   000000D6   E006               LDI     R16, 6
+   \   000000D8   C007               RJMP    ??KeyScan_8
     110          				case 0xFFEF:		key_output = MENU;	break;
-   \                     ??KeyScan_26:
-   \   00000120   E007               LDI     R16, 7
-   \   00000122   C005               RJMP    ??KeyScan_20
+   \                     ??KeyScan_14:
+   \   000000DA   E007               LDI     R16, 7
+   \   000000DC   C005               RJMP    ??KeyScan_8
     111          				case 0xFFBF:		key_output = RUN;		break;
-   \                     ??KeyScan_27:
-   \   00000124   E008               LDI     R16, 8
-   \   00000126   C003               RJMP    ??KeyScan_20
+   \                     ??KeyScan_15:
+   \   000000DE   E008               LDI     R16, 8
+   \   000000E0   C003               RJMP    ??KeyScan_8
     112          				case 0xFEFF:		key_output = STOP;	break;
-   \                     ??KeyScan_28:
-   \   00000128   E009               LDI     R16, 9
-   \   0000012A   C001               RJMP    ??KeyScan_20
+   \                     ??KeyScan_16:
+   \   000000E2   E009               LDI     R16, 9
+   \   000000E4   C001               RJMP    ??KeyScan_8
     113          				default:			key_output = 0xFF;	break;
-   \                     ??KeyScan_29:
-   \   0000012C   EF0F               LDI     R16, 255
+   \                     ??KeyScan_17:
+   \   000000E6   EF0F               LDI     R16, 255
     114          				}
     115          			key_press_time=0;
-   \                     ??KeyScan_20:
-   \   0000012E   E020               LDI     R18, 0
-   \   00000130   E030               LDI     R19, 0
-   \   00000132   9320....           STS     key_press_time, R18
-   \   00000136   9330....           STS     (key_press_time + 1), R19
-   \   0000013A   C003               RJMP    ??KeyScan_4
+   \                     ??KeyScan_8:
+   \   000000E8   E020               LDI     R18, 0
+   \   000000EA   E030               LDI     R19, 0
+   \   000000EC   9320....           STS     key_press_time, R18
+   \   000000F0   9330....           STS     (key_press_time + 1), R19
+   \   000000F4   C003               RJMP    ??KeyScan_4
     116          		}
     117          	//debug_printf("\x1B[2J");
     118          	//debug_printf("0x%02x", key_output );
     119          	}
     120          	else if((key_signal_A)&&(key_signal_B))// key release
-   \                     ??KeyScan_18:
-   \   0000013C   9110....           LDS     R17, key_signal_A
-   \   00000140   2311               TST     R17
+   \                     ??KeyScan_6:
+   \   000000F6   9110....           LDS     R17, key_signal_A
+   \   000000FA   2311               TST     R17
     121          	{
     122          	}
     123          	
     124          	key_signal_B = key_signal_A;
    \                     ??KeyScan_4:
-   \   00000142   9110....           LDS     R17, key_signal_A
-   \   00000146   9310....           STS     key_signal_B, R17
+   \   000000FC   9110....           LDS     R17, key_signal_A
+   \   00000100   9310....           STS     key_signal_B, R17
     125          
     126          	return key_output;
-   \   0000014A   E010               LDI     R17, 0
-   \   0000014C   9508               RET
-   \   0000014E                      REQUIRE _A_PINK
-   \   0000014E                      REQUIRE _A_PINJ
+   \   00000104   E010               LDI     R17, 0
+   \   00000106   9508               RET
+   \   00000108                      REQUIRE _A_PINK
+   \   00000108                      REQUIRE _A_PINJ
     127          }
 
    \                                 In  segment NEAR_ID, align 1, keep-with-next
@@ -396,52 +353,26 @@ Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\source\mcu\key.c
 
    \                                 In  segment SWITCH, align 2, keep-with-next
    \                     `?<Jumptable for KeyScan>_0`:
-   \   00000000   BAFE               DW      47870
-   \   00000002   01                 DB      1
-   \   00000003   ......             DP      (??KeyScan_16) /2
-   \   00000006   ......             DP      (??KeyScan_15) /2
-   \   00000009   45                 DB      0x45
-   \   0000000A   ......             DP      (??KeyScan_14) /2
-   \   0000000D   80                 DB      0x80
-   \   0000000E   ......             DP      (??KeyScan_7) /2
-   \   00000011   40                 DB      0x40
-   \   00000012   ......             DP      (??KeyScan_13) /2
-   \   00000015   20                 DB      0x20
-   \   00000016   ......             DP      (??KeyScan_8) /2
-   \   00000019   10                 DB      0x10
-   \   0000001A   ......             DP      (??KeyScan_12) /2
-   \   0000001D   08                 DB      0x8
-   \   0000001E   ......             DP      (??KeyScan_9) /2
-   \   00000021   04                 DB      0x4
-   \   00000022   ......             DP      (??KeyScan_11) /2
-   \   00000025   02                 DB      0x2
-   \   00000026   ......             DP      (??KeyScan_5) /2
-   \   00000029   01                 DB      0x1
-   \   0000002A   ......             DP      (??KeyScan_10) /2
-   \   0000002D   FB                 DB      251
-
-   \                                 In  segment SWITCH, align 2, keep-with-next
-   \                     `?<Jumptable for KeyScan>_1`:
    \   00000000   FFFE               DW      65534
    \   00000002   01                 DB      1
-   \   00000003   ......             DP      (??KeyScan_29) /2
-   \   00000006   ......             DP      (??KeyScan_28) /2
+   \   00000003   ......             DP      (??KeyScan_17) /2
+   \   00000006   ......             DP      (??KeyScan_16) /2
    \   00000009   80                 DB      0x80
-   \   0000000A   ......             DP      (??KeyScan_21) /2
+   \   0000000A   ......             DP      (??KeyScan_9) /2
    \   0000000D   40                 DB      0x40
-   \   0000000E   ......             DP      (??KeyScan_27) /2
+   \   0000000E   ......             DP      (??KeyScan_15) /2
    \   00000011   20                 DB      0x20
-   \   00000012   ......             DP      (??KeyScan_22) /2
+   \   00000012   ......             DP      (??KeyScan_10) /2
    \   00000015   10                 DB      0x10
-   \   00000016   ......             DP      (??KeyScan_26) /2
+   \   00000016   ......             DP      (??KeyScan_14) /2
    \   00000019   08                 DB      0x8
-   \   0000001A   ......             DP      (??KeyScan_23) /2
+   \   0000001A   ......             DP      (??KeyScan_11) /2
    \   0000001D   04                 DB      0x4
-   \   0000001E   ......             DP      (??KeyScan_25) /2
+   \   0000001E   ......             DP      (??KeyScan_13) /2
    \   00000021   02                 DB      0x2
-   \   00000022   ......             DP      (??KeyScan_19) /2
+   \   00000022   ......             DP      (??KeyScan_7) /2
    \   00000025   01                 DB      0x1
-   \   00000026   ......             DP      (??KeyScan_24) /2
+   \   00000026   ......             DP      (??KeyScan_12) /2
    \   00000029   FB                 DB      251
     128          
 
@@ -469,24 +400,23 @@ Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\source\mcu\key.c
      KeyState                           3
      KeyInit                           14
      KeyProc                           16
-     KeyScan                          334
+     KeyScan                          264
      ?<Initializer for key_signal_A>    1
      ?<Initializer for key_signal_B>    1
      ?<Initializer for key_data>        2
-     ?<Jumptable for KeyScan>_0        46
-     ?<Jumptable for KeyScan>_1        42
+     ?<Jumptable for KeyScan>_0        42
       Others                           14
 
  
    2 bytes in segment ABSOLUTE
- 364 bytes in segment FARCODE
+ 294 bytes in segment FARCODE
   14 bytes in segment INITTAB
    4 bytes in segment NEAR_I
    4 bytes in segment NEAR_ID
    6 bytes in segment NEAR_Z
-  88 bytes in segment SWITCH
+  42 bytes in segment SWITCH
  
- 456 bytes of CODE memory (+ 14 bytes shared)
+ 340 bytes of CODE memory (+ 14 bytes shared)
   10 bytes of DATA memory (+  2 bytes shared)
 
 Errors: none

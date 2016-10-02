@@ -12,7 +12,7 @@
           
           
           
-        <Column0>193</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+        <Column0>180</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
       </Workspace>
       <Build>
         
@@ -20,7 +20,7 @@
         
         
       <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1009</ColumnWidth1><ColumnWidth2>269</ColumnWidth2><ColumnWidth3>67</ColumnWidth3></Build>
-    <TerminalIO/><Disassembly><PreferedWindows><Position>4</Position><ScreenPosX>741</ScreenPosX><ScreenPosY>255</ScreenPosY><Windows/></PreferedWindows><MixedMode>1</MixedMode><CodeCovShow>0</CodeCovShow></Disassembly><Debug-Log><ColumnWidth0>24</ColumnWidth0><ColumnWidth1>1342</ColumnWidth1></Debug-Log><Watch><PreferedWindows><Position>4</Position><ScreenPosX>835</ScreenPosX><ScreenPosY>159</ScreenPosY><Windows/></PreferedWindows></Watch><Auto><PreferedWindows><Position>4</Position><ScreenPosX>831</ScreenPosX><ScreenPosY>349</ScreenPosY><Windows/></PreferedWindows></Auto><Tool-Output/></Static>
+    <TerminalIO/><Disassembly><PreferedWindows><Position>4</Position><ScreenPosX>986</ScreenPosX><ScreenPosY>193</ScreenPosY><Windows><Window><Factory>Watch</Factory></Window></Windows></PreferedWindows><MixedMode>1</MixedMode><CodeCovShow>0</CodeCovShow></Disassembly><Debug-Log><ColumnWidth0>24</ColumnWidth0><ColumnWidth1>1342</ColumnWidth1></Debug-Log><Watch><PreferedWindows><Position>4</Position><ScreenPosX>986</ScreenPosX><ScreenPosY>193</ScreenPosY><Windows><Window><Factory>Disassembly</Factory></Window></Windows></PreferedWindows></Watch><Auto><PreferedWindows><Position>4</Position><ScreenPosX>831</ScreenPosX><ScreenPosY>349</ScreenPosY><Windows/></PreferedWindows></Auto><Tool-Output/></Static>
     <Windows>
       
       
@@ -52,14 +52,14 @@
       
       
       
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>C:\Documents and Settings\idonno2000\&#xBC14;&#xD0D5; &#xD654;&#xBA74;\KEYPAD335_110128_IAR\Debug\List\AVR2560.map</Filename><XPos>0</XPos><YPos>57469</YPos><SelStart>2794966</SelStart><SelEnd>2794966</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Documents and Settings\idonno2000\&#xBC14;&#xD0D5; &#xD654;&#xBA74;\KEYPAD335_110128_IAR\source\main.c</Filename><XPos>0</XPos><YPos>264</YPos><SelStart>4060</SelStart><SelEnd>4060</SelEnd></Tab><ActiveTab>1</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>C:\Documents and Settings\idonno2000\&#xBC14;&#xD0D5; &#xD654;&#xBA74;\KEYPAD335_110128_IAR\source\mcu\rs232_MMItoPANEL.c</Filename><XPos>0</XPos><YPos>300</YPos><SelStart>6972</SelStart><SelEnd>6972</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Documents and Settings\idonno2000\&#xBC14;&#xD0D5; &#xD654;&#xBA74;\KEYPAD335_110128_IAR\source\mcu\display.c</Filename><XPos>0</XPos><YPos>2621</YPos><SelStart>63109</SelStart><SelEnd>63109</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Documents and Settings\idonno2000\&#xBC14;&#xD0D5; &#xD654;&#xBA74;\KEYPAD335_110131_IAR\source\mcu\display.c</Filename><XPos>0</XPos><YPos>2351</YPos><SelStart>54505</SelStart><SelEnd>54505</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>C:\work\KEYPAD335_110727_HHH\source\mcu\display.c</Filename><XPos>0</XPos><YPos>6895</YPos><SelStart>185175</SelStart><SelEnd>185175</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\work\KEYPAD335_110727_HHH\source\mcu\display.h</Filename><XPos>0</XPos><YPos>117</YPos><SelStart>3409</SelStart><SelEnd>3409</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\work\KEYPAD335_110727_HHH\source\mcu\util.h</Filename><XPos>0</XPos><YPos>36</YPos><SelStart>1429</SelStart><SelEnd>1429</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\work\KEYPAD335_110727_HHH\source\mcu\lcd_text.h</Filename><XPos>0</XPos><YPos>932</YPos><SelStart>18484</SelStart><SelEnd>18484</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\work\KEYPAD335_110727_HHH\source\main.c</Filename><XPos>0</XPos><YPos>248</YPos><SelStart>4060</SelStart><SelEnd>4060</SelEnd></Tab><ActiveTab>4</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>C:\work\KEYPAD335_110727_HHH\source\mcu\key.c</Filename><XPos>0</XPos><YPos>57</YPos><SelStart>1771</SelStart><SelEnd>1771</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\work\KEYPAD335_110727_HHH\source\mcu\rs232_MMItoPANEL.c</Filename><XPos>0</XPos><YPos>218</YPos><SelStart>5605</SelStart><SelEnd>5605</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
       
       
       
       
       
-    <Top><Row0><Sizes><Toolbar-00b09c08><key>iaridepm.enu1</key></Toolbar-00b09c08></Sizes></Row0><Row1><Sizes/></Row1></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>738</Bottom><Right>267</Right><x>-2</x><y>-2</y><xscreen>189</xscreen><yscreen>193</yscreen><sizeHorzCX>135000</sizeHorzCX><sizeHorzCY>198152</sizeHorzCY><sizeVertCX>192143</sizeVertCX><sizeVertCY>759754</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>191</Bottom><Right>1402</Right><x>-2</x><y>-2</y><xscreen>1404</xscreen><yscreen>193</yscreen><sizeHorzCX>1002857</sizeHorzCX><sizeHorzCY>198152</sizeHorzCY><sizeVertCX>135000</sizeVertCX><sizeVertCY>198152</sizeVertCY></Rect></Wnd2></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-00b0a068><key>iaridepm.enu1</key></Toolbar-00b0a068></Sizes></Row0><Row1><Sizes/></Row1></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>684</Bottom><Right>254</Right><x>-2</x><y>-2</y><xscreen>180</xscreen><yscreen>180</yscreen><sizeHorzCX>135135</sizeHorzCX><sizeHorzCY>198456</sizeHorzCY><sizeVertCX>192192</sizeVertCX><sizeVertCY>756340</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>178</Bottom><Right>1334</Right><x>-2</x><y>-2</y><xscreen>1336</xscreen><yscreen>180</yscreen><sizeHorzCX>1003003</sizeHorzCX><sizeHorzCY>198456</sizeHorzCY><sizeVertCX>135135</sizeVertCX><sizeVertCY>198456</sizeVertCY></Rect></Wnd2></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Workspace>
 

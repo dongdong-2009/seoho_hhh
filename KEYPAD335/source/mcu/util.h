@@ -44,7 +44,7 @@
 #define BIT1	0x02
 #define BIT0	0x01
 
-
+#define BOUND(x,MAX,Min)  (((x)>(MAX))?(MAX):((x)<(Min))?(Min):(x))
 
 void Delay_us(unsigned char time_us);		/* time delay for us */
 void Delay_ms(unsigned int time_ms);		/* time delay for ms */

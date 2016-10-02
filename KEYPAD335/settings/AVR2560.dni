@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=95028938
+Checksum=710414150
 [DisAssemblyWindow]
 NumStates=_ 1
 State 1=_ 1
@@ -20,6 +20,8 @@ ByteLimit=50
 [TraceHelper]
 Enabled=0
 ShowSource=1
+[Breakpoints]
+Count=0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -27,5 +29,3 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
-[Breakpoints]
-Count=0
