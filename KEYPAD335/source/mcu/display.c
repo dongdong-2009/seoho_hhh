@@ -37,11 +37,13 @@ unsigned int Temporary=0;
 unsigned int edit_Temp=0;
 
 char password[4]={0,0,0,0};
-char _password[4]={0,0,0,0};
+
+char AccessLevel = 0;
 
 unsigned char pass_pos=0;
 
 char Edit_flag = 0;
+//char Prohibited_flag = 0;
 
 
 char text_buf[256];
@@ -78,12 +80,12 @@ __flash char PAGE_ROOT[8][17]=
 
 
 __flash char  PAGE_DIR_0_X[6][17]={
-	" 0 Local_Remot ",
-	" 1 Dir Change  ",
-	" 2 Speed Ref.  ",
-	" 3 Freqe Ref.  ",
-	" 4 Torque Ref. ",
-	" 5 PID Ref.    "
+	"[0] Local/Remote",
+	"[1] Dir_Change  ",
+	"[2] Speed Set_Pt",
+	"[3] Freqe Set_Pt",
+	"[4] Torque_Set  ",
+	"[5] PID Set_Pt   "
 };
 
 
@@ -967,7 +969,9 @@ __flash char  PAGE_DIR_6_XX_XX[8][20]={
 
 void SYS_ParameterEdt(unsigned int addr,unsigned int e_temp, unsigned char mode)
 {
-	if(mode==1)
+	char value[5];
+	
+	if(mode==1)//Á¤¼ö
 	{
 			if(KeyState.KeyValue == ENTER)
 			{
@@ -985,42 +989,40 @@ void SYS_ParameterEdt(unsigned int addr,unsigned int e_temp, unsigned char mode)
 			}
 			else if(KeyState.KeyValue == UP)
 			{
-				if(posInpage == 1)
-				{
-					if(1499 >= e_temp)e_temp = e_temp + 1;
-				}
-				else if(posInpage == 2)
-				{
-					if(1490 >= e_temp)e_temp = e_temp + 10;
-				}
-				else if(posInpage == 3)
-				{
-					if(1400 >= e_temp)e_temp = e_temp + 100;
-				}
-				else if(posInpage == 4)
-				{
-					if(500 >= e_temp)e_temp = e_temp + 1000;
-				}
+				value[0] =  e_temp%10;
+				value[1] = (e_temp/10)%10;
+				value[2] = (e_temp/100)%10;
+				value[3] = (e_temp/1000)%10;
+				value[4] =  e_temp/10000;
+				
+				value[posInpage - 1]++;
+				if(9 < value[posInpage - 1]) value[posInpage - 1] = 0;
+				
+				e_temp =	((unsigned int)value[4]*10000) + 
+					        	((unsigned int)value[3]*1000) + 
+					        	((unsigned int)value[2]*100) + 
+					        	((unsigned int)value[1]*10) + 
+					         	 (unsigned int)value[0];		
+				
 				RefreshFlag=1;
 			}
 			else if(KeyState.KeyValue == DN)
 			{
-				if(posInpage == 1)
-				{
-					if(e_temp > 0) e_temp = e_temp - 1;
-				}
-				else if(posInpage == 2)
-				{
-					if(e_temp > 9)e_temp = e_temp - 10;
-				}
-				else if(posInpage == 3)
-				{
-					if(e_temp > 99)e_temp = e_temp - 100;
-				}
-				else if(posInpage == 4)
-				{
-					if(e_temp > 999)e_temp = e_temp - 1000;
-				}
+				value[0] =  e_temp%10;
+				value[1] = (e_temp/10)%10;
+				value[2] = (e_temp/100)%10;
+				value[3] = (e_temp/1000)%10;
+				value[4] =  e_temp/10000;
+				
+				if(value[posInpage - 1] < 1) value[posInpage - 1] = 9;
+				else value[posInpage - 1]--;
+
+				e_temp =	((unsigned int)value[4]*10000) + 
+					        	((unsigned int)value[3]*1000) + 
+					        	((unsigned int)value[2]*100) + 
+					        	((unsigned int)value[1]*10) + 
+					        	 (unsigned int)value[0];
+				
 				RefreshFlag=1;
 			}
 			else if(KeyState.KeyValue == RIGHT)
@@ -1039,7 +1041,28 @@ void SYS_ParameterEdt(unsigned int addr,unsigned int e_temp, unsigned char mode)
 			}
 	}
 
+
 	edit_Temp = e_temp;
+}
+
+void SYS_cursor_ON_Mode(unsigned char mode)
+{
+	if(mode==1)// _ _ _ _
+	{
+		CLCD_cursor_ON(0xC0, 11 - posInpage);
+	}
+	else if(mode==2)// x _ . _ _
+	{
+		if(3<posInpage)posInpage=3;
+		if(posInpage <= 2)CLCD_cursor_ON(0xC0, 11 - posInpage);
+		else CLCD_cursor_ON(0xC0, 10 - posInpage);
+	}
+	else if(mode==3)// x x _ . _
+	{
+		if(2<posInpage)posInpage=2;
+		if(posInpage <= 1)CLCD_cursor_ON(0xC0, 11 - posInpage);
+		else CLCD_cursor_ON(0xC0, 10 - posInpage);
+	}
 }
 
 void SYS_0(void)
@@ -1144,12 +1167,12 @@ void SYS_6(void)
 void SYS_0_0(void)
 {
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_0;
-	else if(KeyState.KeyValue == UP)
+	else if(KeyState.KeyValue == DN)
 	{
 		Temporary = ReadDataMem(PID_ref);
 		MenuDisplay = SYS_0_5;
 	}
-	else if(KeyState.KeyValue == DN)
+	else if(KeyState.KeyValue == UP)
 	{
 		Temporary = ReadDataMem(Direction);
 		MenuDisplay = SYS_0_1;
@@ -1168,15 +1191,15 @@ void SYS_0_0(void)
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_0_X[0][0]));
 
 		Temporary = ReadDataMem(Local_Remote);
-		if(Temporary) CLCD_string(0xC0,"   [0] Local    ");
-		else CLCD_string(0xC0,"   [1] Remote   ");
+		if(Temporary) CLCD_string(0xC0,"    [ LOCAL ]    ");
+		else CLCD_string(0xC0,"   [ REMOTE ]   ");
 	}
 }
 
 void SYS_0_1(void)
 {
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_0;
-	else if(KeyState.KeyValue == UP)
+	else if(KeyState.KeyValue == DN)
 	{
 		Temporary = ReadDataMem(Local_Remote);
 		MenuDisplay = SYS_0_0;
@@ -1188,7 +1211,7 @@ void SYS_0_1(void)
 		else WriteDataMem(Direction, 0);
 		RefreshFlag = 1;
 	}
-	else if(KeyState.KeyValue == DN)
+	else if(KeyState.KeyValue == UP)
 	{
 		Temporary = ReadDataMem(Speed_ref);
 		MenuDisplay = SYS_0_2;
@@ -1199,8 +1222,8 @@ void SYS_0_1(void)
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_0_X[1][0]));
 
 		Temporary = ReadDataMem(Direction);
-		if(!Temporary)CLCD_string(0xC0," [0] Forward   ");
-		else CLCD_string(0xC0," [1] Reverse   ");
+		if(!Temporary)CLCD_string(0xC0,"   [ FORWARD ]   ");
+		else CLCD_string(0xC0,"   [ REVERSE ]   ");
 	}
 
 }
@@ -1210,8 +1233,8 @@ void SYS_0_2(void)
 	if(!Edit_flag)
 	{
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_0;
-		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_0_1;
-		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_0_3;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_0_1;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_0_3;
 		else if(KeyState.KeyValue == ENTER)
 		{
 			Edit_flag = 1;
@@ -1230,13 +1253,13 @@ void SYS_0_2(void)
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_0_X[2][0]));
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("       %_4u rpm ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("       %04u rpm ",Temporary));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("       %_4u rpm ",edit_Temp));
-			CLCD_cursor_ON(0xC0, 11 - posInpage);
+			CLCD_string(0xC0,(char*)_TEXT("       %04u rpm ",edit_Temp));
+			SYS_cursor_ON_Mode(1);
 		}
 	}
 }
@@ -1245,8 +1268,8 @@ void SYS_0_3(void)
 	if(!Edit_flag)
 	{
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_0;
-		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_0_2;
-		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_0_4;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_0_2;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_0_4;
 		else if(KeyState.KeyValue == ENTER)
 		{
 			Edit_flag = 1;
@@ -1265,13 +1288,13 @@ void SYS_0_3(void)
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_0_X[3][0]));
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("       %_4u Hz  ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("       %01u.%02u Hz  ",Temporary/100,Temporary%100));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("       %_4u Hz  ",edit_Temp));
-			CLCD_cursor_ON(0xC0, 11 - posInpage);
+			CLCD_string(0xC0,(char*)_TEXT("       %01u.%02u Hz  ",edit_Temp/100,edit_Temp%100));
+			SYS_cursor_ON_Mode(2);
 		}
 	}
 }
@@ -1280,8 +1303,8 @@ void SYS_0_4(void)
 	if(!Edit_flag)
 	{
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_0;
-		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_0_3;
-		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_0_5;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_0_3;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_0_5;
 		else if(KeyState.KeyValue == ENTER)
 		{
 			Edit_flag = 1;
@@ -1300,13 +1323,13 @@ void SYS_0_4(void)
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_0_X[4][0]));
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("       %_4u Nm  ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("       %01u.%02u %   ",Temporary/100,Temporary%100));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("       %_4u Nm  ",edit_Temp));
-			CLCD_cursor_ON(0xC0, 11 - posInpage);
+			CLCD_string(0xC0,(char*)_TEXT("       %01u.%02u %   ",edit_Temp/100,edit_Temp%100));
+			SYS_cursor_ON_Mode(2);
 		}
 	}
 }
@@ -1316,8 +1339,8 @@ void SYS_0_5(void)
 	if(!Edit_flag)
 	{
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_0;
-		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_0_4;
-		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_0_0;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_0_4;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_0_0;
 		else if(KeyState.KeyValue == ENTER)
 		{
 			Edit_flag = 1;
@@ -1336,13 +1359,13 @@ void SYS_0_5(void)
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_0_X[5][0]));
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("       %_4u %   ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("       %_4u %   ",edit_Temp));
-			CLCD_cursor_ON(0xC0, 11 - posInpage);
+			CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",edit_Temp/10,edit_Temp%10));
+			SYS_cursor_ON_Mode(3);
 		}
 	}
 }
@@ -1414,7 +1437,7 @@ void SYS_1_0_01(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[1][0]));
-		CLCD_string(0xC0,(char*)_TEXT("% 12d Hz", ReadDataMem(2311)));
+		CLCD_string(0xC0,(char*)_TEXT("       %01u.%02u Hz  ",DATA_Registers[2311]/100,DATA_Registers[2311]%100));
 	}
 }
 void SYS_1_0_02(void)
@@ -1426,7 +1449,7 @@ void SYS_1_0_02(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[2][0]));
-		CLCD_string(0xC0,(char*)_TEXT("% 11d Vdc", ReadDataMem(2312)));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u V   ",DATA_Registers[2312]/10,DATA_Registers[2312]%10));
 	}
 }
 void SYS_1_0_03(void)
@@ -1438,7 +1461,7 @@ void SYS_1_0_03(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[3][0]));
-		CLCD_string(0xC0,(char*)_TEXT("% 10d Arms", ReadDataMem(2313)));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2313]/10,DATA_Registers[2313]%10));
 	}
 }
 void SYS_1_0_04(void)
@@ -1450,7 +1473,7 @@ void SYS_1_0_04(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[4][0]));
-		CLCD_string(0xC0,(char*)_TEXT("% 10d Arms", ReadDataMem(2314)));
+		CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u Vrms",DATA_Registers[2314]/10,DATA_Registers[2314]%10));
 	}
 }
 void SYS_1_0_05(void)
@@ -1462,7 +1485,7 @@ void SYS_1_0_05(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[5][0]));
-		CLCD_string(0xC0,(char*)_TEXT("% 11d Nm ", ReadDataMem(2315)));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2315]/100,DATA_Registers[2315]%100));
 	}
 }
 void SYS_1_0_06(void)
@@ -1474,7 +1497,7 @@ void SYS_1_0_06(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[6][0]));
-		CLCD_string(0xC0,(char*)_TEXT("% 12d  A", ReadDataMem(2316)));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u A   ",DATA_Registers[2316]/10,DATA_Registers[2316]%10));
 	}
 }
 void SYS_1_0_07(void)
@@ -1486,7 +1509,7 @@ void SYS_1_0_07(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[7][0]));
-		CLCD_string(0xC0,(char*)_TEXT("% 12d  A", ReadDataMem(2317)));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u A   ",DATA_Registers[2317]/10,DATA_Registers[2317]%10));
 	}
 }
 void SYS_1_0_08(void)
@@ -1498,7 +1521,7 @@ void SYS_1_0_08(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[8][0]));
-		CLCD_string(0xC0,(char*)_TEXT("% 12d kW", ReadDataMem(2318)));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Kw  ",DATA_Registers[2318]/10,DATA_Registers[2318]%10));
 	}
 }
 void SYS_1_0_09(void)
@@ -1510,7 +1533,7 @@ void SYS_1_0_09(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[9][0]));
-		CLCD_string(0xC0,(char*)_TEXT("% 12d kW", ReadDataMem(2319)));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Kw  ",DATA_Registers[2319]/10,DATA_Registers[2319]%10));
 	}
 }
 void SYS_1_0_10(void)
@@ -1522,7 +1545,7 @@ void SYS_1_0_10(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[10][0]));
-		CLCD_string(0xC0,(char*)_TEXT("% 13d  ", ReadDataMem(2320)));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2320]/10,DATA_Registers[2320]%10));
 	}
 }
 void SYS_1_0_11(void)
@@ -1534,7 +1557,7 @@ void SYS_1_0_11(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[11][0]));
-		CLCD_string(0xC0,(char*)_TEXT("% 13d  ", ReadDataMem(2321)));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2321]/10,DATA_Registers[2321]%10));
 	}
 }
 void SYS_1_0_12(void)
@@ -1546,7 +1569,7 @@ void SYS_1_0_12(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[12][0]));
-		CLCD_string(0xC0,(char*)_TEXT("% 13d  ", ReadDataMem(2322)));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2322]/10,DATA_Registers[2322]%10));
 	}
 }
 void SYS_1_0_13(void)
@@ -1558,7 +1581,7 @@ void SYS_1_0_13(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[13][0]));
-		CLCD_string(0xC0,(char*)_TEXT("% 12d 'C", ReadDataMem(2323)));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2323]/10,DATA_Registers[2323]%10));
 	}
 }
 
@@ -1575,8 +1598,8 @@ void SYS_1_1_00(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_1_01;
 
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[0][0]));
-	CLCD_string(0xC0,(char*)_TEXT("     %08b", ReadDataMem(2340)));
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[0][0]));
+		CLCD_string(0xC0,(char*)_TEXT("     [%08b]", ReadDataMem(2340)));
 	}
 }
 void SYS_1_1_01(void)
@@ -1586,8 +1609,8 @@ void SYS_1_1_01(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_1_02;
 	
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[1][0]));
-	CLCD_string(0xC0,(char*)_TEXT("      %03b      ", ReadDataMem(2341)));
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[1][0]));
+		CLCD_string(0xC0,(char*)_TEXT("     [%03b]     ", ReadDataMem(2341)));
 	}
 }
 void SYS_1_1_02(void)
@@ -1596,8 +1619,8 @@ void SYS_1_1_02(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_1_01;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_1_03;	
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[2][0]));
-	CLCD_string(0xC0,(char*)_TEXT("   % 4d V or mA", ReadDataMem(2342)));
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[2][0]));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%03u V   ",DATA_Registers[2342]/1000,DATA_Registers[2342]%1000));
 	}
 }
 void SYS_1_1_03(void)
@@ -1606,8 +1629,8 @@ void SYS_1_1_03(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_1_02;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_1_04;
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[3][0]));
-	CLCD_string(0xC0,(char*)_TEXT("   % 4d V or mA", ReadDataMem(2343)));
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[3][0]));
+		CLCD_string(0xC0,(char*)_TEXT("       %01u.%03u mA  ",DATA_Registers[2343]/1000,DATA_Registers[2343]%1000));
 	}
 }
 void SYS_1_1_04(void)
@@ -1617,8 +1640,8 @@ void SYS_1_1_04(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_1_00;
 
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[4][0]));
-	CLCD_string(0xC0,(char*)_TEXT("        % 4d mA", ReadDataMem(2344)));
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[4][0]));
+		CLCD_string(0xC0,(char*)_TEXT("       %01u.%03u mA  ",DATA_Registers[2344]/1000,DATA_Registers[2344]%1000));
 	}
 }
 
@@ -1633,8 +1656,8 @@ void SYS_1_2_00(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_2_01;
 
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[0][0]));
-	CLCD_string(0xC0,(char*)_TEXT("% 13d  ", ReadDataMem(2350)));
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[0][0]));
+		CLCD_string(0xC0,(char*)_TEXT("  Motor % 1d  ", DATA_Registers[2350]+1 ));
 	}
 }
 void SYS_1_2_01(void)
@@ -1643,8 +1666,12 @@ void SYS_1_2_01(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_2_00;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_2_02;
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[1][0]));
-	CLCD_string(0xC0,(char*)_TEXT("% 13d  ", ReadDataMem(2351)));
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[1][0]));
+
+		if(DATA_Registers[2351] == 0) CLCD_string(0xC0,"V/F Freq_Ctrl");
+		else if(DATA_Registers[2351] == 1) CLCD_string(0xC0,"V/F Speed_Ctrl");
+		else if(DATA_Registers[2351] == 2) CLCD_string(0xC0,"S/L Vect_Ctrl");
+		else if(DATA_Registers[2351] == 3) CLCD_string(0xC0,"Vector_Ctrl");
 	}
 }
 void SYS_1_2_02(void)
@@ -1653,8 +1680,13 @@ void SYS_1_2_02(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_2_01;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_2_03;
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[2][0]));
-	CLCD_string(0xC0,(char*)_TEXT("% 13d  ", ReadDataMem(2352)));
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[2][0]));
+
+		if(DATA_Registers[2352] == 0) CLCD_string(0xC0,"Terminal");
+		else if(DATA_Registers[2352] == 1) CLCD_string(0xC0,"Operatorl");
+		else if(DATA_Registers[2352] == 2) CLCD_string(0xC0,"Synchronous");
+		else if(DATA_Registers[2352] == 3) CLCD_string(0xC0,"FieldBus");
+		else if(DATA_Registers[2352] == 4) CLCD_string(0xC0,"Free Function");
 	}
 }
 void SYS_1_2_03(void)
@@ -1663,8 +1695,12 @@ void SYS_1_2_03(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_2_02;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_2_04;
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[3][0]));
-	CLCD_string(0xC0,(char*)_TEXT("% 13d  ", ReadDataMem(2353)));
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[3][0]));
+		if(DATA_Registers[2353] == 0) CLCD_string(0xC0,"Terminal");
+		else if(DATA_Registers[2353] == 1) CLCD_string(0xC0,"Operatorl");
+		else if(DATA_Registers[2353] == 2) CLCD_string(0xC0,"Synchronous");
+		else if(DATA_Registers[2353] == 3) CLCD_string(0xC0,"FieldBus");
+		else if(DATA_Registers[2353] == 4) CLCD_string(0xC0,"Free Function");
 	}
 }
 void SYS_1_2_04(void)
@@ -1673,8 +1709,8 @@ void SYS_1_2_04(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_2_03;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_2_05;
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[4][0]));
-	CLCD_string(0xC0,(char*)_TEXT("   % 4d kW", ReadDataMem(2354)));
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[4][0]));
+		CLCD_string(0xC0,(char*)_TEXT("     %01u.%01u KW  ",DATA_Registers[2354]/10,DATA_Registers[2354]%10));
 	}
 }
 void SYS_1_2_05(void)
@@ -1683,8 +1719,8 @@ void SYS_1_2_05(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_2_04;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_2_06;
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[5][0]));
-	CLCD_string(0xC0,(char*)_TEXT("   % 4d V", ReadDataMem(2355)));
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[5][0]));
+		CLCD_string(0xC0,(char*)_TEXT("   % 4d V", ReadDataMem(2355)));
 	}
 }
 void SYS_1_2_06(void)
@@ -1693,9 +1729,9 @@ void SYS_1_2_06(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_2_05;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_2_07;
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[6][0]));
-	CLCD_string(0xC0,(char*)_TEXT("% 13d  ", ReadDataMem(2356)));
-}
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[6][0]));
+		CLCD_string(0xC0,(char*)_TEXT("% 13d  ", ReadDataMem(2356)));
+	}
 }
 void SYS_1_2_07(void)
 {
@@ -1703,9 +1739,9 @@ void SYS_1_2_07(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_2_06;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_2_08;
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[7][0]));
-	CLCD_string(0xC0,(char*)_TEXT("% 13d  ", ReadDataMem(2357)));
-}
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[7][0]));
+		CLCD_string(0xC0,(char*)_TEXT("     %01u.%02u     ",DATA_Registers[2357]/100,DATA_Registers[2357]%100));
+	}
 }
 void SYS_1_2_08(void)
 {
@@ -2047,9 +2083,18 @@ void SYS_2_00_00(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_01;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2084,9 +2129,18 @@ void SYS_2_00_01(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_02;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else		SYS_ParameterEdt(201,  edit_Temp, 1);
@@ -2117,9 +2171,18 @@ void SYS_2_00_02(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_03;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2150,9 +2213,18 @@ void SYS_2_00_03(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_04;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2183,9 +2255,18 @@ void SYS_2_00_04(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_05;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2216,9 +2297,18 @@ void SYS_2_00_05(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_06;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2249,9 +2339,18 @@ void SYS_2_00_06(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_07;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2282,9 +2381,18 @@ void SYS_2_00_07(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_08;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2315,9 +2423,18 @@ void SYS_2_00_08(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_09;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2348,9 +2465,18 @@ void SYS_2_00_09(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_10;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2381,9 +2507,18 @@ void SYS_2_00_10(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_11;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2414,9 +2549,18 @@ void SYS_2_00_11(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_12;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2447,9 +2591,18 @@ void SYS_2_00_12(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_13;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2480,9 +2633,18 @@ void SYS_2_00_13(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_14;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2513,9 +2675,18 @@ void SYS_2_00_14(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_15;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2546,9 +2717,18 @@ void SYS_2_00_15(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_00;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2583,9 +2763,18 @@ void SYS_2_01_00(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_01;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2616,9 +2805,18 @@ void SYS_2_01_01(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_02;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2649,9 +2847,18 @@ void SYS_2_01_02(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_03;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2682,9 +2889,18 @@ void SYS_2_01_03(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_04;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2715,9 +2931,18 @@ void SYS_2_01_04(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_05;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2748,9 +2973,18 @@ void SYS_2_01_05(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_06;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2781,9 +3015,18 @@ void SYS_2_01_06(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_07;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2814,9 +3057,18 @@ void SYS_2_01_07(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_08;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2847,9 +3099,18 @@ void SYS_2_01_08(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_09;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2880,9 +3141,18 @@ void SYS_2_01_09(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_00;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2917,9 +3187,18 @@ void SYS_2_02_00(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_01;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2950,9 +3229,18 @@ void SYS_2_02_01(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_02;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -2983,9 +3271,18 @@ void SYS_2_02_02(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_03;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3016,9 +3313,18 @@ void SYS_2_02_03(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_04;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3049,9 +3355,18 @@ void SYS_2_02_04(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_05;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3082,9 +3397,18 @@ void SYS_2_02_05(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_06;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3115,9 +3439,18 @@ void SYS_2_02_06(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_07;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3148,9 +3481,18 @@ void SYS_2_02_07(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_08;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3181,9 +3523,18 @@ void SYS_2_02_08(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_09;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3212,9 +3563,18 @@ void SYS_2_02_09(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_00;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3249,9 +3609,18 @@ void SYS_2_03_00(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_01;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3282,9 +3651,18 @@ void SYS_2_03_01(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_02;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3315,9 +3693,18 @@ void SYS_2_03_02(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_03;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3348,9 +3735,18 @@ void SYS_2_03_03(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_04;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3381,9 +3777,18 @@ void SYS_2_03_04(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_05;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3414,9 +3819,18 @@ void SYS_2_03_05(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_06;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3447,9 +3861,18 @@ void SYS_2_03_06(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_07;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3480,9 +3903,18 @@ void SYS_2_03_07(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_08;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3513,9 +3945,18 @@ void SYS_2_03_08(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_09;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3546,9 +3987,18 @@ void SYS_2_03_09(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_10;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3580,9 +4030,18 @@ void SYS_2_03_10(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_11;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3613,9 +4072,18 @@ void SYS_2_03_11(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_12;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3646,9 +4114,18 @@ void SYS_2_03_12(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_13;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3679,9 +4156,18 @@ void SYS_2_03_13(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_14;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3712,9 +4198,18 @@ void SYS_2_03_14(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_15;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3745,9 +4240,18 @@ void SYS_2_03_15(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_16;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3778,9 +4282,18 @@ void SYS_2_03_16(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_17;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3811,9 +4324,18 @@ void SYS_2_03_17(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_18;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3844,9 +4366,18 @@ void SYS_2_03_18(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_19;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3877,9 +4408,18 @@ void SYS_2_03_19(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_20;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3912,9 +4452,18 @@ void SYS_2_03_20(void)
 		else if(KeyState.KeyValue == DN){MenuDisplay = SYS_2_03_21;}
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3945,9 +4494,18 @@ void SYS_2_03_21(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_22;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -3978,9 +4536,18 @@ void SYS_2_03_22(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_23;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4011,9 +4578,18 @@ void SYS_2_03_23(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_24;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4044,9 +4620,18 @@ void SYS_2_03_24(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_25;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4077,9 +4662,18 @@ void SYS_2_03_25(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_26;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4110,9 +4704,18 @@ void SYS_2_03_26(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_27;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4143,9 +4746,18 @@ void SYS_2_03_27(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_28;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4176,9 +4788,18 @@ void SYS_2_03_28(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_29;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4209,9 +4830,18 @@ void SYS_2_03_29(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_30;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4244,9 +4874,18 @@ void SYS_2_03_30(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_31;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4277,9 +4916,18 @@ void SYS_2_03_31(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_32;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4310,9 +4958,18 @@ void SYS_2_03_32(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_33;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4343,9 +5000,18 @@ void SYS_2_03_33(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_34;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4376,9 +5042,18 @@ void SYS_2_03_34(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_35;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4409,9 +5084,18 @@ void SYS_2_03_35(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_36;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4442,9 +5126,18 @@ void SYS_2_03_36(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_37;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4475,9 +5168,18 @@ void SYS_2_03_37(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_38;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4508,9 +5210,18 @@ void SYS_2_03_38(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_39;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4541,9 +5252,18 @@ void SYS_2_03_39(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_40;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4574,9 +5294,18 @@ void SYS_2_03_40(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_41;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4607,9 +5336,18 @@ void SYS_2_03_41(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_42;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4640,9 +5378,18 @@ void SYS_2_03_42(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_43;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4673,9 +5420,18 @@ void SYS_2_03_43(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_44;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4706,9 +5462,18 @@ void SYS_2_03_44(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_45;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4739,9 +5504,18 @@ void SYS_2_03_45(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_46;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4772,9 +5546,18 @@ void SYS_2_03_46(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_47;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4805,9 +5588,18 @@ void SYS_2_03_47(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_48;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4838,9 +5630,18 @@ void SYS_2_03_48(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_49;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4871,9 +5672,18 @@ void SYS_2_03_49(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_40;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4904,9 +5714,18 @@ void SYS_2_03_50(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_51;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4937,9 +5756,18 @@ void SYS_2_03_51(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_52;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -4970,9 +5798,18 @@ void SYS_2_03_52(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_00;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5006,9 +5843,18 @@ void SYS_2_04_00(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_01;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5039,9 +5885,18 @@ void SYS_2_04_01(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_02;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5072,9 +5927,18 @@ void SYS_2_04_02(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_03;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5105,9 +5969,18 @@ void SYS_2_04_03(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_04;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5138,9 +6011,18 @@ void SYS_2_04_04(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_05;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5171,9 +6053,18 @@ void SYS_2_04_05(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_06;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5204,9 +6095,18 @@ void SYS_2_04_06(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_07;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5237,9 +6137,18 @@ void SYS_2_04_07(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_08;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5270,9 +6179,18 @@ void SYS_2_04_08(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_09;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5303,9 +6221,18 @@ void SYS_2_04_09(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_10;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5337,9 +6264,18 @@ void SYS_2_04_10(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_11;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5370,9 +6306,18 @@ void SYS_2_04_11(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_12;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5403,9 +6348,18 @@ void SYS_2_04_12(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_13;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5436,9 +6390,18 @@ void SYS_2_04_13(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_14;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5469,9 +6432,18 @@ void SYS_2_04_14(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_15;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5502,9 +6474,18 @@ void SYS_2_04_15(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_16;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5535,9 +6516,18 @@ void SYS_2_04_16(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_17;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5568,9 +6558,18 @@ void SYS_2_04_17(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_18;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5601,9 +6600,18 @@ void SYS_2_04_18(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_19;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5634,9 +6642,18 @@ void SYS_2_04_19(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_20;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5669,9 +6686,18 @@ void SYS_2_04_20(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_21;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -5702,9 +6728,18 @@ void SYS_2_04_21(void)
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_22;
  		else if(KeyState.KeyValue == ENTER)
 		{
-			Edit_flag = 1;
-			posInpage = 1;
-			edit_Temp = Temporary ;
+			if(0 <= AccessLevel)
+			{
+				Edit_flag = 1;
+				posInpage = 1;
+				edit_Temp = Temporary ;
+			}
+			else
+			{
+				//Prohibited_flag = 1;
+				CLCD_string(0xC0,"Prohibited. [L0]");
+				RefreshFlag = 0;
+			}
 		}
 	}
 	else
@@ -24057,7 +25092,7 @@ void SYS_4_00(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_01;
  
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_TEXT("Total Fault = X",DATA_Registers[2379]));
+	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[0][0]));
 	} 
 }
@@ -24067,7 +25102,7 @@ void SYS_4_01(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_00;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_02;	
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_TEXT("Total Fault = X",DATA_Registers[2379]));
+	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[1][0]));
 	}
 }
@@ -24077,7 +25112,7 @@ void SYS_4_02(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_01;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_03;	
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_TEXT("Total Fault = X",DATA_Registers[2379]));
+	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[2][0]));
 	}
 }
@@ -24087,7 +25122,7 @@ void SYS_4_03(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_02;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_04;	
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_TEXT("Total Fault = X",DATA_Registers[2379]));
+	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[3][0]));
 	}
 }
@@ -24097,7 +25132,7 @@ void SYS_4_04(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_03;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_05;	
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_TEXT("Total Fault = X",DATA_Registers[2379]));
+	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[4][0]));
 	}
 }
@@ -24107,7 +25142,7 @@ void SYS_4_05(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_04;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_06;	
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_TEXT("Total Fault = X",DATA_Registers[2379]));
+	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[5][0]));
 	}
 }
@@ -24117,7 +25152,7 @@ void SYS_4_06(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_05;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_07;	
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_TEXT("Total Fault = X",DATA_Registers[2379]));
+	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[6][0]));
 	}
 }
@@ -24127,7 +25162,7 @@ void SYS_4_07(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_06;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_08;	
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_TEXT("Total Fault = X",DATA_Registers[2379]));
+	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[7][0]));
 	}
 }
@@ -24138,7 +25173,7 @@ void SYS_4_08(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_00;	
  
 	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_TEXT("Total Fault = X",DATA_Registers[2379]));
+	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[8][0]));
 	}
 }
@@ -24151,8 +25186,8 @@ void SYS_4_00_00(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_00_01;
  
 	if(RefreshFlag) {
-	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[0][0]), 1))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2380]));
+		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[0][0]), 1))) ;
+		CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2380]));
 	}
 }
 void SYS_4_00_01(void)
@@ -24161,8 +25196,8 @@ void SYS_4_00_01(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_00_00;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_00_02;
 	if(RefreshFlag){
-	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[1][0]), 1))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2381]));
+		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[1][0]), 1))) ;
+		CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2381]));
 	}
 }
 void SYS_4_00_02(void)
@@ -24171,8 +25206,8 @@ void SYS_4_00_02(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_00_01;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_00_03;	
 	if(RefreshFlag) {
-	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 1))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2382]));
+		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 1))) ;
+		CLCD_string(0xC0,(char*)_TEXT("      %_5urpm  ",DATA_Registers[2382]));
 	}
 }
 void SYS_4_00_03(void)
@@ -24180,9 +25215,9 @@ void SYS_4_00_03(void)
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_4_00;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_00_02;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_00_04;	
-	if(RefreshFlag){
-	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 1))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2383]));
+		if(RefreshFlag){
+		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 1))) ;
+		CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2383]));
 	}
 }
 void SYS_4_00_04(void)
@@ -24191,8 +25226,8 @@ void SYS_4_00_04(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_00_03;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_00_05;	
 	if(RefreshFlag){
-	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 1))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2384]));
+		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 1))) ;
+		CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2384]));
 	}
 }
 void SYS_4_00_05(void)
@@ -24201,9 +25236,8 @@ void SYS_4_00_05(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_00_04;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_00_06;	
 	if(RefreshFlag){
-	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[5][0]), 1))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5uHz  ",DATA_Registers[2385]));
-
+		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[5][0]), 1))) ;
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2385]/10,DATA_Registers[2385]%10));
 	}
 }
 void SYS_4_00_06(void)
@@ -24212,8 +25246,8 @@ void SYS_4_00_06(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_00_05;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_00_07;	
 	if(RefreshFlag){
-	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 1))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u C  ",DATA_Registers[2386]));
+		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 1))) ;
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2386]/10,DATA_Registers[2386]%10));
 	}
 }
 void SYS_4_00_07(void)
@@ -24222,8 +25256,8 @@ void SYS_4_00_07(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_00_06;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_00_08;	
 	if(RefreshFlag) {
-	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 1))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5uNm   ",DATA_Registers[2387]));
+		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 1))) ;
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2387]/100,DATA_Registers[2387]%100));
 	}
 }
 void SYS_4_00_08(void)
@@ -24234,7 +25268,7 @@ void SYS_4_00_08(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[8][0]), 1))) ;
-		CLCD_string(0xC0,(char*)_TEXT("      %_5uVdc  ",DATA_Registers[2388]));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2388]/10,DATA_Registers[2388]%10));
 	}
 }
 void SYS_4_00_09(void)
@@ -24243,8 +25277,8 @@ void SYS_4_00_09(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_00_08;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_00_10;	
 	if(RefreshFlag){
-	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[9][0]), 1)));
-	CLCD_string(0xC0,(char*)_TEXT("      %_5uArms ",DATA_Registers[2389]));
+		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[9][0]), 1)));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2389]/10,DATA_Registers[2389]%10));
 	}
 }
 void SYS_4_00_10(void)
@@ -24254,8 +25288,8 @@ void SYS_4_00_10(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_00_00;	
  
 	if(RefreshFlag) {
-	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[10][0]), 1))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5uVrms ",DATA_Registers[2390]));
+		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[10][0]), 1))) ;
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2390]/10,DATA_Registers[2390]%10));
 	}
 }
 
@@ -24287,7 +25321,7 @@ void SYS_4_01_02(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_01_03;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 2))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2393]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2393]));
 	}
 }
 void SYS_4_01_03(void)
@@ -24297,7 +25331,7 @@ void SYS_4_01_03(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_01_04;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 2))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2394]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2394]));
 	}
 }
 void SYS_4_01_04(void)
@@ -24307,7 +25341,7 @@ void SYS_4_01_04(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_01_05;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 2))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2395]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2395]));
 	}
 }
 void SYS_4_01_05(void)
@@ -24317,7 +25351,7 @@ void SYS_4_01_05(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_01_06;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[5][0]), 2))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2396]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2396]/10,DATA_Registers[2396]%10));
 	}
 }
 void SYS_4_01_06(void)
@@ -24327,7 +25361,7 @@ void SYS_4_01_06(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_01_07;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 2))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2397]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2397]/10,DATA_Registers[2397]%10));
 	}
 }
 void SYS_4_01_07(void)
@@ -24337,6 +25371,7 @@ void SYS_4_01_07(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_01_08;
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 2))) ;
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2398]/100,DATA_Registers[2398]%100));
 	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2398]));
 	}
 }
@@ -24347,7 +25382,7 @@ void SYS_4_01_08(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_01_09;
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[8][0]), 2))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2400]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2400]/10,DATA_Registers[2400]%10));
 	}
 }
 void SYS_4_01_09(void)
@@ -24357,7 +25392,7 @@ void SYS_4_01_09(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_01_10;
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[9][0]), 2))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2401]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2401]/10,DATA_Registers[2401]%10));
 	}
 }
 void SYS_4_01_10(void)
@@ -24368,7 +25403,7 @@ void SYS_4_01_10(void)
  
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[10][0]), 2))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2402]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2402]/10,DATA_Registers[2402]%10));
 	}
 }
 
@@ -24400,7 +25435,7 @@ void SYS_4_02_02(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_02_03;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 3))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2405]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2405]));
 	}
 }
 void SYS_4_02_03(void)
@@ -24410,7 +25445,7 @@ void SYS_4_02_03(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_02_04;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 3))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2406]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2406]));
 	}
 }
 void SYS_4_02_04(void)
@@ -24420,7 +25455,7 @@ void SYS_4_02_04(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_02_05;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 3))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2407]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2407]));
 	}
 }
 void SYS_4_02_05(void)
@@ -24430,7 +25465,7 @@ void SYS_4_02_05(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_02_06;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[5][0]), 3))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2408]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2408]/10,DATA_Registers[2408]%10));
 	}
 }
 void SYS_4_02_06(void)
@@ -24440,7 +25475,7 @@ void SYS_4_02_06(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_02_07;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 3))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2409]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2409]/10,DATA_Registers[2409]%10));
 	}
 }
 void SYS_4_02_07(void)
@@ -24450,7 +25485,7 @@ void SYS_4_02_07(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_02_08;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 3))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2410]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2410]/100,DATA_Registers[2410]%100));
 	}
 }
 void SYS_4_02_08(void)
@@ -24460,7 +25495,7 @@ void SYS_4_02_08(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_02_09;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[8][0]), 3))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2411]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2411]/10,DATA_Registers[2411]%10));
 	}
 }
 void SYS_4_02_09(void)
@@ -24470,7 +25505,7 @@ void SYS_4_02_09(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_02_10;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[9][0]), 3))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2412]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2412]/10,DATA_Registers[2412]%10));
 	}
 }
 void SYS_4_02_10(void)
@@ -24481,7 +25516,7 @@ void SYS_4_02_10(void)
  
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[10][0]), 3))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2413]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2413]/10,DATA_Registers[2413]%10));
 	}
 }
 
@@ -24512,7 +25547,7 @@ void SYS_4_03_02(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_03_03;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 4))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2416]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2416]));
 	}
 }
 void SYS_4_03_03(void)
@@ -24522,7 +25557,7 @@ void SYS_4_03_03(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_03_04;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 4))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2417]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2417]));
 	}
 }
 void SYS_4_03_04(void)
@@ -24532,7 +25567,7 @@ void SYS_4_03_04(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_03_05;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 4))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2418]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2418]));
 	}
 }
 void SYS_4_03_05(void)
@@ -24542,7 +25577,7 @@ void SYS_4_03_05(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_03_06;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[5][0]), 4))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2419]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2419]/10,DATA_Registers[2419]%10));
 	}
 }
 void SYS_4_03_06(void)
@@ -24552,7 +25587,7 @@ void SYS_4_03_06(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_03_07;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 4))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2420]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2420]/10,DATA_Registers[2420]%10));
 	}
 }
 void SYS_4_03_07(void)
@@ -24562,7 +25597,7 @@ void SYS_4_03_07(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_03_08;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 4))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2421]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2421]/100,DATA_Registers[2421]%100));
 	}
 }
 void SYS_4_03_08(void)
@@ -24572,7 +25607,7 @@ void SYS_4_03_08(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_03_09;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[8][0]), 4))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2422]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2422]/10,DATA_Registers[2422]%10));
 	}
 }
 void SYS_4_03_09(void)
@@ -24582,7 +25617,7 @@ void SYS_4_03_09(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_03_10;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[9][0]), 4))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2423]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2423]/10,DATA_Registers[2423]%10));
 	}
 }
 void SYS_4_03_10(void)
@@ -24593,7 +25628,7 @@ void SYS_4_03_10(void)
 
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[10][0]), 4))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2424]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2424]/10,DATA_Registers[2424]%10));
 	}
 }
 
@@ -24624,7 +25659,7 @@ void SYS_4_04_02(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_04_03;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 5))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2427]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2427]));
 	}
 }
 void SYS_4_04_03(void)
@@ -24634,7 +25669,7 @@ void SYS_4_04_03(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_04_04;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 5))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2428]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2428]));
 	}
 }
 void SYS_4_04_04(void)
@@ -24644,7 +25679,7 @@ void SYS_4_04_04(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_04_05;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 5))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2429]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2429]));
 	}
 }
 void SYS_4_04_05(void)
@@ -24654,7 +25689,7 @@ void SYS_4_04_05(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_04_06;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[5][0]), 5))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2430]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2430]/10,DATA_Registers[2430]%10));
 	}
 }
 void SYS_4_04_06(void)
@@ -24664,7 +25699,7 @@ void SYS_4_04_06(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_04_07;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 5))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2431]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2431]/10,DATA_Registers[2431]%10));
 	}
 }
 void SYS_4_04_07(void)
@@ -24674,7 +25709,7 @@ void SYS_4_04_07(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_04_08;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 5))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2432]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2432]/100,DATA_Registers[2432]%100));
 	}
 }
 void SYS_4_04_08(void)
@@ -24684,7 +25719,7 @@ void SYS_4_04_08(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_04_09;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[8][0]), 5))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2433]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2433]/10,DATA_Registers[2433]%10));
 	}
 }
 void SYS_4_04_09(void)
@@ -24694,7 +25729,7 @@ void SYS_4_04_09(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_04_10;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[9][0]), 5))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2434]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2434]/10,DATA_Registers[2434]%10));
 	}
 }
 void SYS_4_04_10(void)
@@ -24705,7 +25740,7 @@ void SYS_4_04_10(void)
  
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[10][0]), 5))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2435]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2435]/10,DATA_Registers[2435]%10));
 	}
 }
 
@@ -24737,7 +25772,7 @@ void SYS_4_05_02(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_05_03;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 6))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2438]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2438]));
 	}
 }
 void SYS_4_05_03(void)
@@ -24747,7 +25782,7 @@ void SYS_4_05_03(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_05_04;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 6))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2439]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2439]));
 	}
 }
 void SYS_4_05_04(void)
@@ -24757,7 +25792,7 @@ void SYS_4_05_04(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_05_05;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 6))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2440]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2440]));
 	}
 }
 void SYS_4_05_05(void)
@@ -24767,7 +25802,7 @@ void SYS_4_05_05(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_05_06;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[5][0]), 6))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2441]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2441]/10,DATA_Registers[2441]%10));
 	}
 }
 void SYS_4_05_06(void)
@@ -24777,7 +25812,7 @@ void SYS_4_05_06(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_05_07;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 6))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2442]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2442]/10,DATA_Registers[2442]%10));
 	}
 }
 void SYS_4_05_07(void)
@@ -24787,7 +25822,7 @@ void SYS_4_05_07(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_05_08;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 6))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2443]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2443]/100,DATA_Registers[2443]%100));
 	}
 }
 void SYS_4_05_08(void)
@@ -24797,7 +25832,7 @@ void SYS_4_05_08(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_05_09;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[8][0]), 6))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2444]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2444]/10,DATA_Registers[2444]%10));
 	}
 }
 void SYS_4_05_09(void)
@@ -24807,7 +25842,7 @@ void SYS_4_05_09(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_05_10;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[9][0]), 6))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2445]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2445]/10,DATA_Registers[2445]%10));
 	}
 }
 void SYS_4_05_10(void)
@@ -24818,7 +25853,7 @@ void SYS_4_05_10(void)
  
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[10][0]), 6))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2446]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2446]/10,DATA_Registers[2446]%10));
 	}
 }
 
@@ -24850,7 +25885,7 @@ void SYS_4_06_02(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_06_03;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 7))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2449]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2449]));
 	}
 }
 void SYS_4_06_03(void)
@@ -24860,7 +25895,7 @@ void SYS_4_06_03(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_06_04;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 7))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2450]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2450]));
 	}
 }
 void SYS_4_06_04(void)
@@ -24870,7 +25905,7 @@ void SYS_4_06_04(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_06_05;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 7))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2451]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2451]));
 	}
 }
 void SYS_4_06_05(void)
@@ -24880,7 +25915,7 @@ void SYS_4_06_05(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_06_06;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[5][0]), 7))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2452]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2452]/10,DATA_Registers[2452]%10));
 	}
 }
 void SYS_4_06_06(void)
@@ -24890,7 +25925,7 @@ void SYS_4_06_06(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_06_07;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 7))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2453]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2453]/10,DATA_Registers[2453]%10));
 	}
 }
 void SYS_4_06_07(void)
@@ -24900,7 +25935,7 @@ void SYS_4_06_07(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_06_08;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 7))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2454]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2454]/100,DATA_Registers[2454]%100));
 	}
 }
 void SYS_4_06_08(void)
@@ -24910,7 +25945,7 @@ void SYS_4_06_08(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_06_09;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[8][0]), 7))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2455]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2455]/10,DATA_Registers[2455]%10));
 	}
 }
 void SYS_4_06_09(void)
@@ -24920,7 +25955,7 @@ void SYS_4_06_09(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_06_10;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[9][0]), 7))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2456]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2456]/10,DATA_Registers[2456]%10));
 	}
 }
 void SYS_4_06_10(void)
@@ -24932,7 +25967,7 @@ void SYS_4_06_10(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[10][0]), 7))) ;
-		CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2457]));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2457]/10,DATA_Registers[2457]%10));
 	}
 }
 void SYS_4_07_00(void)
@@ -24963,7 +25998,7 @@ void SYS_4_07_02(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_07_03;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 8))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2460]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2460]));
 	}
 }
 void SYS_4_07_03(void)
@@ -24973,7 +26008,7 @@ void SYS_4_07_03(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_07_04;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 8))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2461]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2461]));
 	}
 }
 void SYS_4_07_04(void)
@@ -24983,7 +26018,7 @@ void SYS_4_07_04(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_07_05;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 8))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2462]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2462]));
 	}
 }
 void SYS_4_07_05(void)
@@ -24993,7 +26028,7 @@ void SYS_4_07_05(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_07_06;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[5][0]), 8))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2463]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2463]/10,DATA_Registers[2463]%10));
 	}
 }
 void SYS_4_07_06(void)
@@ -25003,7 +26038,7 @@ void SYS_4_07_06(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_07_07;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 8))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2464]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2464]/10,DATA_Registers[2464]%10));
 	}
 }
 void SYS_4_07_07(void)
@@ -25013,7 +26048,7 @@ void SYS_4_07_07(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_07_08;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 8))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2465]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2465]/100,DATA_Registers[2465]%100));
 	}
 }
 void SYS_4_07_08(void)
@@ -25023,7 +26058,7 @@ void SYS_4_07_08(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_07_09;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[8][0]), 8))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2466]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2466]/10,DATA_Registers[2466]%10));
 	}
 }
 void SYS_4_07_09(void)
@@ -25033,7 +26068,7 @@ void SYS_4_07_09(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_07_10;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[9][0]), 8))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2467]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2467]/10,DATA_Registers[2467]%10));
 	}
 }
 void SYS_4_07_10(void)
@@ -25044,7 +26079,7 @@ void SYS_4_07_10(void)
  
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[10][0]), 8))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2468]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2468]/10,DATA_Registers[2468]%10));
 	}
 }
 
@@ -25076,7 +26111,7 @@ void SYS_4_08_02(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_08_03;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 9))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2471]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2471]));
 	}
 }
 void SYS_4_08_03(void)
@@ -25086,7 +26121,7 @@ void SYS_4_08_03(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_08_04;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 9))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2472]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2472]));
 	}
 }
 void SYS_4_08_04(void)
@@ -25096,7 +26131,7 @@ void SYS_4_08_04(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_08_05;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 9))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2473]));
+	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2473]));
 	}
 }
 void SYS_4_08_05(void)
@@ -25106,7 +26141,7 @@ void SYS_4_08_05(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_08_06;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[5][0]), 9))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2474]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2474]/10,DATA_Registers[2474]%10));
 	}
 }
 void SYS_4_08_06(void)
@@ -25116,7 +26151,7 @@ void SYS_4_08_06(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_08_07;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 9))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2475]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2475]/10,DATA_Registers[2475]%10));
 	}
 }
 void SYS_4_08_07(void)
@@ -25126,7 +26161,7 @@ void SYS_4_08_07(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_08_08;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 9))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2476]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2476]/100,DATA_Registers[2476]%100));
 	}
 }
 void SYS_4_08_08(void)
@@ -25136,7 +26171,7 @@ void SYS_4_08_08(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_08_09;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[8][0]), 9))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2477]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2477]/10,DATA_Registers[2477]%10));
 	}
 }
 void SYS_4_08_09(void)
@@ -25146,7 +26181,7 @@ void SYS_4_08_09(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_08_10;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[9][0]), 9))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2478]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2478]/10,DATA_Registers[2478]%10));
 	}
 }
 void SYS_4_08_10(void)
@@ -25157,7 +26192,7 @@ void SYS_4_08_10(void)
  
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[10][0]), 9))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2479]));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2479]/10,DATA_Registers[2479]%10));
 	}
 }
 
@@ -25264,8 +26299,8 @@ void SYS_6_00(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_6_01;
 	if(RefreshFlag) {
 	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[7][0]));
-	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[0][0]));
-}
+	CLCD_string(0xC0,(char*)_TEXT(  (char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[0][0]), AccessLevel)  );
+	}
 }
 void SYS_6_01(void)
 {
@@ -25298,6 +26333,7 @@ void SYS_6_01_00(void)
 	{
 		MenuDisplay = SYS_6_01_00_05;
 		SYS_password_clr();
+		
 	}
 	if(RefreshFlag){
 	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[1][0]));
@@ -25386,33 +26422,34 @@ void SYS_6_01_00_05(void)
 	}
 	else if(KeyState.KeyValue == UP)
 	{
-		_password[pass_pos]++;
-		if(9 < _password[pass_pos])_password[pass_pos]=0;
+		password[pass_pos]++;
+		if(9 < password[pass_pos])password[pass_pos]=0;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == DN)
 	{
-		if(_password[pass_pos])_password[pass_pos]--;
-		else _password[pass_pos] = 9;
+		if(password[pass_pos])password[pass_pos]--;
+		else password[pass_pos] = 9;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == ENTER)
 	{
-		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		Temporary = ((unsigned int)password[3]*1000) + ((unsigned int)password[2]*100) + ((unsigned int)password[1]*10) + (unsigned int)password[0];		
+		if(DATA_Registers[2491] == Temporary )
 		{
 			MenuDisplay = SYS_6_01_00_06;
+			AccessLevel = 1;
 		}
 		else
 		{
 			SYS_password_clr();
 		}
-		
 	}
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 1))) ;
-	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
 
 	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
 	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
@@ -25455,23 +26492,25 @@ void SYS_6_01_01_05(void)
 	}
 	else if(KeyState.KeyValue == UP)
 	{
-		_password[pass_pos]++;
-		if(9 < _password[pass_pos])_password[pass_pos]=0;
+		password[pass_pos]++;
+		if(9 < password[pass_pos])password[pass_pos]=0;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == DN)
 	{
-		if(_password[pass_pos])_password[pass_pos]--;
-		else _password[pass_pos] = 9;
+		if(password[pass_pos])password[pass_pos]--;
+		else password[pass_pos] = 9;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == ENTER)
 	{
-		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		Temporary = ((unsigned int)password[3]*1000) + ((unsigned int)password[2]*100) + ((unsigned int)password[1]*10) + (unsigned int)password[0];		
+		if(DATA_Registers[2492] == Temporary )
 		{
 			MenuDisplay = SYS_6_01_01_06;
+			AccessLevel = 2;
 		}
 		else
 		{
@@ -25481,7 +26520,7 @@ void SYS_6_01_01_05(void)
 	}
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 1))) ;
-	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
 
 	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
 	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
@@ -25524,23 +26563,25 @@ void SYS_6_01_02_05(void)
 	}
 	else if(KeyState.KeyValue == UP)
 	{
-		_password[pass_pos]++;
-		if(9 < _password[pass_pos])_password[pass_pos]=0;
+		password[pass_pos]++;
+		if(9 < password[pass_pos])password[pass_pos]=0;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == DN)
 	{
-		if(_password[pass_pos])_password[pass_pos]--;
-		else _password[pass_pos] = 9;
+		if(password[pass_pos])password[pass_pos]--;
+		else password[pass_pos] = 9;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == ENTER)
 	{
-		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		Temporary = ((unsigned int)password[3]*1000) + ((unsigned int)password[2]*100) + ((unsigned int)password[1]*10) + (unsigned int)password[0];		
+		if(DATA_Registers[2493] == Temporary )
 		{
 			MenuDisplay =SYS_6_01_02_06;
+			AccessLevel = 3;
 		}
 		else
 		{
@@ -25550,7 +26591,7 @@ void SYS_6_01_02_05(void)
 	}
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 3))) ;
-	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
 
 	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
 	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
@@ -25593,39 +26634,40 @@ void SYS_6_01_03_05(void)
 	}
 	else if(KeyState.KeyValue == UP)
 	{
-		_password[pass_pos]++;
-		if(9 < _password[pass_pos])_password[pass_pos]=0;
+		password[pass_pos]++;
+		if(9 < password[pass_pos])password[pass_pos]=0;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == DN)
 	{
-		if(_password[pass_pos])_password[pass_pos]--;
-		else _password[pass_pos] = 9;
+		if(password[pass_pos])password[pass_pos]--;
+		else password[pass_pos] = 9;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == ENTER)
 	{
-		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		Temporary = ((unsigned int)password[3]*1000) + ((unsigned int)password[2]*100) + ((unsigned int)password[1]*10) + (unsigned int)password[0];		
+		if(DATA_Registers[2494] == Temporary )
 		{
 			MenuDisplay = SYS_6_01_03_06;
+			AccessLevel = 4;
 		}
 		else
 		{
 			SYS_password_clr();
 		}
-		
-	}
+	}	
 	if(RefreshFlag){
-	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 4))) ;
-	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 4))) ;
+		CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
 
-	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
-	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
-	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
-	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
-}
+		if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
+		else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+		else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+		else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+	}
 }
 void SYS_6_01_03_06(void)
 {
@@ -25662,23 +26704,25 @@ void SYS_6_01_04_05(void)
 	}
 	else if(KeyState.KeyValue == UP)
 	{
-		_password[pass_pos]++;
-		if(9 < _password[pass_pos])_password[pass_pos]=0;
+		password[pass_pos]++;
+		if(9 < password[pass_pos])password[pass_pos]=0;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == DN)
 	{
-		if(_password[pass_pos])_password[pass_pos]--;
-		else _password[pass_pos] = 9;
+		if(password[pass_pos])password[pass_pos]--;
+		else password[pass_pos] = 9;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == ENTER)
 	{
-		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		Temporary = ((unsigned int)password[3]*1000) + ((unsigned int)password[2]*100) + ((unsigned int)password[1]*10) + (unsigned int)password[0];		
+		if(DATA_Registers[2495] == Temporary )
 		{
 			MenuDisplay = SYS_6_01_04_06;
+			AccessLevel = 5;
 		}
 		else
 		{
@@ -25688,7 +26732,7 @@ void SYS_6_01_04_05(void)
 	}
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 5))) ;
-	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
 
 	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
 	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
@@ -25811,21 +26855,22 @@ void SYS_6_02_00_05(void)
 	}
 	else if(KeyState.KeyValue == UP)
 	{
-		_password[pass_pos]++;
-		if(9 < _password[pass_pos])_password[pass_pos]=0;
+		password[pass_pos]++;
+		if(9 < password[pass_pos])password[pass_pos]=0;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == DN)
 	{
-		if(_password[pass_pos])_password[pass_pos]--;
-		else _password[pass_pos] = 9;
+		if(password[pass_pos])password[pass_pos]--;
+		else password[pass_pos] = 9;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == ENTER)
 	{
-		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		Temporary = ((unsigned int)password[3]*1000) + ((unsigned int)password[2]*100) + ((unsigned int)password[1]*10) + (unsigned int)password[0];		
+		if(DATA_Registers[2491] == Temporary )
 		{
 			MenuDisplay = SYS_6_02_00_06;
 		}
@@ -25838,7 +26883,7 @@ void SYS_6_02_00_05(void)
 
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 1))) ;
-	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
 
 	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
 	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
@@ -25868,25 +26913,26 @@ void SYS_6_02_00_06(void)
 	}
 	else if(KeyState.KeyValue == UP)
 	{
-		_password[pass_pos]++;
-		if(9 < _password[pass_pos])_password[pass_pos]=0;
+		password[pass_pos]++;
+		if(9 < password[pass_pos])password[pass_pos]=0;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == DN)
 	{
-		if(_password[pass_pos])_password[pass_pos]--;
-		else _password[pass_pos] = 9;
+		if(password[pass_pos])password[pass_pos]--;
+		else password[pass_pos] = 9;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == ENTER)
 	{
 		MenuDisplay = SYS_6_02_00_07;
+		DATA_Registers[2491] = ((unsigned int)password[3]*1000) + ((unsigned int)password[2]*100) + ((unsigned int)password[1]*10) + (unsigned int)password[0];	
 	}
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[7][0]), 1))) ;
-	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
 
 	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
 	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
@@ -25929,21 +26975,22 @@ void SYS_6_02_01_05(void)
 	}
 	else if(KeyState.KeyValue == UP)
 	{
-		_password[pass_pos]++;
-		if(9 < _password[pass_pos])_password[pass_pos]=0;
+		password[pass_pos]++;
+		if(9 < password[pass_pos])password[pass_pos]=0;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == DN)
 	{
-		if(_password[pass_pos])_password[pass_pos]--;
-		else _password[pass_pos] = 9;
+		if(password[pass_pos])password[pass_pos]--;
+		else password[pass_pos] = 9;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == ENTER)
 	{
-		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		Temporary = ((unsigned int)password[3]*1000) + ((unsigned int)password[2]*100) + ((unsigned int)password[1]*10) + (unsigned int)password[0];		
+		if(DATA_Registers[2492] == Temporary )
 		{
 			MenuDisplay =SYS_6_02_01_06;
 		}
@@ -25955,7 +27002,7 @@ void SYS_6_02_01_05(void)
 	}
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 2))) ;
-	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
 
 	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
 	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
@@ -25985,25 +27032,26 @@ void SYS_6_02_01_06(void)
 	}
 	else if(KeyState.KeyValue == UP)
 	{
-		_password[pass_pos]++;
-		if(9 < _password[pass_pos])_password[pass_pos]=0;
+		password[pass_pos]++;
+		if(9 < password[pass_pos])password[pass_pos]=0;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == DN)
 	{
-		if(_password[pass_pos])_password[pass_pos]--;
-		else _password[pass_pos] = 9;
+		if(password[pass_pos])password[pass_pos]--;
+		else password[pass_pos] = 9;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == ENTER)
 	{
 		MenuDisplay = SYS_6_02_01_07;
+		DATA_Registers[2492] = ((unsigned int)password[3]*1000) + ((unsigned int)password[2]*100) + ((unsigned int)password[1]*10) + (unsigned int)password[0];	
 	}
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[7][0]), 2))) ;
-	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
 
 	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
 	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
@@ -26046,21 +27094,22 @@ void SYS_6_02_02_05(void)
 	}
 	else if(KeyState.KeyValue == UP)
 	{
-		_password[pass_pos]++;
-		if(9 < _password[pass_pos])_password[pass_pos]=0;
+		password[pass_pos]++;
+		if(9 < password[pass_pos])password[pass_pos]=0;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == DN)
 	{
-		if(_password[pass_pos])_password[pass_pos]--;
-		else _password[pass_pos] = 9;
+		if(password[pass_pos])password[pass_pos]--;
+		else password[pass_pos] = 9;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == ENTER)
 	{
-		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		Temporary = ((unsigned int)password[3]*1000) + ((unsigned int)password[2]*100) + ((unsigned int)password[1]*10) + (unsigned int)password[0];		
+		if(DATA_Registers[2493] == Temporary )
 		{
 			MenuDisplay =SYS_6_02_02_06;
 		}
@@ -26072,7 +27121,7 @@ void SYS_6_02_02_05(void)
 	}
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 3))) ;
-	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
 
 	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
 	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
@@ -26102,25 +27151,26 @@ void SYS_6_02_02_06(void)
 	}
 	else if(KeyState.KeyValue == UP)
 	{
-		_password[pass_pos]++;
-		if(9 < _password[pass_pos])_password[pass_pos]=0;
+		password[pass_pos]++;
+		if(9 < password[pass_pos])password[pass_pos]=0;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == DN)
 	{
-		if(_password[pass_pos])_password[pass_pos]--;
-		else _password[pass_pos] = 9;
+		if(password[pass_pos])password[pass_pos]--;
+		else password[pass_pos] = 9;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == ENTER)
 	{
 		MenuDisplay = SYS_6_02_02_07;
+		DATA_Registers[2493] = ((unsigned int)password[3]*1000) + ((unsigned int)password[2]*100) + ((unsigned int)password[1]*10) + (unsigned int)password[0];	
 	}
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[7][0]), 3))) ;
-	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
 
 	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
 	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
@@ -26163,21 +27213,22 @@ void SYS_6_02_03_05(void)
 	}
 	else if(KeyState.KeyValue == UP)
 	{
-		_password[pass_pos]++;
-		if(9 < _password[pass_pos])_password[pass_pos]=0;
+		password[pass_pos]++;
+		if(9 < password[pass_pos])password[pass_pos]=0;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == DN)
 	{
-		if(_password[pass_pos])_password[pass_pos]--;
-		else _password[pass_pos] = 9;
+		if(password[pass_pos])password[pass_pos]--;
+		else password[pass_pos] = 9;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == ENTER)
 	{
-		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		Temporary = ((unsigned int)password[3]*1000) + ((unsigned int)password[2]*100) + ((unsigned int)password[1]*10) + (unsigned int)password[0];		
+		if(DATA_Registers[2494] == Temporary )
 		{
 			MenuDisplay = SYS_6_02_03_06;
 		}
@@ -26189,7 +27240,7 @@ void SYS_6_02_03_05(void)
 	}
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 4))) ;
-	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
 
 	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
 	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
@@ -26219,25 +27270,26 @@ void SYS_6_02_03_06(void)
 	}
 	else if(KeyState.KeyValue == UP)
 	{
-		_password[pass_pos]++;
-		if(9 < _password[pass_pos])_password[pass_pos]=0;
+		password[pass_pos]++;
+		if(9 < password[pass_pos])password[pass_pos]=0;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == DN)
 	{
-		if(_password[pass_pos])_password[pass_pos]--;
-		else _password[pass_pos] = 9;
+		if(password[pass_pos])password[pass_pos]--;
+		else password[pass_pos] = 9;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == ENTER)
 	{
 		MenuDisplay = SYS_6_02_03_07;
+		DATA_Registers[2494] = ((unsigned int)password[3]*1000) + ((unsigned int)password[2]*100) + ((unsigned int)password[1]*10) + (unsigned int)password[0];	
 	}
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[7][0]), 4))) ;
-	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
 
 	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
 	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
@@ -26280,21 +27332,22 @@ void SYS_6_02_04_05(void)
 	}
 	else if(KeyState.KeyValue == UP)
 	{
-		_password[pass_pos]++;
-		if(9 < _password[pass_pos])_password[pass_pos]=0;
+		password[pass_pos]++;
+		if(9 < password[pass_pos])password[pass_pos]=0;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == DN)
 	{
-		if(_password[pass_pos])_password[pass_pos]--;
-		else _password[pass_pos] = 9;
+		if(password[pass_pos])password[pass_pos]--;
+		else password[pass_pos] = 9;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == ENTER)
 	{
-		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		Temporary = ((unsigned int)password[3]*1000) + ((unsigned int)password[2]*100) + ((unsigned int)password[1]*10) + (unsigned int)password[0];		
+		if(DATA_Registers[2495] == Temporary )
 		{
 			MenuDisplay = SYS_6_02_04_06;
 		}
@@ -26306,7 +27359,7 @@ void SYS_6_02_04_05(void)
 	}
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 5))) ;
-	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
 
 	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
 	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
@@ -26336,25 +27389,26 @@ void SYS_6_02_04_06(void)
 	}
 	else if(KeyState.KeyValue == UP)
 	{
-		_password[pass_pos]++;
-		if(9 < _password[pass_pos])_password[pass_pos]=0;
+		password[pass_pos]++;
+		if(9 < password[pass_pos])password[pass_pos]=0;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == DN)
 	{
-		if(_password[pass_pos])_password[pass_pos]--;
-		else _password[pass_pos] = 9;
+		if(password[pass_pos])password[pass_pos]--;
+		else password[pass_pos] = 9;
 	
 		RefreshFlag=1;
 	}
 	else if(KeyState.KeyValue == ENTER)
 	{
 		MenuDisplay = SYS_6_02_04_07;
+		DATA_Registers[2495] = ((unsigned int)password[3]*1000) + ((unsigned int)password[2]*100) + ((unsigned int)password[1]*10) + (unsigned int)password[0];	
 	}
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[7][0]), 5))) ;
-	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
 
 	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
 	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
@@ -26400,10 +27454,10 @@ void SYS_0xFFFFFFFF(void)
 
 void SYS_password_clr(void)
 {
-	_password[0]=0;
-	_password[1]=0;
-	_password[2]=0;
-	_password[3]=0;
+	password[0]=0;
+	password[1]=0;
+	password[2]=0;
+	password[3]=0;
 	pass_pos = 0;
 }
  

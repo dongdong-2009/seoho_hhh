@@ -26,7 +26,7 @@
 #include "16by2CLCD.h"
 #include "util.h"
 
-char posInpage=0;
+unsigned char posInpage=0;
 
 void CLCD_command(unsigned char command)		/* write a command(instruction) to text LCD */
 {
