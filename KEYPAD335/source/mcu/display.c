@@ -137,7 +137,7 @@ __flash char PAGE_ROOT[8][17]=
 	"   Main  Menu   ",
 	"M0 Operation    ",
 	"M1 Drive Monitor",
-	"M2 Parameter Edt",
+	"M2 ParameterEdit",
 	"M3 Auto Tuning  ",	
 	"M4 Fault Record ",
 	"M5 Initialize   ",
@@ -151,14 +151,14 @@ __flash char  PAGE_DIR_0_X[6][17]={
 	"[0] Local/Remote",
 	"[1] Dir_Change  ",
 	"[2] Speed Set_Pt",
-	"[3] Freqe Set_Pt",
+	"[3] Freq Set_Pt ",
 	"[4] Torque_Set  ",
 	"[5] PID Set_Pt   "
 };
 
 
 __flash char  PAGE_DIR_1_X[3][17]={
-	" 0 Opr Status   ",
+	" 0 Operation    ",
 	" 1 Terminal IO  ",
 	" 2 Drive Inform "
 };
@@ -167,10 +167,10 @@ __flash char  PAGE_DIR_1_0_XX[14][17]={
 	" 0 Motor Speed  ",
 	" 1 Output Freq  ",
 	" 2 DC_Link Vtg  ",
-	" 3 Motor Currnt ",
+	" 3 Motor Current",
 	" 4 Output Vtg   ",
 	" 5 Actual Trq   ",
-	" 6 Torqu Currnt ",
+	" 6 Torqu Current",
 	" 7 Flux Current ",
 	" 8 Input Power  ",
 	" 9 Output Power ",
@@ -259,8 +259,8 @@ __flash char  PAGE_DIR_2_01_XX[10][17]={
 "P1.4 M1_Pole    ",
 "P1.5 M1_Rtd_Spd ",
 "P1.6 M1_Control ",
-"P1.7 M1_PWM_freq",
-"P1.8 M1_AT_PWM_f",
+"P1.7 M1_PWM_Freq",
+"P1.8 M1_AT_Freq ",
 "P1.9 Supply_Volt"
 };
 
@@ -273,8 +273,8 @@ __flash char  PAGE_DIR_2_02_XX[10][17]={
 "P2.4 M2_Pole    ",
 "P2.5 M2_Rtd_Spd ",
 "P2.6 M2_Control ",
-"P2.7 M2_PWM_freq",
-"P2.8 M2_AT_PWM_f",
+"P2.7 M2_PWM_Freq",
+"P2.8 M2_AT_Freq",
 "P2.9 Supply_Volt"
 };
 
@@ -943,8 +943,8 @@ __flash char  PAGE_DIR_2_21_XX[16][17]={
 };
 
 __flash char  PAGE_DIR_2_22_XX[9][17]={
-"P22.0 Pri_Res 0 ",
-"P22.1 Pri_Res 1 ",
+"P22.0 Stator_R0 ",
+"P22.1 Stator_R1 ",
 "P22.2 Sec_Res   ",
 "P22.3 Stator_Ind",
 "P22.4 Rotor_Ind ",
@@ -1040,12 +1040,12 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5u     ",Temporary));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5u     ",edit_Temp));
 			SYS_cursor_ON_Mode(MODE_1);
 		}
 	}
@@ -1115,38 +1115,38 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u Kw  ",Temporary/10,Temporary%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u kW  ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u Kw  ",edit_Temp/10,edit_Temp%10));
-			SYS_cursor_ON_Mode(MODE_5);
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u kW  ",edit_Temp/10,edit_Temp%10));
+			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
 	else if(mode == 6)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u Vrms",Temporary/10,Temporary%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u Vrms",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u Vrms",edit_Temp/10,edit_Temp%10));
-			SYS_cursor_ON_Mode(MODE_5);
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u Vrms",edit_Temp/10,edit_Temp%10));
+			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
 	else if(mode == 7)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("        %03u.%01u Vrms",Temporary/10,Temporary%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u Vrms",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("        %03u.%01u Vrms",edit_Temp/10,edit_Temp%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u Vrms",edit_Temp/10,edit_Temp%10));
 			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
@@ -1154,12 +1154,12 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u Hz",Temporary/10,Temporary%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u Hz  ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u Hz",edit_Temp/10,edit_Temp%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u Hz  ",edit_Temp/10,edit_Temp%10));
 			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
@@ -1167,12 +1167,12 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %_5u  pole  ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("          % 1u pole",Temporary));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %_5u  pole  ",edit_Temp));
+			CLCD_string(0xC0,(char*)_TEXT("          % 1u pole",edit_Temp));
 			SYS_cursor_ON_Mode(MODE_1);
 		}
 	}
@@ -1180,13 +1180,13 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("       %04u rpm ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5u rpm ",Temporary));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("       %04u rpm ",edit_Temp));
-			SYS_cursor_ON_Mode(1);
+			CLCD_string(0xC0,(char*)_TEXT("      % 5u rpm ",edit_Temp));
+			SYS_cursor_ON_Mode(MODE_1);
 		}
 	}
 	else if(mode == 11)
@@ -1212,13 +1212,13 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u kHz  ",Temporary/10,Temporary%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u kHz ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u kHz  ",edit_Temp/10,edit_Temp%10));
-			SYS_cursor_ON_Mode(MODE_3);
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u kHz ",edit_Temp/10,edit_Temp%10));
+			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
 	else if(mode == 13)
@@ -1246,13 +1246,13 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %02u.%02u s  ",Temporary/100,Temporary%100));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u s   ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %02u.%02u s  ",edit_Temp/100,edit_Temp%100));
-			SYS_cursor_ON_Mode(2);
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u s   ",edit_Temp/10,edit_Temp%10));
+			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
 	else if(mode == 15)
@@ -1276,12 +1276,12 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %03u.%01u %   ",Temporary/10,Temporary%10));
+			CLCD_string(0xC0,(char*)_TEXT("       % 3u.% 1u %   ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %03u.%01u %   ",edit_Temp/10,edit_Temp%10));
+			CLCD_string(0xC0,(char*)_TEXT("       % 3u.% 1u %   ",edit_Temp/10,edit_Temp%10));
 			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
@@ -1319,38 +1319,38 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %01u.%03u s  ",Temporary/1000,Temporary%1000));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u s   ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %01u.%03u s  ",edit_Temp/1000,edit_Temp%1000));
-			SYS_cursor_ON_Mode(7);
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u s   ",edit_Temp/10,edit_Temp%10));
+			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
 	else if(mode == 20)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("       %01u.%02u Hz  ",Temporary/100,Temporary%100));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u Hz  ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("       %01u.%02u Hz  ",edit_Temp/100,edit_Temp%100));
-			SYS_cursor_ON_Mode(2);
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u Hz  ",edit_Temp/10,edit_Temp%10));
+			SYS_cursor_ON_Mode(MODE_6);
 		}	
 	}
 	else if(mode == 21)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u s",Temporary/10,Temporary%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u s   ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u s",edit_Temp/10,edit_Temp%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u s   ",edit_Temp/10,edit_Temp%10));
 			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
@@ -1377,12 +1377,12 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %03u.%01u V   ",Temporary/10,Temporary%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u V   ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %03u.%01u V   ",edit_Temp/10,edit_Temp%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u V   ",edit_Temp/10,edit_Temp%10));
 			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
@@ -1426,12 +1426,12 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %03u.%01u deg",Temporary/10,Temporary%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u deg ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %03u.%01u deg",edit_Temp/10,edit_Temp%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u deg ",edit_Temp/10,edit_Temp%10));
 			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
@@ -1490,12 +1490,12 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %03u.%01u ms   ",Temporary/10,Temporary%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u ms  ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %03u.%01u ms   ",edit_Temp/10,edit_Temp%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u ms  ",edit_Temp/10,edit_Temp%10));
 			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
@@ -1503,52 +1503,52 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %01u.%03u mA,V",Temporary/1000,Temporary%1000));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u mA,V",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %01u.%03u mA,V",edit_Temp/1000,edit_Temp%1000));
-			SYS_cursor_ON_Mode(7);
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u mA,V",edit_Temp/10,edit_Temp%10));
+			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
 	else if(mode == 32)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %02u.%02u V  ",Temporary/100,Temporary%100));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u  V   ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %02u.%02u V  ",edit_Temp/100,edit_Temp%100));
-			SYS_cursor_ON_Mode(2);
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u  V   ",edit_Temp/10,edit_Temp%10));
+			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
 	else if(mode == 33)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %02u.%02u mV ",Temporary/100,Temporary%100));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u mV  ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %02u.%02u mV ",edit_Temp/100,edit_Temp%100));
-			SYS_cursor_ON_Mode(2);
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u mV  ",edit_Temp/10,edit_Temp%10));
+			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
 	else if(mode == 34)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %02u.%02u mA ",Temporary/100,Temporary%100));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u mA  ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %02u.%02u mA ",edit_Temp/100,edit_Temp%100));
-			SYS_cursor_ON_Mode(2);
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u mA  ",edit_Temp/10,edit_Temp%10));
+			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
 	else if(mode == 35)
@@ -1610,13 +1610,13 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %02u.%02u s ",Temporary/100,Temporary%100));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u s   ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %02u.%02u s ",edit_Temp/100,edit_Temp%100));
-			SYS_cursor_ON_Mode(2);
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u s   ",edit_Temp/10,edit_Temp%10));
+			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
 	else if(mode == 39)
@@ -1772,13 +1772,13 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %01u.%04u p.u ",Temporary/10000,Temporary%10000));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u p.u ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %01u.%04u p.u ",edit_Temp/10000,edit_Temp%10000));
-			SYS_cursor_ON_Mode(8);
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u p.u ",edit_Temp/10,edit_Temp%10));
+			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
 	else if(mode == 45)
@@ -1818,12 +1818,12 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %02u.%02u    ",Temporary/100,Temporary%100));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u     ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      %02u.%02u    ",edit_Temp/100,edit_Temp%100));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u     ",edit_Temp/10,edit_Temp%10));
 			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
@@ -1889,6 +1889,71 @@ void SYS_ParameterDisplay(unsigned char mode)
 			if(edit_Temp == 0)     CLCD_string(0xC0,"[0] Default Set ");
 			else if(edit_Temp == 1)CLCD_string(0xC0,"[1] Auto Tuning ");
 			SYS_cursor_ON_Mode(MODE_4);
+		}
+	}
+	else if(mode == 51)
+	{
+		if(!Edit_flag)
+		{
+			CLCD_string(0xC0,(char*)_TEXT("      % 5u ms  ",Temporary));
+			CLCD_cursor_OFF();
+		}
+		else
+		{
+			CLCD_string(0xC0,(char*)_TEXT("      % 5u ms  ",edit_Temp));
+			SYS_cursor_ON_Mode(1);
+		}
+	}
+	else if(mode == 52)
+	{
+		if(!Edit_flag)
+		{
+			CLCD_string(0xC0,(char*)_TEXT("      % 5u %   ",Temporary));
+			CLCD_cursor_OFF();
+		}
+		else
+		{
+			CLCD_string(0xC0,(char*)_TEXT("      % 5u %  ",edit_Temp));
+			SYS_cursor_ON_Mode(1);
+		}
+	}
+	else if(mode == 52)
+	{
+		if(!Edit_flag)
+		{
+			CLCD_string(0xC0,(char*)_TEXT("      % 5u ppr ",Temporary));
+			CLCD_cursor_OFF();
+		}
+		else
+		{
+			CLCD_string(0xC0,(char*)_TEXT("      % 5u ppr ",edit_Temp));
+			SYS_cursor_ON_Mode(1);
+		}
+	}
+	else if(mode == 53)
+	{
+		if(!Edit_flag)
+		{
+			CLCD_string(0xC0,(char*)_TEXT("      % 5u mOhm",Temporary));
+			CLCD_cursor_OFF();
+		}
+		else
+		{
+			CLCD_string(0xC0,(char*)_TEXT("      % 5u mOhm",edit_Temp));
+			SYS_cursor_ON_Mode(1);
+		}
+	}
+	else if(mode == 54)
+	{
+		if(!Edit_flag)
+		{
+			CLCD_string(0xC0,(char*)_TEXT("      % 5u mH  ",Temporary));
+			CLCD_cursor_OFF();
+		}
+		else
+		{
+			CLCD_string(0xC0,(char*)_TEXT("      % 5u mH  ",edit_Temp));
+			SYS_cursor_ON_Mode(1);
 		}
 	}
 }
@@ -2414,7 +2479,7 @@ void SYS_1_0_01(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[1][0]));
-		CLCD_string(0xC0,(char*)_TEXT("       %01u.%02u Hz  ",DATA_Registers[2311]/100,DATA_Registers[2311]%100));
+		CLCD_string(0xC0,(char*)_TEXT("       % 3u.% 1u Hz  ",DATA_Registers[2311]/10,DATA_Registers[2311]%10));
 	}
 }
 void SYS_1_0_02(void)
@@ -2462,7 +2527,7 @@ void SYS_1_0_05(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[5][0]));
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2315]/100,DATA_Registers[2315]%100));
+		CLCD_string(0xC0,(char*)_TEXT("     %03u.%0u %   ",DATA_Registers[2315]/100,DATA_Registers[2315]%100));
 	}
 }
 void SYS_1_0_06(void)
@@ -2498,7 +2563,7 @@ void SYS_1_0_08(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[8][0]));
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Kw  ",DATA_Registers[2318]/10,DATA_Registers[2318]%10));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u kW  ",DATA_Registers[2318]/10,DATA_Registers[2318]%10));
 	}
 }
 void SYS_1_0_09(void)
@@ -2510,7 +2575,7 @@ void SYS_1_0_09(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[9][0]));
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Kw  ",DATA_Registers[2319]/10,DATA_Registers[2319]%10));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u kW  ",DATA_Registers[2319]/10,DATA_Registers[2319]%10));
 	}
 }
 void SYS_1_0_10(void)
@@ -2558,7 +2623,7 @@ void SYS_1_0_13(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[13][0]));
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2323]/10,DATA_Registers[2323]%10));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u deg ",DATA_Registers[2323]/10,DATA_Registers[2323]%10));
 	}
 }
 
@@ -2597,7 +2662,7 @@ void SYS_1_1_02(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_1_03;	
 	if(RefreshFlag){
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[2][0]));
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%03u V   ",DATA_Registers[2342]/1000,DATA_Registers[2342]%1000));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u V   ",DATA_Registers[2342]/10,DATA_Registers[2342]%10));
 	}
 }
 void SYS_1_1_03(void)
@@ -2607,7 +2672,7 @@ void SYS_1_1_03(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_1_04;
 	if(RefreshFlag){
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[3][0]));
-		CLCD_string(0xC0,(char*)_TEXT("       %01u.%03u mA  ",DATA_Registers[2343]/1000,DATA_Registers[2343]%1000));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u mA  ",DATA_Registers[2343]/1000,DATA_Registers[2343]%1000));
 	}
 }
 void SYS_1_1_04(void)
@@ -2618,7 +2683,7 @@ void SYS_1_1_04(void)
 
 	if(RefreshFlag){
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[4][0]));
-		CLCD_string(0xC0,(char*)_TEXT("       %01u.%03u mA  ",DATA_Registers[2344]/1000,DATA_Registers[2344]%1000));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u mA  ",DATA_Registers[2344]/1000,DATA_Registers[2344]%1000));
 	}
 }
 
@@ -2645,10 +2710,10 @@ void SYS_1_2_01(void)
 	if(RefreshFlag){
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[1][0]));
 
-		if(DATA_Registers[2351] == 0) CLCD_string(0xC0,"V/F Freq_Ctrl");
-		else if(DATA_Registers[2351] == 1) CLCD_string(0xC0,"V/F Speed_Ctrl");
-		else if(DATA_Registers[2351] == 2) CLCD_string(0xC0,"S/L Vect_Ctrl");
-		else if(DATA_Registers[2351] == 3) CLCD_string(0xC0,"Vector_Ctrl");
+		if(DATA_Registers[2351] == 0) 		 CLCD_string(0xC0,"V/F Freq_Ctrl   ");
+		else if(DATA_Registers[2351] == 1) CLCD_string(0xC0,"V/F Speed_Ctrl  ");
+		else if(DATA_Registers[2351] == 2) CLCD_string(0xC0,"S/L Vect_Ctrl   ");
+		else if(DATA_Registers[2351] == 3) CLCD_string(0xC0,"Vector_Ctrl     ");
 	}
 }
 void SYS_1_2_02(void)
@@ -2659,11 +2724,11 @@ void SYS_1_2_02(void)
 	if(RefreshFlag){
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[2][0]));
 
-		if(DATA_Registers[2352] == 0) CLCD_string(0xC0,"Terminal");
-		else if(DATA_Registers[2352] == 1) CLCD_string(0xC0,"Operatorl");
-		else if(DATA_Registers[2352] == 2) CLCD_string(0xC0,"Synchronous");
-		else if(DATA_Registers[2352] == 3) CLCD_string(0xC0,"FieldBus");
-		else if(DATA_Registers[2352] == 4) CLCD_string(0xC0,"Free Function");
+		if(DATA_Registers[2352] == 0) 		 CLCD_string(0xC0,"Terminal        ");
+		else if(DATA_Registers[2352] == 1) CLCD_string(0xC0,"Operatorl       ");
+		else if(DATA_Registers[2352] == 2) CLCD_string(0xC0,"Synchronous     ");
+		else if(DATA_Registers[2352] == 3) CLCD_string(0xC0,"FieldBus        ");
+		else if(DATA_Registers[2352] == 4) CLCD_string(0xC0,"Free Function   ");
 	}
 }
 void SYS_1_2_03(void)
@@ -2673,11 +2738,11 @@ void SYS_1_2_03(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_2_04;
 	if(RefreshFlag){
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[3][0]));
-		if(DATA_Registers[2353] == 0) CLCD_string(0xC0,"Terminal");
-		else if(DATA_Registers[2353] == 1) CLCD_string(0xC0,"Operatorl");
-		else if(DATA_Registers[2353] == 2) CLCD_string(0xC0,"Synchronous");
-		else if(DATA_Registers[2353] == 3) CLCD_string(0xC0,"FieldBus");
-		else if(DATA_Registers[2353] == 4) CLCD_string(0xC0,"Free Function");
+		if(DATA_Registers[2353] == 0) 		 CLCD_string(0xC0,"Terminal        ");
+		else if(DATA_Registers[2353] == 1) CLCD_string(0xC0,"Operatorl       ");
+		else if(DATA_Registers[2353] == 2) CLCD_string(0xC0,"Synchronous     ");
+		else if(DATA_Registers[2353] == 3) CLCD_string(0xC0,"FieldBus        ");
+		else if(DATA_Registers[2353] == 4) CLCD_string(0xC0,"Free Function   ");
 	}
 }
 void SYS_1_2_04(void)
@@ -2687,7 +2752,7 @@ void SYS_1_2_04(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_2_05;
 	if(RefreshFlag){
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[4][0]));
-		CLCD_string(0xC0,(char*)_TEXT("     %01u.%01u KW  ",DATA_Registers[2354]/10,DATA_Registers[2354]%10));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u kW  ",DATA_Registers[2354]/10,DATA_Registers[2354]%10));
 	}
 }
 void SYS_1_2_05(void)
@@ -2717,7 +2782,7 @@ void SYS_1_2_07(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_2_08;
 	if(RefreshFlag){
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[7][0]));
-		CLCD_string(0xC0,(char*)_TEXT("     %01u.%02u     ",DATA_Registers[2357]/100,DATA_Registers[2357]%100));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u    ",DATA_Registers[2357]/100,DATA_Registers[2357]%100));
 	}
 }
 void SYS_1_2_08(void)
@@ -13410,7 +13475,7 @@ void SYS_2_19_00(void)
 	{
 		Temporary = ReadDataMem(1370);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[0][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_01(void)
@@ -13442,13 +13507,13 @@ void SYS_2_19_02(void)
 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1372,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1372,  edit_Temp, MODE_51);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(1372);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[2][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_30);
 	}
 }
 void SYS_2_19_03(void)
@@ -13467,7 +13532,7 @@ void SYS_2_19_03(void)
 	{
 		Temporary = ReadDataMem(1373);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[3][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_10);
 	}
 }
 void SYS_2_19_04(void)
@@ -13486,7 +13551,7 @@ void SYS_2_19_04(void)
 	{
 		Temporary = ReadDataMem(1374);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[4][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_05(void)
@@ -13505,7 +13570,7 @@ void SYS_2_19_05(void)
 	{
 		Temporary = ReadDataMem(1375);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[5][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_06(void)
@@ -13524,7 +13589,7 @@ void SYS_2_19_06(void)
 	{
 		Temporary = ReadDataMem(1376);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[6][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_07(void)
@@ -13543,7 +13608,7 @@ void SYS_2_19_07(void)
 	{
 		Temporary = ReadDataMem(1377);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[7][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_08(void)
@@ -13562,7 +13627,7 @@ void SYS_2_19_08(void)
 	{
 		Temporary = ReadDataMem(1378);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[8][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_09(void)
@@ -13601,7 +13666,7 @@ void SYS_2_19_10(void)
 	{
 		Temporary = ReadDataMem(1380);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[10][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_11(void)
@@ -13620,7 +13685,7 @@ void SYS_2_19_11(void)
 	{
 		Temporary = ReadDataMem(1381);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[11][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_12(void)
@@ -13639,7 +13704,7 @@ void SYS_2_19_12(void)
 	{
 		Temporary = ReadDataMem(1382);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[12][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_13(void)
@@ -13658,7 +13723,7 @@ void SYS_2_19_13(void)
 	{
 		Temporary = ReadDataMem(1383);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[13][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_14(void)
@@ -13677,7 +13742,7 @@ void SYS_2_19_14(void)
 	{
 		Temporary = ReadDataMem(1384);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[14][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_15(void)
@@ -13696,7 +13761,7 @@ void SYS_2_19_15(void)
 	{
 		Temporary = ReadDataMem(1385);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[15][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_16(void)
@@ -13715,7 +13780,7 @@ void SYS_2_19_16(void)
 	{
 		Temporary = ReadDataMem(1386);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[16][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_17(void)
@@ -13734,7 +13799,7 @@ void SYS_2_19_17(void)
 	{
 		Temporary = ReadDataMem(1387);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[17][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_18(void)
@@ -13753,7 +13818,7 @@ void SYS_2_19_18(void)
 	{
 		Temporary = ReadDataMem(1388);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[18][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_19(void)
@@ -13772,7 +13837,7 @@ void SYS_2_19_19(void)
 	{
 		Temporary = ReadDataMem(1389);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[19][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
  
@@ -13793,7 +13858,7 @@ void SYS_2_19_20(void)
 	{
 		Temporary = ReadDataMem(1390);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[20][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_21(void)
@@ -13812,7 +13877,7 @@ void SYS_2_19_21(void)
 	{
 		Temporary = ReadDataMem(1391);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[21][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_22(void)
@@ -13831,7 +13896,7 @@ void SYS_2_19_22(void)
 	{
 		Temporary = ReadDataMem(1392);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[22][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_23(void)
@@ -13850,7 +13915,7 @@ void SYS_2_19_23(void)
 	{
 		Temporary = ReadDataMem(1393);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[23][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_24(void)
@@ -13869,7 +13934,7 @@ void SYS_2_19_24(void)
 	{
 		Temporary = ReadDataMem(1394);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[24][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_25(void)
@@ -13888,7 +13953,7 @@ void SYS_2_19_25(void)
 	{
 		Temporary = ReadDataMem(1395);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[25][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_26(void)
@@ -13907,7 +13972,7 @@ void SYS_2_19_26(void)
 	{
 		Temporary = ReadDataMem(1396);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[26][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_27(void)
@@ -13926,7 +13991,7 @@ void SYS_2_19_27(void)
 	{
 		Temporary = ReadDataMem(1397);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[27][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_28(void)
@@ -13945,7 +14010,7 @@ void SYS_2_19_28(void)
 	{
 		Temporary = ReadDataMem(1398);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[28][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_29(void)
@@ -13964,7 +14029,7 @@ void SYS_2_19_29(void)
 	{
 		Temporary = ReadDataMem(1399);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[29][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 
@@ -13985,7 +14050,7 @@ void SYS_2_19_30(void)
 	{
 		Temporary = ReadDataMem(1400);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[30][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_31(void)
@@ -14004,7 +14069,7 @@ void SYS_2_19_31(void)
 	{
 		Temporary = ReadDataMem(1401);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[31][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_32(void)
@@ -14023,7 +14088,7 @@ void SYS_2_19_32(void)
 	{
 		Temporary = ReadDataMem(1402);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[32][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_33(void)
@@ -14042,7 +14107,7 @@ void SYS_2_19_33(void)
 	{
 		Temporary = ReadDataMem(1403);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[33][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_34(void)
@@ -14061,7 +14126,7 @@ void SYS_2_19_34(void)
 	{
 		Temporary = ReadDataMem(1404);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[34][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_35(void)
@@ -14080,7 +14145,7 @@ void SYS_2_19_35(void)
 	{
 		Temporary = ReadDataMem(1405);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[35][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_36(void)
@@ -14099,7 +14164,7 @@ void SYS_2_19_36(void)
 	{
 		Temporary = ReadDataMem(1406);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[36][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_37(void)
@@ -14118,7 +14183,7 @@ void SYS_2_19_37(void)
 	{
 		Temporary = ReadDataMem(1407);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[37][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_38(void)
@@ -14137,7 +14202,7 @@ void SYS_2_19_38(void)
 	{
 		Temporary = ReadDataMem(1408);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[38][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_39(void)
@@ -14156,7 +14221,7 @@ void SYS_2_19_39(void)
 	{
 		Temporary = ReadDataMem(1409);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[39][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_19_40(void)
@@ -14194,7 +14259,7 @@ void SYS_2_19_41(void)
 	{
 		Temporary = ReadDataMem(1411);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[41][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 
@@ -15338,7 +15403,7 @@ void SYS_2_22_00(void)
 	{
 		Temporary = ReadDataMem(1570);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[0][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_53);
 	}
 }
 void SYS_2_22_01(void)
@@ -15357,7 +15422,7 @@ void SYS_2_22_01(void)
 	{
 		Temporary = ReadDataMem(1571);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[1][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_53);
 	}
 }
 void SYS_2_22_02(void)
@@ -15376,7 +15441,7 @@ void SYS_2_22_02(void)
 	{
 		Temporary = ReadDataMem(1572);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[2][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_53);
 	}
 }
 void SYS_2_22_03(void)
@@ -15395,7 +15460,7 @@ void SYS_2_22_03(void)
 	{
 		Temporary = ReadDataMem(1573);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[3][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_54);
 	}
 }
 void SYS_2_22_04(void)
@@ -15414,7 +15479,7 @@ void SYS_2_22_04(void)
 	{
 		Temporary = ReadDataMem(1574);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[4][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_54);
 	}
 }
 void SYS_2_22_05(void)
@@ -15433,7 +15498,7 @@ void SYS_2_22_05(void)
 	{
 		Temporary = ReadDataMem(1575);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[5][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_54);
 	}
 }
 void SYS_2_22_06(void)
@@ -15452,7 +15517,7 @@ void SYS_2_22_06(void)
 	{
 		Temporary = ReadDataMem(1576);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[6][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_38);
 	}
 }
 void SYS_2_22_07(void)
@@ -15471,7 +15536,7 @@ void SYS_2_22_07(void)
 	{
 		Temporary = ReadDataMem(1577);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[7][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 void SYS_2_22_08(void)
@@ -15490,7 +15555,7 @@ void SYS_2_22_08(void)
 	{
 		Temporary = ReadDataMem(1578);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[8][0]));
-		SYS_ParameterDisplay(MODE_0);
+		SYS_ParameterDisplay(MODE_52);
 	}
 }
 
@@ -18493,7 +18558,7 @@ void MainSYSTEM(void)
 	if(DATA_Registers[Local_Remote])PORTL_Bit0 = 1;
 	else PORTL_Bit0 = 0;
 
-	if(DATA_Registers[RUN_STOP])
+	if(DATA_Registers[2270])
 	{
 		PORTL_Bit1 = 1;
 		PORTL_Bit2 = 0;
