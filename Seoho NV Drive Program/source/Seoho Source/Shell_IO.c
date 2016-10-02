@@ -281,6 +281,8 @@ void DO_Processing()
 {
 	int i, a;
 	
+	// Test 용 DO toggle 기능 만들것 
+
 	if ( (State_index==STATE_POWER_ON)||(State_index==STATE_INITIAL_DRIVE_CALIBRATION)||(State_index==STATE_FAULT) )
 		Flag.DO.bit.DRIVE_READY= 0;
 	else Flag.DO.bit.DRIVE_READY= 1;

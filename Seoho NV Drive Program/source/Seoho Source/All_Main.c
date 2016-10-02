@@ -16,72 +16,53 @@ void main( void )
 	int i;
 	F28335PowerOnSet();
 
-
-
 	// 시간 읽기 - BCD CODE 이므로 주의 바람 
 	Read_Time(&time);    // by RYU
 
 	 // Infinity Loop
 	while(1)
 	{
+		// Input/State management
 		State_Management(); //100us max
 		
+		// Rx Communication
 		if (Flag.Monitoring.bit.EEPROM_WRITE_ENABLE_Rx)
 		{
 			Word_Write_data(Rx_index, Data_Registers[Rx_index]);
 			Flag.Monitoring.bit.EEPROM_WRITE_ENABLE_Rx= 0;
 		}
 
+		// PWM frquency change
 		if (Flag.Monitoring.bit.PWM_FREQUENCY_CHANGE)
 		{
 			DINT;
-			EALLOW;
-			EPWM_Initialization();
-			Main_counter= 0;
-			pwm1.init(&pwm1);
-			EQEP_Initialization();
 			PWM_Frequency_Update();
-			Flag.Monitoring.bit.PWM_FREQUENCY_CHANGE= 0;
-/*			
-			  // This is needed to write to EALLOW protected registers
-			PieVectTable.EPWM1_INT 	= &Initial_Driver_Calibration;
-  			    // This is needed to disable write to EALLOW protected registers
-
-*/
-			EDIS;
-			// Enable global Interrupts and higher priority real-time debug events:
 			EINT;   // Enable Global interrupt INTM
-			ERTM;	// Enable Global realtime interrupt DBGM			
-			
+			Flag.Monitoring.bit.PWM_FREQUENCY_CHANGE= 0;
 		}
 		
-//		Write_Data_Registers_Online();
-				
-		// 통신 Tx 속도 25ms 로 고정
-//		SCIC_Process();
-
-	if(Data_Registers[3195])
-	{
-		for(i=0;i<Buf_MAX;i++)	SCI_Registers[i]=0x0000;
-		Data_Registers[3195] = 0;
-		SCI_Registers[3195] = 1;
-	}
+		// Keypad initial connection
+		if(Data_Registers[3195])
+		{
+			for(i=0;i<Buf_MAX;i++)	SCI_Registers[i]=0x0000;
+			Data_Registers[3195] = 0;
+			SCI_Registers[3195] = 1;
+		}
 		
+		// Tx Communication
 		if (Flag.Monitoring.bit.EEPROM_WRITE_ENABLE_Tx)
 		{
 			Word_Write_data(Tx_index, Data_Registers[Tx_index]);
 			Flag.Monitoring.bit.EEPROM_WRITE_ENABLE_Tx= 0;
 		}
 
+		// Fault Record Read/Write
 		RW_Fault_Record();
 		
 		// by RYU, exe time: 2.8ms~2.9ms
 		if (Time_counter_500ms*Tsamp>= 0.5)
 		{	Read_Time(&time);	 Time_counter_500ms= 0;	}
 		
-//		DO1_ON();
-//		DO2_ON();
-//		DO3_ON();
 		NOP;
 
 	}

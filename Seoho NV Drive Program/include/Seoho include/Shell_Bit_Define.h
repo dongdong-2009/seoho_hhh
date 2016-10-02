@@ -64,16 +64,6 @@ extern "C" {
 #include "Core_DSP2833x_Device.h"
 #include "Core_DSP2833x_Examples.h"
 
-#include "digital_inout.h"
-#include "system.h"
-#include "pwm.h"
-#include "cc.h"
-#include "Fault.h"
-#include "DEV_DAC.h"
-#include "sci_bc.h"
-#include "analog_inout.h"
-#include "I2C_RTC.h"
-
 #ifdef __cplusplus
 }
 #endif /* extern "C" */

@@ -59,8 +59,8 @@
 									( ((x)>(xmin))?(xmin):((x)<(xmax))?(xmax): (x) )	\
 								)
 
-#define	LPF(input,output,LPF_coeff_Q16,integrator)	integrator += (long)LPF_coeff_Q16 * (long)(input - output);\
-													output = (integrator>>16)
+#define	int_LPF(Input, Output, Wc, Tsamp, Integrator)	Integrator += (Wc*Tsamp)*(Input-Integrator);\
+														Output = (int)Integrator
 
 #define LINEAR_EQ(x, x1, x2, y1, y2)	( ((y2-y1)/(x2-x1))*x  + ((x2*y1 - x1*y2)/(x2-x1)) ) 			
  
@@ -105,7 +105,6 @@
 #define CMD_RUN					('R')
 #define CMD_STOP				('S')
 // #define CMD_RESET				'T'
-
 
 #define Buf_MAX (3400)
 

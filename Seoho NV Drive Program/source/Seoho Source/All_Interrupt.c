@@ -21,6 +21,10 @@ interrupt void Initial_Driver_Calibration(void)
 	Main_counter++;
 	TxIntervalCnt++;
 	TxInterval_1s++;
+
+	Test_count_Rx++;
+	Test_count_Tx++;
+
 	if( Main_counter & 0x1 )			
 	{		
 		#if (DUAL_PWM_INTERRUPT)
@@ -109,6 +113,9 @@ interrupt void MainPWM(void)
 	TxIntervalCnt++;
 	TxInterval_1s++;
 	Time_counter_500ms++;
+
+	Test_count_Rx++;
+	Test_count_Tx++; 
 
 	Write_Data_Registers_Online();
 

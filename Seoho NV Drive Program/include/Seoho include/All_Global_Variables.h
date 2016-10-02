@@ -126,7 +126,7 @@ int Driver_ON=0.,Flux_build_up=0.;
 //PWM  
 double T_dead_tuning= 0.;
 Uint16 EPwmPeriodCount= 0.;
-unsigned int DutyCount[3];
+unsigned int DutyCount[3]= {0};
 double I_DT= 0.;
 int PWM_frequency_old= 0.;
 
@@ -149,6 +149,7 @@ int Break_index= 0;
 int Auto_tuning_index= 0;
 double Interrupt_time_max= 0.; // us
 int Voltage_class= 0;
+double LPF[20]= {0.}; 
 
 //------------------auto tuning china
 
@@ -165,6 +166,11 @@ Uint16 TxIntervalCnt= 0;
 Uint16 TxInterval_1s= 0;
 int Dummy_comm= 0;
 CRC_flg	CRC ;
+long Test_count_Rx= 0;
+long Test_count_Tx= 0;
+int Rx_counter_1s= 0;
+int Tx_counter_1s= 0;
+long CRC_check_counter= 0;
 
 /* Variables for Serial Communication  */
 char scib_tx_buf[SCIB_BUF_SIZE+1];

@@ -146,6 +146,7 @@ extern int Break_index;
 extern int Auto_tuning_index;
 extern double Interrupt_time_max;
 extern int Voltage_class;
+extern double LPF[20];
 extern volatile unsigned int ZONE0_BUF[2048]; // by RYU
 
 //------------------auto tuning china
@@ -195,6 +196,12 @@ extern Uint16 TxIntervalCnt;
 extern Uint16 TxInterval_1s;
 extern int Dummy_comm;
 extern CRC_flg	CRC;
+extern long Test_count_Rx;
+extern long Test_count_Tx;
+extern int Rx_counter_1s;
+extern int Tx_counter_1s;
+extern long CRC_check_counter;
+
 
 extern char scib_tx_buf[SCIB_BUF_SIZE+1];
 extern char scib_tx_pos, scib_tx_end;

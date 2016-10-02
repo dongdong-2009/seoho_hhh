@@ -197,55 +197,72 @@ void Read_Data_Registers(int Parameter_index)
 		case 1374:	P.G19.P04_Maximum_speed_x1000= 					Data_Registers[Parameter_index];	break;			
 		case 1375:	P.G19.P05_Over_speed_limit_x1000= 				Data_Registers[Parameter_index];	break;			
 
-		case 1550:	P.G21.P00_Stator_resistance_x1000= 				Data_Registers[Parameter_index];	break;
-		case 1552:	P.G21.P01_Rotor_resistance_x1000= 				Data_Registers[Parameter_index];	break;
-		case 1553:	P.G21.P02_Stator_inductance_x1000= 				Data_Registers[Parameter_index];	break;
-		case 1554:	P.G21.P03_Rotor_inductance_x1000= 				Data_Registers[Parameter_index];	break;
-		case 1555:	P.G21.P04_Stator_transient_inductance_x1000=	Data_Registers[Parameter_index];	break;	
+		case 1550:	P.G21.P00_Stator_resistance_x10_mOhm= 				Data_Registers[Parameter_index];	break;
+		case 1552:	P.G21.P01_Rotor_resistance_x10_mOhm= 				Data_Registers[Parameter_index];	break;
+		case 1553:	P.G21.P02_Stator_inductance_x10_mH= 				Data_Registers[Parameter_index];	break;
+		case 1554:	P.G21.P03_Rotor_inductance_x10_mH= 				Data_Registers[Parameter_index];	break;
+		case 1555:	P.G21.P04_Stator_transient_inductance_x10_mH=	Data_Registers[Parameter_index];	break;	
 		case 1556:	P.G21.P05_Inertia_x1000= 						Data_Registers[Parameter_index];	break;
 
 	}
 
 }
 
+
+
+
 #pragma CODE_SECTION(Write_Data_Registers_Online, "ramfuncs"); 
 void Write_Data_Registers_Online()
 {
 	static int Write_counter= 0;
-	
+	static double Monotor_Wc= 1000.;
+	double Temp;
+
 	Write_counter++;
-	 		Data_Registers[2310]= 	(int)Wrpm_det_flt;				
-			Data_Registers[2311]= 	(int)((Wrpm_det_flt/Wrpm_rated)*(double)P.G01.P03_Rated_frequency*10.); 						
-
-			Data_Registers[2314]= 	(int)(sqrt(Vdss_ref*Vdss_ref+Vqss_ref*Vqss_ref)*SQRT2); 
-			Data_Registers[2312]= 	(int)(Vdc);
-			Data_Registers[2313]= 	(int)(Is_mag_rms*10.); 
-
-			Data_Registers[2315]= 	(int)(Te/Te_rate*1000.);
-			Data_Registers[2316]= 	(int)(Iqse*10.);
-			Data_Registers[2317]= 	(int)(Idse*10.);
+	
+	
 
 	if (Write_counter & 0x1)
 	{
  		if (Write_counter & 0x2)
 		{
-//	 		Data_Registers[2310]= 	(int)Wrpm_det_flt;				
-//			Data_Registers[2311]= 	(int)((Wrpm_det_flt/Wrpm_rated)*(double)P.G01.P03_Rated_frequency*10.); 						
+			Data_Registers[2310]= 	(int)Wrpm_det_flt; // LPF 이미 적용중
+			Data_Registers[2311]= 	(int)((Wrpm_det_flt/Wrpm_rated)*(double)P.G01.P03_Rated_frequency*10.);  // LPF 이미 적용중						
 
-//			Data_Registers[2314]= 	(int)(sqrt(Vdss_ref*Vdss_ref+Vqss_ref*Vqss_ref)*SQRT2);
-
-
+			Temp= (sqrt(Vdss_ref*Vdss_ref+Vqss_ref*Vqss_ref)*SQRT2);
+			LPF[0]+= (Monotor_Wc*Tsamp*4.)*(Temp-LPF[0]);
+			Data_Registers[2314]= 	(int)LPF[0];
 		}
 		else
 		{
-//			Data_Registers[2312]= 	(int)(Vdc);
-//			Data_Registers[2313]= 	(int)(Is_mag_rms*10.); 
+			Temp= Vdc;
+			LPF[1]+= (Monotor_Wc*Tsamp*4.)*(Temp-LPF[1]);
+			Data_Registers[2312]= 	(int)LPF[1];
 
-//			Data_Registers[2315]= 	(int)(Te/Te_rate*1000.);
-//			Data_Registers[2316]= 	(int)(Iqse*10.);
-//			Data_Registers[2317]= 	(int)(Idse*10.);
-			Data_Registers[2318]= 	(int)(Input_power_x10_kW);			
-			Data_Registers[2319]= 	(int)(Output_power_x10_kW);	
+			Temp= Is_mag_rms*10.;
+			LPF[2]+= (Monotor_Wc*Tsamp*4.)*(Temp-LPF[2]);
+			Data_Registers[2313]= 	(int)LPF[2];
+			
+			Temp= Te/Te_rate*1000.;
+			LPF[3]+= (Monotor_Wc*Tsamp*4.)*(Temp-LPF[3]);
+			Data_Registers[2315]= 	(int)LPF[3]; 
+
+			Temp= Iqse*10.;
+			LPF[4]+= (Monotor_Wc*Tsamp*4.)*(Temp-LPF[4]);
+			Data_Registers[2316]= 	(int)LPF[4]; 
+
+			Temp= Idse*10.;
+			LPF[5]+= (Monotor_Wc*Tsamp*4.)*(Temp-LPF[5]);
+			Data_Registers[2317]= 	(int)LPF[5]; 
+
+			Temp= Input_power_x10_kW;
+			LPF[6]+= (Monotor_Wc*Tsamp*4.)*(Temp-LPF[6]);
+			Data_Registers[2318]= 	(int)LPF[6]; 
+
+			Temp= Output_power_x10_kW;
+			LPF[7]+= (Monotor_Wc*Tsamp*4.)*(Temp-LPF[7]);
+			Data_Registers[2319]= 	(int)LPF[7]; 
+
 			Data_Registers[2323]= 	Temperature_x10; 		
 		}
 
@@ -259,11 +276,11 @@ void Write_Data_Registers_Online()
 			Data_Registers[206]=	P.G00.P06_Ibs_offset1;
 			Data_Registers[207]=	P.G00.P07_Ibs_offset2;
 			
-			Data_Registers[1550]= 	P.G21.P00_Stator_resistance_x1000; 			
-			Data_Registers[1552]= 	P.G21.P01_Rotor_resistance_x1000; 			
-			Data_Registers[1553]= 	P.G21.P02_Stator_inductance_x1000; 			
-			Data_Registers[1554]= 	P.G21.P03_Rotor_inductance_x1000; 			
-			Data_Registers[1555]= 	P.G21.P04_Stator_transient_inductance_x1000;
+			Data_Registers[1550]= 	P.G21.P00_Stator_resistance_x10_mOhm; 			
+			Data_Registers[1552]= 	P.G21.P01_Rotor_resistance_x10_mOhm; 			
+			Data_Registers[1553]= 	P.G21.P02_Stator_inductance_x10_mH; 			
+			Data_Registers[1554]= 	P.G21.P03_Rotor_inductance_x10_mH; 			
+			Data_Registers[1555]= 	P.G21.P04_Stator_transient_inductance_x10_mH;
 			Data_Registers[1556]=	P.G21.P05_Inertia_x1000;
 
 			Data_Registers[2270]=	Flag.Monitoring.bit.RUN_STOP_STATUS;	
@@ -504,11 +521,11 @@ void Write_Data_Registers_Offline(int Parameter_index)
 		case 1374:	Temp= 	P.G19.P04_Maximum_speed_x1000; 					break;			
 		case 1375:	Temp= 	P.G19.P05_Over_speed_limit_x1000; 				break;		
 
-		case 1550:	Temp= 	P.G21.P00_Stator_resistance_x1000; 				break;
-		case 1552:	Temp= 	P.G21.P01_Rotor_resistance_x1000; 				break;
-		case 1553:	Temp= 	P.G21.P02_Stator_inductance_x1000; 				break;
-		case 1554:	Temp= 	P.G21.P03_Rotor_inductance_x1000; 				break;
-		case 1555:	Temp= 	P.G21.P04_Stator_transient_inductance_x1000;	break;
+		case 1550:	Temp= 	P.G21.P00_Stator_resistance_x10_mOhm; 				break;
+		case 1552:	Temp= 	P.G21.P01_Rotor_resistance_x10_mOhm; 				break;
+		case 1553:	Temp= 	P.G21.P02_Stator_inductance_x10_mH; 				break;
+		case 1554:	Temp= 	P.G21.P03_Rotor_inductance_x10_mH; 				break;
+		case 1555:	Temp= 	P.G21.P04_Stator_transient_inductance_x10_mH;	break;
 		case 1556:	Temp=	P.G21.P05_Inertia_x1000; 						break;
 		default:	Temp=	0;
 	}

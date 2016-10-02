@@ -344,7 +344,7 @@ unsigned int Communication_Fault_Cnt = 3;
 unsigned int Communication_Fault_Flag = 0;
 
 unsigned int Device_type=0;
-
+double TxIntervalTime = 25;
 
 unsigned int RxType=0;
 unsigned int RxAddr=0;
@@ -352,10 +352,177 @@ unsigned int RxData=0;
 unsigned int RxCRC=0;
 unsigned char RxBuf[9];
 
-//unsigned char Temp_A;
-//unsigned char Temp_B;
-//unsigned int Temp_C;
+interrupt void scic_rx_isr(void)
+{
+	char c;
+	
+	if ( ScicRegs.SCIRXST.bit.RXERROR== 1) scic_init();
 
+	scic_rxd = ScicRegs.SCIRXBUF.all;
+	if(!SciC_RxFlag)
+	{
+		if(SciC_RxStep == 0)//sync1
+		{
+			if(scic_rxd == 0xAB)
+			{
+				
+				RxBuf[0] = 0xAB;
+				SciC_RxStep++;
+			}
+			else SciC_RxStep=0;
+		}
+		else if(SciC_RxStep == 1)//sync2
+		{
+			if(scic_rxd == 0xCD)
+			{
+				RxBuf[1] = 0xCD;
+				SciC_RxStep++;
+			}
+			else SciC_RxStep=0;
+		}
+		else if(SciC_RxStep == 2)//type
+		{
+			RxBuf[2] = scic_rxd;
+			SciC_RxStep++;
+		}
+		else if(SciC_RxStep == 3)//addr_h
+		{
+			RxBuf[3] = scic_rxd;
+			SciC_RxStep++;
+		}
+		else if(SciC_RxStep == 4)//addr_l
+		{
+			RxBuf[4] = scic_rxd;
+			SciC_RxStep++;
+		}
+		else if(SciC_RxStep == 5)//data_h
+		{
+			RxBuf[5] = scic_rxd;
+			SciC_RxStep++;
+		}
+		else if(SciC_RxStep == 6)//data_l
+		{
+			RxBuf[6] = scic_rxd;
+			SciC_RxStep++;
+		}
+		else if(SciC_RxStep == 7)//crc_H
+		{
+			RxBuf[7] = scic_rxd;
+			SciC_RxStep++;
+		}
+		else//crc_L
+		{
+			RxBuf[8] = scic_rxd;
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+			CRC.Word = 0;
+			CRC.Word = CRC16(RxBuf,7);
+			
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+			RxType = RxBuf[2];
+			RxAddr = ((unsigned int)RxBuf[3]<<8) | RxBuf[4] ;
+			RxData = ((unsigned int)RxBuf[5]<<8) | RxBuf[6] ;
+			RxCRC   = ((unsigned int)RxBuf[7]<<8) | RxBuf[8] ;
+
+			if((RxBuf[7] == CRC.Byte.b1) && (RxBuf[8] == CRC.Byte.b0))
+			{
+				SciC_RxFlag=1;
+				SCI_Registers[RxAddr] = RxData;
+
+				if(RxType == SEND)
+				{
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+					CRC.Word = 0;
+
+					RxBuf[2] = RESPONSE;
+
+					CRC.Word = CRC16(RxBuf,7);
+
+					for(c=0;c<7;c++)	scic_putc(RxBuf[c]);
+					scic_putc(CRC.Byte.b1);
+					scic_putc(CRC.Byte.b0);
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+					SciC_TxFlag = 1;
+					//SCIC_TX_START;
+					Data_Registers[RxAddr] = RxData;
+
+					// (110107 by HHH)
+					Rx_index= RxAddr;
+					Read_Data_Registers(Rx_index);
+					Flag.Monitoring.bit.EEPROM_WRITE_ENABLE_Rx= 1;
+				}
+				else if(RxType == REQUEST)
+				{
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+					CRC.Word = 0;
+
+					RxBuf[2] = SEND;
+					RxBuf[5] = (char)(Data_Registers[RxAddr]>>8);
+					RxBuf[6] = (char)Data_Registers[RxAddr];
+
+					CRC.Word = CRC16(RxBuf,7);
+
+					for(c=0;c<7;c++)scic_putc(RxBuf[c]);
+				
+
+					scic_putc(CRC.Byte.b1);
+					scic_putc(CRC.Byte.b0);
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+					SCI_Registers[RxAddr] = 0;
+
+					SciC_TxFlag = 1;
+
+
+					Rx_counter_1s++;
+
+					if (Test_count_Rx>= 1./Tsamp)
+					{
+						Test_count_Rx= 0;
+						Rx_counter_1s= 0;
+					}
+
+					//SCIC_TX_START;
+
+					// (110107 by HHH)
+					Rx_index= RxAddr;
+					Read_Data_Registers(Rx_index);
+					Flag.Monitoring.bit.EEPROM_WRITE_ENABLE_Rx= 1;
+				}
+				else if(RxType == RESPONSE)
+				{
+					SCI_Registers[RxAddr] = RxData;
+					//CAN_Registers[RxAddr]++;
+				}
+				else if(RxType == QUERY)
+				{
+					Communication_Fault_Cnt = 3;
+					TxIntervalTime = 	RxBuf[3]; // Device 별 시간변경 
+
+				}
+				
+			}
+			else
+			{
+				CRC_check_counter++;
+			}
+			SciC_RxStep=0;
+		}
+	}
+	else SciC_RxStep=0;
+
+
+	// Acknowledge this interrupt to recieve more interrupts from group 8
+	PieCtrlRegs.PIEACK.all = PIEACK_GROUP8;
+}
+
+/*
 interrupt void scic_rx_isr(void)
 {
 	char c;
@@ -493,7 +660,6 @@ interrupt void scic_rx_isr(void)
 				{
 					SCI_Registers[RxAddr] = RxData;
 					//CAN_Registers[RxAddr]++;
-					//Temp_HHH1++;
 				}
 				else if(RxType == QUERY)
 				{
@@ -510,8 +676,7 @@ interrupt void scic_rx_isr(void)
 	// Acknowledge this interrupt to recieve more interrupts from group 8
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP8;
 }
-
-
+*/
 
 
 
@@ -523,24 +688,6 @@ void scic_test(void)
 }
 
 
-
-/*
-//===============================================================================================
-#pragma CODE_SECTION(CRC_16, "ramfuncs");
-void CRC_16(unsigned char input)
-{
-	unsigned char 	i ;
-	unsigned int 	tmp_CRC ;
-
-	tmp_CRC=((CRC.Word >> 8) ^ input) << 8 ;
-	for (i = 0 ; i < 8 ; i++)
-	{
-		if (tmp_CRC & 0x8000) tmp_CRC = (tmp_CRC << 1) ^ GEN_POLYNOMAL ;
-		else tmp_CRC <<= 1 ;
-	}
-	CRC.Word = (CRC.Word << 8) ^ tmp_CRC ;
-}
-*/
 
 
 
@@ -561,8 +708,9 @@ void SCIC_Process(void)
 	// (110120 by HHH)
 	// data 가 변경될 경우 Tx 발생
 	// Tx_count 시간에 도달 하지 못한 경우 자동 대기 함
-#if 1
-	if(TxIntervalCnt>= (Uint16)(1.e-3/Tsamp))
+
+//	if(TxIntervalCnt>= (Uint16)(1.e-3/Tsamp))
+	if(TxIntervalCnt>= (Uint16)( ((double)TxIntervalTime*1.e-3/Tsamp) ))
 	{
 		if (TxInterval_1s>=(Uint16)(1.0/Tsamp))
 		{
@@ -597,6 +745,14 @@ void SCIC_Process(void)
 		}
 		else if(SciC_TxFlag)
 		{
+			Tx_counter_1s++;
+
+			if (Test_count_Tx>= 1./Tsamp)
+			{
+				Test_count_Tx= 0;
+				Tx_counter_1s= 0;
+			}
+
 			SCIC_TX_START;
 			SciC_TxFlag=0;
 		}
@@ -642,12 +798,27 @@ void SCIC_Process(void)
 
 	if(Buf_MAX <= SCI_TxOffset)	SCI_TxOffset = 0;
 
-#endif
-
-
 }
 
 
+
+/*
+//===============================================================================================
+#pragma CODE_SECTION(CRC_16, "ramfuncs");
+void CRC_16(unsigned char input)
+{
+	unsigned char 	i ;
+	unsigned int 	tmp_CRC ;
+
+	tmp_CRC=((CRC.Word >> 8) ^ input) << 8 ;
+	for (i = 0 ; i < 8 ; i++)
+	{
+		if (tmp_CRC & 0x8000) tmp_CRC = (tmp_CRC << 1) ^ GEN_POLYNOMAL ;
+		else tmp_CRC <<= 1 ;
+	}
+	CRC.Word = (CRC.Word << 8) ^ tmp_CRC ;
+}
+*/
 
 
 

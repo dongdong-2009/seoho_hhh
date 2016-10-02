@@ -106,21 +106,23 @@ void Auto_Tuning()
 		case IDENTIFICATION :	// Auto tuning by north china
 
 			Auto_Tuning_China();
-
+			
 			if (identify_offline==0)
 			{
 				
 				if ( (Rs0> 0.)&&(Ls0> 0.)&&(Tr> 0.)&&(Lm> 0.) )
 				{
 					Rs= Rs0;
-					P.G21.P00_Stator_resistance_x1000= (int)(Rs0*1.e+3+0.005);
 					Ls= Lr= Ls0;
-	            	P.G21.P02_Stator_inductance_x1000= P.G21.P03_Rotor_inductance_x1000= (int)(Ls0*1.e+3+0.005); 
 					Rr= Lr/Tr;
-					P.G21.P01_Rotor_resistance_x1000= (int)(Ls0/Tr*1.e+3);
 					Lm= Lm0;
 					Lsigma= Ls-(Lm*Lm/Lr);
-					P.G21.P04_Stator_transient_inductance_x1000= (int)((Ls0-(Lm0*Lm0/Ls0))*1.e+3+0.005);
+
+					P.G21.P00_Stator_resistance_x10_mOhm= (int)(Rs*1.e+4+0.5);
+					P.G21.P01_Rotor_resistance_x10_mOhm= (int)(Rr*1.e+4+0.5);
+	            	P.G21.P02_Stator_inductance_x10_mH= P.G21.P03_Rotor_inductance_x10_mH= (int)(Ls0*1.e+4+0.5); 
+					P.G21.P04_Stator_transient_inductance_x10_mH= (int)(Lsigma*1.e+4+0.5);
+				
 				}
 				else 
 				{

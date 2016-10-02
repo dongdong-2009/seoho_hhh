@@ -436,11 +436,11 @@ struct	VECTOR_CONTROL1
 
 struct	MOTOR_CONSTANT1						
 {
-	int		P00_Stator_resistance_x1000;
-	int		P01_Rotor_resistance_x1000;
-	int		P02_Stator_inductance_x1000;
-	int		P03_Rotor_inductance_x1000;
-	int		P04_Stator_transient_inductance_x1000;
+	int		P00_Stator_resistance_x10_mOhm;
+	int		P01_Rotor_resistance_x10_mOhm;
+	int		P02_Stator_inductance_x10_mH;
+	int		P03_Rotor_inductance_x10_mH;
+	int		P04_Stator_transient_inductance_x10_mH;
 	int		P05_Inertia_x1000;
 };
 

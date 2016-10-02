@@ -149,7 +149,7 @@ void Parameter_Initialization_by_Power()
 			P.G01.P04_Number_of_poles= 4;
 			P.G01.P05_Rated_speed= 1465;
 			P.G01.P06_Control_method= 3;
-			P.G01.P07_PWM_frequency_x10_kHz= 25; 
+			P.G01.P07_PWM_frequency_x10_kHz= 50; 
 			P.G01.P09_Supply_voltage= 380;
 
 			Td = 4.0/1000;// dead-time (ms)
@@ -214,7 +214,7 @@ void Parameter_Initialization_by_Power()
 			P.G01.P04_Number_of_poles= 4;
 			P.G01.P05_Rated_speed= 1775;
 			P.G01.P06_Control_method= 3;
-			P.G01.P07_PWM_frequency_x10_kHz= 25;
+			P.G01.P07_PWM_frequency_x10_kHz= 50;
 			P.G01.P09_Supply_voltage= 480;
 
 
@@ -282,7 +282,7 @@ void Parameter_Initialization_by_Power()
 			P.G01.P04_Number_of_poles= 4;
 			P.G01.P05_Rated_speed= 1775;
 			P.G01.P06_Control_method= 3;
-			P.G01.P07_PWM_frequency_x10_kHz= 25;
+			P.G01.P07_PWM_frequency_x10_kHz= 50;
 			P.G01.P09_Supply_voltage= 480;
 
 			Td = 4.0/1000;// dead-time (ms)
@@ -590,14 +590,14 @@ void Parameter_Initialization()
 //	P.G03.P03_Stop_mode= 0;						// ramp stop
 //	P.G03.P04_Stop_hold_time= 0;				// 0s
 //	P.G03.P05_Output_off_hold_time= 1; 			// 1s
-	P.G03.P09_Accel_switching_ref1_x1000= 1000;		// 100%
+	P.G03.P09_Accel_switching_ref1_x1000= 500;		// 100%
 //	P.G03.P10_Accel_switching_ref2_x1000= 1000;		// 100%
-	P.G03.P16_Accel_time1_x10= 50;					// 5s
-	P.G03.P17_Accel_time2_x10= 50;					// 5s
-	P.G03.P26_Decel_switching_ref1_x1000= 1000;			// 100%	
+	P.G03.P16_Accel_time1_x10= 20;					// 5s
+	P.G03.P17_Accel_time2_x10= 10;					// 5s
+	P.G03.P26_Decel_switching_ref1_x1000= 500;			// 100%	
 //	P.G03.P27_Decel_switching_ref2_x1000= 1000;		// 150%	
-	P.G03.P33_Decel_time1_x10= 50;					// 5s	 
-	P.G03.P34_Decel_time2_x10= 50;					// 5s
+	P.G03.P33_Decel_time1_x10= 20;					// 5s	 
+	P.G03.P34_Decel_time2_x10= 10;					// 5s
 //	P.G03.P42_Conunter_deceleration_ramp= 0;	// disabled
 //	P.G03.P43_Conunter_deceleration_time_x10= 50;	// 5s
 //	P.G03.P49_Emergency_stop_mode= 0;			// ramp stop
@@ -778,58 +778,58 @@ void Parameter_Initialization()
 	P.G19.P05_Over_speed_limit_x1000= 1250;			// 100%
 
 	// leroy somer 1.5kW motor 
-/*	P.G21.P00_Stator_resistance_x1000= 2000; //0.055 ohm
-	P.G21.P01_Rotor_resistance_x1000= 900;
-	P.G21.P02_Stator_inductance_x1000= 160;  // 0.018 H
-	P.G21.P03_Rotor_inductance_x1000= 160;
-	P.G21.P04_Stator_transient_inductance_x1000= 12;
+/*	P.G21.P00_Stator_resistance_x10_mOhm= 20000; //0.055 ohm
+	P.G21.P01_Rotor_resistance_x10_mOhm= 9000;
+	P.G21.P02_Stator_inductance_x10_mH= 1600;  // 0.018 H
+	P.G21.P03_Rotor_inductance_x10_mH= 1600;
+	P.G21.P04_Stator_transient_inductance_x10_mH= 120;
 	P.G21.P05_Inertia_x1000= 5;
 */
 
 	// jiamusi 110kW 1140V motor 
-/*	P.G21.P00_Stator_resistance_x1000= 87;
-	P.G21.P01_Rotor_resistance_x1000= 21;
-	P.G21.P02_Stator_inductance_x1000= 116;
-	P.G21.P03_Rotor_inductance_x1000= 115;
-	P.G21.P04_Stator_transient_inductance_x1000= 5;
+/*	P.G21.P00_Stator_resistance_x10_mOhm= 870;
+	P.G21.P01_Rotor_resistance_x10_mOhm= 210;
+	P.G21.P02_Stator_inductance_x10_mH= 1160;
+	P.G21.P03_Rotor_inductance_x10_mH= 1150;
+	P.G21.P04_Stator_transient_inductance_x10_mH= 50;
 	P.G21.P05_Inertia_x1000= 10;
 */
 
-	// siemens 55kW motor (PS 발전기) Lsigma= Ls-(Lm*Lm/Lr);
+	// siemens 55kW motor (PS 발전기)
 /*
 	// 400V
-	P.G21.P00_Stator_resistance_x1000= 55; //0.055 ohm
-	P.G21.P01_Rotor_resistance_x1000= 42; 
-	P.G21.P02_Stator_inductance_x1000= 17;  // 0.018 H
-	P.G21.P03_Rotor_inductance_x1000= 17;
-	P.G21.P04_Stator_transient_inductance_x1000= 2;
+	P.G21.P00_Stator_resistance_x10_mOhm= 550; //0.055 ohm
+	P.G21.P01_Rotor_resistance_x10_mOhm= 420; 
+	P.G21.P02_Stator_inductance_x10_mH= 170;  // 0.018 H
+	P.G21.P03_Rotor_inductance_x10_mH= 170;
+	P.G21.P04_Stator_transient_inductance_x10_mH= 20;
 	P.G21.P05_Inertia_x1000= 30; 
 */
 
 	// 600V
-/*	P.G21.P00_Stator_resistance_x1000= 49; //0.055 ohm
-	P.G21.P01_Rotor_resistance_x1000= 40; 
-	P.G21.P02_Stator_inductance_x1000= 18;  // 0.018 H
-	P.G21.P03_Rotor_inductance_x1000= 18;
-	P.G21.P04_Stator_transient_inductance_x1000= 2;
+/*	P.G21.P00_Stator_resistance_x10_mOhm= 490; //0.055 ohm
+	P.G21.P01_Rotor_resistance_x10_mOhm= 400; 
+	P.G21.P02_Stator_inductance_x10_mH= 180;  // 0.018 H
+	P.G21.P03_Rotor_inductance_x10_mH= 180;
+	P.G21.P04_Stator_transient_inductance_x10_mH= 20;
 	P.G21.P05_Inertia_x1000= 50;
 */
 
 	// siemens 18.5kW motor
-	P.G21.P00_Stator_resistance_x1000= 230; //0.282 ohm
-	P.G21.P01_Rotor_resistance_x1000= 95;
-	P.G21.P02_Stator_inductance_x1000= 56;  // 0.051 H
-	P.G21.P03_Rotor_inductance_x1000= 56;
-	P.G21.P04_Stator_transient_inductance_x1000= 4;
+	P.G21.P00_Stator_resistance_x10_mOhm= 2086; 
+	P.G21.P01_Rotor_resistance_x10_mOhm= 1046;
+	P.G21.P02_Stator_inductance_x10_mH= 671;  
+	P.G21.P03_Rotor_inductance_x10_mH= 671;
+	P.G21.P04_Stator_transient_inductance_x10_mH= 43;
 	P.G21.P05_Inertia_x1000= 10;
 
 	// PS 부하용 11kW Motor
 /*
-	P.G21.P00_Stator_resistance_x1000= 450;
-	P.G21.P01_Rotor_resistance_x1000= 151;
-	P.G21.P02_Stator_inductance_x1000= 77;
-	P.G21.P03_Rotor_inductance_x1000= 76;
-	P.G21.P04_Stator_transient_inductance_x1000= 7;
+	P.G21.P00_Stator_resistance_x10_mOhm= 4500;
+	P.G21.P01_Rotor_resistance_x10_mOhm= 1510;
+	P.G21.P02_Stator_inductance_x10_mH= 770;
+	P.G21.P03_Rotor_inductance_x10_mH= 760;
+	P.G21.P04_Stator_transient_inductance_x10_mH= 70;
 	P.G21.P05_Inertia_x1000= 10;
 */
 }
@@ -892,11 +892,11 @@ void System_Variable_Initialization()
 //	Lsigma= 4.09e-3;
 
 
-	Rs= (double)(P.G21.P00_Stator_resistance_x1000)*1.e-3;
-	Rr= (double)(P.G21.P01_Rotor_resistance_x1000)*1.e-3;
- 	Ls= (double)(P.G21.P02_Stator_inductance_x1000)*1.e-3;
-	Lr= (double)(P.G21.P03_Rotor_inductance_x1000)*1.e-3;
-	Lsigma= (double)(P.G21.P04_Stator_transient_inductance_x1000)*1.e-3;
+	Rs= (double)(P.G21.P00_Stator_resistance_x10_mOhm)*1.e-4;
+	Rr= (double)(P.G21.P01_Rotor_resistance_x10_mOhm)*1.e-4;
+ 	Ls= (double)(P.G21.P02_Stator_inductance_x10_mH)*1.e-4;
+	Lr= (double)(P.G21.P03_Rotor_inductance_x10_mH)*1.e-4;
+	Lsigma= (double)(P.G21.P04_Stator_transient_inductance_x10_mH)*1.e-4;
 	Lm= sqrt((Ls-Lsigma)*Lr);
 	Jm= (double)(P.G21.P05_Inertia_x1000)*1.e-3;
 	inv_Jm=1./Jm;
@@ -1115,11 +1115,11 @@ void System_Variable_Update()
 				Ias_offset= (double)P.G00.P04_Ias_offset1+0.0001*(double)P.G00.P05_Ias_offset2;
 				Ibs_offset= (double)P.G00.P06_Ibs_offset1+0.0001*(double)P.G00.P07_Ibs_offset2;
 			}
-			Rs= (double)(P.G21.P00_Stator_resistance_x1000)*1.e-3;
-			Rr= (double)(P.G21.P01_Rotor_resistance_x1000)*1.e-3;
-		 	Ls= (double)(P.G21.P02_Stator_inductance_x1000)*1.e-3;
-			Lr= (double)(P.G21.P03_Rotor_inductance_x1000)*1.e-3;
-			Lsigma= (double)(P.G21.P04_Stator_transient_inductance_x1000)*1.e-3;
+			Rs= (double)(P.G21.P00_Stator_resistance_x10_mOhm)*1.e-4;
+			Rr= (double)(P.G21.P01_Rotor_resistance_x10_mOhm)*1.e-4;
+		 	Ls= (double)(P.G21.P02_Stator_inductance_x10_mH)*1.e-4;
+			Lr= (double)(P.G21.P03_Rotor_inductance_x10_mH)*1.e-4;
+			Lsigma= (double)(P.G21.P04_Stator_transient_inductance_x10_mH)*1.e-4;
 			Lm= sqrt((Ls-Lsigma)*Lr);
 			Jm= (double)(P.G21.P05_Inertia_x1000)*1.e-3;
 			inv_Jm=1./Jm;
@@ -1158,10 +1158,19 @@ void System_Variable_Update()
 	}
 }
 
-// PWM Freq. 가 변경 될경우 초기화를 다시 해줘야 한다. 
-// Main loop 로 이동하여 Interrupt를 막고 초기화를 진행한 후 Interrupt 재시작  
+// Main loop 로 이동하여 Interrupt를 막고 주파수 변경을 진행한 후 Interrupt 재시작  
 void PWM_Frequency_Update()
 {
+	pwm1.init(&pwm1);
+
+	EPwmPeriodCount =	(Uint16)( F_OSC * DSP28_PLLCR / ((double)P.G01.P07_PWM_frequency_x10_kHz*1.e+2) / 2 /2);
+	EPwm1Regs.TBPRD =	EPwmPeriodCount;	// Set timer period
+	EPwm2Regs.TBPRD =	EPwmPeriodCount;	// Set timer period
+	EPwm3Regs.TBPRD =	EPwmPeriodCount;	// Set timer period
+	EPwm4Regs.TBPRD =	EPwmPeriodCount;	// Set timer period
+	EPwm5Regs.TBPRD =	EPwmPeriodCount;	// Set timer period
+
+
 
 #if (DUAL_PWM_INTERRUPT)
 	Tsamp= Tsamp_VF= Tsamp_CC= 1./((double)P.G01.P07_PWM_frequency_x10_kHz*1.e+2)/2.;
@@ -1171,8 +1180,10 @@ void PWM_Frequency_Update()
  
 	Tsamp_SC= Tsamp_FC= Tsamp*4.;
 	Tsamp_SD= Tsamp*2.;
+
 	Period_SD= (Uint32)(CPU_CLOCK*Tsamp_SD); 		// EQEP Timer Period 
-	
+	EQep1Regs.QUPRD=Period_SD-1;
+
 	// Flux Estimation  
 	K_CM1= (1.-(Tsamp_CC/2.)*(Rr/Lr))/(1.+(Tsamp_CC/2.)*(Rr/Lr));
 	K_CM2= (Tsamp_CC/2.)*(Rr/Lr)*Lm/(1.+(Tsamp_CC/2.)*(Rr/Lr));
@@ -1426,6 +1437,7 @@ void Break_Speed_Down_Controller()
 		}
 	}
 }
+
 
 
 //---------------------------------
