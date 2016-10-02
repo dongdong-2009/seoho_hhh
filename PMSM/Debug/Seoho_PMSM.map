@@ -1,7 +1,7 @@
 ******************************************************************************
              TMS320C2000 Linker PC v5.2.4                      
 ******************************************************************************
->> Linked Fri Sep 03 09:25:30 2010
+>> Linked Fri Sep 10 12:41:55 2010
 
 OUTPUT FILE NAME:   <./Debug/Seoho_PMSM.out>
 ENTRY POINT SYMBOL: "code_start"  address: 0033fff6
@@ -22,7 +22,7 @@ PAGE 0:
   FLASHG                00308000   00008000  00000000  00008000  RWIX
   FLASHF                00310000   00008000  00000000  00008000  RWIX
   FLASHE                00318000   00008000  00000000  00008000  RWIX
-  FLASHD                00320000   00008000  00003182  00004e7e  RWIX
+  FLASHD                00320000   00008000  00003136  00004eca  RWIX
   FLASHC                00328000   00008000  00000000  00008000  RWIX
   FLASHA                00338000   00007f80  000004f5  00007a8b  RWIX
   CSM_RSVD              0033ff80   00000076  00000076  00000000  RWIX
@@ -107,7 +107,7 @@ ZONE0DATA
 *          0    00004000    00000800     UNINITIALIZED
                   00004000    00000800     Main.obj (ZONE0DATA)
 
-.text      0    00320000    00002fdb     
+.text      0    00320000    00002f8f     
                   00320000    00000a75     cc.obj (.text)
                   00320a75    0000049e     debug_2833x.obj (.text)
                   00320f13    000003f5     DSP2833x_DMA.obj (.text)
@@ -121,38 +121,38 @@ ZONE0DATA
                   00322364    00000158     DEV_EasydspDac28335.obj (.text)
                   003224bc    0000014a     digital_inout.obj (.text)
                   00322606    00000130     DSP2833x_ECan.obj (.text)
-                  00322736    000000f6     DSP2833x_Xintf.obj (.text)
-                  0032282c    000000f5     DSP2833x_SysCtrl.obj (.text)
-                  00322921    000000f2     sc.obj (.text)
-                  00322a13    000000d3     eCAN.obj (.text)
-                  00322ae6    000000c8     DSP2833x_EPwm.obj (.text)
-                  00322bae    00000088     rts2800_fpu32.lib : fs_div.obj (.text)
-                  00322c36    0000007a     DSP2833x_CpuTimers.obj (.text)
-                  00322cb0    0000005e     rts2800_fpu32.lib : cos.obj (.text)
-                  00322d0e    0000005c     DSP2833x_ECap.obj (.text)
-                  00322d6a    0000005c     rts2800_fpu32.lib : sin.obj (.text)
-                  00322dc6    00000056     DSP2833x_EQep.obj (.text)
-                  00322e1c    00000048     DSP2833x_Sci.obj (.text)
-                  00322e64    00000046     rts2800_fpu32.lib : boot.obj (.text)
-                  00322eaa    0000002a     DSP2833x_Spi.obj (.text)
-                  00322ed4    00000028     DSP2833x_PieCtrl.obj (.text)
-                  00322efc    00000022     rts2800_fpu32.lib : i_div.obj (.text)
-                  00322f1e    00000020     DSP2833x_PieVect.obj (.text)
-                  00322f3e    00000020     rts2800_fpu32.lib : sqrt.obj (.text)
-                  00322f5e    0000001b                       : args_main.obj (.text)
-                  00322f79    00000019                       : exit.obj (.text)
-                  00322f92    00000017     DSP2833x_I2C.obj (.text)
-                  00322fa9    00000017     DSP2833x_MemCopy.obj (.text)
-                  00322fc0    00000009     rts2800_fpu32.lib : _lock.obj (.text)
-                  00322fc9    00000008     DSP2833x_CodeStartBranch.obj (.text)
-                  00322fd1    00000007     DSP2833x_DisInt.obj (.text)
-                  00322fd8    00000003     DSP2833x_DBGIER.obj (.text)
+                  00322736    000000f5     DSP2833x_SysCtrl.obj (.text)
+                  0032282b    000000f2     sc.obj (.text)
+                  0032291d    000000d3     eCAN.obj (.text)
+                  003229f0    000000c8     DSP2833x_EPwm.obj (.text)
+                  00322ab8    000000aa     DSP2833x_Xintf.obj (.text)
+                  00322b62    00000088     rts2800_fpu32.lib : fs_div.obj (.text)
+                  00322bea    0000007a     DSP2833x_CpuTimers.obj (.text)
+                  00322c64    0000005e     rts2800_fpu32.lib : cos.obj (.text)
+                  00322cc2    0000005c     DSP2833x_ECap.obj (.text)
+                  00322d1e    0000005c     rts2800_fpu32.lib : sin.obj (.text)
+                  00322d7a    00000056     DSP2833x_EQep.obj (.text)
+                  00322dd0    00000048     DSP2833x_Sci.obj (.text)
+                  00322e18    00000046     rts2800_fpu32.lib : boot.obj (.text)
+                  00322e5e    0000002a     DSP2833x_Spi.obj (.text)
+                  00322e88    00000028     DSP2833x_PieCtrl.obj (.text)
+                  00322eb0    00000022     rts2800_fpu32.lib : i_div.obj (.text)
+                  00322ed2    00000020     DSP2833x_PieVect.obj (.text)
+                  00322ef2    00000020     rts2800_fpu32.lib : sqrt.obj (.text)
+                  00322f12    0000001b                       : args_main.obj (.text)
+                  00322f2d    00000019                       : exit.obj (.text)
+                  00322f46    00000017     DSP2833x_I2C.obj (.text)
+                  00322f5d    00000017     DSP2833x_MemCopy.obj (.text)
+                  00322f74    00000009     rts2800_fpu32.lib : _lock.obj (.text)
+                  00322f7d    00000008     DSP2833x_CodeStartBranch.obj (.text)
+                  00322f85    00000007     DSP2833x_DisInt.obj (.text)
+                  00322f8c    00000003     DSP2833x_DBGIER.obj (.text)
 
-ramfuncs   0    00322fdb    000001a7     RUN ADDR = 00008000
-                  00322fdb    000000d3     eCAN.obj (ramfuncs)
-                  003230ae    000000b5     debug_2833x.obj (ramfuncs)
-                  00323163    0000001b     DSP2833x_SysCtrl.obj (ramfuncs)
-                  0032317e    00000004     DSP2833x_usDelay.obj (ramfuncs)
+ramfuncs   0    00322f8f    000001a7     RUN ADDR = 00008000
+                  00322f8f    000000d3     eCAN.obj (ramfuncs)
+                  00323062    000000b5     debug_2833x.obj (ramfuncs)
+                  00323117    0000001b     DSP2833x_SysCtrl.obj (ramfuncs)
+                  00323132    00000004     DSP2833x_usDelay.obj (ramfuncs)
 
 .cinit     0    00338000    000003eb     
                   00338000    00000294     cc.obj (.cinit)
@@ -418,10 +418,10 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 address    name
 --------   ----
 00320000   .text
-00322f79   C$$EXIT
-00322bae   FS$$DIV
-00322efc   I$$DIV
-00322f0d   I$$MOD
+00322f2d   C$$EXIT
+00322b62   FS$$DIV
+00322eb0   I$$DIV
+00322ec1   I$$MOD
 00321710   _ADCINT_ISR
 00380080   _ADC_cal
 0000f634   _AICMD
@@ -438,7 +438,7 @@ address    name
 003220fb   _CheckOverVolt
 0032217e   _CheckSpeedDetection
 00322122   _CheckUnderVolt
-00322c75   _ConfigCpuTimer
+00322c29   _ConfigCpuTimer
 0000f572   _CosTheta
 0000f834   _CpuTimer0
 00000c00   _CpuTimer0Regs
@@ -448,7 +448,7 @@ address    name
 00000c10   _CpuTimer2Regs
 0033fff8   _CsmPwl
 00000ae0   _CsmRegs
-003228f0   _CsmUnlock
+003227fa   _CsmUnlock
 0000f58e   _DA1
 0000f582   _DA1_mid
 0000f58c   _DA1_rng
@@ -504,13 +504,13 @@ address    name
 00321293   _DMACH6WrapConfig
 00320f13   _DMAInitialize
 0000f544   _DRIVE_ENABLE
-00322fd1   _DSP28x_DisableInt
-00322fd5   _DSP28x_RestoreInt
+00322f85   _DSP28x_DisableInt
+00322f89   _DSP28x_RestoreInt
 000081a3   _DSP28x_usDelay
 0000f553   _DacFlag
 0000ed40   _Data_Registers
 00000880   _DevEmuRegs
-0032283f   _DisableDog
+00322749   _DisableDog
 00001000   _DmaRegs
 003218be   _ECAN0INTA_ISR
 003218d2   _ECAN0INTB_ISR
@@ -561,7 +561,7 @@ address    name
 003217ec   _EQEP2_INT_ISR
 00006b00   _EQep1Regs
 00006b40   _EQep2Regs
-00322ef3   _EnableInterrupts
+00322ea7   _EnableInterrupts
 0000f5a0   _Err_IdcM
 0000f5ee   _Err_Idse
 0000f5e8   _Err_Iqse
@@ -595,38 +595,38 @@ address    name
 0000f5b0   _Idse_ref_sensorless
 0000f5b2   _Idse_ref_start
 0000f624   _Idss
-00322c36   _InitCpuTimers
+00322bea   _InitCpuTimers
 00322606   _InitECan
 00322707   _InitECanGpio
 0032260b   _InitECana
 0032270c   _InitECanaGpio
 00322689   _InitECanb
 00322722   _InitECanbGpio
-00322d0e   _InitECap
-00322d1c   _InitECap1Gpio
-00322d2a   _InitECap2Gpio
-00322d36   _InitECap3Gpio
-00322d42   _InitECap4Gpio
-00322d4e   _InitECap5Gpio
-00322d5c   _InitECap6Gpio
-00322d0f   _InitECapGpio
-00322ae6   _InitEPwm
-00322af4   _InitEPwm1Gpio
-00322b06   _InitEPwm2Gpio
-00322b18   _InitEPwm3Gpio
-00322b2c   _InitEPwm4Gpio
-00322b40   _InitEPwm5Gpio
-00322b52   _InitEPwm6Gpio
-00322ae7   _InitEPwmGpio
-00322b64   _InitEPwmSyncGpio
-00322dc6   _InitEQep
-00322dcc   _InitEQep1Gpio
-00322df6   _InitEQep2Gpio
-00322dc7   _InitEQepGpio
+00322cc2   _InitECap
+00322cd0   _InitECap1Gpio
+00322cde   _InitECap2Gpio
+00322cea   _InitECap3Gpio
+00322cf6   _InitECap4Gpio
+00322d02   _InitECap5Gpio
+00322d10   _InitECap6Gpio
+00322cc3   _InitECapGpio
+003229f0   _InitEPwm
+003229fe   _InitEPwm1Gpio
+00322a10   _InitEPwm2Gpio
+00322a22   _InitEPwm3Gpio
+00322a36   _InitEPwm4Gpio
+00322a4a   _InitEPwm5Gpio
+00322a5c   _InitEPwm6Gpio
+003229f1   _InitEPwmGpio
+00322a6e   _InitEPwmSyncGpio
+00322d7a   _InitEQep
+00322d80   _InitEQep1Gpio
+00322daa   _InitEQep2Gpio
+00322d7b   _InitEQepGpio
 00008188   _InitFlash
 00321c15   _InitGpio
-00322f92   _InitI2C
-00322f93   _InitI2CGpio
+00322f46   _InitI2C
+00322f47   _InitI2CGpio
 003221f8   _InitMcbsp
 003222d1   _InitMcbspGpio
 003221fd   _InitMcbspa
@@ -645,23 +645,23 @@ address    name
 003222c6   _InitMcbspb32bit
 00322293   _InitMcbspb8bit
 00322310   _InitMcbspbGpio
-00322895   _InitPeripheralClocks
-00322ed4   _InitPieCtrl
-00322f1e   _InitPieVectTable
-00322847   _InitPll
-00322e1c   _InitSci
-00322e1d   _InitSciGpio
-00322e24   _InitSciaGpio
-00322e3a   _InitScibGpio
-00322e4e   _InitScicGpio
-00322eaa   _InitSpi
-00322eab   _InitSpiGpio
-00322eae   _InitSpiaGpio
-0032282c   _InitSysCtrl
-00322b78   _InitTzGpio
-00322736   _InitXintf
-003227d2   _InitXintf16Gpio
-0032278b   _InitXintf32Gpio
+0032279f   _InitPeripheralClocks
+00322e88   _InitPieCtrl
+00322ed2   _InitPieVectTable
+00322751   _InitPll
+00322dd0   _InitSci
+00322dd1   _InitSciGpio
+00322dd8   _InitSciaGpio
+00322dee   _InitScibGpio
+00322e02   _InitScicGpio
+00322e5e   _InitSpi
+00322e5f   _InitSpiGpio
+00322e62   _InitSpiaGpio
+00322736   _InitSysCtrl
+00322a82   _InitTzGpio
+00322ab8   _InitXintf
+00322b28   _InitXintf16Gpio
+00322ae1   _InitXintf32Gpio
 00321ec4   _Init_AD_converter
 00321e9b   _Init_Encoder
 00321e63   _Init_GPIO
@@ -697,7 +697,7 @@ address    name
 00321814   _MXINTB_ISR
 00005000   _McbspaRegs
 00005040   _McbspbRegs
-00322fa9   _MemCopy
+00322f5d   _MemCopy
 0032165c   _NMI_ISR
 0032192c   _PIE_RESERVED
 0000f554   _PMSM_CNTRL
@@ -707,8 +707,8 @@ address    name
 00000d00   _PieVectTable
 003383ec   _PieVectTableInit
 00321648   _RTOSINT_ISR
-00323182   _RamfuncsLoadEnd
-00322fdb   _RamfuncsLoadStart
+00323136   _RamfuncsLoadEnd
+00322f8f   _RamfuncsLoadStart
 00008000   _RamfuncsRunStart
 00321e59   _Relay_setup
 0000f56a   _Rs
@@ -725,10 +725,10 @@ address    name
 00007050   _SciaRegs
 00007750   _ScibRegs
 00007770   _ScicRegs
-00322a4d   _SendDataToECanA
-00322a75   _SendDataToECanB
-00322835   _ServiceDog
-00322fd8   _SetDBGIER
+00322957   _SendDataToECanA
+0032297f   _SendDataToECanB
+0032273f   _ServiceDog
+00322f8c   _SetDBGIER
 0000f568   _SinTheta
 0000f843   _Speed_detect_fault
 00007040   _SpiaRegs
@@ -826,28 +826,28 @@ address    name
 ffffffff   ___binit__
 ffffffff   ___c_args__
 00338000   ___cinit__
-00322fdb   ___etext__
+00322f8f   ___etext__
 ffffffff   ___pinit__
 00320000   ___text__
-00322f5e   __args_main
+00322f12   __args_main
 0000f77c   __cleanup_ptr
 0000f77e   __dtors_ptr
 0000f77a   __lock
-00322fc8   __nop
-00322fc4   __register_lock
-00322fc0   __register_unlock
+00322f7c   __nop
+00322f78   __register_lock
+00322f74   __register_unlock
 00000400   __stack
 0000f778   __unlock
-00322f79   _abort
+00322f2d   _abort
 0000f6c0   _adc
 0000f638   _alpha_cc
 00320a75   _asc2hex
-00322e64   _c_int00
+00322e18   _c_int00
 0000f680   _cal_offset_cnt
 0000f640   _cal_tmp0
 0000f64e   _cal_tmp1
 00321fe8   _calculateOffset
-00322a13   _cana_Tx_process
+0032291d   _cana_Tx_process
 0000ed00   _cana_rx_flag
 0000ed06   _cana_rx_high_data
 0000ed0c   _cana_rx_id
@@ -864,7 +864,7 @@ ffffffff   ___pinit__
 0000f562   _cc_smp
 0032234e   _clkg_delay_loop
 0000f548   _cntl_cnt
-00322cb0   _cos
+00322c64   _cos
 0000f5cc   _cos_theta
 0000f5a8   _cos_theta1
 0000f606   _cos_thetar
@@ -901,7 +901,7 @@ ffffffff   ___pinit__
 000080b9   _ecan1_intb_isr
 00321596   _epwm1_timer_isr
 0000f7f6   _errno
-00322f7b   _exit
+00322f2f   _exit
 0000f666   _fault
 0000f547   _faultEVENT
 0000f543   _faultFT_SWPROT_Ias
@@ -935,7 +935,7 @@ ffffffff   ___pinit__
 0000f5b6   _gain_tr
 0000f5ba   _gain_wr
 00320a8c   _hex2asc
-00322a9f   _init_can
+003229a9   _init_can
 003224bc   _input_state
 0000f644   _integ
 0000f578   _inv_motor_rate_hz
@@ -945,7 +945,7 @@ ffffffff   ___pinit__
 0000f85c   _motor_rate_rpm
 0000f54e   _offset
 0000f751   _op_cnt
-00322921   _op_master
+0032282b   _op_master
 0000f85a   _over_speed_ratio
 00321308   _pwm_buffer_setup
 0000f86b   _pwm_g1
@@ -968,12 +968,12 @@ ffffffff   ___pinit__
 000080d3   _scia_tx_isr
 0000f557   _sensorless_mode
 003224d5   _set_digit_input_funtion
-00322d6a   _sin
+00322d1e   _sin
 0000f5ca   _sin_theta
 0000f5ae   _sin_theta1
 0000f600   _sin_thetar
-0032294d   _speed_controller
-00322f3e   _sqrt
+00322857   _speed_controller
+00322ef2   _sqrt
 00320be0   _state0_proc
 00320d4d   _state1_proc
 00320d6a   _state2_proc
@@ -1001,7 +1001,7 @@ ffffffff   ___pinit__
 ffffffff   binit
 00338000   cinit
 0033fff6   code_start
-00322fdb   etext
+00322f8f   etext
 ffffffff   pinit
 
 
@@ -1509,80 +1509,80 @@ address    name
 00322707   _InitECanGpio
 0032270c   _InitECanaGpio
 00322722   _InitECanbGpio
-00322736   _InitXintf
-0032278b   _InitXintf32Gpio
-003227d2   _InitXintf16Gpio
-0032282c   _InitSysCtrl
-00322835   _ServiceDog
-0032283f   _DisableDog
-00322847   _InitPll
-00322895   _InitPeripheralClocks
-003228f0   _CsmUnlock
-00322921   _op_master
-0032294d   _speed_controller
-00322a13   _cana_Tx_process
-00322a4d   _SendDataToECanA
-00322a75   _SendDataToECanB
-00322a9f   _init_can
-00322ae6   _InitEPwm
-00322ae7   _InitEPwmGpio
-00322af4   _InitEPwm1Gpio
-00322b06   _InitEPwm2Gpio
-00322b18   _InitEPwm3Gpio
-00322b2c   _InitEPwm4Gpio
-00322b40   _InitEPwm5Gpio
-00322b52   _InitEPwm6Gpio
-00322b64   _InitEPwmSyncGpio
-00322b78   _InitTzGpio
-00322bae   FS$$DIV
-00322c36   _InitCpuTimers
-00322c75   _ConfigCpuTimer
-00322cb0   _cos
-00322d0e   _InitECap
-00322d0f   _InitECapGpio
-00322d1c   _InitECap1Gpio
-00322d2a   _InitECap2Gpio
-00322d36   _InitECap3Gpio
-00322d42   _InitECap4Gpio
-00322d4e   _InitECap5Gpio
-00322d5c   _InitECap6Gpio
-00322d6a   _sin
-00322dc6   _InitEQep
-00322dc7   _InitEQepGpio
-00322dcc   _InitEQep1Gpio
-00322df6   _InitEQep2Gpio
-00322e1c   _InitSci
-00322e1d   _InitSciGpio
-00322e24   _InitSciaGpio
-00322e3a   _InitScibGpio
-00322e4e   _InitScicGpio
-00322e64   _c_int00
-00322eaa   _InitSpi
-00322eab   _InitSpiGpio
-00322eae   _InitSpiaGpio
-00322ed4   _InitPieCtrl
-00322ef3   _EnableInterrupts
-00322efc   I$$DIV
-00322f0d   I$$MOD
-00322f1e   _InitPieVectTable
-00322f3e   _sqrt
-00322f5e   __args_main
-00322f79   C$$EXIT
-00322f79   _abort
-00322f7b   _exit
-00322f92   _InitI2C
-00322f93   _InitI2CGpio
-00322fa9   _MemCopy
-00322fc0   __register_unlock
-00322fc4   __register_lock
-00322fc8   __nop
-00322fd1   _DSP28x_DisableInt
-00322fd5   _DSP28x_RestoreInt
-00322fd8   _SetDBGIER
-00322fdb   _RamfuncsLoadStart
-00322fdb   ___etext__
-00322fdb   etext
-00323182   _RamfuncsLoadEnd
+00322736   _InitSysCtrl
+0032273f   _ServiceDog
+00322749   _DisableDog
+00322751   _InitPll
+0032279f   _InitPeripheralClocks
+003227fa   _CsmUnlock
+0032282b   _op_master
+00322857   _speed_controller
+0032291d   _cana_Tx_process
+00322957   _SendDataToECanA
+0032297f   _SendDataToECanB
+003229a9   _init_can
+003229f0   _InitEPwm
+003229f1   _InitEPwmGpio
+003229fe   _InitEPwm1Gpio
+00322a10   _InitEPwm2Gpio
+00322a22   _InitEPwm3Gpio
+00322a36   _InitEPwm4Gpio
+00322a4a   _InitEPwm5Gpio
+00322a5c   _InitEPwm6Gpio
+00322a6e   _InitEPwmSyncGpio
+00322a82   _InitTzGpio
+00322ab8   _InitXintf
+00322ae1   _InitXintf32Gpio
+00322b28   _InitXintf16Gpio
+00322b62   FS$$DIV
+00322bea   _InitCpuTimers
+00322c29   _ConfigCpuTimer
+00322c64   _cos
+00322cc2   _InitECap
+00322cc3   _InitECapGpio
+00322cd0   _InitECap1Gpio
+00322cde   _InitECap2Gpio
+00322cea   _InitECap3Gpio
+00322cf6   _InitECap4Gpio
+00322d02   _InitECap5Gpio
+00322d10   _InitECap6Gpio
+00322d1e   _sin
+00322d7a   _InitEQep
+00322d7b   _InitEQepGpio
+00322d80   _InitEQep1Gpio
+00322daa   _InitEQep2Gpio
+00322dd0   _InitSci
+00322dd1   _InitSciGpio
+00322dd8   _InitSciaGpio
+00322dee   _InitScibGpio
+00322e02   _InitScicGpio
+00322e18   _c_int00
+00322e5e   _InitSpi
+00322e5f   _InitSpiGpio
+00322e62   _InitSpiaGpio
+00322e88   _InitPieCtrl
+00322ea7   _EnableInterrupts
+00322eb0   I$$DIV
+00322ec1   I$$MOD
+00322ed2   _InitPieVectTable
+00322ef2   _sqrt
+00322f12   __args_main
+00322f2d   C$$EXIT
+00322f2d   _abort
+00322f2f   _exit
+00322f46   _InitI2C
+00322f47   _InitI2CGpio
+00322f5d   _MemCopy
+00322f74   __register_unlock
+00322f78   __register_lock
+00322f7c   __nop
+00322f85   _DSP28x_DisableInt
+00322f89   _DSP28x_RestoreInt
+00322f8c   _SetDBGIER
+00322f8f   _RamfuncsLoadStart
+00322f8f   ___etext__
+00322f8f   etext
+00323136   _RamfuncsLoadEnd
 00338000   ___cinit__
 00338000   cinit
 003383ec   _PieVectTableInit

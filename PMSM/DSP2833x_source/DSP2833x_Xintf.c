@@ -70,14 +70,14 @@ void InitXintf(void)
     XintfRegs.XTIMING0.bit.X2TIMING = 1;
 
     // Zone will sample XREADY signal
-    XintfRegs.XTIMING0.bit.USEREADY = 1;
+    XintfRegs.XTIMING0.bit.USEREADY = 0;   // ignore XREADY signal
     XintfRegs.XTIMING0.bit.READYMODE = 1;  // sample asynchronous
 
     // Size must be either:
     // 0,1 = x32 or
     // 1,1 = x16 other values are reserved
     XintfRegs.XTIMING0.bit.XSIZE = 3;
-
+/*
     // Zone 6------------------------------------
     // When using ready, ACTIVE must be 1 or greater
     // Lead must always be 1 or greater
@@ -133,6 +133,7 @@ void InitXintf(void)
     // This will help avoid bus contention.
     XintfRegs.XBANK.bit.BANK = 7;
     XintfRegs.XBANK.bit.BCYC = 7;
+*/
     EDIS;
    //Force a pipeline flush to ensure that the write to
    //the last register configured occurs before returning.
@@ -188,14 +189,14 @@ void InitXintf32Gpio()
 void InitXintf16Gpio()
 {
      EALLOW;
-     GpioCtrlRegs.GPCMUX1.bit.GPIO64 = 3;  // XD15
-     GpioCtrlRegs.GPCMUX1.bit.GPIO65 = 3;  // XD14
-     GpioCtrlRegs.GPCMUX1.bit.GPIO66 = 3;  // XD13
-     GpioCtrlRegs.GPCMUX1.bit.GPIO67 = 3;  // XD12
-     GpioCtrlRegs.GPCMUX1.bit.GPIO68 = 3;  // XD11
-     GpioCtrlRegs.GPCMUX1.bit.GPIO69 = 3;  // XD10
-     GpioCtrlRegs.GPCMUX1.bit.GPIO70 = 3;  // XD19
-     GpioCtrlRegs.GPCMUX1.bit.GPIO71 = 3;  // XD8
+     //GpioCtrlRegs.GPCMUX1.bit.GPIO64 = 3;  // XD15
+     //GpioCtrlRegs.GPCMUX1.bit.GPIO65 = 3;  // XD14
+     //GpioCtrlRegs.GPCMUX1.bit.GPIO66 = 3;  // XD13
+     //GpioCtrlRegs.GPCMUX1.bit.GPIO67 = 3;  // XD12
+     //GpioCtrlRegs.GPCMUX1.bit.GPIO68 = 3;  // XD11
+     //GpioCtrlRegs.GPCMUX1.bit.GPIO69 = 3;  // XD10
+     //GpioCtrlRegs.GPCMUX1.bit.GPIO70 = 3;  // XD9
+     //GpioCtrlRegs.GPCMUX1.bit.GPIO71 = 3;  // XD8
      GpioCtrlRegs.GPCMUX1.bit.GPIO72 = 3;  // XD7
      GpioCtrlRegs.GPCMUX1.bit.GPIO73 = 3;  // XD6
      GpioCtrlRegs.GPCMUX1.bit.GPIO74 = 3;  // XD5
@@ -222,18 +223,18 @@ void InitXintf16Gpio()
      GpioCtrlRegs.GPCMUX2.bit.GPIO85 = 3;  // XA13
      GpioCtrlRegs.GPCMUX2.bit.GPIO86 = 3;  // XA14
      GpioCtrlRegs.GPCMUX2.bit.GPIO87 = 3;  // XA15
-     GpioCtrlRegs.GPBMUX1.bit.GPIO39 = 3;  // XA16
-     GpioCtrlRegs.GPAMUX2.bit.GPIO31 = 3;  // XA17
-     GpioCtrlRegs.GPAMUX2.bit.GPIO30 = 3;  // XA18
-     GpioCtrlRegs.GPAMUX2.bit.GPIO29 = 3;  // XA19
+     //GpioCtrlRegs.GPBMUX1.bit.GPIO39 = 3;  // XA16
+     //GpioCtrlRegs.GPAMUX2.bit.GPIO31 = 3;  // XA17
+     //GpioCtrlRegs.GPAMUX2.bit.GPIO30 = 3;  // XA18
+     //GpioCtrlRegs.GPAMUX2.bit.GPIO29 = 3;  // XA19
 
-     GpioCtrlRegs.GPBMUX1.bit.GPIO34 = 3;  // XREADY
-	 GpioCtrlRegs.GPBMUX1.bit.GPIO35 = 3;  // XRNW
+     //GpioCtrlRegs.GPBMUX1.bit.GPIO34 = 3;  // XREADY
+	 //GpioCtrlRegs.GPBMUX1.bit.GPIO35 = 3;  // XRNW
      GpioCtrlRegs.GPBMUX1.bit.GPIO38 = 3;  // XWE0
 
      GpioCtrlRegs.GPBMUX1.bit.GPIO36 = 3;  // XZCS0
-     GpioCtrlRegs.GPBMUX1.bit.GPIO37 = 3;  // XZCS7
-     GpioCtrlRegs.GPAMUX2.bit.GPIO28 = 3;  // XZCS6
+     //GpioCtrlRegs.GPBMUX1.bit.GPIO37 = 3;  // XZCS7
+     //GpioCtrlRegs.GPAMUX2.bit.GPIO28 = 3;  // XZCS6
      EDIS;
 }
 

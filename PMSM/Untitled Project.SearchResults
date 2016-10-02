@@ -1,1 +1,6 @@
----- idcm Matches (0 in 0 files) ----
+---- Temp_Registers Matches (5 in 2 files) ----
+eCAN.c (src):WORD Temp_Registers[1024];
+eCAN.c (src):	if(Data_Registers[reg_TxOffset] != Temp_Registers[reg_TxOffset])
+eCAN.c (src):		Temp_Registers[reg_TxOffset] = Data_Registers[reg_TxOffset];
+Main.c (src):extern WORD Temp_Registers[1024];
+Main.c (src):		Temp_Registers[i]=0xffff;
