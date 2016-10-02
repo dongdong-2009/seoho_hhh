@@ -283,6 +283,9 @@ interrupt void scic_tx_isr(void)
 //-----------------------------
 unsigned char SciC_RxStep=0;
 unsigned char SciC_RxFlag=0;
+unsigned int Communication_Fault_Cnt = 100;
+unsigned char Communication_Fault_Flag = 0;
+
 
  unsigned int RxType=0;
 unsigned int RxAddr=0;
@@ -386,6 +389,26 @@ interrupt void scic_rx_isr(void)
 					SCIC_TX_START;
 					Data_Registers[RxAddr] = RxData;
 				}
+				else if(RxType == REQUEST)
+				{
+					CRC.Word = 0;
+					scic_putc(RxBuf[0]);								CRC_16(RxBuf[0]);
+					scic_putc(RxBuf[1]);								CRC_16(RxBuf[1]);
+					scic_putc(SEND);									CRC_16(SEND);
+					scic_putc(RxBuf[3]);								CRC_16(RxBuf[3]);
+					scic_putc(RxBuf[4]);								CRC_16(RxBuf[4]);
+					scic_putc((char)(Data_Registers[RxAddr]>>8)); CRC_16((char)(Data_Registers[RxAddr]>>8));
+					scic_putc((char)Data_Registers[RxAddr]);		CRC_16((char)Data_Registers[RxAddr]);
+
+					scic_putc(CRC.Byte.b1);
+					scic_putc(CRC.Byte.b0);
+
+					SCIC_TX_START;
+				}
+				else if(RxType == QUERY)
+				{
+					Communication_Fault_Cnt = 100;
+				}
 				
 			}
 			SciC_RxStep=0;
@@ -440,7 +463,7 @@ unsigned int i;
 	{
 		for(i=0;i<Buf_MAX;i++)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11111
 		{
-			SCI_Registers[i]=0xFFFF;
+			SCI_Registers[i]=0x0000;
 		}
 		Data_Registers[3195] = 0;
 		SCI_Registers[3195] = 0;
@@ -454,7 +477,7 @@ unsigned int i;
 			//SCI_Registers[SCI_TxOffset] = Data_Registers[SCI_TxOffset];
 
 			CRC.Word = 0;
-#if 1
+
 			scic_putc(0xAB);										CRC_16(0xAB);
 			scic_putc(0xCD);										CRC_16(0xCD);
 
@@ -468,18 +491,68 @@ unsigned int i;
 
 			scic_putc(CRC.Byte.b1);
 			scic_putc(CRC.Byte.b0);
-#endif
+
 			SCIC_TX_START;
 			TxDelyCnt = 6000;
 		}
 
+
 		SCI_TxOffset ++;	
-		if(Buf_MAX <= SCI_TxOffset) SCI_TxOffset = 0;
+		if(Buf_MAX <= SCI_TxOffset) 
+		{
+			SCI_TxOffset = 0;
+
+			CRC.Word = 0;
+			scic_putc(0xAB);			CRC_16(0xAB);
+			scic_putc(0xCD);			CRC_16(0xCD);
+
+			scic_putc(QUERY);			CRC_16(QUERY);
+
+			scic_putc(0);				CRC_16(0);
+			scic_putc(0);				CRC_16(0);
+
+			scic_putc(0);				CRC_16(0);
+			scic_putc(0);				CRC_16(0);
+
+			scic_putc(CRC.Byte.b1);
+			scic_putc(CRC.Byte.b0);
+
+			SCIC_TX_START;
+
+			if(!Communication_Fault_Cnt)Communication_Fault_Flag=1;
+			else 
+			{
+				Communication_Fault_Cnt--;
+				Communication_Fault_Flag=0;
+			}
+
+		}
 	}
 	else
 	{
 		TxDelyCnt--;
 	}
+}
+
+
+void SCIC_RequestData(unsigned int addr)
+{
+	CRC.Word = 0;
+	scic_putc(0xAB); 		CRC_16(0xAB);
+	scic_putc(0xCD); 		CRC_16(0xCD);
+	
+	scic_putc(REQUEST);		CRC_16(REQUEST);
+	
+	scic_putc(0);				CRC_16(0);
+	scic_putc(0);				CRC_16(0);
+	
+	scic_putc(0);				CRC_16(0);
+	scic_putc(0);				CRC_16(0);
+	
+	scic_putc(CRC.Byte.b1);
+	scic_putc(CRC.Byte.b0);
+	SCIC_TX_START;
+
 }
 
 

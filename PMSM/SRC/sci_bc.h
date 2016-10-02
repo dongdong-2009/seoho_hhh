@@ -91,8 +91,11 @@ CRC_flg 	    CRC ;
 
 Bit_field_ flag0;
 
+#define QUERY 0x01
 #define SEND		0x02
 #define RESPONSE 0x03
+#define REQUEST 0x04
+
 
 //unsigned int Comm_array[3000];
 
@@ -115,6 +118,9 @@ interrupt void scib_tx_isr(void);
 interrupt void scib_rx_isr(void);
 interrupt void scic_tx_isr(void);
 interrupt void scic_rx_isr(void);
+
+void SCIC_RequestData(unsigned int addr);
+
 
 void scic_test(void);
 void CRC_16(unsigned char input);
