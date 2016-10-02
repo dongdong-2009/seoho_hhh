@@ -86,7 +86,9 @@
 **------------------------------------------------------------------------------
 */
 
-#define MB_DEFAULT_TIMEOUT  6 //2 in case of dualsampling, 1 in case of no dualsampling 1ms  //500  //75000 
+#define MB_DEFAULT_TIMEOUT  10 //// 2 in case of dualsampling, 1 in case of no dualsampling 1ms  //500  //75000 
+//PBHP_110901 : 10이하일때 데이터 수신이 원활하게 이루어지지 않을 수 있음
+//                          아직 수신중인데 CRC를 검사함
 
 
 

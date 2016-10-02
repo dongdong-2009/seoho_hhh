@@ -1,7 +1,7 @@
 ; Code Composer Project File, Version 2.0 (do not modify or remove this line)
 
 [Project Settings]
-ProjectDir="C:\tidcs\blade pitch control\Seoho VD Drive Program_110527_flash_ryu\"
+ProjectDir="C:\work\Seoho Blade Drive Program_110727_choi\"
 ProjectType=Executable
 CPUFamily=TMS320C28XX
 Tool="Compiler"
@@ -19,6 +19,7 @@ Source="lib\rts2800_fpu32_fast_supplement.lib"
 Source="source\Seoho Source\abic.c"
 Source="source\Seoho Source\All_Interrupt.c"
 Source="source\Seoho Source\All_Main.c"
+Source="source\Seoho Source\CANOPEN_SCI_B.c"
 Source="source\Seoho Source\Core_ADC_DAC_PWM.c"
 Source="source\Seoho Source\Core_Auto_Tuning.c"
 Source="source\Seoho Source\Core_Common_Module.c"
@@ -83,6 +84,3 @@ LinkOrder=1
 ["cmd\F28335.cmd" Settings: "Release"]
 LinkOrder=1
 
-
-[Tools]
-ToolDeleteList 

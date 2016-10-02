@@ -159,11 +159,14 @@ double Multi_Step_Processing( )
 	int Temp = 0;
 
 	double di_ref;
-
+/*
 	if (Flag.DI.bit.MULTI_STEP_BIT0)	Temp+= 1;
 	if (Flag.DI.bit.MULTI_STEP_BIT1)	Temp+= 2;
 	if (Flag.DI.bit.MULTI_STEP_BIT2)	Temp+= 4;
 	if (Flag.DI.bit.MULTI_STEP_BIT3)	Temp+= 8;
+*/
+	if (Flag.DI.bit.MULTI_STEP_BIT0)	Theta_angle_ref= 90.;
+	if (Flag.DI.bit.MULTI_STEP_BIT1)	Theta_angle_ref=0.;
 
 	switch (Temp)
 	{

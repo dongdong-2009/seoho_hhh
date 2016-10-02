@@ -418,7 +418,7 @@ void Flux_Controller()
 #pragma CODE_SECTION(Speed_Controller, "ramfuncs");
 void Speed_Controller()
 {
-	double a;
+	double a, b;
 	double Wsl= 0., Wrm_ref= 0., Err_Wrm= 0.;
 	
 	static double Wrm_flt= 0.;
@@ -426,11 +426,21 @@ void Speed_Controller()
 	static double Iqse_ref_fb= 0., Iqse_ref_ff= 0.;
 
 	Wrm_flt+= (1250.*Tsamp_SC)*(Wrm_det_flt-Wrm_flt);
-
 //	Wc_sc = 250.;
-	Kp_sc = Jm*Wc_sc/Kt;
-	Ki_sc = Kp_sc*(Wc_sc/3.);
+
+	a= fabs(Wrm_flt / (RPM2WRM*(double)P.G01.P05_Rated_speed));
+
+	if (a>0.3)	b= Wc_sc*0.25;
+	else if (a<0.1) b= Wc_sc;
+	else b= Wc_sc*(1.-3.75*(a-0.1));  // Wc_sc*(1.-1.*(a-0.1));
+
+	Kp_sc = Jm*b/Kt;
+	Ki_sc = Kp_sc*(b/5.); 
 	Ka_sc = 2./Kp_sc; 
+
+//	Kp_sc = Jm*Wc_sc/Kt;
+//	Ki_sc = Kp_sc*(Wc_sc/5.); 
+//	Ka_sc = 2./Kp_sc;  
 
 	Wrm_ref = RPM2WRM * Wrpm_ref;
 	Err_Wrm = Wrm_ref - Wrm_flt;
@@ -450,7 +460,9 @@ void Speed_Controller()
 		Iqse_ref_integ += Ki_sc*Tsamp_SC*(Err_Wrm-Ka_sc*(Iqse_ref_fb+Iqse_ref_ff-Iqse_ref));
 		Iqse_ref_fb = Kp_sc*Err_Wrm + Iqse_ref_integ;
 		Iqse_ref_ff = 0.;
+
 		a = Iqse_ref_fb + Iqse_ref_ff;
+
 		// Limit 
 		Iqse_ref  = BOUND(a, Iqse_ref_max, (-Iqse_ref_max));
 		// Angular Frequency 
@@ -461,7 +473,8 @@ void Speed_Controller()
 
 }
 
-double Wc_pc=10.;
+double Wc_pc=20.;
+//double Wc_pc=5.;
 #pragma CODE_SECTION(Position_Controller, "ramfuncs");
 void Position_Controller()
 {
@@ -471,7 +484,8 @@ void Position_Controller()
 	static double Theta_fb_old= 0.;
 	static unsigned int first= 0;
 	static double Turn_fb, Position_fb;
-	static double Wrpm_ref_limit= 2500.;
+//	static double Wrpm_ref_limit= 2500.;
+	static double Wrpm_ref_limit= 1470.;
 
 	// Position Control Gain
 //	Wc_pc= 100.;  // 50
@@ -497,8 +511,11 @@ void Position_Controller()
 		first= 100;
 	}	
 
+	Theta_ref = 27.1870573 * Theta_angle_ref;  // 1turn Thetaref 6.2832 ... hub ring 1557.7:1 
+
 	// Theta_fb Filtering
  	Theta_fb= Turn_fb + Position_fb;
+	etest5 = Theta_fb;
 	Theta_fb_flt= (Theta_fb + Theta_fb_old)/2.;
 //	Theta_fb_flt= Theta_fb;
 	Theta_fb_old= Theta_fb_flt;

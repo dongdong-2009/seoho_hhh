@@ -103,7 +103,7 @@ extern double Kob_sd;
 extern double Theta; 
 extern double Thetar;
 extern double Theta_ref;
-
+extern double Theta_angle_ref, Theta_angle_err, Theta_angle_flt;
 // ÅäÅ©
 extern double Te;  
 
@@ -272,7 +272,7 @@ extern Uint16 abs_position;
 extern int test1, test2, test3, test4, test5, tcnt0; //, test6, test7, test8, test9;
 extern Uint16 test6, test7, test8, test9, test10;
 
-extern double etest1, etest2, etest3, etest4, etest5;
+extern double etest1, etest2, etest3, etest4, etest5, etest6;
 
 
 //extern float etest1, etest2, etest3;

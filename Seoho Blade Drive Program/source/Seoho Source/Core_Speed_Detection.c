@@ -291,8 +291,6 @@ void Speed_Detection_ABS()
 		Steps_per_turn_buf = ((Steps_buf1 <<10) & 0x1C00) | Steps_buf2;
 		number_turn[j] = Number_of_turns_buf;
 		step_turn[j] = Steps_per_turn_buf;
-//		test4 = step_turn[1];
-//		test5 = number_turn[1];
 	}
 
     diff1 = abs(step_turn[0] - step_turn[1]);
@@ -306,6 +304,10 @@ void Speed_Detection_ABS()
 		test9 = step_turn[2];
 		test10 = step_turn[3];
 	}
+
+	
+	Number_of_turns = number_turn[1];
+	
 
 /*
    if (diff1 < diff2) {
@@ -351,6 +353,9 @@ void Speed_Detection_ABS()
 		}
 
 
+
+	etest6 = abs_position;
+
 /*
 	j = abs_position - pre_abs_position;
 	if(j>(4096))		pulse_num = j - (8192);
@@ -391,14 +396,12 @@ void Speed_Detection_ABS()
 	{
 		pls = (long)(abs_position)&(0x1fff);
 
-//		test6=pls;
 			/* MT Rountine */
 		if(pls!=Pulse_Counter_ABS) 
 	 
 		{
 			i = pls - Pulse_Counter_ABS;
 
-			etest4 = i;
 			if(i>(4096))		pulse_num = i - (8192);
 			else if(i<-(4096))	pulse_num = i + (8192);
 			else				pulse_num = i;
@@ -407,7 +410,6 @@ void Speed_Detection_ABS()
 			/* Dir_mt : 1(positive) -1(negative) */		
 			a = pulse_num;
 
-			etest4 = a;
 			if(pulse_num*Dir_ABS<0) 
 			{
 				a +=Dir_ABS*1.;
@@ -490,6 +492,7 @@ void Speed_Detection_ABS()
 	Tl_est = Tl_tmp;
 	Te = Te_tmp;
 
+	etest4=Te;
 
 	Wrm_est_flt = 0.5*(Wrm_est+Wrm_est_old);
 	Wrm_est_old = Wrm_est;
@@ -498,7 +501,6 @@ void Speed_Detection_ABS()
 
 	//rpm calc.
 	Wrpm_ABS = (60./(2.*PI))*Wrm_ABS; 
-	etest5= Wrpm_ABS;
 	Wrpm_est= (60./(2.*PI))*Wrm_est;
 
 

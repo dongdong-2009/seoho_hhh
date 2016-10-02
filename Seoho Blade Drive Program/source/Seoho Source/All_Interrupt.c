@@ -316,13 +316,31 @@ interrupt void MainPWM(void)
 
 */
 
+	DA3= etest4;		DA3_rng= 100.;		DA3_offset= 0.;       // torque
+	DA4= etest6;			DA4_rng= 600.;		DA4_offset= 0.;  // encoder pulse
+
+/*
+	DA1= Theta_ref;		DA1_rng= 3000.;		DA1_offset= 0.;   // 90 degree Theta_ref 2446.83516
+	DA2= etest5;		DA2_rng= 3000.;		DA2_offset= 0.;
+	DA3= etest4;			DA3_rng= 50.;		DA3_offset= 0.;
+	DA4= etest6;			DA4_rng= 25.;		DA4_offset= 0.;
+
+
+	DA1=  Wrpm_ref;		DA1_rng= 5000.;		DA1_offset= 0.;
+	DA2= Wrpm_det;		DA2_rng= 5000.;		DA2_offset= 0.;
+	DA3= etest4;			DA3_rng= 50.;		DA3_offset= 0.;
+	DA4= Iqse;			DA4_rng= 50.;		DA4_offset= 0.;
+
+
+
 	DA1= Wrpm_ref;		DA1_rng= 5000.;		DA1_offset= 0.;
+//	DA1= etest4;		DA1_rng= 100.;		DA1_offset= 0.;
 	DA2= Wrpm_det;		DA2_rng= 5000.;		DA2_offset= 0.;
 
 	DA3= Iqse_ref;			DA3_rng= 50.;		DA3_offset= 0.;
 	DA4= Iqse;			DA4_rng= 50.;		DA4_offset= 0.;
 
-
+*/
 
 	dev_BackgroundDAC ();
 
@@ -332,9 +350,6 @@ interrupt void MainPWM(void)
 
 	EPwm1Regs.ETCLR.bit.INT = 1;	
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP3;	
-
-
-	 
 }
 
 

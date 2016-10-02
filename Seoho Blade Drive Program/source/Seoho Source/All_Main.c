@@ -16,9 +16,10 @@ WORD t_cnt0 = 0;
 
 //unsigned char abInData[2]={0,};
 //unsigned char abOutData[2]={0,};
-unsigned char abInData[32]={0,};
-unsigned char abOutData[32]={0,};
+unsigned char abInData[64]={0,};
+unsigned char abOutData[64]={0,};
 unsigned int InOutAddr=0;
+unsigned int InOutDataSize=8;//PBHP_110901 변수 추가
 int16 test11=0, test12=0;
 //UCHAR canInData[128]={0,};
 //UCHAR canOutData[128]={0,};
@@ -221,7 +222,10 @@ void main( void )
             ABIC_NormalMode();
 	    }
 */
-		ABIC_ReadOutData( InOutAddr, 4, abInData );   // canopen
+	InOutAddr = 0;
+	InOutDataSize = 32;//PBHP_110901 변수 추가
+
+		ABIC_ReadOutData( InOutAddr, InOutDataSize, abInData );   // canopen
 
         //ABIC_ReadOutData( InOutAddr, 2, abInData );
 
@@ -261,7 +265,7 @@ void main( void )
 			}
             */
 
-		    for (i=0; i<2; i++) 
+		    for (i=0; i<( InOutDataSize*2); i++) 
 		        canInData[(2*InOutAddr)+i] = abInData[i];
 
             if (InOutAddr == 0) {
@@ -272,16 +276,19 @@ void main( void )
             //abOutData[0] = canOutData[(2*InOutAddr)+0];
 			//abOutData[1] = canOutData[(2*InOutAddr)+1];
             //ABIC_WriteInData(InOutAddr, 1, abOutData);
-			for (i=0; i<2; i++)
+			for (i=0; i<( InOutDataSize*2); i++)
 		        abOutData[i] = canOutData[(4*InOutAddr)+i];
 
-            //ABIC_WriteInData(InOutAddr, 8, abOutData);
+            //ABIC_WriteInData(InOutAddr, 1, abOutData);
 
 			ReadDoneFlag=0;
 
-			InOutAddr++;
+			
+			
+
+			//InOutAddr = InOutAddr + InOutDataSize;   //PBHP_110901 한번에 받을 수 있으므로 삭제
 			//if(64<= InOutAddr)InOutAddr = 0;
-			if(64<= InOutAddr)InOutAddr = 0;
+
 		}
 
 #endif

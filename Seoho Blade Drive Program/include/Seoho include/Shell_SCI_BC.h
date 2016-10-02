@@ -28,16 +28,12 @@ typedef	union
 } CRC_flg ;
 
 // SCI-B, SCI-C Interrupt Service Function 선언
-#pragma CODE_SECTION(scib_tx_isr, "ramfuncs");
-#pragma CODE_SECTION(scib_rx_isr, "ramfuncs");
+//#pragma CODE_SECTION(scib_tx_isr, "ramfuncs");
+//#pragma CODE_SECTION(scib_rx_isr, "ramfuncs");
 #pragma CODE_SECTION(scic_tx_isr, "ramfuncs");
 #pragma CODE_SECTION(scic_rx_isr, "ramfuncs");
 
 #define	CPUCLK			150000000L							// CPU Main Clock
-#define	SCIB_LSPCLK		(CPUCLK/4)							// Peripheral Low Speed Clock for SCI-B
-#define	SCIB_BAUDRATE	57600L								// SCI-B Baudrate
-#define	SCIB_BRR_VAL	(SCIB_LSPCLK/(8*SCIB_BAUDRATE)-1)	// SCI-B BaudRate 설정 Register 값
-
 #define	SCIC_LSPCLK		(CPUCLK/4)							// Peripheral Low Speed Clock for SCI-C
 #define	SCIC_BAUDRATE	19200L								// SCI-C Baudrate
 //#define	SCIC_BAUDRATE	9600L								// SCI-C Baudrate
@@ -87,7 +83,7 @@ typedef	union
 #define REQUEST		0x04
 
 
-void scib_init(void);
+//void scib_init(void);
 void scic_init(void);
 void scib_TxChar(char c);
 void scib_TxString(char *p);
@@ -95,10 +91,8 @@ void scic_TxChar(char c);
 void scic_TxString(char *p);
 void scib_tx_start(void);
 void scic_tx_start(void);
-void scib_putc(char d);
+//void scib_putc(char d);
 //void scic_putc(char d);
-void scib_puts(char *p);
-void scic_puts(char *p);
 void sci_hex2(BYTE d);
 char hex_to_asc(char hex);
 

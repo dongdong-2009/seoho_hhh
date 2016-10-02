@@ -71,8 +71,8 @@
 
 //UCHAR abCheckRequest[ 6 ] = { 0x01, 0x04, 0x50, 0x01, 0x00, 0x01 } ;
 //UCHAR abSetRequest[ 6 ] = { 0x01, 0x06, 0x50, 0x01, 0x00, 0x01 } ;
-//UCHAR abRequest[ 11] = { 0x01, 0x03, 0x50, 0x01, 0x00, 0x01,0,0,0,0,0 } ;
-//UCHAR abResponse[ 10 ] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00} ;
+UCHAR abRequest[ 11] = { 0x01, 0x03, 0x50, 0x01, 0x00, 0x01,0,0,0,0,0 } ;
+UCHAR abResponse[ 10 ] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00} ;
 /*------------------------------------------------------------------------------
 ** ABIC_AutoBaud()
 **------------------------------------------------------------------------------
@@ -403,7 +403,7 @@ BOOL ABIC_WriteInData( UCHAR bOffset, UCHAR bSize, UCHAR* pData )
    UINT16 iCrc;
    UCHAR bCharPos = 0;
 
-#if 1
+#if 0
 	if(WriteStep == 0)
 	{
 		if(!WriteDoneFlag && ReadDoneFlag)
@@ -551,7 +551,7 @@ BOOL ABIC_WriteInData( UCHAR bOffset, UCHAR bSize, UCHAR* pData )
 #endif
 
 
-#if 0
+#if 1
 		abRequest[ 0 ] = 0x01;           /* Modbus Address           */
 		abRequest[ 1 ] = 0x10;           /* Modbus Function Code     */
 		abRequest[ 2 ] = 0x00;           /* Starting Address High    */

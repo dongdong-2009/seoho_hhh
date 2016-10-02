@@ -1,0 +1,124 @@
+
+<2011. 07. 09>
+- 폴더명 : Seoho Blade Drive Program_110709_ryu
+- dualsampling시에도 통신이 되도록 수정
+  -> normal sampling시 MB_DEFAULT_TIMEOUT = 1로 되어 있던것 dualsampling에서 MB_DEFAULT_TIMEOUT = 2로 수정
+- CANopenparameter structure형태로 추가
+- 모드버스 통신속도 38400 -> 57600으로 변경, Autobaud가 되나 변경후 반드시 전원 껏다 켜야 함
+  -> 통신속도 변경후 MB_DEFAULT_TIMEOUT = 1로 수정
+
+<2011. 07. 12>
+- 폴더명 : Seoho Blade Drive Program_110712_ryu
+- 모드버스 통신 패킷에서 통신 바이트수 변경 : 2바이트 -> 4바이트
+  -> 어떤때는 데이터를 보내자 마자 받아지고 어떤때는 받는데 시간이 걸린다
+  -> Anybus IC의 CANopen부분의 처리 속도가 느린것이 아닌가 추정
+  -> 모드버스 패킷에서 바이트수를 최대 125바이트까지 늘려볼 필요 있음
+ 
+ <2011. 07. 13>
+- 폴더명 : Seoho Blade Drive Program_110713_ryu 
+- 모드버스 통신 패킷에서 통신 바이트수 변경 : 4바이트 -> 32바이트
+- 모드버스 통신 속도 57600으로 변경
+  -> Autobaud가 되나 반드시 전원을 꺼다껴야 함
+- CRC 문제가 있음
+  -> 동시에 2바이트 받는 루틴에서 CRC에러 없게 수정 하였으나 동시에 4바이트 받는 경우 CRC에러는 없으나
+     123456789를 Can에서 날렸을 때 모드버스를 통하여 받아지는 데이터가 1234 3456 5678과 같이 되는 현상 있음
+  -> 2바이트 루틴은 여전히 데이터가 받아지는 속도 느리다
+  -> 4바이트를 넘게 받게 되는 역시 CRC에러 발생
+- 7월 20일 현재 CRC에러 수정된 루틴사용하고 있으며 2바이트 받는 것으로 사용하고 있음
+- MB_DEFAULT_TIMEOUT = 6으로 수정
+
+
+
+<2011.07.21>
+
+1. 엔코더 두개를 읽기 위해 mux 설렉션 gpio50번..  shell io.h
+	#define abs_encoder2__on()	(GpioDataRegs.GPBSET.bit.GPIO50 = 1)	// GPIO.3
+	#define abs_encoder1__on()	(GpioDataRegs.GPBCLEAR.bit.GPIO50 = 1)	// GPIO.3
+
+2. GPIO20번 full-up disable  core_gpio.... c
+      GpioCtrlRegs.GPAPUD.bit.GPIO21 	= 1;  // disable pullup on GPIO20   
+
+3. abs_encoder1__on()를 F28335PowerOnSet() 함수에 테스트를 위해서 추가
+
+
+4. Giop50번 셋팅 core_gpio.... c
+  // GPIO50 QEP.A1 -> for ABS encoder selectiing -> output
+   GpioCtrlRegs.GPBPUD.bit.GPIO50 	= 1;  // GPIO50 disable pullup   
+   GpioDataRegs.GPBCLEAR.bit.GPIO50	= 1;  // GPIO50 Set Low              
+   GpioCtrlRegs.GPBMUX2.bit.GPIO50 	= 0;  // GPIO50 = general I/O
+   GpioCtrlRegs.GPBDIR.bit.GPIO50 	= 1;  // GPIO50 = Output
+
+
+<2011.7.23>
+
+1. 위치제어기쪽 수정 완료
+   - 접지 문제가 있어서 엔코더에서 넘어오는 기동중에 over speed에러가 있었음
+   - 현재까지 위치제어기 게인을 5로하면, 무부하에서 2000rpm까지 에러없이 동작함.
+
+2. CanOpen 통신 오픈
+   - 옵션 보드에서 CPU에서 칩으로 가는 라인이 아트웍이 잘못되어, 수정함.
+     (DC-DC보드에서 수정한 도면을, SSI 보드에 적용하지 못했음)
+
+향후 일정
+
+통신으로 데이타 주고 받기, CRC에러 체크, 통신 속도 높이기,
+엔코더 2개 동시에 받기
+
+* 2500rpm 무부하에서 에러 발생하는 거 수정하기.
+
+* 창원 출장가서 스택 시험하기.
+* 시험 일정 및 데이타 정리하기..
+* DAC보드 동일테크에 보내서 다시 정리하기, Part List 수정 먼저하기
+* 자금 5000만원 이상 될때, 계좌이체 가능한지 확인하기.
+
+<2011.7.23>
+Wc_pc -> 50
+Wc_sc:	정격 10% 미만 : x1
+	정격 10%~30%  : 선형감소
+	정격 30% 이상 : x0.25
+
+Wc_fc -> 80
+
+
+<2011.7.27>
+
+속도 리미트 1470rpm으로 수정;
+
+extern double Theta_angle_ref, Theta_angle_err, Theta_angle_flt; 추가
+double Theta_angle_ref=0., Theta_angle_err=0., Theta_angle_flt=0.; 추가
+
+void System_Variable_Initialization()에 Theta_angle_ref = 0;
+
+
+
+DC-DC부 수정 사항.
+
+OCin 초기 30A에서 60A로 확장
+Kp 게인 0.2 -> 1.25, Ki게인 500 -> 700 Vboost_limit 40 -> 80으로 변경
+
+2000rpm 기동 시험 통과
+
+
+<2011.9.1>
+수정사항은 PBHP_110901을 검색하시면 쉽게 찾을 수 있습니다 
+
+Shell_Communication_SCI.c에서 sci_b를 분리하여
+
+CANOPEN_SCI_B.C로 다시 구성함
+
+
+//PBHP_110901 변수 추가
+unsigned int InOutDataSize=8;  //상수에서 변수로 변환
+
+
+//PBHP_110901 한번에 받을 수 있으므로 삭제
+//InOutAddr = InOutAddr + InOutDataSize;   
+//if(64<= InOutAddr)InOutAddr = 0;
+
+
+//PBHP_110901 버퍼의 사이즈는 수신패킷보다 커야함
+#define SD_RX_BUFFER_SIZE     100  // ( 1 + 1 + 1 + 데이터 사이즈 + CRC1 + CRC2 )  < SD_RX_BUFFER_SIZE  
+
+#define MB_DEFAULT_TIMEOUT  10 //// 2 in case of dualsampling, 1 in case of no dualsampling 1ms  //500  //75000 
+//PBHP_110901 : 10이하일때 데이터 수신이 원활하게 이루어지지 않을 수 있음
+//              아직 수신중일때 CRC를 검사함   

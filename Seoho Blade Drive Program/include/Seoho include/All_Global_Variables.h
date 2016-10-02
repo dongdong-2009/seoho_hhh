@@ -106,7 +106,7 @@ double Kob_sd= 0.;
 double Theta=0.; 
 double Thetar=0.;
 double Theta_ref= 0.;
-
+double Theta_angle_ref=0., Theta_angle_err=0., Theta_angle_flt=0.;
 // ≈‰≈©
 double Te=0.;  
 
@@ -159,11 +159,11 @@ int Dummy_comm= 0;
 CRC_flg	CRC ;
 
 /* Variables for Serial Communication  */
-char scib_tx_buf[SCIB_BUF_SIZE+1];
-char scib_tx_pos=0, scib_tx_end=0;
-char scib_rx_buf[SCIB_BUF_SIZE+1];
+//char scib_tx_buf[SCIB_BUF_SIZE+1];
+//char scib_tx_pos=0, scib_tx_end=0;
+//char scib_rx_buf[SCIB_BUF_SIZE+1];
 
-char scib_rxd=' ';
+//char scib_rxd=' ';
 
 char scic_tx_buf[SCIC_BUF_SIZE+1];
 char scic_tx_pos=0, scic_tx_end=0;
@@ -239,7 +239,7 @@ Uint16 abs_position;
 
 int test1=0, test2=0, test3=0, test4 = 0, test5=0; //, test6=0, test7=0, test8=0, test9=0; // chy
 Uint16 test6=0, test7=0, test8=0, test9=0, test10=0;
-double etest1=0, etest2=0, etest3=0, etest4=0, etest5=0;
+double etest1=0, etest2=0, etest3=0, etest4=0, etest5=0, etest6=0;
 
 //float etest1=0, etest2=0, etest3=0;
 Uint16 com_rdata1[4];

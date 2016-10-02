@@ -16,84 +16,8 @@
 #include	<All_Extern_Variables.h>
 #include 	"Shell_SCI_BC.h"
 
-#define SD_RX_BUFFER_SIZE     10
+//#define KeyPad_RX_BUFFER_SIZE     100
 
-
-typedef struct sd_DataType
-{
-
-   BOOL fEnabled;
-   UINT8 abRxBuffer[ SD_RX_BUFFER_SIZE ];
-   UINT16 iRxGet;
-   UINT16 iRxPut;
-   UINT16 iRxSize;
-   UINT16 iTxGet;
-
-   UINT16 iTxSize;
-
-}
-
-sd_DataType;
-
-sd_DataType sd_s;
-
-
-
-void scib_init(void)
-{
-	ScibRegs.SCIFFTX.all = 0x8000;			// FIFO reset
- 	ScibRegs.SCIFFCT.all = 0x4000;			// Clear ABD(Auto baud bit)
- 	
- 	ScibRegs.SCICCR.all = 0x0007;  			// 1 stop bit,  No loopback 
-                                   			// No parity,8 char bits,
-                                   			// async mode, idle-line protocol
-	ScibRegs.SCICTL1.all = 0x0003; 			// enable TX, RX, internal SCICLK, 
-                                   			// Disable RX ERR, SLEEP, TXWAKE
-
-	ScibRegs.SCICTL2.bit.RXBKINTENA = 1;	// RX/BK INT ENA=1,
-	ScibRegs.SCICTL2.bit.TXINTENA = 1;		// TX INT ENA=1,
-
-  	ScibRegs.SCIHBAUD = SCIB_BRR_VAL >> 8;
-  	ScibRegs.SCILBAUD = SCIB_BRR_VAL & 0xff;
-
-	ScibRegs.SCICTL1.all = 0x0023;			// Relinquish SCI from Reset  
-    
-	// Initialize SCI-B RX interrupt
-  	EALLOW;
-	PieVectTable.SCIRXINTB = &scib_rx_isr;
-  	PieVectTable.SCITXINTB = &scib_tx_isr;
-
-    /* Enable internal pull-up for the selected pins */
-	GpioCtrlRegs.GPAPUD.bit.GPIO19 = 0; // Enable pull-up for GPIO19 (SCIRXDB)
-	GpioCtrlRegs.GPAPUD.bit.GPIO18 = 0;  // Enable pull-up for GPIO18  (SCITXDB)
-
-	/* Set qualification for selected pins to asynch only */
-	GpioCtrlRegs.GPAQSEL2.bit.GPIO19 = 3;  // Asynch input GPIO19 (SCIRXDB)
-
-	/* Configure SCI-B pins using GPIO regs*/
-	GpioCtrlRegs.GPAMUX2.bit.GPIO19 = 2;   // Configure GPIO19 for SCIRXDB operation
-	GpioCtrlRegs.GPAMUX2.bit.GPIO18 = 2;    // Configure GPIO18 for SCITXDB operation
-
-	
-	EDIS;
-//---------------------------
-// 함수 새로 생성 다른곳으로 옮길 것 ryu
-	sd_s.iRxGet = 0;
-	sd_s.iRxPut = 0;
-	sd_s.iRxSize = 0;
-	sd_s.iTxGet = 0;
-	sd_s.iTxSize = 0;
-//----------------------------
-
-  // Enable CPU INT9 for SCI-B
-	IER |= M_INT9;
-	
-  // Enable SCI-B RX INT in the PIE: Group 9 interrupt 3
-	PieCtrlRegs.PIEIER9.bit.INTx3 = 1;
-
-  // Enable SCI-B TX INT in the PIE: Group 9 interrupt 4
-	PieCtrlRegs.PIEIER9.bit.INTx4 = 1;
-}
 
 void scic_init(){
 	ScicRegs.SCIFFTX.all = 0x8000;			// FIFO reset
@@ -148,20 +72,6 @@ void scic_init(){
 /*---------------------------------------------*/
 /*      Transmmit Character                    */
 /*---------------------------------------------*/
-void scib_TxChar(char c)
-{
-    while(!ScibRegs.SCICTL2.bit.TXRDY);
-    ScibRegs.SCITXBUF=c;
-}    
-
-/*---------------------------------------------*/
-/*      Transmmit String                       */
-/*---------------------------------------------*/
-void scib_TxString(char *p)
-{
-    char	rd;
-    while(rd = *p++) scib_TxChar(rd);
-}
 
 void scic_TxChar(char c)
 {
@@ -169,14 +79,6 @@ void scic_TxChar(char c)
     ScicRegs.SCITXBUF=c;
 }    
 
-/*---------------------------------------------*/
-/*      Transmmit String                       */
-/*---------------------------------------------*/
-void scic_TxString(char *p)
-{
-    char	rd;
-    while(rd = *p++) scic_TxChar(rd);
-}
 
 /************************************************************************/
 /*      Transmmit character by interrupt                                */
@@ -184,25 +86,12 @@ void scic_TxString(char *p)
 /*---------------------------------------------*/
 /*      SCI TX Start                           */
 /*---------------------------------------------*/
-void scib_tx_start(void)
-{
-	SCIB_TX_START;
-}
 
 void scic_tx_start(void)
 {
 	SCIC_TX_START;
 }
 
-/*---------------------------------------------*/
-/*      Transmmit Character                    */
-/*---------------------------------------------*/
-void scib_putc(char d)
-{
-	scib_tx_buf[scib_tx_end++] = d;
-	if(scib_tx_end >= SCIB_BUF_SIZE) scib_tx_end = 0;
-	SCIB_TX_START;
-}
 
 void scic_putc(char d)
 {
@@ -210,83 +99,10 @@ void scic_putc(char d)
 	if(scic_tx_end >= SCIC_BUF_SIZE) scic_tx_end = 0;
 }
 
-/*---------------------------------------------*/
-/*      Transmmit String                       */
-/*---------------------------------------------*/
-void scib_puts(char *p)
-{
-  char rd;
-
-	while(rd = *p++){             
-		scib_tx_buf[scib_tx_end++] = rd;
-		if(scib_tx_end >= SCIB_BUF_SIZE) scib_tx_end = 0;
-	}
-}
-
-void scic_puts(char *p)
-{
-  char rd;
-
-	while(rd = *p++){             
-		scic_tx_buf[scic_tx_end++] = rd;
-		if(scic_tx_end >= SCIC_BUF_SIZE) scic_tx_end = 0;
-	}
-}
-
+//-----
 //-----
 int tx_cnt=0, rx_cnt=0;
 
-unsigned int tttt=0;
-unsigned int rrrr=0;
-interrupt void scib_tx_isr(void){
-	if(scib_tx_pos != scib_tx_end){
-		ScibRegs.SCITXBUF = scib_tx_buf[scib_tx_pos++];
-		if(scib_tx_pos >= SCIB_BUF_SIZE) scib_tx_pos = 0;
-		tttt++;
-	}
-	else{                              
-		SCIB_TX_STOP;
-	}
-
-	// Acknowledge this interrupt to recieve more interrupts from group 9
-	PieCtrlRegs.PIEACK.all = PIEACK_GROUP9;
-}
-
-
-unsigned int datascib = 0;
-interrupt void scib_rx_isr(void){
-
-
-
-   datascib = sd_s.abRxBuffer[ sd_s.iRxPut ] = ScibRegs.SCIRXBUF.all;
-
-	rrrr++;
-
-
-   /*
-   ** go to the next possition in the rx buffer
-   */
-
-   sd_s.iRxSize++;
-   sd_s.iRxPut++;
-
-   /*
-   ** Handle the rotation of our ring buffer
-   */
-
-   if( sd_s.iRxPut == SD_RX_BUFFER_SIZE )
-   {
-
-      sd_s.iRxPut = 0;
-
-   }/* end if end of buffer */
-
-	
-	// Acknowledge this interrupt to recieve more interrupts from group 9
-	PieCtrlRegs.PIEACK.all = PIEACK_GROUP9;
-}
-
-//-----
 #pragma CODE_SECTION(scic_tx_isr, "ramfuncs");
 interrupt void scic_tx_isr(void)
 {
@@ -483,18 +299,6 @@ interrupt void scic_rx_isr(void)
 
 
 
-
-
-//-----
-void scic_test(void)
-{
-    scic_puts("SCI-C Test\r\n");
-	SCIC_TX_START;
-}
-
-
-
-
 //===============================================================================================
 //#pragma CODE_SECTION(CRC_16, "ramfuncs");
 void CRC_16(unsigned char input)
@@ -659,84 +463,6 @@ else
 
 
 }
-
-
-/*------------------------------------------------------------------------------
-** SD_CharReceived()
-**------------------------------------------------------------------------------
-*/
-
-
-unsigned int cccc=0;
-unsigned int kkkk=0;
-BOOL SD_CharReceived( void )
-{
-
-   /*
-   ** Check if there are any characters in the receive buffer.
-   */
-
-   if( sd_s.iRxSize == 0 )
-   {
-	cccc++;
-      return FALSE;
-
-   }
-   else
-   {
-	kkkk++;
-      return TRUE;
-
-   }/* end if */
-
-} /* end of SD_CharReceived() */
-
-UCHAR SD_GetChar( void )
-{
-
-   UCHAR bReturnChar;
-
-   if( sd_s.iRxSize == 0 )
-   {
-
-      /*
-      ** There is no characters in the buffer.
-      */
-
-      return 0;
-
-   }/* end if */
-
-   bReturnChar = sd_s.abRxBuffer[ sd_s.iRxGet ];
-
-
-   /*
-   ** Take a step so we point to the next character in the rx buffer, then
-   ** decrement the usage of the buffer indicating that we have seen the
-   ** character.
-   */
-
-   sd_s.iRxGet++;
-   sd_s.iRxSize--;
-
-
-   /*
-   ** Handle the rotation of our ring buffer
-   */
-
-   if( sd_s.iRxGet == SD_RX_BUFFER_SIZE )
-   {
-
-      sd_s.iRxGet = 0;
-
-   }/* end if */
-
-   return bReturnChar;
-
-
-}/* end SD_GetChar */
-
-
 
 
 

@@ -10,6 +10,8 @@ void Parameter_Initialization_by_Power()
 	if (GpioDataRegs.GPCDAT.bit.GPIO66) Drive_power+= 4;
 	if (GpioDataRegs.GPCDAT.bit.GPIO65) Drive_power+= 8;
 	if (GpioDataRegs.GPCDAT.bit.GPIO64) Drive_power+= 16;	
+
+	Drive_power = 2;
 	
 	switch ( Drive_power )
 	{
@@ -57,15 +59,15 @@ void Parameter_Initialization_by_Power()
 			P.G01.P07_PWM_frequency_x10_kHz= 40;
 			P.G01.P08_Supply_voltage= 380; 
 */
-			P.G00.P09_IGBT_current= 32;
-			P.G01.P00_Rated_power_x10_kW= 75;
+			P.G00.P09_IGBT_current= 50.;        // 32;   
+			P.G01.P00_Rated_power_x10_kW= 95; // 75
 			P.G01.P01_Rated_voltage= 380;
-			P.G01.P02_Rated_current_x10= 167;
-			P.G01.P03_Rated_frequency= 60;  //60
+			P.G01.P02_Rated_current_x10= 330; // 167->250;
+			P.G01.P03_Rated_frequency= 87;  //60
 			P.G01.P04_Number_of_poles= 4;
-			P.G01.P05_Rated_speed= 2540;
+			P.G01.P05_Rated_speed= 2540;  // 2540  1490
 			P.G01.P06_Control_method= 3;
-			P.G01.P07_PWM_frequency_x10_kHz= 50;
+			P.G01.P07_PWM_frequency_x10_kHz= 50; 
 			P.G01.P08_Supply_voltage= 380;
 
 			break;
@@ -530,8 +532,10 @@ void Parameter_Initialization()
 	P.G05.P17_UV_compensation_voltage= 450;		// 270V ÀÓÀÇ°ª
 
 	#if (VOLTAGE_CLASS== 0)
-		P.G05.P17_UV_compensation_voltage= 430;
-		P.G05.P18_Under_voltage_trip= 450; 			
+//		P.G05.P17_UV_compensation_voltage= 430;
+//		P.G05.P18_Under_voltage_trip= 450;
+		P.G05.P17_UV_compensation_voltage= 380;
+		P.G05.P18_Under_voltage_trip= 400; 		 			
 	#elif (VOLTAGE_CLASS== 1)
 		P.G05.P17_UV_compensation_voltage= 750;
 		P.G05.P18_Under_voltage_trip= 780; 			
@@ -755,7 +759,9 @@ void System_Variable_Initialization()
 {
 	double OL_current;
 
-	Theta_ref= 1.;
+	Theta_angle_ref = 0;
+	Theta_ref= 0.;
+
 
 
 //	Flag.DI.all= 0;
@@ -872,7 +878,7 @@ void System_Variable_Initialization()
 	Ka_cc= 3./Kp_cc;
 
 	// Flux Controller
-	Wc_fc= 50.*(double)P.G01.P07_PWM_frequency_x10_kHz/50.;  // 50
+	Wc_fc= 80.*(double)P.G01.P07_PWM_frequency_x10_kHz/50.;  // 50
 	Kp_fc= (Lr/Lm)*Wc_fc/Rr;
 	Ki_fc= Wc_fc/Lm;
 	Ka_fc= 2./Kp_fc;
@@ -880,7 +886,7 @@ void System_Variable_Initialization()
 	
 
 	// Speed Controller 
-	Wc_sc= 100.*(double)P.G01.P07_PWM_frequency_x10_kHz/50.; // 100 //250
+	Wc_sc= 400.*(double)P.G01.P07_PWM_frequency_x10_kHz/50.; // 100 //250
 //	Kp_sc= Jm*Wc_sc/Kt;
 //	Ki_sc= Kp_sc*(Wc_sc/7.);
 //	Ka_sc= 2./Kp_sc;
