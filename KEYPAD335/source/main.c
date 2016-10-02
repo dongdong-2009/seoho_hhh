@@ -216,7 +216,7 @@ void SystemEventAutoClear(void)
 		if(EventFlagB)
 		{
 			EventTimeB++;
-			if(2<EventTimeB)//2s
+			if(5<EventTimeB)//5s
 			{
 				EventFlagB = 0;
 				EventTimeB = 0;

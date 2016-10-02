@@ -15,7 +15,7 @@ COMMON = -mmcu=$(MCU)
 
 ## Compile options common for all C compilation units.
 CFLAGS = $(COMMON)
-CFLAGS += -Wall -gdwarf-2                                                        -DF_CPU=16000000UL -O0 -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+CFLAGS += -Wall -gdwarf-2                                                          -DF_CPU=16000000UL -O0 -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 CFLAGS += -MD -MP -MT $(*F).o -MF dep/$(@F).d 
 
 ## Assembly specific flags
@@ -37,7 +37,7 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
 
 ## Include Directories
-INCLUDES = -I"D:\work\SEOHO_VD\KEYPAD335_101013\source\mcu" 
+INCLUDES = -I"D:\work\SEOHO_VD\KEYPAD335_101021\source\mcu" 
 
 ## Objects that must be built in order to link
 OBJECTS = main.o util.o debug_printf.o key.o display.o rs232_MMItoPANEL.o 16by2CLCD.o 

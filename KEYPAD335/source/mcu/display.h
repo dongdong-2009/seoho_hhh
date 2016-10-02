@@ -62,6 +62,9 @@ void irregularPAGE_handler(void);
 void refreshPAGE_handler(void);
 
 
+void SYS_password_clr(void);
+void SYS_Base_KeyFunction(void);
+
 const char* _readPGM_TEXT(PGM_P p);
 const char* _cpy_flash2memory(char const *format);
 const char* _TEXT(char const *format, ...);

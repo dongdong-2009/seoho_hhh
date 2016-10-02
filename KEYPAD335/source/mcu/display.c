@@ -48,13 +48,7 @@ unsigned char Tset_pos=0;
 
 char text_buf[256];
 
-
-
 unsigned int eeprom_addr=0;
-
-unsigned int diagram_condition=0x0C00;
-
-
 
 
 
@@ -4595,6 +4589,986 @@ void PAGE_3_23_11(void)
 	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_3_23_XX[11][0]));
 	CLCD_string(0xC0,"                ");
 }
+
+
+prog_char  PAGE_DIR_4_XX_3_4[5][17]={
+"0 Drive_Calibra ",
+"1 Motor Tuning  ",
+"2 Speed Tuning  ",
+" Processing...  ",
+" Completed...  "
+};
+
+void PAGE_4_00(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[4][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX_3_4[0][0]));
+}
+void PAGE_4_01(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[4][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX_3_4[1][0]));
+}
+void PAGE_4_02(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[4][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX_3_4[2][0]));
+}
+
+
+
+void PAGE_4_00_3(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX_3_4[0][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX_3_4[3][0]));
+}
+void PAGE_4_01_3(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX_3_4[1][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX_3_4[3][0]));
+}
+void PAGE_4_02_3(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX_3_4[2][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX_3_4[3][0]));
+}
+
+
+
+void PAGE_4_00_3_4(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX_3_4[0][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX_3_4[4][0]));
+}
+void PAGE_4_01_3_4(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX_3_4[1][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX_3_4[4][0]));
+}
+void PAGE_4_02_3_4(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX_3_4[2][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX_3_4[4][0]));
+}
+
+
+prog_char  PAGE_DIR_5_XX[10][17]={
+"   0 Record(0)  ",
+"   1 Record(1)  ",
+"   2 Record(2)  ",
+"   3 Record(3)  ",
+"   4 Record(4)  ",
+"   5 Record(5)  ",
+"   6 Record(6)  ",
+"   7 Record(7)  ",
+"   8 Record(8)  "
+};
+
+
+void PAGE_5_00(void)
+{
+	CLCD_string(0x80,"Total Fault = X");
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_5_XX[0][0]));
+}
+void PAGE_5_01(void)
+{
+	CLCD_string(0x80,"Total Fault = X");
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_5_XX[1][0]));
+}
+void PAGE_5_02(void)
+{
+	CLCD_string(0x80,"Total Fault = X");
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_5_XX[2][0]));
+}
+void PAGE_5_03(void)
+{
+	CLCD_string(0x80,"Total Fault = X");
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_5_XX[3][0]));
+}
+void PAGE_5_04(void)
+{
+	CLCD_string(0x80,"Total Fault = X");
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_5_XX[4][0]));
+}
+void PAGE_5_05(void)
+{
+	CLCD_string(0x80,"Total Fault = X");
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_5_XX[5][0]));
+}
+void PAGE_5_06(void)
+{
+	CLCD_string(0x80,"Total Fault = X");
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_5_XX[6][0]));
+}
+void PAGE_5_07(void)
+{
+	CLCD_string(0x80,"Total Fault = X");
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_5_XX[7][0]));
+}
+void PAGE_5_08(void)
+{
+	CLCD_string(0x80,"Total Fault = X");
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_5_XX[8][0]));
+}
+
+
+prog_char  PAGE_DIR_5_XX_XX[11][18]={
+"[%d.1]Fault Code ",
+"[%d.2]Motor Sel  ",
+"[%d.3]Ctrl Mthd  ",
+"[%d.4]Speed CMD  ",
+"[%d.5]Motor Spd  ",
+"[%d.6]Frequency  ",
+"[%d.7]Temp       ",
+"[%d.8]Actl Torque",
+"[%d.9]DC Link V  ",
+"[%d.10]Motor Curr",
+"[%d.11]Motor Volt"
+};
+
+
+void PAGE_5_00_00(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[0][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_00_01(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[1][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_00_02(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[2][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_00_03(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[3][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_00_04(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[4][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_00_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[5][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Hz");
+}
+void PAGE_5_00_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[6][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              'C");
+}
+void PAGE_5_00_07(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[7][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Nm");
+}
+void PAGE_5_00_08(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[8][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             Vdc");
+}
+void PAGE_5_00_09(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[9][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Arms");
+}
+void PAGE_5_00_10(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[10][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Vrms");
+}
+
+void PAGE_5_01_00(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[0][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_01_01(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[1][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_01_02(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[2][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_01_03(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[3][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_01_04(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[4][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_01_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[5][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Hz");
+}
+void PAGE_5_01_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[6][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              'C");
+}
+void PAGE_5_01_07(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[7][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Nm");
+}
+void PAGE_5_01_08(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[8][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             Vdc");
+}
+void PAGE_5_01_09(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[9][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Arms");
+}
+void PAGE_5_01_10(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[10][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Vrms");
+}
+
+void PAGE_5_02_00(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[0][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_02_01(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[1][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_02_02(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[2][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_02_03(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[3][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_02_04(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[4][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_02_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[5][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Hz");
+}
+void PAGE_5_02_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[6][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              'C");
+}
+void PAGE_5_02_07(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[7][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Nm");
+}
+void PAGE_5_02_08(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[8][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             Vdc");
+}
+void PAGE_5_02_09(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[9][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Arms");
+}
+void PAGE_5_02_10(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[10][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Vrms");
+}
+void PAGE_5_03_00(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[0][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_03_01(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[1][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_03_02(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[2][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_03_03(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[3][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_03_04(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[4][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_03_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[5][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Hz");
+}
+void PAGE_5_03_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[6][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              'C");
+}
+void PAGE_5_03_07(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[7][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Nm");
+}
+void PAGE_5_03_08(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[8][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             Vdc");
+}
+void PAGE_5_03_09(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[9][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Arms");
+}
+void PAGE_5_03_10(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[10][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Vrms");
+}
+void PAGE_5_04_00(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[0][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_04_01(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[1][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_04_02(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[2][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_04_03(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[3][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_04_04(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[4][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_04_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[5][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Hz");
+}
+void PAGE_5_04_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[6][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              'C");
+}
+void PAGE_5_04_07(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[7][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Nm");
+}
+void PAGE_5_04_08(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[8][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             Vdc");
+}
+void PAGE_5_04_09(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[9][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Arms");
+}
+void PAGE_5_04_10(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[10][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Vrms");
+}
+void PAGE_5_05_00(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[0][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_05_01(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[1][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_05_02(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[2][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_05_03(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[3][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_05_04(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[4][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_05_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[5][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Hz");
+}
+void PAGE_5_05_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[6][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              'C");
+}
+void PAGE_5_05_07(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[7][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Nm");
+}
+void PAGE_5_05_08(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[8][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             Vdc");
+}
+void PAGE_5_05_09(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[9][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Arms");
+}
+void PAGE_5_05_10(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[10][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Vrms");
+}
+void PAGE_5_06_00(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[0][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_06_01(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[1][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_06_02(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[2][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_06_03(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[3][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_06_04(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[4][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_06_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[5][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Hz");
+}
+void PAGE_5_06_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[6][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              'C");
+}
+void PAGE_5_06_07(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[7][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Nm");
+}
+void PAGE_5_06_08(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[8][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             Vdc");
+}
+void PAGE_5_06_09(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[9][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Arms");
+}
+void PAGE_5_06_10(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[10][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Vrms");
+}
+void PAGE_5_07_00(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[0][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_07_01(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[1][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_07_02(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[2][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_07_03(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[3][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_07_04(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[4][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_07_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[5][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Hz");
+}
+void PAGE_5_07_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[6][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              'C");
+}
+void PAGE_5_07_07(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[7][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Nm");
+}
+void PAGE_5_07_08(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[8][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             Vdc");
+}
+void PAGE_5_07_09(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[9][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Arms");
+}
+void PAGE_5_07_10(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[10][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Vrms");
+}
+void PAGE_5_08_00(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[0][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_08_01(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[1][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_08_02(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[2][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"                ");
+}
+void PAGE_5_08_03(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[3][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_08_04(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[4][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             rpm");
+}
+void PAGE_5_08_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[5][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Hz");
+}
+void PAGE_5_08_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[6][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              'C");
+}
+void PAGE_5_08_07(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[7][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"              Nm");
+}
+void PAGE_5_08_08(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[8][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"             Vdc");
+}
+void PAGE_5_08_09(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[9][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Arms");
+}
+void PAGE_5_08_10(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[10][0]), ( ((naviMENU/100)%5)+1)))) ;
+	CLCD_string(0xC0,"            Vrms");
+}
+
+
+
+prog_char  PAGE_DIR_6_XX_XX[8][20]={
+"[0]Clr FaultList    ",
+"[1]System Reset ",
+"[2]Parameter    ",
+"Reset->[Enter] ",
+"  Complete...   ",
+"Initializing...",
+"ERR [Warning]",
+"W13 Drive Cal."
+};
+
+
+void PAGE_6_00(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[6][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[0][0]));
+}
+void PAGE_6_01(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[6][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[1][0]));
+}
+void PAGE_6_02(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[6][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[2][0]));
+}
+
+void PAGE_6_00_04(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[0][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[4][0]));
+}
+void PAGE_6_01_03(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[1][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]));
+}
+void PAGE_6_01_05(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[1][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]));
+}
+void PAGE_6_02_05(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[2][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]));
+}
+
+
+prog_char  PAGE_DIR_7_XX_XX[8][20]={
+"[0]Access=L%d    ",
+"[1]Admission    ",
+"[2]Pwd Change   ",
+"  Enter: %d%d%d%d   ",
+"  Complete...   ",
+"  Password[L%d]  ",
+" Admitted.[L%d] ",
+"New Password[L%d]"
+};
+
+void PAGE_7_00(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[7][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[0][0]));
+}
+void PAGE_7_01(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[7][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[1][0]));
+}
+void PAGE_7_02(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[7][0]));
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[2][0]));
+}
+
+void PAGE_7_01_00(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[1][0]));
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), ( (naviMENU%701)+1)))) ;
+}
+void PAGE_7_01_01(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[1][0]));
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), ( (naviMENU%701)+1)))) ;
+}
+void PAGE_7_01_02(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[1][0]));
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), ( (naviMENU%701)+1)))) ;
+}
+void PAGE_7_01_03(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[1][0]));
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), ( (naviMENU%701)+1)))) ;
+}
+void PAGE_7_01_04(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[1][0]));
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), ( (naviMENU%701)+1)))) ;
+}
+
+
+void PAGE_7_01_00_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), (((naviMENU%701)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+
+	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
+	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+}
+void PAGE_7_01_00_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), (((naviMENU%701)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[6][0]), (((naviMENU%701)/100)+1)))) ;
+	CLCD_cursor_OFF();
+}
+void PAGE_7_01_01_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), (((naviMENU%701)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+
+	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
+	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+}
+void PAGE_7_01_01_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), (((naviMENU%701)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[6][0]), (((naviMENU%701)/100)+1)))) ;
+	CLCD_cursor_OFF();
+}
+void PAGE_7_01_02_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), (((naviMENU%701)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+
+	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
+	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+}
+void PAGE_7_01_02_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), (((naviMENU%701)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[6][0]), (((naviMENU%701)/100)+1)))) ;
+	CLCD_cursor_OFF();
+}
+void PAGE_7_01_03_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), (((naviMENU%701)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+
+	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
+	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+}
+void PAGE_7_01_03_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), (((naviMENU%701)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[6][0]), (((naviMENU%701)/100)+1)))) ;
+	CLCD_cursor_OFF();
+}
+void PAGE_7_01_04_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), (((naviMENU%701)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+
+	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
+	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+}
+void PAGE_7_01_04_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), (((naviMENU%701)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[6][0]), (((naviMENU%701)/100)+1)))) ;
+	CLCD_cursor_OFF();
+}
+
+void PAGE_7_02_00(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[2][0]));
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), ( (naviMENU%702)+1)))) ;
+}
+void PAGE_7_02_01(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[2][0]));
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), ( (naviMENU%702)+1)))) ;
+}
+void PAGE_7_02_02(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[2][0]));
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), ( (naviMENU%702)+1)))) ;
+}
+void PAGE_7_02_03(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[2][0]));
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), ( (naviMENU%702)+1)))) ;
+}
+void PAGE_7_02_04(void)
+{
+	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[2][0]));
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), ( (naviMENU%702)+1)))) ;
+}
+
+void PAGE_7_02_00_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), (((naviMENU%702)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+
+	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
+	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+}
+void PAGE_7_02_00_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[7][0]), (((naviMENU%702)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+
+	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
+	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+}
+void PAGE_7_02_00_07(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[7][0]), (((naviMENU%702)/100)+1)))) ;
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[4][0]));
+	CLCD_cursor_OFF();
+}
+void PAGE_7_02_01_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), (((naviMENU%702)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+
+	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
+	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+}
+void PAGE_7_02_01_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[7][0]), (((naviMENU%702)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+
+	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
+	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+}
+void PAGE_7_02_01_07(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[7][0]), (((naviMENU%702)/100)+1)))) ;
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[4][0]));
+	CLCD_cursor_OFF();
+}
+
+void PAGE_7_02_02_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), (((naviMENU%702)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+
+	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
+	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+}
+void PAGE_7_02_02_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[7][0]), (((naviMENU%702)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+
+	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
+	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+}
+void PAGE_7_02_02_07(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[7][0]), (((naviMENU%702)/100)+1)))) ;
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[4][0]));
+	CLCD_cursor_OFF();
+}
+void PAGE_7_02_03_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), (((naviMENU%702)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+
+	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
+	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+}
+void PAGE_7_02_03_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[7][0]), (((naviMENU%702)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+
+	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
+	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+}
+void PAGE_7_02_03_07(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[7][0]), (((naviMENU%702)/100)+1)))) ;
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[4][0]));
+	CLCD_cursor_OFF();
+}
+void PAGE_7_02_04_05(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[5][0]), (((naviMENU%702)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+
+	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
+	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+}
+void PAGE_7_02_04_06(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[7][0]), (((naviMENU%702)/100)+1)))) ;
+	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[3][0]),_password[0],_password[1],_password[2],_password[3]))) ;
+
+	if(pass_pos==0)			CLCD_cursor_ON(0xC0,9);
+	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+}
+void PAGE_7_02_04_07(void)
+{
+	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[7][0]), (((naviMENU%702)/100)+1)))) ;
+	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_7_XX_XX[4][0]));
+	CLCD_cursor_OFF();
+}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void PAGE_0xFFFFFFFF(void)
 {
@@ -4611,41 +5585,16 @@ void PAGE_0xFFFFFFFF(void)
 
 
 
-void SYS_Base_KeyFunction(void)
-{
-	if(KeyState.KeyValue == ESC)naviMENU = naviMENU /100;
-	else if(KeyState.KeyValue == UP)naviMENU = naviMENU -1;
-	else if(KeyState.KeyValue == DN)naviMENU = naviMENU +1;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
-}
 
 
 int Temporary=0;
 void SYS_1(void)
 {
-	static unsigned char flag=0;
+	if(KeyState.KeyValue == UP)naviMENU = 7;
+	else if(KeyState.KeyValue == DN)naviMENU = 2;
+	else if(KeyState.KeyValue == ENTER)naviMENU = 10;
+	else if(KeyState.KeyValue == (ESC  & RUN & STOP & ENTER) )	naviMENU = 0xFFFFFFFF;
 
-	//if(EventFlagC)
-	//{
-
-		
-		//if(KeyState.KeyValue == ESC)naviMENU = naviMENU;
-		if(KeyState.KeyValue == UP)naviMENU = 7;
-		else if(KeyState.KeyValue == DN)naviMENU = 2;
-		else if(KeyState.KeyValue == ENTER)naviMENU = 10;
-		else if(KeyState.KeyValue == (ESC  & RUN & STOP & ENTER) )	naviMENU = 0xFFFFFFFF;
-		
-	//	if(KeyState.KeyValue != 0xFF)EventTimeC=0;
-	//}
-	//else 
-	//{
-	//	if(KeyState.KeyValue != 0xFF)EventFlagC=1;
-	//	if(naviMENU!=old_naveMENU)EventFlagC=1;
-	//}
-
-	//if((!EventFlagC)&&(flag))RefreshFlag=1;// event edge
-	//else if((EventFlagC)&&(!flag))RefreshFlag=1;// event edge
-	//flag = EventFlagC;
 }
 void SYS_2(void)
 {
@@ -4665,28 +5614,28 @@ void SYS_4(void)
 {
 	if(KeyState.KeyValue == UP)naviMENU = 3;
 	else if(KeyState.KeyValue == DN)naviMENU = 5;
-	else if(KeyState.KeyValue == ENTER)naviMENU = 40;
+	else if(KeyState.KeyValue == ENTER)naviMENU = 400;
 	else if(KeyState.KeyValue == (ESC  & RUN & STOP & ENTER) )	naviMENU = 0xFFFFFFFF;
 }
 void SYS_5(void)
 {
 	if(KeyState.KeyValue == UP)naviMENU = 4;
 	else if(KeyState.KeyValue == DN)naviMENU = 6;
-	else if(KeyState.KeyValue == ENTER)naviMENU = 50;
+	else if(KeyState.KeyValue == ENTER)naviMENU = 500;
 	else if(KeyState.KeyValue == (ESC  & RUN & STOP & ENTER) )	naviMENU = 0xFFFFFFFF;
 }
 void SYS_6(void)
 {
 	if(KeyState.KeyValue == UP)naviMENU = 5;
 	else if(KeyState.KeyValue == DN)naviMENU = 7;
-	else if(KeyState.KeyValue == ENTER)naviMENU = 60;
+	else if(KeyState.KeyValue == ENTER)naviMENU = 600;
 	else if(KeyState.KeyValue == (ESC  & RUN & STOP & ENTER) )	naviMENU = 0xFFFFFFFF;
 }
 void SYS_7(void)
 {
 	if(KeyState.KeyValue == UP)naviMENU = 6;
 	else if(KeyState.KeyValue == DN)naviMENU = 1;
-	else if(KeyState.KeyValue == ENTER)naviMENU = 70;
+	else if(KeyState.KeyValue == ENTER)naviMENU = 700;
 	else if(KeyState.KeyValue == (ESC  & RUN & STOP & ENTER) )	naviMENU = 0xFFFFFFFF;
 
 }
@@ -4762,87 +5711,61 @@ void SYS_2_0(void)
 
 void SYS_2_0_00(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 20;
-	else if(KeyState.KeyValue == UP)naviMENU = 2013;
-	else if(KeyState.KeyValue == DN)naviMENU = 2001;
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 2013;
 }
 void SYS_2_0_01(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 20;
-	else if(KeyState.KeyValue == UP)naviMENU = 2000;
-	else if(KeyState.KeyValue == DN)naviMENU = 2002;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_0_02(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 20;
-	else if(KeyState.KeyValue == UP)naviMENU = 2001;
-	else if(KeyState.KeyValue == DN)naviMENU = 2003;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_0_03(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 20;
-	else if(KeyState.KeyValue == UP)naviMENU = 2002;
-	else if(KeyState.KeyValue == DN)naviMENU = 2004;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_0_04(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 20;
-	else if(KeyState.KeyValue == UP)naviMENU = 2003;
-	else if(KeyState.KeyValue == DN)naviMENU = 2005;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_0_05(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 20;
-	else if(KeyState.KeyValue == UP)naviMENU = 2004;
-	else if(KeyState.KeyValue == DN)naviMENU = 2006;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_0_06(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 20;
-	else if(KeyState.KeyValue == UP)naviMENU = 2005;
-	else if(KeyState.KeyValue == DN)naviMENU = 2007;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_0_07(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 20;
-	else if(KeyState.KeyValue == UP)naviMENU = 2006;
-	else if(KeyState.KeyValue == DN)naviMENU = 2008;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_0_08(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 20;
-	else if(KeyState.KeyValue == UP)naviMENU = 2007;
-	else if(KeyState.KeyValue == DN)naviMENU = 2009;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_0_09(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 20;
-	else if(KeyState.KeyValue == UP)naviMENU = 2008;
-	else if(KeyState.KeyValue == DN)naviMENU = 2010;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_0_10(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 20;
-	else if(KeyState.KeyValue == UP)naviMENU = 2009;
-	else if(KeyState.KeyValue == DN)naviMENU = 2011;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_0_11(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 20;
-	else if(KeyState.KeyValue == UP)naviMENU = 2010;
-	else if(KeyState.KeyValue == DN)naviMENU = 2012;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_0_12(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 20;
-	else if(KeyState.KeyValue == UP)naviMENU = 2011;
-	else if(KeyState.KeyValue == DN)naviMENU = 2013;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_0_13(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 20;
-	else if(KeyState.KeyValue == UP)naviMENU = 2012;
-	else if(KeyState.KeyValue == DN)naviMENU = 2000;
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == DN)naviMENU = 2000;
 }
 
 
@@ -4859,33 +5782,25 @@ void SYS_2_1(void)
 
 void SYS_2_1_00(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 21;
-	else if(KeyState.KeyValue == UP)naviMENU = 2104;
-	else if(KeyState.KeyValue == DN)naviMENU = 2101;
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 2104;
 }
 void SYS_2_1_01(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 21;
-	else if(KeyState.KeyValue == UP)naviMENU = 2100;
-	else if(KeyState.KeyValue == DN)naviMENU = 2102;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_1_02(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 21;
-	else if(KeyState.KeyValue == UP)naviMENU = 2101;
-	else if(KeyState.KeyValue == DN)naviMENU = 2103;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_1_03(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 21;
-	else if(KeyState.KeyValue == UP)naviMENU = 2102;
-	else if(KeyState.KeyValue == DN)naviMENU = 2104;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_1_04(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 21;
-	else if(KeyState.KeyValue == UP)naviMENU = 2103;
-	else if(KeyState.KeyValue == DN)naviMENU = 2100;
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == DN)naviMENU = 2100;
 }
 
 
@@ -4900,57 +5815,41 @@ void SYS_2_2(void)
 }
 void SYS_2_2_00(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 22;
-	else if(KeyState.KeyValue == UP)naviMENU = 2208;
-	else if(KeyState.KeyValue == DN)naviMENU = 2201;
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 2208;
 }
 void SYS_2_2_01(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 22;
-	else if(KeyState.KeyValue == UP)naviMENU = 2200;
-	else if(KeyState.KeyValue == DN)naviMENU = 2202;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_2_02(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 22;
-	else if(KeyState.KeyValue == UP)naviMENU = 2201;
-	else if(KeyState.KeyValue == DN)naviMENU = 2203;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_2_03(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 22;
-	else if(KeyState.KeyValue == UP)naviMENU = 2202;
-	else if(KeyState.KeyValue == DN)naviMENU = 2204;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_2_04(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 22;
-	else if(KeyState.KeyValue == UP)naviMENU = 2203;
-	else if(KeyState.KeyValue == DN)naviMENU = 2205;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_2_05(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 22;
-	else if(KeyState.KeyValue == UP)naviMENU = 2204;
-	else if(KeyState.KeyValue == DN)naviMENU = 2206;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_2_06(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 22;
-	else if(KeyState.KeyValue == UP)naviMENU = 2205;
-	else if(KeyState.KeyValue == DN)naviMENU = 2207;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_2_07(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 22;
-	else if(KeyState.KeyValue == UP)naviMENU = 2206;
-	else if(KeyState.KeyValue == DN)naviMENU = 2208;
+	SYS_Base_KeyFunction();
 }
 void SYS_2_2_08(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 22;
-	else if(KeyState.KeyValue == UP)naviMENU = 2207;
-	else if(KeyState.KeyValue == DN)naviMENU = 2200;
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == DN)naviMENU = 2200;
 }
 
 
@@ -4958,189 +5857,115 @@ void SYS_2_2_08(void)
 
 void SYS_3_00(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 324;
-	else if(KeyState.KeyValue == DN)naviMENU = 301;
-	else if(KeyState.KeyValue == ENTER)naviMENU = 30000;
-
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 324;
 }
 void SYS_3_01(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 300;
-	else if(KeyState.KeyValue == DN)naviMENU = 302;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_02(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 301;
-	else if(KeyState.KeyValue == DN)naviMENU = 303;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_03(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 302;
-	else if(KeyState.KeyValue == DN)naviMENU = 304;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_04(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 303;
-	else if(KeyState.KeyValue == DN)naviMENU = 305;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_05(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 304;
-	else if(KeyState.KeyValue == DN)naviMENU = 306;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_06(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 305;
-	else if(KeyState.KeyValue == DN)naviMENU = 307;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_07(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 306;
-	else if(KeyState.KeyValue == DN)naviMENU = 308;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_08(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 307;
-	else if(KeyState.KeyValue == DN)naviMENU = 309;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_09(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 308;
-	else if(KeyState.KeyValue == DN)naviMENU = 310;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_10(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 309;
-	else if(KeyState.KeyValue == DN)naviMENU = 311;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_11(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 310;
-	else if(KeyState.KeyValue == DN)naviMENU = 312;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_12(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 311;
-	else if(KeyState.KeyValue == DN)naviMENU = 313;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_13(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 312;
-	else if(KeyState.KeyValue == DN)naviMENU = 314;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_14(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 313;
-	else if(KeyState.KeyValue == DN)naviMENU = 315;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_15(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 314;
-	else if(KeyState.KeyValue == DN)naviMENU = 316;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_16(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 315;
-	else if(KeyState.KeyValue == DN)naviMENU = 317;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_17(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 316;
-	else if(KeyState.KeyValue == DN)naviMENU = 318;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_18(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 317;
-	else if(KeyState.KeyValue == DN)naviMENU = 319;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_19(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 318;
-	else if(KeyState.KeyValue == DN)naviMENU = 320;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_20(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 319;
-	else if(KeyState.KeyValue == DN)naviMENU = 322;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_21(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 320;
-	else if(KeyState.KeyValue == DN)naviMENU = 322;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_22(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 321;
-	else if(KeyState.KeyValue == DN)naviMENU = 323;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_23(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 322;
-	else if(KeyState.KeyValue == DN)naviMENU = 324;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
 }
 void SYS_3_24(void)
 {
-	if(KeyState.KeyValue == ESC)naviMENU = 3;
-	else if(KeyState.KeyValue == UP)naviMENU = 323;
-	else if(KeyState.KeyValue == DN)naviMENU = 300;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == DN)naviMENU = 300;
+
 }
 
 
 
 void SYS_3_00_00(void)
 {
- 	if(KeyState.KeyValue == ESC)naviMENU = naviMENU /100;
-	else if(KeyState.KeyValue == UP)naviMENU = 30015;
-	else if(KeyState.KeyValue == DN)naviMENU = naviMENU +1;
-	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 30015;
+
 }
 void SYS_3_00_01(void)
 {
@@ -9812,10 +10637,1466 @@ void SYS_3_23_10(void)
 void SYS_3_23_11(void)
 {
 	SYS_Base_KeyFunction();
-	 
 	if(KeyState.KeyValue == DN)naviMENU = 32300;
 	 
 }
+
+
+void SYS_4_00(void)
+{
+	if(KeyState.KeyValue == ESC)naviMENU = naviMENU /100;
+	else if(KeyState.KeyValue == UP)naviMENU =402;
+	else if(KeyState.KeyValue == DN)naviMENU = naviMENU +1;
+	else if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = 4003;
+		EventFlagB=1;
+	}
+}
+void SYS_4_01(void)
+{
+	if(KeyState.KeyValue == ESC)naviMENU = naviMENU /100;
+	else if(KeyState.KeyValue == UP)naviMENU =400;
+	else if(KeyState.KeyValue == DN)naviMENU = naviMENU +1;
+	else if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = 4013;
+		EventFlagB=1;
+	}
+}
+void SYS_4_02(void)
+{
+	if(KeyState.KeyValue == ESC)naviMENU = naviMENU /100;
+	else if(KeyState.KeyValue == UP)naviMENU =401;
+	else if(KeyState.KeyValue == DN)naviMENU = 400;
+	else if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = 4023;
+		EventFlagB=1;
+	}
+}
+
+
+
+void SYS_4_00_3(void)
+{
+	static unsigned char flag=0;
+	if((!EventFlagB)&&(flag))// event down edge
+	{
+		naviMENU = 40034;
+	}
+	flag = EventFlagB;
+
+}
+void SYS_4_01_3(void)
+{
+	static unsigned char flag=0;
+	if((!EventFlagB)&&(flag))// event down edge
+	{
+		naviMENU = 40134;
+	}
+	flag = EventFlagB;
+}
+void SYS_4_02_3(void)
+{
+	static unsigned char flag=0;
+	if((!EventFlagB)&&(flag))// event down edge
+	{
+		naviMENU = 40234;
+	}
+	flag = EventFlagB;
+}
+
+void SYS_4_00_3_4(void)
+{
+	if(KeyState.KeyValue == ESC)naviMENU = 400;
+}
+void SYS_4_01_3_4(void)
+{
+	if(KeyState.KeyValue == ESC)naviMENU = 401;
+}
+void SYS_4_02_3_4(void)
+{
+	if(KeyState.KeyValue == ESC)naviMENU = 402;
+}
+
+
+void SYS_5_00(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 508;
+}
+void SYS_5_01(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_02(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_03(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_04(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_05(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_06(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_07(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_08(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == DN)naviMENU = 500;
+}
+
+
+void SYS_5_00_00(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 50010;
+}
+void SYS_5_00_01(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_00_02(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_00_03(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_00_04(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_00_05(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_00_06(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_00_07(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_00_08(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_00_09(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_00_10(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == DN)naviMENU = 50000;
+}
+
+void SYS_5_01_00(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 50110;
+}
+void SYS_5_01_01(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_01_02(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_01_03(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_01_04(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_01_05(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_01_06(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_01_07(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_01_08(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_01_09(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_01_10(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == DN)naviMENU = 50100;
+}
+
+void SYS_5_02_00(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 50210;
+}
+void SYS_5_02_01(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_02_02(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_02_03(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_02_04(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_02_05(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_02_06(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_02_07(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_02_08(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_02_09(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_02_10(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == DN)naviMENU = 50200;
+}
+
+void SYS_5_03_00(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 50310;
+}
+void SYS_5_03_01(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_03_02(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_03_03(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_03_04(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_03_05(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_03_06(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_03_07(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_03_08(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_03_09(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_03_10(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == DN)naviMENU = 50300;
+}
+
+void SYS_5_04_00(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 50410;
+}
+void SYS_5_04_01(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_04_02(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_04_03(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_04_04(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_04_05(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_04_06(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_04_07(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_04_08(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_04_09(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_04_10(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == DN)naviMENU = 50400;
+}
+
+void SYS_5_05_00(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 50510;
+}
+void SYS_5_05_01(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_05_02(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_05_03(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_05_04(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_05_05(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_05_06(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_05_07(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_05_08(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_05_09(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_05_10(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == DN)naviMENU = 50500;
+}
+
+void SYS_5_06_00(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 50610;
+}
+void SYS_5_06_01(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_06_02(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_06_03(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_06_04(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_06_05(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_06_06(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_06_07(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_06_08(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_06_09(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_06_10(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == DN)naviMENU = 50600;
+}
+
+void SYS_5_07_00(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 50710;
+}
+void SYS_5_07_01(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_07_02(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_07_03(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_07_04(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_07_05(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_07_06(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_07_07(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_07_08(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_07_09(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_07_10(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == DN)naviMENU = 50700;
+}
+
+void SYS_5_08_00(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 50810;
+}
+void SYS_5_08_01(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_08_02(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_08_03(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_08_04(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_08_05(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_08_06(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_08_07(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_08_08(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_08_09(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_5_08_10(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == DN)naviMENU = 50800;
+}
+
+
+void SYS_6_00(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 602;
+	else if(KeyState.KeyValue == ENTER)naviMENU = 60004;
+}
+void SYS_6_01(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == ENTER)naviMENU = 60103;
+}
+void SYS_6_02(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == DN)naviMENU = 600;
+	else if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = 60205;
+		EventFlagB=1;
+	}
+}
+
+void SYS_6_00_04(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_6_01_03(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = 60105;
+		EventFlagB=1;
+	}
+}
+void SYS_6_01_05(void)
+{
+	static unsigned char flag=0;
+	if((!EventFlagB)&&(flag))// event down edge
+	{
+		naviMENU = 1;
+	}
+	flag = EventFlagB;
+}
+void SYS_6_02_05(void)
+{
+	static unsigned char flag=0;
+	if((!EventFlagB)&&(flag))// event down edge
+	{
+		naviMENU = 1;
+	}
+	flag = EventFlagB;
+}
+
+
+void SYS_7_00(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == UP)naviMENU = 702;
+}
+void SYS_7_01(void)
+{
+	SYS_Base_KeyFunction();
+}
+void SYS_7_02(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == DN)naviMENU = 700;
+}
+
+void SYS_7_01_00(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = 7010005;
+		SYS_password_clr();
+	}
+}
+void SYS_7_01_01(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = 7010105;
+		SYS_password_clr();
+	}
+}
+void SYS_7_01_02(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = 7010205;
+		SYS_password_clr();
+	}
+}
+void SYS_7_01_03(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = 7010305;
+		SYS_password_clr();
+	}
+}
+void SYS_7_01_04(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = 7010405;
+		SYS_password_clr();
+	}
+}
+void SYS_7_01_00_05(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+	else if(KeyState.KeyValue == RIGHT)
+	{
+		pass_pos++;
+		if(3 <pass_pos)pass_pos=0;
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == LIFT)
+	{
+		if(pass_pos)pass_pos--;
+		else pass_pos = 3;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == UP)
+	{
+		_password[pass_pos]++;
+		if(9 < _password[pass_pos])_password[pass_pos]=0;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == DN)
+	{
+		if(_password[pass_pos])_password[pass_pos]--;
+		else _password[pass_pos] = 9;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == ENTER)
+	{
+		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		{
+			naviMENU = naviMENU+1;
+		}
+		else
+		{
+			SYS_password_clr();
+		}
+		
+	}
+}
+void SYS_7_01_00_06(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+}
+void SYS_7_01_01_05(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+	else if(KeyState.KeyValue == RIGHT)
+	{
+		pass_pos++;
+		if(3 <pass_pos)pass_pos=0;
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == LIFT)
+	{
+		if(pass_pos)pass_pos--;
+		else pass_pos = 3;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == UP)
+	{
+		_password[pass_pos]++;
+		if(9 < _password[pass_pos])_password[pass_pos]=0;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == DN)
+	{
+		if(_password[pass_pos])_password[pass_pos]--;
+		else _password[pass_pos] = 9;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == ENTER)
+	{
+		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		{
+			naviMENU = naviMENU+1;
+		}
+		else
+		{
+			SYS_password_clr();
+		}
+		
+	}
+}
+void SYS_7_01_01_06(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+}
+void SYS_7_01_02_05(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+	else if(KeyState.KeyValue == RIGHT)
+	{
+		pass_pos++;
+		if(3 <pass_pos)pass_pos=0;
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == LIFT)
+	{
+		if(pass_pos)pass_pos--;
+		else pass_pos = 3;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == UP)
+	{
+		_password[pass_pos]++;
+		if(9 < _password[pass_pos])_password[pass_pos]=0;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == DN)
+	{
+		if(_password[pass_pos])_password[pass_pos]--;
+		else _password[pass_pos] = 9;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == ENTER)
+	{
+		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		{
+			naviMENU = naviMENU+1;
+		}
+		else
+		{
+			SYS_password_clr();
+		}
+		
+	}
+}
+void SYS_7_01_02_06(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+}
+void SYS_7_01_03_05(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+	else if(KeyState.KeyValue == RIGHT)
+	{
+		pass_pos++;
+		if(3 <pass_pos)pass_pos=0;
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == LIFT)
+	{
+		if(pass_pos)pass_pos--;
+		else pass_pos = 3;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == UP)
+	{
+		_password[pass_pos]++;
+		if(9 < _password[pass_pos])_password[pass_pos]=0;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == DN)
+	{
+		if(_password[pass_pos])_password[pass_pos]--;
+		else _password[pass_pos] = 9;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == ENTER)
+	{
+		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		{
+			naviMENU = naviMENU+1;
+		}
+		else
+		{
+			SYS_password_clr();
+		}
+		
+	}
+}
+void SYS_7_01_03_06(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+}
+void SYS_7_01_04_05(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+	else if(KeyState.KeyValue == RIGHT)
+	{
+		pass_pos++;
+		if(3 <pass_pos)pass_pos=0;
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == LIFT)
+	{
+		if(pass_pos)pass_pos--;
+		else pass_pos = 3;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == UP)
+	{
+		_password[pass_pos]++;
+		if(9 < _password[pass_pos])_password[pass_pos]=0;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == DN)
+	{
+		if(_password[pass_pos])_password[pass_pos]--;
+		else _password[pass_pos] = 9;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == ENTER)
+	{
+		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		{
+			naviMENU = naviMENU+1;
+		}
+		else
+		{
+			SYS_password_clr();
+		}
+		
+	}
+}
+void SYS_7_01_04_06(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+}
+
+
+
+void SYS_7_02_00(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = 7020005;
+		SYS_password_clr();
+	}
+}
+void SYS_7_02_01(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = 7020105;
+		SYS_password_clr();
+	}
+}
+void SYS_7_02_02(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = 7020205;
+		SYS_password_clr();
+	}
+}
+void SYS_7_02_03(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = 7020305;
+		SYS_password_clr();
+	}
+}
+void SYS_7_02_04(void)
+{
+	SYS_Base_KeyFunction();
+	if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = 7020405;
+		SYS_password_clr();
+	}
+}
+
+
+void SYS_7_02_00_05(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+	else if(KeyState.KeyValue == RIGHT)
+	{
+		pass_pos++;
+		if(3 <pass_pos)pass_pos=0;
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == LIFT)
+	{
+		if(pass_pos)pass_pos--;
+		else pass_pos = 3;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == UP)
+	{
+		_password[pass_pos]++;
+		if(9 < _password[pass_pos])_password[pass_pos]=0;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == DN)
+	{
+		if(_password[pass_pos])_password[pass_pos]--;
+		else _password[pass_pos] = 9;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == ENTER)
+	{
+		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		{
+			naviMENU = naviMENU+1;
+		}
+		else
+		{
+			SYS_password_clr();
+		}
+		
+	}
+}
+void SYS_7_02_00_06(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+	else if(KeyState.KeyValue == RIGHT)
+	{
+		pass_pos++;
+		if(3 <pass_pos)pass_pos=0;
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == LIFT)
+	{
+		if(pass_pos)pass_pos--;
+		else pass_pos = 3;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == UP)
+	{
+		_password[pass_pos]++;
+		if(9 < _password[pass_pos])_password[pass_pos]=0;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == DN)
+	{
+		if(_password[pass_pos])_password[pass_pos]--;
+		else _password[pass_pos] = 9;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = naviMENU+1;
+	}
+}
+void SYS_7_02_00_07(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+}
+void SYS_7_02_01_05(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+	else if(KeyState.KeyValue == RIGHT)
+	{
+		pass_pos++;
+		if(3 <pass_pos)pass_pos=0;
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == LIFT)
+	{
+		if(pass_pos)pass_pos--;
+		else pass_pos = 3;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == UP)
+	{
+		_password[pass_pos]++;
+		if(9 < _password[pass_pos])_password[pass_pos]=0;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == DN)
+	{
+		if(_password[pass_pos])_password[pass_pos]--;
+		else _password[pass_pos] = 9;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == ENTER)
+	{
+		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		{
+			naviMENU = naviMENU+1;
+		}
+		else
+		{
+			SYS_password_clr();
+		}
+		
+	}
+}
+void SYS_7_02_01_06(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+	else if(KeyState.KeyValue == RIGHT)
+	{
+		pass_pos++;
+		if(3 <pass_pos)pass_pos=0;
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == LIFT)
+	{
+		if(pass_pos)pass_pos--;
+		else pass_pos = 3;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == UP)
+	{
+		_password[pass_pos]++;
+		if(9 < _password[pass_pos])_password[pass_pos]=0;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == DN)
+	{
+		if(_password[pass_pos])_password[pass_pos]--;
+		else _password[pass_pos] = 9;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = naviMENU+1;
+	}
+}
+void SYS_7_02_01_07(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+}
+void SYS_7_02_02_05(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+	else if(KeyState.KeyValue == RIGHT)
+	{
+		pass_pos++;
+		if(3 <pass_pos)pass_pos=0;
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == LIFT)
+	{
+		if(pass_pos)pass_pos--;
+		else pass_pos = 3;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == UP)
+	{
+		_password[pass_pos]++;
+		if(9 < _password[pass_pos])_password[pass_pos]=0;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == DN)
+	{
+		if(_password[pass_pos])_password[pass_pos]--;
+		else _password[pass_pos] = 9;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == ENTER)
+	{
+		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		{
+			naviMENU = naviMENU+1;
+		}
+		else
+		{
+			SYS_password_clr();
+		}
+		
+	}
+}
+void SYS_7_02_02_06(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+	else if(KeyState.KeyValue == RIGHT)
+	{
+		pass_pos++;
+		if(3 <pass_pos)pass_pos=0;
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == LIFT)
+	{
+		if(pass_pos)pass_pos--;
+		else pass_pos = 3;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == UP)
+	{
+		_password[pass_pos]++;
+		if(9 < _password[pass_pos])_password[pass_pos]=0;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == DN)
+	{
+		if(_password[pass_pos])_password[pass_pos]--;
+		else _password[pass_pos] = 9;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = naviMENU+1;
+	}
+}
+void SYS_7_02_02_07(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+}
+void SYS_7_02_03_05(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+	else if(KeyState.KeyValue == RIGHT)
+	{
+		pass_pos++;
+		if(3 <pass_pos)pass_pos=0;
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == LIFT)
+	{
+		if(pass_pos)pass_pos--;
+		else pass_pos = 3;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == UP)
+	{
+		_password[pass_pos]++;
+		if(9 < _password[pass_pos])_password[pass_pos]=0;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == DN)
+	{
+		if(_password[pass_pos])_password[pass_pos]--;
+		else _password[pass_pos] = 9;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == ENTER)
+	{
+		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		{
+			naviMENU = naviMENU+1;
+		}
+		else
+		{
+			SYS_password_clr();
+		}
+		
+	}
+}
+void SYS_7_02_03_06(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+	else if(KeyState.KeyValue == RIGHT)
+	{
+		pass_pos++;
+		if(3 <pass_pos)pass_pos=0;
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == LIFT)
+	{
+		if(pass_pos)pass_pos--;
+		else pass_pos = 3;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == UP)
+	{
+		_password[pass_pos]++;
+		if(9 < _password[pass_pos])_password[pass_pos]=0;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == DN)
+	{
+		if(_password[pass_pos])_password[pass_pos]--;
+		else _password[pass_pos] = 9;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = naviMENU+1;
+	}
+}
+void SYS_7_02_03_07(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+}
+void SYS_7_02_04_05(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+	else if(KeyState.KeyValue == RIGHT)
+	{
+		pass_pos++;
+		if(3 <pass_pos)pass_pos=0;
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == LIFT)
+	{
+		if(pass_pos)pass_pos--;
+		else pass_pos = 3;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == UP)
+	{
+		_password[pass_pos]++;
+		if(9 < _password[pass_pos])_password[pass_pos]=0;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == DN)
+	{
+		if(_password[pass_pos])_password[pass_pos]--;
+		else _password[pass_pos] = 9;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == ENTER)
+	{
+		if((password[0]==_password[0])&&(password[1]==_password[1])&&(password[2]==_password[2])&&(password[3]==_password[3]))
+		{
+			naviMENU = naviMENU+1;
+		}
+		else
+		{
+			SYS_password_clr();
+		}
+		
+	}
+}
+void SYS_7_02_04_06(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+	else if(KeyState.KeyValue == RIGHT)
+	{
+		pass_pos++;
+		if(3 <pass_pos)pass_pos=0;
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == LIFT)
+	{
+		if(pass_pos)pass_pos--;
+		else pass_pos = 3;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == UP)
+	{
+		_password[pass_pos]++;
+		if(9 < _password[pass_pos])_password[pass_pos]=0;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == DN)
+	{
+		if(_password[pass_pos])_password[pass_pos]--;
+		else _password[pass_pos] = 9;
+	
+		RefreshFlag=1;
+	}
+	else if(KeyState.KeyValue == ENTER)
+	{
+		naviMENU = naviMENU+1;
+	}
+}
+void SYS_7_02_04_07(void)
+{
+	if(KeyState.KeyValue == ESC)
+	{
+		naviMENU = naviMENU / 100;
+		SYS_password_clr();
+	}
+}
+
+
 
 
 
@@ -9832,6 +12113,22 @@ void SYS_0xFFFFFFFF(void)
 
 
 
+void SYS_password_clr(void)
+{
+	_password[0]=0;
+	_password[1]=0;
+	_password[2]=0;
+	_password[3]=0;
+	pass_pos = 0;
+}
+
+void SYS_Base_KeyFunction(void)
+{
+	if(KeyState.KeyValue == ESC)naviMENU = naviMENU /100;
+	else if(KeyState.KeyValue == UP)naviMENU = naviMENU -1;
+	else if(KeyState.KeyValue == DN)naviMENU = naviMENU +1;
+	else if(KeyState.KeyValue == ENTER)naviMENU = naviMENU*100;
+}
 
 
 const char* _cpy_flash2memory(char const *format)
@@ -10867,7 +13164,189 @@ void MainSYSTEM(void)
 		case  32308			:				SYS_3_23_08				();					break;						
 		case  32309			:				SYS_3_23_09				();					break;						
 		case  32310			:				SYS_3_23_10				();					break;						
-		case  32311			:				SYS_3_23_11				();					break;						
+		case  32311			:				SYS_3_23_11				();					break;			
+
+		case  400			:				SYS_4_00					();					break;						
+		case  401			:				SYS_4_01					();					break;		
+		case  402			:				SYS_4_02					();					break;		
+
+		case  4003			:				SYS_4_00_3					();					break;						
+		case  4013			:				SYS_4_01_3					();					break;		
+		case  4023			:				SYS_4_02_3					();					break;	
+
+		case  40034			:				SYS_4_00_3_4				();					break;						
+		case  40134			:				SYS_4_01_3_4				();					break;		
+		case  40234			:				SYS_4_02_3_4				();					break;
+
+		case  500			:				SYS_5_00					();					break;						
+		case  501			:				SYS_5_01					();					break;		
+		case  502			:				SYS_5_02					();					break;	
+		case  503			:				SYS_5_03					();					break;						
+		case  504			:				SYS_5_04					();					break;		
+		case  505			:				SYS_5_05					();					break;	
+		case  506			:				SYS_5_06					();					break;						
+		case  507			:				SYS_5_07					();					break;	
+		case  508			:				SYS_5_08					();					break;	
+
+		case  50000			:				SYS_5_00_00				();					break;	
+		case  50001			:				SYS_5_00_01				();					break;	
+		case  50002			:				SYS_5_00_02				();					break;	
+		case  50003			:				SYS_5_00_03				();					break;	
+		case  50004			:				SYS_5_00_04				();					break;	
+		case  50005			:				SYS_5_00_05				();					break;	
+		case  50006			:				SYS_5_00_06				();					break;	
+		case  50007			:				SYS_5_00_07				();					break;	
+		case  50008			:				SYS_5_00_08				();					break;	
+		case  50009			:				SYS_5_00_09				();					break;
+		case  50010			:				SYS_5_00_10				();					break;
+                        
+		case  50100			:				SYS_5_01_00				();					break;	
+		case  50101			:				SYS_5_01_01				();					break;	
+		case  50102			:				SYS_5_01_02				();					break;	
+		case  50103			:				SYS_5_01_03				();					break;	
+		case  50104			:				SYS_5_01_04				();					break;	
+		case  50105			:				SYS_5_01_05				();					break;	
+		case  50106			:				SYS_5_01_06				();					break;	
+		case  50107			:				SYS_5_01_07				();					break;	
+		case  50108			:				SYS_5_01_08				();					break;	
+		case  50109			:				SYS_5_01_09				();					break;
+		case  50110			:				SYS_5_01_10				();					break;
+                            
+		case  50200			:				SYS_5_02_00				();					break;	
+		case  50201			:				SYS_5_02_01				();					break;	
+		case  50202			:				SYS_5_02_02				();					break;	
+		case  50203			:				SYS_5_02_03				();					break;	
+		case  50204			:				SYS_5_02_04				();					break;	
+		case  50205			:				SYS_5_02_05				();					break;	
+		case  50206			:				SYS_5_02_06				();					break;	
+		case  50207			:				SYS_5_02_07				();					break;	
+		case  50208			:				SYS_5_02_08				();					break;	
+		case  50209			:				SYS_5_02_09				();					break;
+		case  50210			:				SYS_5_02_10				();					break;
+                            
+		case  50300			:				SYS_5_03_00				();					break;	
+		case  50301			:				SYS_5_03_01				();					break;	
+		case  50302			:				SYS_5_03_02				();					break;	
+		case  50303			:				SYS_5_03_03				();					break;	
+		case  50304			:				SYS_5_03_04				();					break;	
+		case  50305			:				SYS_5_03_05				();					break;	
+		case  50306			:				SYS_5_03_06				();					break;	
+		case  50307			:				SYS_5_03_07				();					break;	
+		case  50308			:				SYS_5_03_08				();					break;	
+		case  50309			:				SYS_5_03_09				();					break;
+		case  50310			:				SYS_5_03_10				();					break;
+                           
+		case  50400			:				SYS_5_04_00				();					break;	
+		case  50401			:				SYS_5_04_01				();					break;	
+		case  50402			:				SYS_5_04_02				();					break;	
+		case  50403			:				SYS_5_04_03				();					break;	
+		case  50404			:				SYS_5_04_04				();					break;	
+		case  50405			:				SYS_5_04_05				();					break;	
+		case  50406			:				SYS_5_04_06				();					break;	
+		case  50407			:				SYS_5_04_07				();					break;	
+		case  50408			:				SYS_5_04_08				();					break;	
+		case  50409			:				SYS_5_04_09				();					break;
+		case  50410			:				SYS_5_04_10				();					break;
+                            
+		case  50500			:				SYS_5_05_00				();					break;	
+		case  50501			:				SYS_5_05_01				();					break;	
+		case  50502			:				SYS_5_05_02				();					break;	
+		case  50503			:				SYS_5_05_03				();					break;	
+		case  50504			:				SYS_5_05_04				();					break;	
+		case  50505			:				SYS_5_05_05				();					break;	
+		case  50506			:				SYS_5_05_06				();					break;	
+		case  50507			:				SYS_5_05_07				();					break;	
+		case  50508			:				SYS_5_05_08				();					break;	
+		case  50509			:				SYS_5_05_09				();					break;
+		case  50510			:				SYS_5_05_10				();					break;
+                            
+		case  50600			:				SYS_5_06_00				();					break;	
+		case  50601			:				SYS_5_06_01				();					break;	
+		case  50602			:				SYS_5_06_02				();					break;	
+		case  50603			:				SYS_5_06_03				();					break;	
+		case  50604			:				SYS_5_06_04				();					break;	
+		case  50605			:				SYS_5_06_05				();					break;	
+		case  50606			:				SYS_5_06_06				();					break;	
+		case  50607			:				SYS_5_06_07				();					break;	
+		case  50608			:				SYS_5_06_08				();					break;	
+		case  50609			:				SYS_5_06_09				();					break;
+		case  50610			:				SYS_5_06_10				();					break;
+                            
+		case  50700			:				SYS_5_07_00				();					break;	
+		case  50701			:				SYS_5_07_01				();					break;	
+		case  50702			:				SYS_5_07_02				();					break;	
+		case  50703			:				SYS_5_07_03				();					break;	
+		case  50704			:				SYS_5_07_04				();					break;	
+		case  50705			:				SYS_5_07_05				();					break;	
+		case  50706			:				SYS_5_07_06				();					break;	
+		case  50707			:				SYS_5_07_07				();					break;	
+		case  50708			:				SYS_5_07_08				();					break;	
+		case  50709			:				SYS_5_07_09				();					break;
+		case  50710			:				SYS_5_07_10				();					break;
+                            
+		case  50800			:				SYS_5_08_00				();					break;	
+		case  50801			:				SYS_5_08_01				();					break;	
+		case  50802			:				SYS_5_08_02				();					break;	
+		case  50803			:				SYS_5_08_03				();					break;	
+		case  50804			:				SYS_5_08_04				();					break;	
+		case  50805			:				SYS_5_08_05				();					break;	
+		case  50806			:				SYS_5_08_06				();					break;	
+		case  50807			:				SYS_5_08_07				();					break;	
+		case  50808			:				SYS_5_08_08				();					break;	
+		case  50809			:				SYS_5_08_09				();					break;
+		case  50810			:				SYS_5_08_10				();					break;
+
+		case  600			:				SYS_6_00					();					break;	
+		case  601			:				SYS_6_01					();					break;
+		case  602			:				SYS_6_02					();					break;
+
+		case  60004			:				SYS_6_00_04				();					break;	
+		case  60103			:				SYS_6_01_03				();					break;
+		case  60105			:				SYS_6_01_05				();					break;
+		case  60205			:				SYS_6_02_05				();					break;
+
+		case  700			:				SYS_7_00					();					break;	
+		case  701			:				SYS_7_01					();					break;
+		case  702			:				SYS_7_02					();					break;
+		
+		case  70100			:				SYS_7_01_00				();					break;	
+		case  70101			:				SYS_7_01_01				();					break;	
+		case  70102			:				SYS_7_01_02				();					break;	
+		case  70103			:				SYS_7_01_03				();					break;	
+		case  70104			:				SYS_7_01_04				();					break;	
+
+		case  7010005		:				SYS_7_01_00_05			();					break;	
+		case  7010006		:				SYS_7_01_00_06			();					break;	
+		case  7010105		:				SYS_7_01_01_05			();					break;	
+		case  7010106		:				SYS_7_01_01_06			();					break;	
+		case  7010205		:				SYS_7_01_02_05			();					break;	
+		case  7010206		:				SYS_7_01_02_06			();					break;	
+		case  7010305		:				SYS_7_01_03_05			();					break;	
+		case  7010306		:				SYS_7_01_03_06			();					break;	
+		case  7010405		:				SYS_7_01_04_05			();					break;	
+		case  7010406		:				SYS_7_01_04_06			();					break;	
+
+		case  70200			:				SYS_7_02_00				();					break;	
+		case  70201			:				SYS_7_02_01				();					break;	
+		case  70202			:				SYS_7_02_02				();					break;	
+		case  70203			:				SYS_7_02_03				();					break;	
+		case  70204			:				SYS_7_02_04				();					break;	
+
+		case  7020005		:				SYS_7_02_00_05			();					break;	
+		case  7020006		:				SYS_7_02_00_06			();					break;	
+		case  7020007		:				SYS_7_02_00_07			();					break;
+		case  7020105		:				SYS_7_02_01_05			();					break;	
+		case  7020106		:				SYS_7_02_01_06			();					break;	
+		case  7020107		:				SYS_7_02_01_07			();					break;
+		case  7020205		:				SYS_7_02_02_05			();					break;	
+		case  7020206		:				SYS_7_02_02_06			();					break;	
+		case  7020207		:				SYS_7_02_02_07			();					break;
+		case  7020305		:				SYS_7_02_03_05			();					break;	
+		case  7020306		:				SYS_7_02_03_06			();					break;	
+		case  7020307		:				SYS_7_02_03_07			();					break;
+		case  7020405		:				SYS_7_02_04_05			();					break;	
+		case  7020406		:				SYS_7_02_04_06			();					break;	
+		case  7020407		:				SYS_7_02_04_07			();					break;
 
 		case 0xFFFFFFFF :			SYS_0xFFFFFFFF();				break;
 
@@ -11646,6 +14125,188 @@ void Menu(void)
 		case  32309			:				PAGE_3_23_09				();					break;						
 		case  32310			:				PAGE_3_23_10				();					break;						
 		case  32311			:				PAGE_3_23_11				();					break;
+
+		case  400			:				PAGE_4_00					();					break;						
+		case  401			:				PAGE_4_01					();					break;		
+		case  402			:				PAGE_4_02					();					break;		
+
+		case  4003			:				PAGE_4_00_3				();					break;						
+		case  4013			:				PAGE_4_01_3				();					break;		
+		case  4023			:				PAGE_4_02_3				();					break;	
+
+		case  40034			:				PAGE_4_00_3_4				();					break;						
+		case  40134			:				PAGE_4_01_3_4				();					break;		
+		case  40234			:				PAGE_4_02_3_4				();					break;	
+
+		case  500			:				PAGE_5_00					();					break;						
+		case  501			:				PAGE_5_01					();					break;		
+		case  502			:				PAGE_5_02					();					break;	
+		case  503			:				PAGE_5_03					();					break;						
+		case  504			:				PAGE_5_04					();					break;		
+		case  505			:				PAGE_5_05					();					break;	
+		case  506			:				PAGE_5_06					();					break;						
+		case  507			:				PAGE_5_07					();					break;	
+		case  508			:				PAGE_5_08					();					break;	
+
+		case  50000			:				PAGE_5_00_00				();					break;	
+		case  50001			:				PAGE_5_00_01				();					break;	
+		case  50002			:				PAGE_5_00_02				();					break;	
+		case  50003			:				PAGE_5_00_03				();					break;	
+		case  50004			:				PAGE_5_00_04				();					break;	
+		case  50005			:				PAGE_5_00_05				();					break;	
+		case  50006			:				PAGE_5_00_06				();					break;	
+		case  50007			:				PAGE_5_00_07				();					break;	
+		case  50008			:				PAGE_5_00_08				();					break;	
+		case  50009			:				PAGE_5_00_09				();					break;
+		case  50010			:				PAGE_5_00_10				();					break;
+
+		case  50100			:				PAGE_5_01_00				();					break;	
+		case  50101			:				PAGE_5_01_01				();					break;	
+		case  50102			:				PAGE_5_01_02				();					break;	
+		case  50103			:				PAGE_5_01_03				();					break;	
+		case  50104			:				PAGE_5_01_04				();					break;	
+		case  50105			:				PAGE_5_01_05				();					break;	
+		case  50106			:				PAGE_5_01_06				();					break;	
+		case  50107			:				PAGE_5_01_07				();					break;	
+		case  50108			:				PAGE_5_01_08				();					break;	
+		case  50109			:				PAGE_5_01_09				();					break;
+		case  50110			:				PAGE_5_01_10				();					break;
+
+		case  50200			:				PAGE_5_02_00				();					break;	
+		case  50201			:				PAGE_5_02_01				();					break;	
+		case  50202			:				PAGE_5_02_02				();					break;	
+		case  50203			:				PAGE_5_02_03				();					break;	
+		case  50204			:				PAGE_5_02_04				();					break;	
+		case  50205			:				PAGE_5_02_05				();					break;	
+		case  50206			:				PAGE_5_02_06				();					break;	
+		case  50207			:				PAGE_5_02_07				();					break;	
+		case  50208			:				PAGE_5_02_08				();					break;	
+		case  50209			:				PAGE_5_02_09				();					break;
+		case  50210			:				PAGE_5_02_10				();					break;
+
+		case  50300			:				PAGE_5_03_00				();					break;	
+		case  50301			:				PAGE_5_03_01				();					break;	
+		case  50302			:				PAGE_5_03_02				();					break;	
+		case  50303			:				PAGE_5_03_03				();					break;	
+		case  50304			:				PAGE_5_03_04				();					break;	
+		case  50305			:				PAGE_5_03_05				();					break;	
+		case  50306			:				PAGE_5_03_06				();					break;	
+		case  50307			:				PAGE_5_03_07				();					break;	
+		case  50308			:				PAGE_5_03_08				();					break;	
+		case  50309			:				PAGE_5_03_09				();					break;
+		case  50310			:				PAGE_5_03_10				();					break;
+
+		case  50400			:				PAGE_5_04_00				();					break;	
+		case  50401			:				PAGE_5_04_01				();					break;	
+		case  50402			:				PAGE_5_04_02				();					break;	
+		case  50403			:				PAGE_5_04_03				();					break;	
+		case  50404			:				PAGE_5_04_04				();					break;	
+		case  50405			:				PAGE_5_04_05				();					break;	
+		case  50406			:				PAGE_5_04_06				();					break;	
+		case  50407			:				PAGE_5_04_07				();					break;	
+		case  50408			:				PAGE_5_04_08				();					break;	
+		case  50409			:				PAGE_5_04_09				();					break;
+		case  50410			:				PAGE_5_04_10				();					break;
+
+		case  50500			:				PAGE_5_05_00				();					break;	
+		case  50501			:				PAGE_5_05_01				();					break;	
+		case  50502			:				PAGE_5_05_02				();					break;	
+		case  50503			:				PAGE_5_05_03				();					break;	
+		case  50504			:				PAGE_5_05_04				();					break;	
+		case  50505			:				PAGE_5_05_05				();					break;	
+		case  50506			:				PAGE_5_05_06				();					break;	
+		case  50507			:				PAGE_5_05_07				();					break;	
+		case  50508			:				PAGE_5_05_08				();					break;	
+		case  50509			:				PAGE_5_05_09				();					break;
+		case  50510			:				PAGE_5_05_10				();					break;
+
+		case  50600			:				PAGE_5_06_00				();					break;	
+		case  50601			:				PAGE_5_06_01				();					break;	
+		case  50602			:				PAGE_5_06_02				();					break;	
+		case  50603			:				PAGE_5_06_03				();					break;	
+		case  50604			:				PAGE_5_06_04				();					break;	
+		case  50605			:				PAGE_5_06_05				();					break;	
+		case  50606			:				PAGE_5_06_06				();					break;	
+		case  50607			:				PAGE_5_06_07				();					break;	
+		case  50608			:				PAGE_5_06_08				();					break;	
+		case  50609			:				PAGE_5_06_09				();					break;
+		case  50610			:				PAGE_5_06_10				();					break;
+
+		case  50700			:				PAGE_5_07_00				();					break;	
+		case  50701			:				PAGE_5_07_01				();					break;	
+		case  50702			:				PAGE_5_07_02				();					break;	
+		case  50703			:				PAGE_5_07_03				();					break;	
+		case  50704			:				PAGE_5_07_04				();					break;	
+		case  50705			:				PAGE_5_07_05				();					break;	
+		case  50706			:				PAGE_5_07_06				();					break;	
+		case  50707			:				PAGE_5_07_07				();					break;	
+		case  50708			:				PAGE_5_07_08				();					break;	
+		case  50709			:				PAGE_5_07_09				();					break;
+		case  50710			:				PAGE_5_07_10				();					break;
+
+		case  50800			:				PAGE_5_08_00				();					break;	
+		case  50801			:				PAGE_5_08_01				();					break;	
+		case  50802			:				PAGE_5_08_02				();					break;	
+		case  50803			:				PAGE_5_08_03				();					break;	
+		case  50804			:				PAGE_5_08_04				();					break;	
+		case  50805			:				PAGE_5_08_05				();					break;	
+		case  50806			:				PAGE_5_08_06				();					break;	
+		case  50807			:				PAGE_5_08_07				();					break;	
+		case  50808			:				PAGE_5_08_08				();					break;	
+		case  50809			:				PAGE_5_08_09				();					break;
+		case  50810			:				PAGE_5_08_10				();					break;
+
+		case  600			:				PAGE_6_00					();					break;	
+		case  601			:				PAGE_6_01					();					break;
+		case  602			:				PAGE_6_02					();					break;
+
+		case  60004			:				PAGE_6_00_04				();					break;	
+		case  60103			:				PAGE_6_01_03				();					break;
+		case  60105			:				PAGE_6_01_05				();					break;
+		case  60205			:				PAGE_6_02_05				();					break;
+
+		case  700			:				PAGE_7_00					();					break;	
+		case  701			:				PAGE_7_01					();					break;
+		case  702			:				PAGE_7_02					();					break;
+		
+		case  70100			:				PAGE_7_01_00				();					break;	
+		case  70101			:				PAGE_7_01_01				();					break;	
+		case  70102			:				PAGE_7_01_02				();					break;	
+		case  70103			:				PAGE_7_01_03				();					break;	
+		case  70104			:				PAGE_7_01_04				();					break;	
+
+		case  7010005		:				PAGE_7_01_00_05			();					break;	
+		case  7010006		:				PAGE_7_01_00_06			();					break;	
+		case  7010105		:				PAGE_7_01_01_05			();					break;	
+		case  7010106		:				PAGE_7_01_01_06			();					break;	
+		case  7010205		:				PAGE_7_01_02_05			();					break;	
+		case  7010206		:				PAGE_7_01_02_06			();					break;	
+		case  7010305		:				PAGE_7_01_03_05			();					break;	
+		case  7010306		:				PAGE_7_01_03_06			();					break;	
+		case  7010405		:				PAGE_7_01_04_05			();					break;	
+		case  7010406		:				PAGE_7_01_04_06			();					break;	
+
+		case  70200			:				PAGE_7_02_00				();					break;	
+		case  70201			:				PAGE_7_02_01				();					break;	
+		case  70202			:				PAGE_7_02_02				();					break;	
+		case  70203			:				PAGE_7_02_03				();					break;	
+		case  70204			:				PAGE_7_02_04				();					break;	
+
+		case  7020005		:				PAGE_7_02_00_05			();					break;	
+		case  7020006		:				PAGE_7_02_00_06			();					break;	
+		case  7020007		:				PAGE_7_02_00_07			();					break;
+		case  7020105		:				PAGE_7_02_01_05			();					break;	
+		case  7020106		:				PAGE_7_02_01_06			();					break;	
+		case  7020107		:				PAGE_7_02_01_07			();					break;
+		case  7020205		:				PAGE_7_02_02_05			();					break;	
+		case  7020206		:				PAGE_7_02_02_06			();					break;	
+		case  7020207		:				PAGE_7_02_02_07			();					break;
+		case  7020305		:				PAGE_7_02_03_05			();					break;	
+		case  7020306		:				PAGE_7_02_03_06			();					break;	
+		case  7020307		:				PAGE_7_02_03_07			();					break;
+		case  7020405		:				PAGE_7_02_04_05			();					break;	
+		case  7020406		:				PAGE_7_02_04_06			();					break;	
+		case  7020407		:				PAGE_7_02_04_07			();					break;
 			
 		case 0xFFFFFFFF	:			PAGE_0xFFFFFFFF();break;
 

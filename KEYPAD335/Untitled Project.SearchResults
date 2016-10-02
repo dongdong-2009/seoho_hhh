@@ -1,2 +1,10 @@
----- Word Matches (1 in 1 files) ----
-rs232_MMItoPANEL.h (source\mcu):	unsigned int Word;
+---- CLCD_cursor Matches (9 in 3 files) ----
+16by2CLCD.c (source\mcu):void CLCD_cursor_ON(unsigned char pos, unsigned char offset)		/* write a command(instruction) to text LCD */
+16by2CLCD.c (source\mcu):void CLCD_cursor_OFF(void)		/* write a command(instruction) to text LCD */
+16by2CLCD.h (source\mcu):void CLCD_cursor_ON(unsigned char row, unsigned char offset);
+16by2CLCD.h (source\mcu):void CLCD_cursor_OFF(void);
+Display.c (source\mcu):	if(pass_pos==0)	CLCD_cursor(0xC0,9);
+Display.c (source\mcu):	else if(pass_pos==1)		CLCD_cursor_ON(0xC0,10);
+Display.c (source\mcu):	else if(pass_pos==2)		CLCD_cursor_ON(0xC0,11);
+Display.c (source\mcu):	else if(pass_pos==3)		CLCD_cursor_ON(0xC0,12);
+Display.c (source\mcu):	CLCD_cursor_OFF();

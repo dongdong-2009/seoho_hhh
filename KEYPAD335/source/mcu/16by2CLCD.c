@@ -15,11 +15,11 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <stdio.h>
+
 #include <avr/interrupt.h>
-
-
 #include <avr/pgmspace.h>
 
+#include "16by2CLCD.h"
 
 
 void CLCD_command(unsigned char command)		/* write a command(instruction) to text LCD */
@@ -44,6 +44,17 @@ void CLCD_data(unsigned char data)		/* display a character on text LCD */
   Delay_us(50);
 }
 
+void CLCD_cursor_ON(unsigned char pos, unsigned char offset)		/* write a command(instruction) to text LCD */
+{
+	CLCD_command(pos|offset);
+  	CLCD_command(0x0F);
+}
+
+void CLCD_cursor_OFF(void)		/* write a command(instruction) to text LCD */
+{
+  	CLCD_command(0x0C);
+}
+
 void CLCD_string(unsigned char command, char *string) /* display a string on LCD */
 {
   CLCD_command(command);				// start position of string
@@ -57,6 +68,7 @@ void CLCD_initialize(void)			/* initialize text LCD module */
 {
   CLCD_command(0x38);				// function set(8 bit, 2 line, 5x7 dot)
   CLCD_command(0x0C);				// display control(display ON, cursor OFF)
+  //CLCD_command(0x0F);				// display control(display ON, cursor OFF)
   CLCD_command(0x06);				// entry mode set(increment, not shift)
   CLCD_command(0x01);				// clear display
   Delay_ms(2);

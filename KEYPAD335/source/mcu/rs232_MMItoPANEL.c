@@ -83,27 +83,14 @@
 #define PANEL_INDEX_PARAMETER		102
 
 //-----------------------------------------------------------------------------------------
-//-- 로고 출력 시간
-#define	LOGO_DISPLAY_TIME		0.5	
 
-//-- 키에서 변경이 없을 경우 0.5초 이후에 다음 키를 읽는다.
-#define	NEW_KEY_ENABLE_DELAY_TIME	0.5
-	
-//-- 키 변화 감지 타이머
-#define	KEY_CHANGE_ENABLE_TIME		0.2
 
 //-- 패널 연결 
 #define	PANEL_CONNECTION_REFLESH_TIME	0.5
 
-//-- LCD 화면 업데이트
-#define	LCD_UPDATE_TIME			0.05	
 
-//-- LCD 파라미터
-#define	MAX_CONTRAST_DUTY		2       //50	// 선명도 조정 등급
 
-//-- LCD RAM Address		
-#define	ROW1_ADDR			0	// LCD Row1 Base Address : 0 ~ 15
-#define	ROW2_ADDR			16	// LCD Row2 Base Address : 16 ~ 31
+
 
 //-- 백라이트가 켜져 있는 시간
 #define	DEFAULT_LIGHT_HOLD_TIME_minute	30	// 30분 후 LCD 자동 꺼짐
