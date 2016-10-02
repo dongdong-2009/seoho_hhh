@@ -1,7 +1,15 @@
----- MODE_3d_1u_Vrms Matches (6 in 2 files) ----
-Display.c (source\mcu):	else if(mode == MODE_3d_1u_Vrms)
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_3d_1u_Vrms);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_3d_1u_Vrms);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_3d_1u_Vrms);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_3d_1u_Vrms);
-Display_def.h (source\mcu):#define MODE_3d_1u_Vrms 6
+---- MODE_5u_mA Matches (14 in 2 files) ----
+Display.c (source\mcu):	else if(mode == MODE_5u_mA)
+Display.c (source\mcu):		else if(DATA_Registers[602] == 2)SYS_ParameterDisplay(MODE_5u_mA);
+Display.c (source\mcu):		else if(DATA_Registers[602] == 3)SYS_ParameterDisplay(MODE_5u_mA);
+Display.c (source\mcu):		else if(DATA_Registers[602] == 2)SYS_ParameterDisplay(MODE_5u_mA);
+Display.c (source\mcu):		else if(DATA_Registers[602] == 3)SYS_ParameterDisplay(MODE_5u_mA);
+Display.c (source\mcu):		else if(DATA_Registers[602] == 2)SYS_ParameterDisplay(MODE_5u_mA);
+Display.c (source\mcu):		else if(DATA_Registers[602] == 3)SYS_ParameterDisplay(MODE_5u_mA);
+Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5u_mA);
+Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5u_mA);
+Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5u_mA);
+Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5u_mA);
+Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5u_mA);
+Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5u_mA);
+Display_def.h (source\mcu):#define MODE_5u_mA 32

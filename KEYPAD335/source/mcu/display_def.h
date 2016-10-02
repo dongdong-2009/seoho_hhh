@@ -17,7 +17,7 @@
 #define EDIT_MODE_0 0
 #define EDIT_MODE_1 1
 #define EDIT_MODE_2 2
-#define EDIT_MODE_3 3
+#define EDIT_MODE_UPDN 3
 #define EDIT_MODE_4 4
 #define EDIT_MODE_P8_123456 5
 #define EDIT_MODE_P12 6
@@ -60,10 +60,10 @@
 
 #define MODE_3d_1u_mV 33
 #define MODE_3d_1u_V 23
-#define MODE_5u_V 38
+//#define MODE_5u_V 38
 
 #define MODE_3d_1u_mA 34
-#define MODE_3d_1u_mA_V 31
+#define MODE_3d_1u_mV 31
 
 #define MODE_3d_1u_deg 26
 
@@ -100,7 +100,8 @@
 #define MODE_P6_1 28
 #define MODE_P6_AI_Type 29
 
-#define MODE_5u_mA_V 32
+#define MODE_5u_mA 32
+
 
 #define MODE_35 35
 #define MODE_36 36
@@ -132,5 +133,9 @@
 
 #define MODE_P6_AI_U_Sel 66
 #define MODE_P6_AI_Func 67
+
+#define MODE_5d_rpm 68
+#define MODE_5u_Vrms 69
+#define MODE_5u_mV 70
 
 #endif
