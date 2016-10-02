@@ -1,26 +1,25 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                            /
-// IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR   10/Aug/2011  15:40:02 /
+// IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR   18/Aug/2011  20:04:48 /
 // Copyright 1996-2009 IAR Systems AB.                                        /
 //                                                                            /
-//    Source file  =  D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\so /
-//                    urce\mcu\rs232_MMItoPANEL.c                             /
-//    Command line =  D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\so /
-//                    urce\mcu\rs232_MMItoPANEL.c --cpu=m2560 -ms -o          /
-//                    D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\De /
-//                    bug\Obj\ -lC D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_11 /
-//                    0810_SEOHO\Debug\List\ -lA                              /
-//                    D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\De /
-//                    bug\List\ -y --initializers_in_flash -z3 --no_cse       /
-//                    --no_inline --no_code_motion --no_cross_call            /
-//                    --no_clustering --no_tbaa --debug                       /
-//                    --enable_external_bus -DENABLE_BIT_DEFINITIONS -e       /
-//                    --enable_multibytes -I "C:\Program Files\IAR            /
-//                    Systems\Embedded Workbench 5.3\avr\INC\" -I             /
+//    Source file  =  D:\KEYPAD\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMIto /
+//                    PANEL.c                                                 /
+//    Command line =  D:\KEYPAD\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMIto /
+//                    PANEL.c --cpu=m2560 -ms -o                              /
+//                    D:\KEYPAD\KEYPAD335_110810_SEOHO\Debug\Obj\ -lC         /
+//                    D:\KEYPAD\KEYPAD335_110810_SEOHO\Debug\List\ -lA        /
+//                    D:\KEYPAD\KEYPAD335_110810_SEOHO\Debug\List\ -y         /
+//                    --initializers_in_flash -z3 --no_cse --no_inline        /
+//                    --no_code_motion --no_cross_call --no_clustering        /
+//                    --no_tbaa --debug --enable_external_bus                 /
+//                    -DENABLE_BIT_DEFINITIONS -e --enable_multibytes -I      /
 //                    "C:\Program Files\IAR Systems\Embedded Workbench        /
-//                    5.3\avr\INC\CLIB\" --eeprom_size 4096                   /
-//    List file    =  D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\De /
-//                    bug\List\rs232_MMItoPANEL.s90                           /
+//                    5.3\avr\INC\" -I "C:\Program Files\IAR                  /
+//                    Systems\Embedded Workbench 5.3\avr\INC\CLIB\"           /
+//                    --eeprom_size 4096                                      /
+//    List file    =  D:\KEYPAD\KEYPAD335_110810_SEOHO\Debug\List\rs232_MMIto /
+//                    PANEL.s90                                               /
 //                                                                            /
 //                                                                            /
 ///////////////////////////////////////////////////////////////////////////////
@@ -251,7 +250,7 @@ USART0_TX_ISR       SYMBOL "USART0_TX_ISR"
         EXTERN device_type
         EXTERN gRequestAddr
 
-// D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL.c
+// D:\KEYPAD\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL.c
 //    1 //==============================================================================================
 //    2 //
 //    3 // Copyright(C) 2008 HanYoung ELEC. Co., LTD.
@@ -492,11 +491,11 @@ UART_init:
 //  117 	UBRR0H = 0; 								// 19200 baud for 16MHz OSC
         LDI     R16, 0
         STS     197, R16
-//  118 	UBRR0L = 8;
-        LDI     R16, 8
+//  118 	UBRR0L = 16;
+        LDI     R16, 16
         STS     _A_UBRR0, R16
-//  119 	UCSR0A = 0x00;								// asynchronous normal mode
-        LDI     R16, 0
+//  119 	UCSR0A = 0x02;								// asynchronous normal mode
+        LDI     R16, 2
         STS     _A_UCSR0A, R16
 //  120 	UCSR0B = 0xD8;								// Rx/Tx enbale, Rx Complete interrupt enable
         LDI     R16, 216
@@ -899,15 +898,9 @@ USART0_RX_ISR:
 ??USART0_RX_ISR_10:
         LDS     R16, RXD0
         STS     (RxBuf + 8), R16
-//  228 			SciC_RxFlag = 1;
-        LDI     R16, 1
-        STS     SciC_RxFlag, R16
+//  228 			//SciC_RxFlag = 1;
 //  229 
-//  230 			 if(SciC_RxFlag)
-        LDS     R16, SciC_RxFlag
-        TST     R16
-        BRNE    $+2+2
-        RJMP    ??USART0_RX_ISR_0
+//  230 			 //if(SciC_RxFlag)
 //  231 		      	{
 //  232 					CRC.Word = CRC16(RxBuf,7);
         LDI     R18, 7
@@ -1495,8 +1488,8 @@ SCI_Process:
 //  366 			TxBuf[2] = QUERY;
         LDI     R16, 1
         STS     (TxBuf + 2), R16
-//  367 			TxBuf[3] = 0;	
-        LDI     R16, 0
+//  367 			TxBuf[3] = 25;	
+        LDI     R16, 25
         STS     (TxBuf + 3), R16
 //  368 			TxBuf[4]=  0;
         LDI     R16, 0
@@ -2112,14 +2105,14 @@ __?XMCRA:
 //  496 
 // 
 //     6 bytes in segment ABSOLUTE
-// 2 004 bytes in segment FARCODE
+// 1 988 bytes in segment FARCODE
 //    14 bytes in segment INITTAB
 //     8 bytes in segment INTVEC
 //   514 bytes in segment NEAR_I
 //   514 bytes in segment NEAR_ID
 // 6 846 bytes in segment NEAR_Z
 // 
-// 2 518 bytes of CODE memory (+ 22 bytes shared)
+// 2 502 bytes of CODE memory (+ 22 bytes shared)
 // 7 360 bytes of DATA memory (+  6 bytes shared)
 //
 //Errors: none

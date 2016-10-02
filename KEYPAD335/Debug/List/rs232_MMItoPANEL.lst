@@ -1,32 +1,30 @@
 ###############################################################################
 #                                                                             #
-# IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR    10/Aug/2011  15:40:02 #
+# IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR    18/Aug/2011  20:04:48 #
 # Copyright 1996-2009 IAR Systems AB.                                         #
 #                                                                             #
-#    Source file  =  D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\sou #
-#                    rce\mcu\rs232_MMItoPANEL.c                               #
-#    Command line =  D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\sou #
-#                    rce\mcu\rs232_MMItoPANEL.c --cpu=m2560 -ms -o            #
-#                    D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\Deb #
-#                    ug\Obj\ -lC D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_1108 #
-#                    10_SEOHO\Debug\List\ -lA D:\work\SEOHO_VD\SEOHO_Keypad\K #
-#                    EYPAD335_110810_SEOHO\Debug\List\ -y                     #
-#                    --initializers_in_flash -z3 --no_cse --no_inline         #
+#    Source file  =  D:\KEYPAD\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoP #
+#                    ANEL.c                                                   #
+#    Command line =  D:\KEYPAD\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoP #
+#                    ANEL.c --cpu=m2560 -ms -o D:\KEYPAD\KEYPAD335_110810_SEO #
+#                    HO\Debug\Obj\ -lC D:\KEYPAD\KEYPAD335_110810_SEOHO\Debug #
+#                    \List\ -lA D:\KEYPAD\KEYPAD335_110810_SEOHO\Debug\List\  #
+#                    -y --initializers_in_flash -z3 --no_cse --no_inline      #
 #                    --no_code_motion --no_cross_call --no_clustering         #
 #                    --no_tbaa --debug --enable_external_bus                  #
 #                    -DENABLE_BIT_DEFINITIONS -e --enable_multibytes -I       #
 #                    "C:\Program Files\IAR Systems\Embedded Workbench         #
 #                    5.3\avr\INC\" -I "C:\Program Files\IAR Systems\Embedded  #
 #                    Workbench 5.3\avr\INC\CLIB\" --eeprom_size 4096          #
-#    List file    =  D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\Deb #
-#                    ug\List\rs232_MMItoPANEL.lst                             #
-#    Object file  =  D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\Deb #
-#                    ug\Obj\rs232_MMItoPANEL.r90                              #
+#    List file    =  D:\KEYPAD\KEYPAD335_110810_SEOHO\Debug\List\rs232_MMItoP #
+#                    ANEL.lst                                                 #
+#    Object file  =  D:\KEYPAD\KEYPAD335_110810_SEOHO\Debug\Obj\rs232_MMItoPA #
+#                    NEL.r90                                                  #
 #                                                                             #
 #                                                                             #
 ###############################################################################
 
-D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL.c
+D:\KEYPAD\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL.c
       1          //==============================================================================================
       2          //
       3          // Copyright(C) 2008 HanYoung ELEC. Co., LTD.
@@ -262,11 +260,11 @@ D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL
     117          	UBRR0H = 0; 								// 19200 baud for 16MHz OSC
    \   00000000   E000               LDI     R16, 0
    \   00000002   930000C5           STS     197, R16
-    118          	UBRR0L = 8;
-   \   00000006   E008               LDI     R16, 8
+    118          	UBRR0L = 16;
+   \   00000006   E100               LDI     R16, 16
    \   00000008   9300....           STS     _A_UBRR0, R16
-    119          	UCSR0A = 0x00;								// asynchronous normal mode
-   \   0000000C   E000               LDI     R16, 0
+    119          	UCSR0A = 0x02;								// asynchronous normal mode
+   \   0000000C   E002               LDI     R16, 2
    \   0000000E   9300....           STS     _A_UCSR0A, R16
     120          	UCSR0B = 0xD8;								// Rx/Tx enbale, Rx Complete interrupt enable
    \   00000012   ED08               LDI     R16, 216
@@ -436,7 +434,7 @@ D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL
    \   00000034   9100....           LDS     R16, SciC_RxFlag
    \   00000038   2300               TST     R16
    \   0000003A   F009               BREQ    $+2+2
-   \   0000003C   C179               RJMP    ??USART0_RX_ISR_0
+   \   0000003C   C171               RJMP    ??USART0_RX_ISR_0
     175          	{
     176          		if(SciC_RxStep == 0)//sync1
    \   0000003E   9100....           LDS     R16, SciC_RxStep
@@ -456,13 +454,13 @@ D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL
    \   00000054   9100....           LDS     R16, SciC_RxStep
    \   00000058   9503               INC     R16
    \   0000005A   9300....           STS     SciC_RxStep, R16
-   \   0000005E   C168               RJMP    ??USART0_RX_ISR_0
+   \   0000005E   C160               RJMP    ??USART0_RX_ISR_0
     183          			}
     184          			else SciC_RxStep=0;
    \                     ??USART0_RX_ISR_2:
    \   00000060   E000               LDI     R16, 0
    \   00000062   9300....           STS     SciC_RxStep, R16
-   \   00000066   C164               RJMP    ??USART0_RX_ISR_0
+   \   00000066   C15C               RJMP    ??USART0_RX_ISR_0
     185          		}
     186          		else if(SciC_RxStep == 1)//sync2
    \                     ??USART0_RX_ISR_1:
@@ -482,13 +480,13 @@ D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL
    \   0000007E   9100....           LDS     R16, SciC_RxStep
    \   00000082   9503               INC     R16
    \   00000084   9300....           STS     SciC_RxStep, R16
-   \   00000088   C153               RJMP    ??USART0_RX_ISR_0
+   \   00000088   C14B               RJMP    ??USART0_RX_ISR_0
     192          			}
     193          			else SciC_RxStep=0;
    \                     ??USART0_RX_ISR_4:
    \   0000008A   E000               LDI     R16, 0
    \   0000008C   9300....           STS     SciC_RxStep, R16
-   \   00000090   C14F               RJMP    ??USART0_RX_ISR_0
+   \   00000090   C147               RJMP    ??USART0_RX_ISR_0
     194          		}
     195          		else if(SciC_RxStep == 2)//type
    \                     ??USART0_RX_ISR_3:
@@ -503,7 +501,7 @@ D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL
    \   000000A2   9100....           LDS     R16, SciC_RxStep
    \   000000A6   9503               INC     R16
    \   000000A8   9300....           STS     SciC_RxStep, R16
-   \   000000AC   C141               RJMP    ??USART0_RX_ISR_0
+   \   000000AC   C139               RJMP    ??USART0_RX_ISR_0
     199          		}
     200          		else if(SciC_RxStep == 3)//addr_h
    \                     ??USART0_RX_ISR_5:
@@ -518,7 +516,7 @@ D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL
    \   000000BE   9100....           LDS     R16, SciC_RxStep
    \   000000C2   9503               INC     R16
    \   000000C4   9300....           STS     SciC_RxStep, R16
-   \   000000C8   C133               RJMP    ??USART0_RX_ISR_0
+   \   000000C8   C12B               RJMP    ??USART0_RX_ISR_0
     204          		}
     205          		else if(SciC_RxStep == 4)//addr_l
    \                     ??USART0_RX_ISR_6:
@@ -533,7 +531,7 @@ D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL
    \   000000DA   9100....           LDS     R16, SciC_RxStep
    \   000000DE   9503               INC     R16
    \   000000E0   9300....           STS     SciC_RxStep, R16
-   \   000000E4   C125               RJMP    ??USART0_RX_ISR_0
+   \   000000E4   C11D               RJMP    ??USART0_RX_ISR_0
     209          		}
     210          		else if(SciC_RxStep == 5)//data_h
    \                     ??USART0_RX_ISR_7:
@@ -548,7 +546,7 @@ D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL
    \   000000F6   9100....           LDS     R16, SciC_RxStep
    \   000000FA   9503               INC     R16
    \   000000FC   9300....           STS     SciC_RxStep, R16
-   \   00000100   C117               RJMP    ??USART0_RX_ISR_0
+   \   00000100   C10F               RJMP    ??USART0_RX_ISR_0
     214          		}
     215          		else if(SciC_RxStep == 6)//data_l
    \                     ??USART0_RX_ISR_8:
@@ -563,7 +561,7 @@ D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL
    \   00000112   9100....           LDS     R16, SciC_RxStep
    \   00000116   9503               INC     R16
    \   00000118   9300....           STS     SciC_RxStep, R16
-   \   0000011C   C109               RJMP    ??USART0_RX_ISR_0
+   \   0000011C   C101               RJMP    ??USART0_RX_ISR_0
     219          		}
     220          		else if(SciC_RxStep == 7)//crc_H
    \                     ??USART0_RX_ISR_9:
@@ -578,7 +576,7 @@ D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL
    \   0000012E   9100....           LDS     R16, SciC_RxStep
    \   00000132   9503               INC     R16
    \   00000134   9300....           STS     SciC_RxStep, R16
-   \   00000138   C0FB               RJMP    ??USART0_RX_ISR_0
+   \   00000138   C0F3               RJMP    ??USART0_RX_ISR_0
     224          		}
     225          		else//crc_L
     226          		{
@@ -586,283 +584,277 @@ D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL
    \                     ??USART0_RX_ISR_10:
    \   0000013A   9100....           LDS     R16, RXD0
    \   0000013E   9300....           STS     (RxBuf + 8), R16
-    228          			SciC_RxFlag = 1;
-   \   00000142   E001               LDI     R16, 1
-   \   00000144   9300....           STS     SciC_RxFlag, R16
+    228          			//SciC_RxFlag = 1;
     229          
-    230          			 if(SciC_RxFlag)
-   \   00000148   9100....           LDS     R16, SciC_RxFlag
-   \   0000014C   2300               TST     R16
-   \   0000014E   F409               BRNE    $+2+2
-   \   00000150   C0EF               RJMP    ??USART0_RX_ISR_0
+    230          			 //if(SciC_RxFlag)
     231          		      	{
     232          					CRC.Word = CRC16(RxBuf,7);
-   \   00000152   E027               LDI     R18, 7
-   \   00000154   E030               LDI     R19, 0
-   \   00000156   ....               LDI     R16, LOW(RxBuf)
-   \   00000158   ....               LDI     R17, (RxBuf) >> 8
-   \   0000015A   ....               RCALL   CRC16
-   \   0000015C   9300....           STS     CRC, R16
-   \   00000160   9310....           STS     (CRC + 1), R17
+   \   00000142   E027               LDI     R18, 7
+   \   00000144   E030               LDI     R19, 0
+   \   00000146   ....               LDI     R16, LOW(RxBuf)
+   \   00000148   ....               LDI     R17, (RxBuf) >> 8
+   \   0000014A   ....               RCALL   CRC16
+   \   0000014C   9300....           STS     CRC, R16
+   \   00000150   9310....           STS     (CRC + 1), R17
     233          
     234          					if((RxBuf[7] == CRC.Byte.b1) && (RxBuf[8] == CRC.Byte.b0))
-   \   00000164   9100....           LDS     R16, (RxBuf + 7)
-   \   00000168   9110....           LDS     R17, (CRC + 1)
-   \   0000016C   1701               CP      R16, R17
-   \   0000016E   F009               BREQ    $+2+2
-   \   00000170   C0DC               RJMP    ??USART0_RX_ISR_11
-   \   00000172   9100....           LDS     R16, (RxBuf + 8)
-   \   00000176   9110....           LDS     R17, CRC
-   \   0000017A   1701               CP      R16, R17
-   \   0000017C   F009               BREQ    $+2+2
-   \   0000017E   C0D5               RJMP    ??USART0_RX_ISR_11
+   \   00000154   9100....           LDS     R16, (RxBuf + 7)
+   \   00000158   9110....           LDS     R17, (CRC + 1)
+   \   0000015C   1701               CP      R16, R17
+   \   0000015E   F009               BREQ    $+2+2
+   \   00000160   C0DC               RJMP    ??USART0_RX_ISR_11
+   \   00000162   9100....           LDS     R16, (RxBuf + 8)
+   \   00000166   9110....           LDS     R17, CRC
+   \   0000016A   1701               CP      R16, R17
+   \   0000016C   F009               BREQ    $+2+2
+   \   0000016E   C0D5               RJMP    ??USART0_RX_ISR_11
     235          					{
     236          						RxType = RxBuf[2];
-   \   00000180   9100....           LDS     R16, (RxBuf + 2)
-   \   00000184   E010               LDI     R17, 0
-   \   00000186   9300....           STS     RxType, R16
-   \   0000018A   9310....           STS     (RxType + 1), R17
+   \   00000170   9100....           LDS     R16, (RxBuf + 2)
+   \   00000174   E010               LDI     R17, 0
+   \   00000176   9300....           STS     RxType, R16
+   \   0000017A   9310....           STS     (RxType + 1), R17
     237          						RxAddr = ((unsigned int)RxBuf[3]<<8) | RxBuf[4] ;
-   \   0000018E   9130....           LDS     R19, (RxBuf + 3)
-   \   00000192   E020               LDI     R18, 0
-   \   00000194   9100....           LDS     R16, (RxBuf + 4)
-   \   00000198   E010               LDI     R17, 0
-   \   0000019A   2B20               OR      R18, R16
-   \   0000019C   2B31               OR      R19, R17
-   \   0000019E   9320....           STS     RxAddr, R18
-   \   000001A2   9330....           STS     (RxAddr + 1), R19
+   \   0000017E   9130....           LDS     R19, (RxBuf + 3)
+   \   00000182   E020               LDI     R18, 0
+   \   00000184   9100....           LDS     R16, (RxBuf + 4)
+   \   00000188   E010               LDI     R17, 0
+   \   0000018A   2B20               OR      R18, R16
+   \   0000018C   2B31               OR      R19, R17
+   \   0000018E   9320....           STS     RxAddr, R18
+   \   00000192   9330....           STS     (RxAddr + 1), R19
     238          						RxData = ((unsigned int)RxBuf[5]<<8) | RxBuf[6] ;
-   \   000001A6   9130....           LDS     R19, (RxBuf + 5)
-   \   000001AA   E020               LDI     R18, 0
-   \   000001AC   9100....           LDS     R16, (RxBuf + 6)
-   \   000001B0   E010               LDI     R17, 0
-   \   000001B2   2B20               OR      R18, R16
-   \   000001B4   2B31               OR      R19, R17
-   \   000001B6   9320....           STS     RxData, R18
-   \   000001BA   9330....           STS     (RxData + 1), R19
+   \   00000196   9130....           LDS     R19, (RxBuf + 5)
+   \   0000019A   E020               LDI     R18, 0
+   \   0000019C   9100....           LDS     R16, (RxBuf + 6)
+   \   000001A0   E010               LDI     R17, 0
+   \   000001A2   2B20               OR      R18, R16
+   \   000001A4   2B31               OR      R19, R17
+   \   000001A6   9320....           STS     RxData, R18
+   \   000001AA   9330....           STS     (RxData + 1), R19
     239          						RxCRC   = ((unsigned int)RxBuf[7]<<8) | RxBuf[8] ;
-   \   000001BE   9130....           LDS     R19, (RxBuf + 7)
-   \   000001C2   E020               LDI     R18, 0
-   \   000001C4   9100....           LDS     R16, (RxBuf + 8)
-   \   000001C8   E010               LDI     R17, 0
-   \   000001CA   2B20               OR      R18, R16
-   \   000001CC   2B31               OR      R19, R17
-   \   000001CE   9320....           STS     RxCRC, R18
-   \   000001D2   9330....           STS     (RxCRC + 1), R19
+   \   000001AE   9130....           LDS     R19, (RxBuf + 7)
+   \   000001B2   E020               LDI     R18, 0
+   \   000001B4   9100....           LDS     R16, (RxBuf + 8)
+   \   000001B8   E010               LDI     R17, 0
+   \   000001BA   2B20               OR      R18, R16
+   \   000001BC   2B31               OR      R19, R17
+   \   000001BE   9320....           STS     RxCRC, R18
+   \   000001C2   9330....           STS     (RxCRC + 1), R19
     240          
     241          						if(RxType == SEND)
-   \   000001D6   9100....           LDS     R16, RxType
-   \   000001DA   9110....           LDS     R17, (RxType + 1)
-   \   000001DE   3002               CPI     R16, 2
-   \   000001E0   E020               LDI     R18, 0
-   \   000001E2   0712               CPC     R17, R18
-   \   000001E4   F599               BRNE    ??USART0_RX_ISR_12
+   \   000001C6   9100....           LDS     R16, RxType
+   \   000001CA   9110....           LDS     R17, (RxType + 1)
+   \   000001CE   3002               CPI     R16, 2
+   \   000001D0   E020               LDI     R18, 0
+   \   000001D2   0712               CPC     R17, R18
+   \   000001D4   F599               BRNE    ??USART0_RX_ISR_12
     242          						{
     243          							CRC.Word = 0;
-   \   000001E6   E000               LDI     R16, 0
-   \   000001E8   E010               LDI     R17, 0
-   \   000001EA   9300....           STS     CRC, R16
-   \   000001EE   9310....           STS     (CRC + 1), R17
+   \   000001D6   E000               LDI     R16, 0
+   \   000001D8   E010               LDI     R17, 0
+   \   000001DA   9300....           STS     CRC, R16
+   \   000001DE   9310....           STS     (CRC + 1), R17
     244          
     245          							RxBuf[2] = RESPONSE;
-   \   000001F2   E003               LDI     R16, 3
-   \   000001F4   9300....           STS     (RxBuf + 2), R16
+   \   000001E2   E003               LDI     R16, 3
+   \   000001E4   9300....           STS     (RxBuf + 2), R16
     246          
     247          							CRC.Word = CRC16(RxBuf,7);
-   \   000001F8   E027               LDI     R18, 7
-   \   000001FA   E030               LDI     R19, 0
-   \   000001FC   ....               LDI     R16, LOW(RxBuf)
-   \   000001FE   ....               LDI     R17, (RxBuf) >> 8
-   \   00000200   ....               RCALL   CRC16
-   \   00000202   9300....           STS     CRC, R16
-   \   00000206   9310....           STS     (CRC + 1), R17
+   \   000001E8   E027               LDI     R18, 7
+   \   000001EA   E030               LDI     R19, 0
+   \   000001EC   ....               LDI     R16, LOW(RxBuf)
+   \   000001EE   ....               LDI     R17, (RxBuf) >> 8
+   \   000001F0   ....               RCALL   CRC16
+   \   000001F2   9300....           STS     CRC, R16
+   \   000001F6   9310....           STS     (CRC + 1), R17
     248          
     249          							for(c=0;c<7;c++)	TX0_char(RxBuf[c]);
-   \   0000020A   E080               LDI     R24, 0
-   \   0000020C   C007               RJMP    ??USART0_RX_ISR_13
+   \   000001FA   E080               LDI     R24, 0
+   \   000001FC   C007               RJMP    ??USART0_RX_ISR_13
    \                     ??USART0_RX_ISR_14:
-   \   0000020E   E090               LDI     R25, 0
-   \   00000210   01FC               MOVW    R31:R30, R25:R24
-   \   00000212   ....               SUBI    R30, LOW((-(RxBuf) & 0xFFFF))
-   \   00000214   ....               SBCI    R31, (-(RxBuf) & 0xFFFF) >> 8
-   \   00000216   8100               LD      R16, Z
-   \   00000218   ....               RCALL   TX0_char
-   \   0000021A   9583               INC     R24
+   \   000001FE   E090               LDI     R25, 0
+   \   00000200   01FC               MOVW    R31:R30, R25:R24
+   \   00000202   ....               SUBI    R30, LOW((-(RxBuf) & 0xFFFF))
+   \   00000204   ....               SBCI    R31, (-(RxBuf) & 0xFFFF) >> 8
+   \   00000206   8100               LD      R16, Z
+   \   00000208   ....               RCALL   TX0_char
+   \   0000020A   9583               INC     R24
    \                     ??USART0_RX_ISR_13:
-   \   0000021C   3087               CPI     R24, 7
-   \   0000021E   F3B8               BRCS    ??USART0_RX_ISR_14
+   \   0000020C   3087               CPI     R24, 7
+   \   0000020E   F3B8               BRCS    ??USART0_RX_ISR_14
     250          							TX0_char(CRC.Byte.b1);
-   \   00000220   9100....           LDS     R16, (CRC + 1)
-   \   00000224   ....               RCALL   TX0_char
+   \   00000210   9100....           LDS     R16, (CRC + 1)
+   \   00000214   ....               RCALL   TX0_char
     251          							TX0_char(CRC.Byte.b0);
-   \   00000226   9100....           LDS     R16, CRC
-   \   0000022A   ....               RCALL   TX0_char
+   \   00000216   9100....           LDS     R16, CRC
+   \   0000021A   ....               RCALL   TX0_char
     252          
     253          							DATA_Registers[RxAddr] = RxData;
-   \   0000022C   9120....           LDS     R18, RxData
-   \   00000230   9130....           LDS     R19, (RxData + 1)
-   \   00000234   9100....           LDS     R16, RxAddr
-   \   00000238   9110....           LDS     R17, (RxAddr + 1)
-   \   0000023C   0F00               LSL     R16
-   \   0000023E   1F11               ROL     R17
-   \   00000240   01F8               MOVW    R31:R30, R17:R16
-   \   00000242   ....               SUBI    R30, LOW((-(DATA_Registers) & 0xFFFF))
-   \   00000244   ....               SBCI    R31, (-(DATA_Registers) & 0xFFFF) >> 8
-   \   00000246   8320               ST      Z, R18
-   \   00000248   8331               STD     Z+1, R19
-   \   0000024A   C06F               RJMP    ??USART0_RX_ISR_11
+   \   0000021C   9120....           LDS     R18, RxData
+   \   00000220   9130....           LDS     R19, (RxData + 1)
+   \   00000224   9100....           LDS     R16, RxAddr
+   \   00000228   9110....           LDS     R17, (RxAddr + 1)
+   \   0000022C   0F00               LSL     R16
+   \   0000022E   1F11               ROL     R17
+   \   00000230   01F8               MOVW    R31:R30, R17:R16
+   \   00000232   ....               SUBI    R30, LOW((-(DATA_Registers) & 0xFFFF))
+   \   00000234   ....               SBCI    R31, (-(DATA_Registers) & 0xFFFF) >> 8
+   \   00000236   8320               ST      Z, R18
+   \   00000238   8331               STD     Z+1, R19
+   \   0000023A   C06F               RJMP    ??USART0_RX_ISR_11
     254          						}
     255          						else if(RxType == REQUEST)
    \                     ??USART0_RX_ISR_12:
-   \   0000024C   9100....           LDS     R16, RxType
-   \   00000250   9110....           LDS     R17, (RxType + 1)
-   \   00000254   3004               CPI     R16, 4
-   \   00000256   E020               LDI     R18, 0
-   \   00000258   0712               CPC     R17, R18
-   \   0000025A   F5E9               BRNE    ??USART0_RX_ISR_15
+   \   0000023C   9100....           LDS     R16, RxType
+   \   00000240   9110....           LDS     R17, (RxType + 1)
+   \   00000244   3004               CPI     R16, 4
+   \   00000246   E020               LDI     R18, 0
+   \   00000248   0712               CPC     R17, R18
+   \   0000024A   F5E9               BRNE    ??USART0_RX_ISR_15
     256          						{
     257          							CRC.Word = 0;
-   \   0000025C   E000               LDI     R16, 0
-   \   0000025E   E010               LDI     R17, 0
-   \   00000260   9300....           STS     CRC, R16
-   \   00000264   9310....           STS     (CRC + 1), R17
+   \   0000024C   E000               LDI     R16, 0
+   \   0000024E   E010               LDI     R17, 0
+   \   00000250   9300....           STS     CRC, R16
+   \   00000254   9310....           STS     (CRC + 1), R17
     258          
     259          							RxBuf[2] = SEND;
-   \   00000268   E002               LDI     R16, 2
-   \   0000026A   9300....           STS     (RxBuf + 2), R16
+   \   00000258   E002               LDI     R16, 2
+   \   0000025A   9300....           STS     (RxBuf + 2), R16
     260          							RxBuf[5] = (char)(DATA_Registers[RxAddr]>>8);
-   \   0000026E   9100....           LDS     R16, RxAddr
-   \   00000272   9110....           LDS     R17, (RxAddr + 1)
-   \   00000276   0F00               LSL     R16
-   \   00000278   1F11               ROL     R17
-   \   0000027A   01F8               MOVW    R31:R30, R17:R16
-   \   0000027C   ....               SUBI    R30, LOW((-(DATA_Registers) & 0xFFFF))
-   \   0000027E   ....               SBCI    R31, (-(DATA_Registers) & 0xFFFF) >> 8
-   \   00000280   8111               LDD     R17, Z+1
-   \   00000282   2F01               MOV     R16, R17
-   \   00000284   9300....           STS     (RxBuf + 5), R16
+   \   0000025E   9100....           LDS     R16, RxAddr
+   \   00000262   9110....           LDS     R17, (RxAddr + 1)
+   \   00000266   0F00               LSL     R16
+   \   00000268   1F11               ROL     R17
+   \   0000026A   01F8               MOVW    R31:R30, R17:R16
+   \   0000026C   ....               SUBI    R30, LOW((-(DATA_Registers) & 0xFFFF))
+   \   0000026E   ....               SBCI    R31, (-(DATA_Registers) & 0xFFFF) >> 8
+   \   00000270   8111               LDD     R17, Z+1
+   \   00000272   2F01               MOV     R16, R17
+   \   00000274   9300....           STS     (RxBuf + 5), R16
     261          							RxBuf[6] = (char)DATA_Registers[RxAddr];
-   \   00000288   9100....           LDS     R16, RxAddr
-   \   0000028C   9110....           LDS     R17, (RxAddr + 1)
-   \   00000290   0F00               LSL     R16
-   \   00000292   1F11               ROL     R17
-   \   00000294   01F8               MOVW    R31:R30, R17:R16
-   \   00000296   ....               SUBI    R30, LOW((-(DATA_Registers) & 0xFFFF))
-   \   00000298   ....               SBCI    R31, (-(DATA_Registers) & 0xFFFF) >> 8
-   \   0000029A   8100               LD      R16, Z
-   \   0000029C   9300....           STS     (RxBuf + 6), R16
+   \   00000278   9100....           LDS     R16, RxAddr
+   \   0000027C   9110....           LDS     R17, (RxAddr + 1)
+   \   00000280   0F00               LSL     R16
+   \   00000282   1F11               ROL     R17
+   \   00000284   01F8               MOVW    R31:R30, R17:R16
+   \   00000286   ....               SUBI    R30, LOW((-(DATA_Registers) & 0xFFFF))
+   \   00000288   ....               SBCI    R31, (-(DATA_Registers) & 0xFFFF) >> 8
+   \   0000028A   8100               LD      R16, Z
+   \   0000028C   9300....           STS     (RxBuf + 6), R16
     262          
     263          							CRC.Word = CRC16(RxBuf,7);
-   \   000002A0   E027               LDI     R18, 7
-   \   000002A2   E030               LDI     R19, 0
-   \   000002A4   ....               LDI     R16, LOW(RxBuf)
-   \   000002A6   ....               LDI     R17, (RxBuf) >> 8
-   \   000002A8   ....               RCALL   CRC16
-   \   000002AA   9300....           STS     CRC, R16
-   \   000002AE   9310....           STS     (CRC + 1), R17
+   \   00000290   E027               LDI     R18, 7
+   \   00000292   E030               LDI     R19, 0
+   \   00000294   ....               LDI     R16, LOW(RxBuf)
+   \   00000296   ....               LDI     R17, (RxBuf) >> 8
+   \   00000298   ....               RCALL   CRC16
+   \   0000029A   9300....           STS     CRC, R16
+   \   0000029E   9310....           STS     (CRC + 1), R17
     264          
     265          							for(c=0;c<7;c++)	TX0_char(RxBuf[c]);
-   \   000002B2   E080               LDI     R24, 0
-   \   000002B4   C007               RJMP    ??USART0_RX_ISR_16
+   \   000002A2   E080               LDI     R24, 0
+   \   000002A4   C007               RJMP    ??USART0_RX_ISR_16
    \                     ??USART0_RX_ISR_17:
-   \   000002B6   E090               LDI     R25, 0
-   \   000002B8   01FC               MOVW    R31:R30, R25:R24
-   \   000002BA   ....               SUBI    R30, LOW((-(RxBuf) & 0xFFFF))
-   \   000002BC   ....               SBCI    R31, (-(RxBuf) & 0xFFFF) >> 8
-   \   000002BE   8100               LD      R16, Z
-   \   000002C0   ....               RCALL   TX0_char
-   \   000002C2   9583               INC     R24
+   \   000002A6   E090               LDI     R25, 0
+   \   000002A8   01FC               MOVW    R31:R30, R25:R24
+   \   000002AA   ....               SUBI    R30, LOW((-(RxBuf) & 0xFFFF))
+   \   000002AC   ....               SBCI    R31, (-(RxBuf) & 0xFFFF) >> 8
+   \   000002AE   8100               LD      R16, Z
+   \   000002B0   ....               RCALL   TX0_char
+   \   000002B2   9583               INC     R24
    \                     ??USART0_RX_ISR_16:
-   \   000002C4   3087               CPI     R24, 7
-   \   000002C6   F3B8               BRCS    ??USART0_RX_ISR_17
+   \   000002B4   3087               CPI     R24, 7
+   \   000002B6   F3B8               BRCS    ??USART0_RX_ISR_17
     266          							
     267          							TX0_char(CRC.Byte.b1);
-   \   000002C8   9100....           LDS     R16, (CRC + 1)
-   \   000002CC   ....               RCALL   TX0_char
+   \   000002B8   9100....           LDS     R16, (CRC + 1)
+   \   000002BC   ....               RCALL   TX0_char
     268          							TX0_char(CRC.Byte.b0);
-   \   000002CE   9100....           LDS     R16, CRC
-   \   000002D2   ....               RCALL   TX0_char
-   \   000002D4   C02A               RJMP    ??USART0_RX_ISR_11
+   \   000002BE   9100....           LDS     R16, CRC
+   \   000002C2   ....               RCALL   TX0_char
+   \   000002C4   C02A               RJMP    ??USART0_RX_ISR_11
     269          
     270          						}
     271          						else if(RxType == RESPONSE)
    \                     ??USART0_RX_ISR_15:
-   \   000002D6   9100....           LDS     R16, RxType
-   \   000002DA   9110....           LDS     R17, (RxType + 1)
-   \   000002DE   3003               CPI     R16, 3
-   \   000002E0   E020               LDI     R18, 0
-   \   000002E2   0712               CPC     R17, R18
-   \   000002E4   F481               BRNE    ??USART0_RX_ISR_18
+   \   000002C6   9100....           LDS     R16, RxType
+   \   000002CA   9110....           LDS     R17, (RxType + 1)
+   \   000002CE   3003               CPI     R16, 3
+   \   000002D0   E020               LDI     R18, 0
+   \   000002D2   0712               CPC     R17, R18
+   \   000002D4   F481               BRNE    ??USART0_RX_ISR_18
     272          						{
     273          							SCI_Registers[RxAddr] = RxData;
-   \   000002E6   9120....           LDS     R18, RxData
-   \   000002EA   9130....           LDS     R19, (RxData + 1)
-   \   000002EE   9100....           LDS     R16, RxAddr
-   \   000002F2   9110....           LDS     R17, (RxAddr + 1)
-   \   000002F6   0F00               LSL     R16
-   \   000002F8   1F11               ROL     R17
-   \   000002FA   01F8               MOVW    R31:R30, R17:R16
-   \   000002FC   ....               SUBI    R30, LOW((-(SCI_Registers) & 0xFFFF))
-   \   000002FE   ....               SBCI    R31, (-(SCI_Registers) & 0xFFFF) >> 8
-   \   00000300   8320               ST      Z, R18
-   \   00000302   8331               STD     Z+1, R19
-   \   00000304   C012               RJMP    ??USART0_RX_ISR_11
+   \   000002D6   9120....           LDS     R18, RxData
+   \   000002DA   9130....           LDS     R19, (RxData + 1)
+   \   000002DE   9100....           LDS     R16, RxAddr
+   \   000002E2   9110....           LDS     R17, (RxAddr + 1)
+   \   000002E6   0F00               LSL     R16
+   \   000002E8   1F11               ROL     R17
+   \   000002EA   01F8               MOVW    R31:R30, R17:R16
+   \   000002EC   ....               SUBI    R30, LOW((-(SCI_Registers) & 0xFFFF))
+   \   000002EE   ....               SBCI    R31, (-(SCI_Registers) & 0xFFFF) >> 8
+   \   000002F0   8320               ST      Z, R18
+   \   000002F2   8331               STD     Z+1, R19
+   \   000002F4   C012               RJMP    ??USART0_RX_ISR_11
     274          						}
     275          						else if(RxType == QUERY)
    \                     ??USART0_RX_ISR_18:
-   \   00000306   9100....           LDS     R16, RxType
-   \   0000030A   9110....           LDS     R17, (RxType + 1)
-   \   0000030E   3001               CPI     R16, 1
-   \   00000310   E020               LDI     R18, 0
-   \   00000312   0712               CPC     R17, R18
-   \   00000314   F451               BRNE    ??USART0_RX_ISR_11
+   \   000002F6   9100....           LDS     R16, RxType
+   \   000002FA   9110....           LDS     R17, (RxType + 1)
+   \   000002FE   3001               CPI     R16, 1
+   \   00000300   E020               LDI     R18, 0
+   \   00000302   0712               CPC     R17, R18
+   \   00000304   F451               BRNE    ??USART0_RX_ISR_11
     276          						{
     277          							Communication_Fault_Cnt = 15;
-   \   00000316   E00F               LDI     R16, 15
-   \   00000318   E010               LDI     R17, 0
-   \   0000031A   9300....           STS     Communication_Fault_Cnt, R16
-   \   0000031E   9310....           STS     (Communication_Fault_Cnt + 1), R17
+   \   00000306   E00F               LDI     R16, 15
+   \   00000308   E010               LDI     R17, 0
+   \   0000030A   9300....           STS     Communication_Fault_Cnt, R16
+   \   0000030E   9310....           STS     (Communication_Fault_Cnt + 1), R17
     278          							device_type = RxData;
-   \   00000322   9100....           LDS     R16, RxData
-   \   00000326   9300....           STS     device_type, R16
+   \   00000312   9100....           LDS     R16, RxData
+   \   00000316   9300....           STS     device_type, R16
     279          						}
     280          						
     281          					}
     282          					
     283          					SciC_RxStep=0;
    \                     ??USART0_RX_ISR_11:
-   \   0000032A   E000               LDI     R16, 0
-   \   0000032C   9300....           STS     SciC_RxStep, R16
+   \   0000031A   E000               LDI     R16, 0
+   \   0000031C   9300....           STS     SciC_RxStep, R16
     284          		      	}
     285          		}
     286          	}
     287          
     288          	return ;
    \                     ??USART0_RX_ISR_0:
-   \   00000330   BE4C               OUT     0x3C, R4
-   \   00000332   BFBB               OUT     0x3B, R27
-   \   00000334   BFAF               OUT     0x3F, R26
-   \   00000336   9109               LD      R16, Y+
-   \   00000338   9119               LD      R17, Y+
-   \   0000033A   9129               LD      R18, Y+
-   \   0000033C   9139               LD      R19, Y+
-   \   0000033E   9149               LD      R20, Y+
-   \   00000340   9159               LD      R21, Y+
-   \   00000342   9169               LD      R22, Y+
-   \   00000344   9179               LD      R23, Y+
-   \   00000346   9009               LD      R0, Y+
-   \   00000348   9019               LD      R1, Y+
-   \   0000034A   9029               LD      R2, Y+
-   \   0000034C   9039               LD      R3, Y+
-   \   0000034E   91E9               LD      R30, Y+
-   \   00000350   91F9               LD      R31, Y+
-   \   00000352   9189               LD      R24, Y+
-   \   00000354   9199               LD      R25, Y+
-   \   00000356   91A9               LD      R26, Y+
-   \   00000358   91B9               LD      R27, Y+
-   \   0000035A   9049               LD      R4, Y+
-   \   0000035C   9518               RETI
-   \   0000035E                      REQUIRE _A_UDR0
+   \   00000320   BE4C               OUT     0x3C, R4
+   \   00000322   BFBB               OUT     0x3B, R27
+   \   00000324   BFAF               OUT     0x3F, R26
+   \   00000326   9109               LD      R16, Y+
+   \   00000328   9119               LD      R17, Y+
+   \   0000032A   9129               LD      R18, Y+
+   \   0000032C   9139               LD      R19, Y+
+   \   0000032E   9149               LD      R20, Y+
+   \   00000330   9159               LD      R21, Y+
+   \   00000332   9169               LD      R22, Y+
+   \   00000334   9179               LD      R23, Y+
+   \   00000336   9009               LD      R0, Y+
+   \   00000338   9019               LD      R1, Y+
+   \   0000033A   9029               LD      R2, Y+
+   \   0000033C   9039               LD      R3, Y+
+   \   0000033E   91E9               LD      R30, Y+
+   \   00000340   91F9               LD      R31, Y+
+   \   00000342   9189               LD      R24, Y+
+   \   00000344   9199               LD      R25, Y+
+   \   00000346   91A9               LD      R26, Y+
+   \   00000348   91B9               LD      R27, Y+
+   \   0000034A   9049               LD      R4, Y+
+   \   0000034C   9518               RETI
+   \   0000034E                      REQUIRE _A_UDR0
     289          }
     290          
     291          
@@ -1098,8 +1090,8 @@ D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL
     366          			TxBuf[2] = QUERY;
    \   00000136   E001               LDI     R16, 1
    \   00000138   9300....           STS     (TxBuf + 2), R16
-    367          			TxBuf[3] = 0;	
-   \   0000013C   E000               LDI     R16, 0
+    367          			TxBuf[3] = 25;	
+   \   0000013C   E109               LDI     R16, 25
    \   0000013E   9300....           STS     (TxBuf + 3), R16
     368          			TxBuf[4]=  0;
    \   00000142   E000               LDI     R16, 0
@@ -1720,7 +1712,7 @@ D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL
      RxCRC                                         2
      RxBuf                                         9
      RXD0                                          1
-     USART0_RX_ISR                               862
+     USART0_RX_ISR                               846
      TX0_char                                     16
      SCI_TxOffset                                  2
      TxDelyCnt                                     2
@@ -1739,14 +1731,14 @@ D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110810_SEOHO\source\mcu\rs232_MMItoPANEL
 
  
      6 bytes in segment ABSOLUTE
- 2 004 bytes in segment FARCODE
+ 1 988 bytes in segment FARCODE
     14 bytes in segment INITTAB
      8 bytes in segment INTVEC
    514 bytes in segment NEAR_I
    514 bytes in segment NEAR_ID
  6 846 bytes in segment NEAR_Z
  
- 2 518 bytes of CODE memory (+ 22 bytes shared)
+ 2 502 bytes of CODE memory (+ 22 bytes shared)
  7 360 bytes of DATA memory (+  6 bytes shared)
 
 Errors: none

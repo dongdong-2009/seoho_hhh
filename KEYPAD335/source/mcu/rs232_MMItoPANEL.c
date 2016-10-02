@@ -115,8 +115,8 @@ unsigned int CRC16( UCHAR * pucFrame,unsigned int usLen )
 void UART_init(void)
 {
 	UBRR0H = 0; 								// 19200 baud for 16MHz OSC
-	UBRR0L = 8;
-	UCSR0A = 0x00;								// asynchronous normal mode
+	UBRR0L = 16;
+	UCSR0A = 0x02;								// asynchronous normal mode
 	UCSR0B = 0xD8;								// Rx/Tx enbale, Rx Complete interrupt enable
 	UCSR0C = 0x06;								// 8 data, 1 stop, no parity
 
@@ -225,9 +225,9 @@ __interrupt void USART0_RX_ISR(void)
 		else//crc_L
 		{
 			RxBuf[8] = RXD0;
-			SciC_RxFlag = 1;
+			//SciC_RxFlag = 1;
 
-			 if(SciC_RxFlag)
+			 //if(SciC_RxFlag)
 		      	{
 					CRC.Word = CRC16(RxBuf,7);
 
