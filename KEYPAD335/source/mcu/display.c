@@ -1019,7 +1019,7 @@ __flash char  PAGE_DIR_3_XX_3_4[6][17]={
 "1 Motor Tuning  ",
 "2 Speed Tuning  ",
 " Processing...  ",
-" Completed..[ESC]",
+" Completed...  ",
 "Failed...       "
 };
 
