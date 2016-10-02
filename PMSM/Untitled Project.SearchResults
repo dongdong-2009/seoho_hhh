@@ -1,10 +1,2 @@
----- TXD_Stack Matches (9 in 5 files) ----
-Cc.c (src):				ScicRegs.SCITXBUF = TXD_Stack[TXD_StackReadPtr++] ;
-Cc.h (pmsm_include):extern	unsigned char TXD_Stack[TXD_STACK_LENGTH];	// 시리얼 데이타를 저장하는 송신 스택 메모리 공간
-Main.c (src):extern	unsigned char TXD_Stack[TXD_STACK_LENGTH];	// 시리얼 데이타를 저장하는 송신 스택 메모리 공간
-SCI_BC.c (src):			ScicRegs.SCITXBUF = TXD_Stack[TXD_StackReadPtr++] ;
-SCI_BC.c (src):	TXD_Stack[TXD_StackWritePtr++] = TXD ;
-SCI_BC.c (src):	TXD_Stack[TXD_StackWritePtr++] = TXD ;
-SCI_BC.c (src):		TXD_Stack[TXD_StackWritePtr++] = TXD ;
-Sci_bc.h (src):	                            ScicRegs.SCITXBUF = TXD_Stack[TXD_StackReadPtr++];                \
-Sci_bc.h (src):unsigned char TXD_Stack[TXD_STACK_LENGTH];	// 시리얼 데이타를 저장하는 송신 스택 메모리 공간
+---- scic_rx_ibuf Matches (1 in 1 files) ----
+Sci_bc.h (src):int  scic_rx_ibuf[SCIC_BUF_SIZE+1];

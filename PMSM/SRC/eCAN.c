@@ -52,19 +52,19 @@ LONG canb_rx_high_data=0;	// CAN-B 수신 High Word Data
 
 
 
-WORD Data_Registers[Buf_MAX];
-WORD Temp_Registers[Buf_MAX];
-WORD reg_TxOffset=0;
+
+WORD CAN_Registers[Buf_MAX];
+WORD CAN_TxOffset=0;
 WORD test=0;
 void cana_Tx_process(void)
 {
-	if(Data_Registers[reg_TxOffset] != Temp_Registers[reg_TxOffset])
+	if(Data_Registers[CAN_TxOffset] != CAN_Registers[CAN_TxOffset])
 	{
 		if(!ECanaRegs.CANTRS.bit.TRS1)
 		{
 			test++;
 
-			SendDataToECanA(0x1L, 0x08, ((LONG)Data_Registers[reg_TxOffset] & 0x0000FFFF), ((LONG)reg_TxOffset & 0x0000FFFF));
+			SendDataToECanA(0x1L, 0x08, ((LONG)Data_Registers[CAN_TxOffset] & 0x0000FFFF), ((LONG)CAN_TxOffset & 0x0000FFFF));
 			//SendDataToECanA(0x1L, 0x08, ((LONG)reg_TxOffset & 0x0000FFFF), ((LONG)reg_TxOffset & 0x0000FFFF));
 
 			//while(!ECanaRegs.CANTA.bit.TA1);///scic 통신에 영향을 미침
@@ -72,13 +72,13 @@ void cana_Tx_process(void)
 			// Clear transmit-acknowledge pending flag
 			ECanaRegs.CANTA.bit.TA1 = 1;	
 
-			Temp_Registers[reg_TxOffset] = Data_Registers[reg_TxOffset];
-			reg_TxOffset ++;	
+			CAN_Registers[CAN_TxOffset] = Data_Registers[CAN_TxOffset];
+			CAN_TxOffset ++;	
 		}
 	}
 
 	
-	if(Buf_MAX <= reg_TxOffset) reg_TxOffset = 0;
+	if(Buf_MAX <= CAN_TxOffset) CAN_TxOffset = 0;
 }
 
 
@@ -88,7 +88,7 @@ void cana_Rx_process(void)
       if(cana_rx_flag)
       	{
       	       Data_Registers[cana_rx_low_data & 0x0000FFFF] = (WORD)(cana_rx_high_data & 0x0000FFFF);
-		Temp_Registers[cana_rx_low_data & 0x0000FFFF] = (WORD)(cana_rx_high_data & 0x0000FFFF);
+		CAN_Registers[cana_rx_low_data & 0x0000FFFF] = (WORD)(cana_rx_high_data & 0x0000FFFF);
     		switch(cana_rx_low_data & 0x0000FFFF)
 		{
 			case 0 : P_rate = 100 * (float)( Comm_array[40] = Data_Registers[0]); break;

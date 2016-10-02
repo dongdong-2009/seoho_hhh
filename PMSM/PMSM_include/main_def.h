@@ -81,11 +81,12 @@
 	#define BIT15_MASK   	0x8000
 
 //통신 데이터 어레이
-#define Buf_MAX 0x600
+#define Buf_MAX 3400
 
 extern WORD Data_Registers[Buf_MAX];
-extern WORD Temp_Registers[Buf_MAX];
-extern WORD reg_TxOffset;
+extern WORD CAN_Registers[Buf_MAX];
+extern WORD SCI_Registers[Buf_MAX];
+//extern WORD CAN_TxOffset;
 
 
 /* micro-seconds delay function */
@@ -97,16 +98,6 @@ extern WORD reg_TxOffset;
 #define delay_ms(ms)		DELAY_US(ms*1000)
 
 //---------------------------------------------------------------------------------
-//-- 송수신 스택 길이
-#define	RXD_STACK_LENGTH	55		// 수신단 스택의 버퍼 길이
-#define	TXD_STACK_LENGTH	20		// 송신단 스택의 버퍼 길이
-
-typedef	struct
-{
-	unsigned	OP	:8;	//MSB
-	unsigned	OBJ	:8;	//LSB
-} Packet_Head_flg ;
-
 //-----
 typedef	union
 {

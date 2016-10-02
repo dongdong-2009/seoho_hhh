@@ -382,30 +382,6 @@ void current_controller()
 	Vdse_sat =  cos_theta*Vdss_sat + sin_theta*Vqss_sat;
 	Vqse_sat = -sin_theta*Vdss_sat + cos_theta*Vqss_sat;
 
-	ms_cnt++;
-
-	if(ms_cnt >= 65535) ms_cnt = 0 ;
-
-	//=========================================================================
-
-	if(ms_cnt > 3) // 3
-	{
-		ms_cnt = 0;
-
-		if (TXD_StackReadPtr != TXD_StackWritePtr)
-		{
-			if(ScicRegs.SCICTL2.bit.TXRDY) 				// 송신버퍼가 비어 있음
-			{
-				ScicRegs.SCITXBUF = TXD_Stack[TXD_StackReadPtr++] ;
-				if (TXD_StackReadPtr >= TXD_STACK_LENGTH)
-				{
-					TXD_StackReadPtr = 0 ;
-				}
-			}
-		}
-	}
-	//=========================================================================
-
 /*	Vmag_delta_avg = (Vmag_delta + Vmag_delta1+Vmag_delta2+Vmag_delta3+Vmag_delta4)/5.;
 	Vmag_delta4  = Vmag_delta3;
 	Vmag_delta3  = Vmag_delta2;

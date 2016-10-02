@@ -157,19 +157,11 @@
 	int fault_chk();
 	void calculateOffset();
 
-	unsigned int ms_cnt=0;
-
-	#define	TXD_STACK_LENGTH	20		// 송신단 스택의 버퍼 길이
-
-extern	unsigned char TXD_StackWritePtr;			// Serial 데이타의 송신 스택 포인터
-extern	unsigned char TXD_StackReadPtr;				// 송신 스택으로 부터 현재 읽혀져야 할 포인터
-extern	unsigned char TXD_Stack[TXD_STACK_LENGTH];	// 시리얼 데이타를 저장하는 송신 스택 메모리 공간
 
 #else
 
 	extern int cc_cnt, cntl_cnt;
 	extern int sc_cnt;
-	extern unsigned int ms_cnt;
 
 
 // Sensed values

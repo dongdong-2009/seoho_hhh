@@ -8,31 +8,12 @@
 #include "math.h"
 
 
-extern Packet_Head_flg	Packet_Head ;
 extern CRC_flg	CRC ;
 
 //-- Serial Data Stack  
-extern	unsigned char RRXD_Stack[RXD_STACK_LENGTH];
-extern	unsigned char RXD;							// 수신 데이타
-extern	unsigned char RXD_StackWritePtr;			// Serial 데이타의 수신 스택 포인터
-extern	unsigned char RXD_StackReadPtr;				// 수신 스택으로 부터 현재 읽혀져야 할 포인터
-extern	unsigned char RXD_Stack[RXD_STACK_LENGTH];	// 시리얼 데이타를 저장하는 수신 스택 메모리 공간
-	
-extern	unsigned char TXD_StackWritePtr;			// Serial 데이타의 송신 스택 포인터
-extern	unsigned char TXD_StackReadPtr;				// 송신 스택으로 부터 현재 읽혀져야 할 포인터
-extern	unsigned char TXD_Stack[TXD_STACK_LENGTH];	// 시리얼 데이타를 저장하는 송신 스택 메모리 공간
-extern  unsigned char TTXD_Stack[20];
+WORD Data_Registers[Buf_MAX];
 
-extern	unsigned char NewFrame_StackPtr;			// 스택공간상에서 새로 검출된 프레임의 주소
-extern	unsigned char Frame_StackPtr;				// 스택공간상에서 전에 검출된 프레임의 주소
-extern	unsigned char Packet_StackPtr;				// 스택 공간에서 해당 패킷의 주소
-	
-extern	unsigned  char NewFrame_Detect;				// 새로운 프레임 검출
-	
-extern	unsigned  char NewFrame_Packet_State;		// Packet의 수신 단계 
-extern	unsigned  char NewFrame_ByteCnt;			// 수신된 바이트 수를 나타내는 인덱스
-extern	unsigned  char Frame_ByteCnt;
-extern	unsigned  char Packet_ByteCnt;
+
 float F_ref = 0.;
 #pragma DATA_SECTION(ZONE0_BUF,"ZONE0DATA");
 
@@ -85,10 +66,11 @@ void main(void)
 	// Initialize CAN-A/B
 	init_can();
 
-	for(i=0;i<1024;i++)
+	for(i=0;i<Buf_MAX;i++)
 	{
 		Data_Registers[i]=0x0000;
-		Temp_Registers[i]=0x0000;
+		CAN_Registers[i]=0x0000;
+		SCI_Registers[i]=0x0000;
 	}
 
 	// Initialize SCI-B, SCI-C
@@ -133,7 +115,7 @@ void main(void)
 
 	//==========================
 	Word_Read_data(addr_ch, &data1);
-	Serial_Comm_Service();
+	//Serial_Comm_Service();
 	Update_state();
 	digital_input_proc ();
 	digital_out_proc (); 
@@ -154,13 +136,18 @@ void main(void)
 		Vmag_delta_est = Wrpm_hat/(35.02-Wrpm_hat*3.67/10000);
 		Update_var();
 
+//Data_Registers[0]=0xABCD;
+//SCI_Registers[0]=0x0000;
 
-	//cana_Tx_process();//scic 동작을 방해함
+	//cana_Tx_process();
 	//cana_Rx_process();
 
+	SCIC_Rx_process();
+	SCIC_Tx_process();
 
 //delay(30000);
-//	scic_TxChar(0x55);
+//scic_putc(0x55);
+//scic_TxChar(0x55);
 		
    }
 }
