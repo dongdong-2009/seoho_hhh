@@ -1,21 +1,2 @@
----- CURSOR_MODE_3 Matches (20 in 1 files) ----
-Display.c (source\mcu):#define CURSOR_MODE_3 3
-Display.c (source\mcu):	SYS_ParameterEdt(811,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(812,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(813,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(814,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(815,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(816,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(817,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(818,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(819,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(820,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(821,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(822,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(823,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(824,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(825,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(826,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(827,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(828,  edit_Temp, CURSOR_MODE_3);
-Display.c (source\mcu):	SYS_ParameterEdt(829,  edit_Temp, CURSOR_MODE_3);
+---- MODE_59 Matches (1 in 1 files) ----
+Display.c (source\mcu):#define MODE_59 59

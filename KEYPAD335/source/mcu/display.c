@@ -138,7 +138,8 @@
 #define MODE_3d_1u_A 56
 #define MODE_5d 57
 #define MODE_5d_rms 58
-#define MODE_59 59
+#define MODE_3d_1u_mF 59
+#define MODE_3d_1u_mH 60
 
 unsigned int DATA_Registers[BUF_MAX];
 
@@ -1014,12 +1015,42 @@ __flash char  PAGE_DIR_2_23_XX[12][17]={
 "P23.11 I_Offs_C2"
 };
 
+__flash char  PAGE_DIR_2_29_XX[27][17]={
+ "P29.0 PWM_Freq      ",
+ "P29.1 Vdc_Out Set   ",
+ "P29.2 Rtd_Input Volt",
+ "P29.3 Rtd_Output Pwr",
+ "P29.4 Reactor Res   ",
+ "P29.5 Reactor_Ind   ",
+ "P29.6 Volt Sens_Time",
+ "P29.7 VC P-Gain     ",
+ "P29.8 VC I-Gain     ",
+ "P29.9 CC P-Gain     ",
+ "P29.10 CC I-Gain    ",
+ "P29.11 VC Cycle Cnt ",
+ "P29.12 Input Cap    ",
+ "P29.13 Output Cap   ",
+ "P29.14 VC Frequency ",
+ "P29.15 CC Frequency ",
+ "P29.16 Out OV-Set   ",
+ "P29.17 Out UV-Set   ",
+ "P29.18 Input OV-Set ",
+ "P29.19 Input UV-Set ",
+ "P29.20 In Rtd Curr  ",
+ "P29.21 OC Set Val   ",
+ "P29.22 Max Cont Curr",
+ "P29.23 OL-Curr Value",
+ "P29.24 OL Time      ",
+ "P29.25 OV Time      ",
+ "P29.26 OT-Set Value "
+ };
+
 __flash char  PAGE_DIR_3_XX_3_4[6][17]={
 "0 Drive_Calibra ",
 "1 Motor Tuning  ",
 "2 Speed Tuning  ",
 " Processing...  ",
-" Completed...  ",
+" Completed..[ESC]",
 "Failed...       "
 };
 
@@ -2044,6 +2075,32 @@ void SYS_ParameterDisplay(unsigned char mode)
 		{
 			CLCD_string(0xC0,(char*)_TEXT("      % 5d rpm  ",edit_Temp));
 			SYS_cursor_ON_Mode(CURSOR_MODE_1);
+		}
+	}
+	else if(mode == MODE_3d_1u_mF)
+	{
+		if(!Edit_flag)
+		{
+			CLCD_string(0xC0,(char*)_TEXT("      % 3d.% 1u mF   ",(int)Temporary/10,Temporary%10));
+			CLCD_cursor_OFF();
+		}
+		else
+		{
+			CLCD_string(0xC0,(char*)_TEXT("      % 3d.% 1u mF   ",(int)edit_Temp/10,edit_Temp%10));
+			SYS_cursor_ON_Mode(CURSOR_MODE_6);
+		}
+	}
+	else if(mode == MODE_3d_1u_mH)
+	{
+		if(!Edit_flag)
+		{
+			CLCD_string(0xC0,(char*)_TEXT("      % 3d.% 1u mH   ",(int)Temporary/10,Temporary%10));
+			CLCD_cursor_OFF();
+		}
+		else
+		{
+			CLCD_string(0xC0,(char*)_TEXT("      % 3d.% 1u mH   ",(int)edit_Temp/10,edit_Temp%10));
+			SYS_cursor_ON_Mode(CURSOR_MODE_6);
 		}
 	}
 }
@@ -3636,8 +3693,21 @@ void SYS_2_23(void)
 {
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_22;
-	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00;
+	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29;
 	else if(KeyState.KeyValue == ENTER)MenuDisplay = SYS_2_23_00;
+	
+	if(RefreshFlag)
+	{
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[3][0]));
+		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[23][0]));
+	}
+}
+void SYS_2_29(void)
+{
+	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2;
+	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_23;
+	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00;
+	else if(KeyState.KeyValue == ENTER)MenuDisplay = SYS_2_29_00;
 	
 	if(RefreshFlag)
 	{
@@ -16359,6 +16429,526 @@ void SYS_2_23_11(void)
 		SYS_ParameterDisplay(MODE_3d_1u_A);
 	}
 }
+
+
+void SYS_2_29_00(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_00;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_01;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1870,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1870);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[0][0]));
+		SYS_ParameterDisplay(MODE_3d_1u_kHz);
+	}
+}
+void SYS_2_29_01(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_00;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_02;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1871,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1871);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[1][0]));
+		SYS_ParameterDisplay(MODE_3d_1u_V);
+	}
+}
+void SYS_2_29_02(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_01;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_03;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1872,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1872);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[2][0]));
+		SYS_ParameterDisplay(MODE_3d_1u_V);
+	}
+}
+void SYS_2_29_03(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_02;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_04;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1873,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1873);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[3][0]));
+		SYS_ParameterDisplay(MODE_3d_1u_kW);
+	}
+}
+
+void SYS_2_29_04(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_03;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_05;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1873,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1874);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[4][0]));
+		SYS_ParameterDisplay(MODE_5u_mOhm);
+	}
+}
+void SYS_2_29_05(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_04;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_06;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1873,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1875);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[5][0]));
+		SYS_ParameterDisplay(MODE_3d_1u_mH);
+	}
+}
+void SYS_2_29_06(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_05;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_07;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1873,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1876);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[6][0]));
+		SYS_ParameterDisplay(MODE_3d_1u_mH);
+	}
+}
+void SYS_2_29_07(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_06;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_08;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1873,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1877);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[7][0]));
+		SYS_ParameterDisplay(MODE_3d_1u_persent);
+	}
+}
+void SYS_2_29_08(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_07;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_09;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1878,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1878);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[8][0]));
+		SYS_ParameterDisplay(MODE_3d_1u_persent);
+	}
+}
+void SYS_2_29_09(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_08;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_10;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1879,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1879);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[9][0]));
+		SYS_ParameterDisplay(MODE_3d_1u_persent);
+	}
+}
+ 
+void SYS_2_29_10(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_09;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_11;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1880,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1880);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[10][0]));
+		SYS_ParameterDisplay(MODE_3d_1u_persent);
+	}
+}
+void SYS_2_29_11(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_10;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_12;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1881,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1881);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[11][0]));
+		SYS_ParameterDisplay(MODE_5u);
+	}
+}
+void SYS_2_29_12(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_11;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_13;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1882,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1882);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[12][0]));
+		SYS_ParameterDisplay(MODE_3d_1u_mF);
+	}
+}
+void SYS_2_29_13(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_12;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_14;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1883,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1883);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[13][0]));
+		SYS_ParameterDisplay(MODE_3d_1u_mF);
+	}
+}
+void SYS_2_29_14(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_13;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_15;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1884,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1884);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[14][0]));
+		SYS_ParameterDisplay(MODE_5u_Hz);
+	}
+}
+void SYS_2_29_15(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_14;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_16;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1885,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1885);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[15][0]));
+		SYS_ParameterDisplay(MODE_5u_Hz);
+	}
+}
+void SYS_2_29_16(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_15;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_17;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1886,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1886);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[16][0]));
+		SYS_ParameterDisplay(MODE_5u_V);
+	}
+}
+void SYS_2_29_17(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_16;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_18;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1887,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1887);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[17][0]));
+		SYS_ParameterDisplay(MODE_5u_V);
+	}
+}
+void SYS_2_29_18(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_17;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_19;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1888,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1888);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[18][0]));
+		SYS_ParameterDisplay(MODE_5u_V);
+	}
+}
+
+ void SYS_2_29_19(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_18;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_20;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1888,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1889);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[18][0]));
+		SYS_ParameterDisplay(MODE_5u_V);
+	}
+}
+ 
+void SYS_2_29_20(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_19;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_21;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1890,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1890);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[20][0]));
+		SYS_ParameterDisplay(MODE_3d_1u_A);
+	}
+}
+void SYS_2_29_21(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_20;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_22;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1891,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1891);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[21][0]));
+		SYS_ParameterDisplay(MODE_5u_persent);
+	}
+}
+void SYS_2_29_22(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_21;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_23;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1892,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1892);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[22][0]));
+		SYS_ParameterDisplay(MODE_5u_persent);
+	}
+}
+void SYS_2_29_23(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_22;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_26;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1893,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1893);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[23][0]));
+		SYS_ParameterDisplay(MODE_5u_persent);
+	}
+}
+void SYS_2_29_24(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_23;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_25;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1893,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1894);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[24][0]));
+		SYS_ParameterDisplay(MODE_5u_s);
+	}
+}
+void SYS_2_29_25(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_24;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_26;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1893,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1895);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[25][0]));
+		SYS_ParameterDisplay(MODE_5u_s);
+	}
+}
+void SYS_2_29_26(void)
+{
+	if(!Edit_flag)
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_29;
+		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_29_25;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_29_00;
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode( LEVEL_0);
+	}
+	else
+	SYS_ParameterEdt(1896,  edit_Temp, CURSOR_MODE_1);
+
+	if(RefreshFlag)
+	{
+		Temporary = ReadDataMem(1896);
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[26][0]));
+		SYS_ParameterDisplay(MODE_3d_1u_deg);
+	}
+}
+ 
 
 
 void SYS_3_00(void)
