@@ -17,8 +17,6 @@
 #include "CH_f280xpwm.h"  
 #include "DEV_EasydspDac28335.h" // chy
 
-#include "Core_I2C_RTC.h"  // by RYU
-
 #include <math.h>
 #include <string.h>
 #include <stdio.h>

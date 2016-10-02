@@ -403,9 +403,9 @@ interrupt void scic_rx_isr(void)
 					//SCIC_TX_START;
 
 					// (110107 by HHH)
-				//	Rx_index= RxAddr;
-				//	Read_Data_Registers(Rx_index);
-				//	Flag.Monitoring.bit.EEPROM_WRITE_ENABLE_Rx= 1;
+					Rx_index= RxAddr;
+					Read_Data_Registers(Rx_index);
+					Flag.Monitoring.bit.EEPROM_WRITE_ENABLE_Rx= 1;
 				}
 				else if(RxType == QUERY)
 				{

@@ -1,7 +1,7 @@
 ; Code Composer Project File, Version 2.0 (do not modify or remove this line)
 
 [Project Settings]
-ProjectDir="D:\User\RYU\VD_28335\Program\HHH\Seoho VD Drive Program(110131_beta)\"
+ProjectDir="D:\HHH 28335\Seoho VD Drive Program\"
 ProjectType=Executable
 CPUFamily=TMS320C28XX
 Tool="Compiler"
@@ -23,7 +23,6 @@ Source="source\Seoho Source\Core_Auto_Tuning.c"
 Source="source\Seoho Source\Core_Common_Module.c"
 Source="source\Seoho Source\Core_Gpio_Xintf_Set.c"
 Source="source\Seoho Source\Core_I2C_EEPROM.c"
-Source="source\Seoho Source\Core_I2C_RTC.c"
 Source="source\Seoho Source\Core_RealSys_2833x.c"
 Source="source\Seoho Source\Core_Speed_Detection.c"
 Source="source\Seoho Source\Core_Vector_Control.c"

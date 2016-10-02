@@ -144,7 +144,7 @@ interrupt void MainPWM(void)
 
 		if( Main_counter & 0x2 ) 	// 4*CC Routines : 10  
 		{		
-			Fault_Check_4Sampling();	
+			Fault_Check_4Sampling();		
 		}
 //		else if( Main_counter & 0x4 ) 	// 8*CC Routines : 100 
 //		{	

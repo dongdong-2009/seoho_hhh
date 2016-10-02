@@ -15,10 +15,6 @@ void main( void )
 {
 	F28335PowerOnSet();
 
-	//Set_InitialTime();   // by RYU
-
-	Read_Time(&time);    // by RYU
-
 	 // Infinity Loop
 	while(1)
 	{
@@ -42,8 +38,6 @@ void main( void )
 			Flag.Monitoring.bit.EEPROM_WRITE_ENABLE_Tx= 0;
 		}
 
-
-		Read_Time(&time);    // by RYU	
 			
 		NOP;
 
@@ -97,39 +91,42 @@ void F28335PowerOnSet()
 // Initialize SCI-A for data monitoring 
 	sci_debug_init(); // by RYU
 	// Initialize SCI-B, SCI-C
-
+// 추가 
 	for(i=0;i<Buf_MAX;i++)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11111
 	{
 		Data_Registers[i]=0x0000;
 		CAN_Registers[i]=0x0000;
 		SCI_Registers[i]=0x0000;
 	}
+// 추가 
   
 	scib_init();
 	scic_init();
-
+// 추가 
     I2C_EEPROM_Initialization();
+// 추가 
     delay_ms(1);
 
 	// EEPROM 초기화 용 Code, 활성화시 초기화됨
 	Word_Write_data(81, 0);
 
+// 추가 
 	// data_register[81]: EEPROM_WRITE_CHECK
-	Word_Read_data(81, &EEPROM_WRITE_CHECK);
+	Word_Read_data(81, &EEPROM_WRITE_CHECK);	// 	추가 
 	Word_Read_data(81, &Data_Registers[81]);
-	Word_Write_data(2306, 0);	// Run/stop -> 0
-	Word_Write_data(2371, 0);	// Run/stop -> 0
+	Word_Write_data(2306, 0);	// Run/stop -> 0	초기에 run_stop clear
+	Word_Write_data(2371, 0);	// Auto_Tuning -> 0
 	// EEPROM_WRITED: 1
 	if(EEPROM_WRITE_CHECK == 0) 
 	{
-		Parameter_Initialization_by_Power();
+		Parameter_Initialization_by_Power();	// 
 		Parameter_Initialization();
 		
 		for(i=0;i<Buf_MAX;i++)
 		{
 			Write_Data_Registers_Offline(i);
 //			SCI_Registers[i]= Data_Registers[i];
-//			Word_Write_data(i, Data_Registers[i]);
+			Word_Write_data(i, Data_Registers[i]);
 		}
 //		Data_Registers[81]= SCI_Registers[81]= 1;
 		Data_Registers[81]= 1;
@@ -144,6 +141,8 @@ void F28335PowerOnSet()
 			Read_Data_Registers(i);
 		}
 	}
+// 추가 
+
 	
 	System_Variable_Initialization();
 
