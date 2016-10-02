@@ -1,0 +1,124 @@
+; Code Composer Project File, Version 2.0 (do not modify or remove this line)
+
+[Project Settings]
+ProjectDir="D:\work\SEOHO_VD\Seoho_PMSM_100823_d\"
+ProjectType=Executable
+CPUFamily=TMS320C28XX
+Tool="Compiler"
+Tool="CustomBuilder"
+Tool="DspBiosBuilder"
+Tool="Linker"
+Config="Debug"
+Config="Release"
+
+[Source Files]
+Source="DSP2833x_lib\rts2800_fpu32.lib"
+Source="DSP2833x_source\DSP2833x_ADC_cal.asm"
+Source="DSP2833x_source\DSP2833x_CodeStartBranch.asm"
+Source="DSP2833x_source\DSP2833x_CpuTimers.c"
+Source="DSP2833x_source\DSP2833x_CSMPasswords.asm"
+Source="DSP2833x_source\DSP2833x_DBGIER.asm"
+Source="DSP2833x_source\DSP2833x_DefaultIsr.c"
+Source="DSP2833x_source\DSP2833x_DisInt.asm"
+Source="DSP2833x_source\DSP2833x_DMA.c"
+Source="DSP2833x_source\DSP2833x_ECan.c"
+Source="DSP2833x_source\DSP2833x_ECap.c"
+Source="DSP2833x_source\DSP2833x_EPwm.c"
+Source="DSP2833x_source\DSP2833x_EQep.c"
+Source="DSP2833x_source\DSP2833x_GlobalVariableDefs.c"
+Source="DSP2833x_source\DSP2833x_I2C.c"
+Source="DSP2833x_source\DSP2833x_Mcbsp.c"
+Source="DSP2833x_source\DSP2833x_MemCopy.c"
+Source="DSP2833x_source\DSP2833x_PieCtrl.c"
+Source="DSP2833x_source\DSP2833x_PieVect.c"
+Source="DSP2833x_source\DSP2833x_Sci.c"
+Source="DSP2833x_source\DSP2833x_Spi.c"
+Source="DSP2833x_source\DSP2833x_SysCtrl.c"
+Source="DSP2833x_source\DSP2833x_usDelay.asm"
+Source="DSP2833x_source\DSP2833x_Xintf.c"
+Source="PMSM_include\cc.h"
+Source="PMSM_include\DEV_EasydspDac28335.h"
+Source="PMSM_include\digital_inout.h"
+Source="PMSM_include\Fault.h"
+Source="PMSM_include\pwm.h"
+Source="PMSM_include\sc.h"
+Source="PMSM_include\system.h"
+Source="SRC\cc.c"
+Source="SRC\debug_2833x.c"
+Source="SRC\DEV_EasydspDac28335.c"
+Source="SRC\digital_inout.c"
+Source="SRC\fault.c"
+Source="SRC\Main.c"
+Source="SRC\pwm_change.c"
+Source="SRC\sc.c"
+Source="SRC\seoho_gpio_set.c"
+Source="SRC\system.c"
+Source="CMD\DSP2833x_Headers_nonBIOS.cmd"
+Source="CMD\F28335.cmd"
+
+["Compiler" Settings: "Debug"]
+Options=-gt -fr"$(Proj_dir)\Debug" -i"D:\work\SEOHO_VD\Seoho_PMSM_100823_d\DSP2833x_include" -i"D:\work\SEOHO_VD\Seoho_PMSM_100823_d\PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32
+
+["Compiler" Settings: "Release"]
+Options=-pdsw225 -o3 -fr"$(Proj_dir)\Release" -d"LARGE_MODEL" -ml -v28
+
+["Linker" Settings: "Debug"]
+Options=-q -c -ecode_start -m".\Debug\Seoho_PMSM.map" -o".\Debug\Seoho_PMSM.out" -stack0x200 -w -x -i"..\DSP2833x_lib" -l"rts2800_fpu32.lib"
+
+["Linker" Settings: "Release"]
+Options=-c -m".\Release\Seoho_PMSM.map" -o".\Release\Seoho_PMSM.out" -w -x
+
+["PMSM_include\cc.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["PMSM_include\cc.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["PMSM_include\DEV_EasydspDac28335.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["PMSM_include\DEV_EasydspDac28335.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["PMSM_include\digital_inout.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["PMSM_include\digital_inout.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["PMSM_include\Fault.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["PMSM_include\Fault.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["PMSM_include\pwm.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["PMSM_include\pwm.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["PMSM_include\sc.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["PMSM_include\sc.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["PMSM_include\system.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["PMSM_include\system.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["CMD\DSP2833x_Headers_nonBIOS.cmd" Settings: "Debug"]
+LinkOrder=1
+
+["CMD\DSP2833x_Headers_nonBIOS.cmd" Settings: "Release"]
+LinkOrder=1
+
+["CMD\F28335.cmd" Settings: "Debug"]
+LinkOrder=1
+
+["CMD\F28335.cmd" Settings: "Release"]
+LinkOrder=1
+
