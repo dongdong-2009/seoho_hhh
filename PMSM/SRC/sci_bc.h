@@ -91,6 +91,9 @@ CRC_flg 	    CRC ;
 
 Bit_field_ flag0;
 
+#define SEND		0x02
+#define RESPONSE 0x03
+
 //unsigned int Comm_array[3000];
 
 void scib_init(void);

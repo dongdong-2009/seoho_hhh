@@ -43,7 +43,7 @@ void scib_init(void)
   	EALLOW;
 	PieVectTable.SCIRXINTB = &scib_rx_isr;
   	PieVectTable.SCITXINTB = &scib_tx_isr;
-   
+   #if 0
   /* Enable internal pull-up for the selected pins */
 	GpioCtrlRegs.GPAPUD.bit.GPIO23 = 0; // Enable pull-up for GPIO11 (SCIRXDB)
 	GpioCtrlRegs.GPAPUD.bit.GPIO22 = 0;  // Enable pull-up for GPIO9  (SCITXDB)
@@ -54,6 +54,19 @@ void scib_init(void)
 	/* Configure SCI-B pins using GPIO regs*/
 	GpioCtrlRegs.GPAMUX2.bit.GPIO23 = 3;   // Configure GPIO11 for SCIRXDB operation
 	GpioCtrlRegs.GPAMUX2.bit.GPIO22 = 3;    // Configure GPIO9 for SCITXDB operation
+#endif
+    /* Enable internal pull-up for the selected pins */
+	GpioCtrlRegs.GPAPUD.bit.GPIO19 = 0; // Enable pull-up for GPIO19 (SCIRXDB)
+	GpioCtrlRegs.GPAPUD.bit.GPIO18 = 0;  // Enable pull-up for GPIO18  (SCITXDB)
+
+	/* Set qualification for selected pins to asynch only */
+	GpioCtrlRegs.GPAQSEL2.bit.GPIO19 = 3;  // Asynch input GPIO19 (SCIRXDB)
+
+	/* Configure SCI-B pins using GPIO regs*/
+	GpioCtrlRegs.GPAMUX2.bit.GPIO19 = 2;   // Configure GPIO19 for SCIRXDB operation
+	GpioCtrlRegs.GPAMUX2.bit.GPIO18 = 2;    // Configure GPIO18 for SCITXDB operation
+
+	
 	EDIS;
 
   // Enable CPU INT9 for SCI-B
@@ -172,6 +185,7 @@ void scib_putc(char d)
 {
 	scib_tx_buf[scib_tx_end++] = d;
 	if(scib_tx_end >= SCIB_BUF_SIZE) scib_tx_end = 0;
+	SCIB_TX_START;
 }
 
 void scic_putc(char d)
@@ -270,18 +284,18 @@ interrupt void scic_tx_isr(void)
 unsigned char SciC_RxStep=0;
 unsigned char SciC_RxFlag=0;
 
+ unsigned int RxType=0;
 unsigned int RxAddr=0;
 unsigned int RxData=0;
 unsigned int RxCRC=0;
-unsigned char RxBuf[8];
+unsigned char RxBuf[9];
 
 //unsigned char Temp_A;
 //unsigned char Temp_B;
 //unsigned int Temp_C;
 interrupt void scic_rx_isr(void)
 {
-	scic_rxd = ScicRegs.SCIRXBUF.all;			//데이타 수신 버퍼
-
+	scic_rxd = ScicRegs.SCIRXBUF.all;
 	if(!SciC_RxFlag)
 	{
 		if(SciC_RxStep == 0)//sync1
@@ -289,7 +303,7 @@ interrupt void scic_rx_isr(void)
 			if(scic_rxd == 0xAB)
 			{
 				
-				RxBuf[0] = scic_rxd;
+				RxBuf[0] = 0xAB;
 				SciC_RxStep++;
 			}
 			else SciC_RxStep=0;
@@ -298,71 +312,87 @@ interrupt void scic_rx_isr(void)
 		{
 			if(scic_rxd == 0xCD)
 			{
-				RxBuf[1] = scic_rxd;
+				RxBuf[1] = 0xCD;
 				SciC_RxStep++;
 			}
 			else SciC_RxStep=0;
 		}
-		else if(SciC_RxStep == 2)//addr_h
+		else if(SciC_RxStep == 2)//type
 		{
 			RxBuf[2] = scic_rxd;
 			SciC_RxStep++;
 		}
-		else if(SciC_RxStep == 3)//addr_l
+		else if(SciC_RxStep == 3)//addr_h
 		{
 			RxBuf[3] = scic_rxd;
 			SciC_RxStep++;
 		}
-		else if(SciC_RxStep == 4)//data_h
+		else if(SciC_RxStep == 4)//addr_l
 		{
 			RxBuf[4] = scic_rxd;
 			SciC_RxStep++;
 		}
-		else if(SciC_RxStep == 5)//data_l
+		else if(SciC_RxStep == 5)//data_h
 		{
 			RxBuf[5] = scic_rxd;
 			SciC_RxStep++;
 		}
-		else if(SciC_RxStep == 6)//crc_H
+		else if(SciC_RxStep == 6)//data_l
 		{
 			RxBuf[6] = scic_rxd;
 			SciC_RxStep++;
 		}
-		else//crc_L
+		else if(SciC_RxStep == 7)//crc_H
 		{
 			RxBuf[7] = scic_rxd;
+			SciC_RxStep++;
+		}
+		else//crc_L
+		{
+			RxBuf[8] = scic_rxd;
 
-			//scic_putc(RxBuf[0]);
-			//scic_putc(RxBuf[1]);
-			//scic_putc(RxBuf[2]);
-			//scic_putc(RxBuf[3]);
-			//scic_putc(RxBuf[4]);
-			//scic_putc(RxBuf[5]);
-			//scic_putc(RxBuf[6]);
-			//scic_putc(RxBuf[7]);
-
-			CRC.word = 0;
+			CRC.Word = 0;
 			CRC_16(RxBuf[0]);
 			CRC_16(RxBuf[1]);
 			CRC_16(RxBuf[2]);
 			CRC_16(RxBuf[3]);
 			CRC_16(RxBuf[4]);
 			CRC_16(RxBuf[5]);
+			CRC_16(RxBuf[6]);
 
-			//Temp_A = CRC.byte.b0;
-			//Temp_B = CRC.byte.b1;
-			//Temp_C = CRC.word;
+			RxType = RxBuf[2];
+			RxAddr = ((unsigned int)RxBuf[3]<<8) | RxBuf[4] ;
+			RxData = ((unsigned int)RxBuf[5]<<8) | RxBuf[6] ;
+			RxCRC   = ((unsigned int)RxBuf[7]<<8) | RxBuf[8] ;
 
-			RxAddr = ((unsigned int)RxBuf[2]<<8) | RxBuf[3] ;
-			RxData = ((unsigned int)RxBuf[4]<<8) | RxBuf[5] ;
-			RxCRC   = ((unsigned int)RxBuf[6]<<8) | RxBuf[7] ;
+			if((RxBuf[7] == CRC.Byte.b1) && (RxBuf[8] == CRC.Byte.b0))
+			{
+				SciC_RxFlag=1;
+				SCI_Registers[RxAddr] = RxData;
 
-			if((RxBuf[6] == CRC.byte.b1) && (RxBuf[7] == CRC.byte.b0)) SciC_RxFlag=1;
-		
+				if(RxType == SEND)
+				{
+					CRC.Word = 0;
+					scic_putc(RxBuf[0]);		CRC_16(RxBuf[0]);
+					scic_putc(RxBuf[1]);		CRC_16(RxBuf[1]);
+					scic_putc(RESPONSE);		CRC_16(RESPONSE);
+					scic_putc(RxBuf[3]);		CRC_16(RxBuf[3]);
+					scic_putc(RxBuf[4]);		CRC_16(RxBuf[4]);
+					scic_putc(RxBuf[5]);		CRC_16(RxBuf[5]);
+					scic_putc(RxBuf[6]);		CRC_16(RxBuf[6]);
+					scic_putc(CRC.Byte.b1);
+					scic_putc(CRC.Byte.b0);
+
+					SCIC_TX_START;
+					Data_Registers[RxAddr] = RxData;
+				}
+				
+			}
 			SciC_RxStep=0;
 		}
 	}
-//	else SciC_RxStep=0;
+	else SciC_RxStep=0;
+
 
 	// Acknowledge this interrupt to recieve more interrupts from group 8
 	PieCtrlRegs.PIEACK.all = PIEACK_GROUP8;
@@ -384,67 +414,73 @@ void CRC_16(unsigned char input)
 	unsigned char 	i ;
 	unsigned int 	tmp_CRC ;
 
-	tmp_CRC=((CRC.word >> 8) ^ input) << 8 ;
+	tmp_CRC=((CRC.Word >> 8) ^ input) << 8 ;
 	for (i = 0 ; i < 8 ; i++)
 	{
 		if (tmp_CRC & 0x8000) tmp_CRC = (tmp_CRC << 1) ^ GEN_POLYNOMAL ;
 		else tmp_CRC <<= 1 ;
 	}
-	CRC.word = (CRC.word << 8) ^ tmp_CRC ;
+	CRC.Word = (CRC.Word << 8) ^ tmp_CRC ;
 }
 
 
 WORD SCI_Registers[Buf_MAX];
 WORD SCI_TxOffset=0;
-void SCIC_Tx_process(void)
+unsigned long TxDelyCnt=0;
+void SCIC_Process(void)
 {
-	if(Data_Registers[SCI_TxOffset] != SCI_Registers[SCI_TxOffset])
-	{
-		//SCI_Registers[SCI_TxOffset] = Data_Registers[SCI_TxOffset];
-
-		CRC.word = 0;
-
-		scic_putc(0xAB);										CRC_16(0xAB);
-		scic_putc(0xCD);										CRC_16(0xCD);
-
-		scic_putc((char)(SCI_TxOffset>>8));					CRC_16((char)(SCI_TxOffset>>8));
-		scic_putc((char)SCI_TxOffset);							CRC_16((char)SCI_TxOffset);
-
-		scic_putc((char)(Data_Registers[SCI_TxOffset]>>8));	CRC_16((char)(Data_Registers[SCI_TxOffset]>>8));
-		scic_putc((char)Data_Registers[SCI_TxOffset]);			CRC_16((char)Data_Registers[SCI_TxOffset]);
-
-		scic_putc(CRC.byte.b1);
-		scic_putc(CRC.byte.b0);
-
-		SCIC_TX_START;
-	}
-	SCI_TxOffset ++;	
-	if(Buf_MAX <= SCI_TxOffset) SCI_TxOffset = 0;
-}
-
-
-
-void SCIC_Rx_process(void)
-{
+unsigned int i;
+//Rx========================================
       if(SciC_RxFlag)
       	{
-		SCI_Registers[RxAddr] = RxData;
-		if(SCI_Registers[RxAddr] != Data_Registers[RxAddr] )
-		{
-				scic_putc(RxBuf[0]);
-				scic_putc(RxBuf[1]);
-				scic_putc(RxBuf[2]);
-				scic_putc(RxBuf[3]);
-				scic_putc(RxBuf[4]);
-				scic_putc(RxBuf[5]);
-				scic_putc(RxBuf[6]);
-				scic_putc(RxBuf[7]);
-
-				SCIC_TX_START;
-				Data_Registers[RxAddr] = RxData;
-		}
-				
 		SciC_RxFlag = 0;
       	}
+
+	if(Data_Registers[3195])
+	{
+		for(i=0;i<Buf_MAX;i++)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11111
+		{
+			SCI_Registers[i]=0xFFFF;
+		}
+		Data_Registers[3195] = 0;
+		SCI_Registers[3195] = 0;
+	}
+
+//Tx========================================
+	if(!TxDelyCnt)
+	{
+		if(Data_Registers[SCI_TxOffset] != SCI_Registers[SCI_TxOffset])
+		{
+			//SCI_Registers[SCI_TxOffset] = Data_Registers[SCI_TxOffset];
+
+			CRC.Word = 0;
+#if 1
+			scic_putc(0xAB);										CRC_16(0xAB);
+			scic_putc(0xCD);										CRC_16(0xCD);
+
+			scic_putc(SEND);										CRC_16(SEND);
+
+			scic_putc((char)(SCI_TxOffset>>8));					CRC_16((char)(SCI_TxOffset>>8));
+			scic_putc((char)SCI_TxOffset);							CRC_16((char)SCI_TxOffset);
+
+			scic_putc((char)(Data_Registers[SCI_TxOffset]>>8));	CRC_16((char)(Data_Registers[SCI_TxOffset]>>8));
+			scic_putc((char)Data_Registers[SCI_TxOffset]);			CRC_16((char)Data_Registers[SCI_TxOffset]);
+
+			scic_putc(CRC.Byte.b1);
+			scic_putc(CRC.Byte.b0);
+#endif
+			SCIC_TX_START;
+			TxDelyCnt = 6000;
+		}
+
+		SCI_TxOffset ++;	
+		if(Buf_MAX <= SCI_TxOffset) SCI_TxOffset = 0;
+	}
+	else
+	{
+		TxDelyCnt--;
+	}
 }
+
+
 

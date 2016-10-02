@@ -1,2 +1,6 @@
----- scic_rx_ibuf Matches (1 in 1 files) ----
-Sci_bc.h (src):int  scic_rx_ibuf[SCIC_BUF_SIZE+1];
+---- SCIC_TX_START Matches (5 in 2 files) ----
+SCI_BC.c (src):	SCIC_TX_START;
+SCI_BC.c (src):					SCIC_TX_START;
+SCI_BC.c (src):	SCIC_TX_START;
+SCI_BC.c (src):			SCIC_TX_START;
+Sci_bc.h (src):#define	SCIC_TX_START	{	if(ScicRegs.SCICTL2.bit.TXRDY){						\

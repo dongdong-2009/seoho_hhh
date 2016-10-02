@@ -11,7 +11,7 @@
 extern CRC_flg	CRC ;
 
 //-- Serial Data Stack  
-WORD Data_Registers[Buf_MAX];
+WORD Data_Registers[Buf_MAX];//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11111
 
 
 float F_ref = 0.;
@@ -66,7 +66,7 @@ void main(void)
 	// Initialize CAN-A/B
 	init_can();
 
-	for(i=0;i<Buf_MAX;i++)
+	for(i=0;i<Buf_MAX;i++)//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11111
 	{
 		Data_Registers[i]=0x0000;
 		CAN_Registers[i]=0x0000;
@@ -82,7 +82,7 @@ void main(void)
 	ZONE0_BUF[0x0060] = 0x0007; // DAC_reset off
 	asm ("      nop");			
 
-	calculateOffset();
+//	calculateOffset();
 
 	nDC_CONTACT_CLEAR;
 //	delay(1000000); //delay_msecs(100);		// Delay for Setting Time
@@ -96,25 +96,25 @@ void main(void)
 	}
 //======================================================
 
-    Init_I2C_eeprom();
+ //   Init_I2C_eeprom();
     delay_ms(1);
 
 // test eeprom
 //	Word_Write_data(100, 15000);
 //	Word_Read_data (100, &data1); 
 
-	Word_Read_data(0, &EEPROM_WRITE_CHECK);
-	if(EEPROM_WRITE_CHECK != EEPROM_WRITED) {EEPROM_DATA_INIT();}//
+//	Word_Read_data(0, &EEPROM_WRITE_CHECK);
+//	if(EEPROM_WRITE_CHECK != EEPROM_WRITED) {EEPROM_DATA_INIT();}//
 
 	EINT;   // Enable Global interrupt INTM
 	ERTM;   // Enable Global realtime interrupt DBGM 
-	Word_Write_data(2106, 0);	// 초기 시 Run_stop 를 항상 stop로 만든다. 2010.06.16
-	eeprom2sys();
+	//Word_Write_data(2106, 0);	// 초기 시 Run_stop 를 항상 stop로 만든다. 2010.06.16
+//	eeprom2sys();
 	
 	while(1) {
-
+/*
 	//==========================
-	Word_Read_data(addr_ch, &data1);
+//	Word_Read_data(addr_ch, &data1);
 	//Serial_Comm_Service();
 	Update_state();
 	digital_input_proc ();
@@ -135,15 +135,17 @@ void main(void)
 		Vmag_delta = Vmag_ref - Vmag_ffa;
 		Vmag_delta_est = Wrpm_hat/(35.02-Wrpm_hat*3.67/10000);
 		Update_var();
-
+*/
 //Data_Registers[0]=0xABCD;
 //SCI_Registers[0]=0x0000;
 
 	//cana_Tx_process();
 	//cana_Rx_process();
 
-	SCIC_Rx_process();
-	SCIC_Tx_process();
+	SCIC_Process();//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11111
+
+	//scib_TxChar(0x55);
+	//scib_putc(0x55);
 
 //delay(30000);
 //scic_putc(0x55);

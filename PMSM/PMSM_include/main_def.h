@@ -101,12 +101,12 @@ extern WORD SCI_Registers[Buf_MAX];
 //-----
 typedef	union
 {
-	unsigned word;
+	unsigned Word;
 	struct
 	{
 		unsigned b0	:8;	// CRC16 하위 바이트
 		unsigned b1	:8;	// CRC16 상위 바이트
-	} byte;
+	} Byte;
 } CRC_flg ;
 
 typedef union {
