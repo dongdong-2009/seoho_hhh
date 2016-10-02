@@ -19,10 +19,10 @@
 #define EDIT_MODE_2 2
 #define EDIT_MODE_UPDN 3
 #define EDIT_MODE_4 4
-#define EDIT_MODE_P8_123456 5
+#define EDIT_MODE_P8_DI_FUNC 5
 #define EDIT_MODE_P12 6
 #define EDIT_MODE_0_1 7
-#define EDIT_MODE_P11_0 8
+#define EDIT_MODE_P11_AO_Sel 8
 
 
 #define CURSOR_MODE_0 0
@@ -63,7 +63,7 @@
 //#define MODE_5u_V 38
 
 #define MODE_3d_1u_mA 34
-#define MODE_3d_1u_mV 31
+//#define MODE_3d_1u_mV 31
 
 #define MODE_3d_1u_deg 26
 
@@ -109,11 +109,11 @@
 
 #define MODE_P8_0_selection 39
 #define MODE_P8_1to29_selection 40
-#define MODE_41 41
-#define MODE_42 42
-#define MODE_43 43
+#define MODE_Persent_Hz 41
+#define MODE_P11_AO_Type 42
+#define MODE_P11_AO_Sel 43
 
-#define MODE_45 45
+#define MODE_P12_DO_FUNC 45
 
 #define MODE_47 47
 #define MODE_48 48
