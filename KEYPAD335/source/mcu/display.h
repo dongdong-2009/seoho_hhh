@@ -52,7 +52,7 @@ extern unsigned int Temporary;
 
 void DisplayInit(void);
 void MainSYSTEM(void);
-void Menu(void);
+//void Menu(void);
 
 //void Check_event(void);
 

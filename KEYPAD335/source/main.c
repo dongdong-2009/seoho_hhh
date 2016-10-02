@@ -311,26 +311,27 @@ int main(void)
 		if(TimeTic_10ms)
 		{
 			KeyProc();
-			Menu();
 			MainSYSTEM();
 		}
 
 		if(TimeTic_100ms)
 		{
+			
 		}
 		
 		if(TimeTic_200ms)
 		{
+				
 		}
 
 		if(TimeTic_500ms)
 		{
-				
+			Read_DATA_from_ControlBoard(Read_GROUP, Read_INDEX);	
 		}
 
 		if(TimeTic_1s)
 		{
-			Read_DATA_from_ControlBoard(Read_GROUP, Read_INDEX);		
+				
 			//GLCD_print0508(7, 7,_TEXT("20%02d/%02d/%02d %02d:%02d:%02d",year,month,date,hour,min,second));
 		}
 

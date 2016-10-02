@@ -15,13 +15,13 @@ main.o: ../source/main.c \
   c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/eeprom.h \
   c:\winavr-20100110\bin\../lib/gcc/avr/4.3.3/include/stddef.h \
-  D:\work\SEOHO_VD\KEYPAD335_101110\source\mcu/16by2clcd.h \
-  D:\work\SEOHO_VD\KEYPAD335_101110\source\mcu/key.h \
-  D:\work\SEOHO_VD\KEYPAD335_101110\source\mcu/rs232_MMItoPANEL.h \
-  D:\work\SEOHO_VD\KEYPAD335_101110\source\mcu/display.h \
+  D:\work\SEOHO_VD\KEYPAD335_101111\source\mcu/16by2clcd.h \
+  D:\work\SEOHO_VD\KEYPAD335_101111\source\mcu/key.h \
+  D:\work\SEOHO_VD\KEYPAD335_101111\source\mcu/rs232_MMItoPANEL.h \
+  D:\work\SEOHO_VD\KEYPAD335_101111\source\mcu/display.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/pgmspace.h \
-  D:\work\SEOHO_VD\KEYPAD335_101110\source\mcu/util.h \
-  D:\work\SEOHO_VD\KEYPAD335_101110\source\mcu/debug_printf.h
+  D:\work\SEOHO_VD\KEYPAD335_101111\source\mcu/util.h \
+  D:\work\SEOHO_VD\KEYPAD335_101111\source\mcu/debug_printf.h
 
 c:/winavr-20100110/lib/gcc/../../avr/include/avr/io.h:
 
@@ -55,16 +55,16 @@ c:/winavr-20100110/lib/gcc/../../avr/include/avr/eeprom.h:
 
 c:\winavr-20100110\bin\../lib/gcc/avr/4.3.3/include/stddef.h:
 
-D:\work\SEOHO_VD\KEYPAD335_101110\source\mcu/16by2clcd.h:
+D:\work\SEOHO_VD\KEYPAD335_101111\source\mcu/16by2clcd.h:
 
-D:\work\SEOHO_VD\KEYPAD335_101110\source\mcu/key.h:
+D:\work\SEOHO_VD\KEYPAD335_101111\source\mcu/key.h:
 
-D:\work\SEOHO_VD\KEYPAD335_101110\source\mcu/rs232_MMItoPANEL.h:
+D:\work\SEOHO_VD\KEYPAD335_101111\source\mcu/rs232_MMItoPANEL.h:
 
-D:\work\SEOHO_VD\KEYPAD335_101110\source\mcu/display.h:
+D:\work\SEOHO_VD\KEYPAD335_101111\source\mcu/display.h:
 
 c:/winavr-20100110/lib/gcc/../../avr/include/avr/pgmspace.h:
 
-D:\work\SEOHO_VD\KEYPAD335_101110\source\mcu/util.h:
+D:\work\SEOHO_VD\KEYPAD335_101111\source\mcu/util.h:
 
-D:\work\SEOHO_VD\KEYPAD335_101110\source\mcu/debug_printf.h:
+D:\work\SEOHO_VD\KEYPAD335_101111\source\mcu/debug_printf.h:
