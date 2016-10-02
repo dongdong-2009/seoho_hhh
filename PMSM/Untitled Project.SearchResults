@@ -1,0 +1,13 @@
+---- ZONE0_BUF Matches (12 in 4 files) ----
+Cc.h (pmsm_include):	extern volatile unsigned int ZONE0_BUF[2048];
+Dac.c (src):	ZONE0_BUF[0x0060] = 0x0003; //LDAC_ON, WRITE   
+Dac.c (src):	ZONE0_BUF[0x0030] = DA1_val;
+Dac.c (src):	ZONE0_BUF[0x0031] = DA2_val;
+Dac.c (src):	ZONE0_BUF[0x0032] = DA3_val;
+Dac.c (src):	ZONE0_BUF[0x0033] = DA4_val;
+Dac.c (src):	ZONE0_BUF[0x0060] = 0x0007; //LDAC_ON, WRITE   
+Dac.c (src):	ZONE0_BUF[0x0060] = 0x0005; //LDAC_OFF, READ
+Dac.c (src):	ZONE0_BUF[0x0060] = 0x0007; //LDAC_OFF, READ
+Digital_inout.c (src):	xbus_in = ( ZONE0_BUF[0x0050] & i ); 
+Main.c (src):#pragma DATA_SECTION(ZONE0_BUF,"ZONE0DATA");
+Main.c (src):volatile unsigned int ZONE0_BUF[2048];

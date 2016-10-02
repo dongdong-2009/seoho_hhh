@@ -187,7 +187,7 @@ void InitGpio(void)
 
    // GPIO31 TXD_CAN
    GpioCtrlRegs.GPAMUX2.bit.GPIO31 	= 1;  // GPIO31 = TXD_CAN
-   GpioCtrlRegs.GPADIR.bit.GPIO31 	= 0;  // GPIO31 = OUTPUT
+   GpioCtrlRegs.GPADIR.bit.GPIO31 	= 1;  // GPIO31 = OUTPUT
 
    // GPIO32 I2C_SDAA
    GpioCtrlRegs.GPBPUD.bit.GPIO32 	= 0;  // Enable pullup on GPIO32         

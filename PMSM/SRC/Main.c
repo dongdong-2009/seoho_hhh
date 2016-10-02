@@ -13,6 +13,11 @@ volatile unsigned int ZONE0_BUF[2048];
 
 int main_loop_cnt = 0;
 
+extern WORD Data_Registers[1024];
+extern WORD Temp_Registers[1024];
+extern WORD reg_TxOffset;
+
+
 extern void Relay_setup();
 
 void GetAnaMonitCount(unsigned int * piChA, unsigned * piChB);
@@ -22,8 +27,10 @@ int flag_relay = 0;
 void main(void)
 {
 	unsigned int ChACount,ChBCount;
+	unsigned int i;
 
     InitSysCtrl();
+
 
     DINT;
 
@@ -33,34 +40,61 @@ void main(void)
     IFR = 0x0000;
 
     InitPieVectTable();
-	Relay_setup();
-  	Init_dsc();
-	dev_DacSetup ();
-	dev_InitDACVariable(); 
-	DacFlag = 0;
+	//Relay_setup();
+  	//Init_dsc();
+	//dev_DacSetup ();
+	//dev_InitDACVariable(); 
+	///DacFlag = 0;
 
 	MemCopy(&RamfuncsLoadStart, &RamfuncsLoadEnd, &RamfuncsRunStart);
 
-	nRESET_DRIVER_SET;	//316J PWM on
+	//nRESET_DRIVER_SET;	//316J PWM on
 
 //	nBOOT_MODE_SET;		////	nPWM_ENABLE_SET;	//
-	nDC_CONTACT_SET;
+	////////nDC_CONTACT_SET;
 	// Call Flash Initialization to setup flash waitstates
 	// This function must reside in RAM
 	InitFlash();
 
+
 	// Initialize SCI-A for data monitoring 
 	sci_debug_init();
+
+	// Initialize CAN-A/B
+	init_can();
+
+	for(i=0;i<1024;i++)
+	{
+		Data_Registers[i]=0x3344;
+		Temp_Registers[i]=0xffff;
+	}
 		
 
-	calculateOffset();
-	EINT;   // Enable Global interrupt INTM
+	//calculateOffset();
+
+
+	EnableInterrupts();
+	
+	//EINT;   // Enable Global interrupt INTM
 	ERTM;   // Enable Global realtime interrupt DBGM
 //	delay_long(1000000);
 	nDC_CONTACT_CLEAR;
 //	delay(1000000); //delay_msecs(100);		// Delay for Setting Time
 
 	func_flag.all = 0;
+
+
+while(1)
+{
+
+test_led2_on;
+		cana_Tx_process();
+//test_led2_off;
+		//for(i=0;i<60000;i++);
+		//cana_Rx_process();
+}
+
+
 
     for ( ; ; ) {
 		Is_mag = sqrt(Idss * Idss + Iqss * Iqss);
@@ -83,9 +117,9 @@ void main(void)
 		// DAC Out
 		DacFlag = 1;
 
-	test_led2_on;
+	//test_led2_on;
 	dev_BackgroundDAC();
-	test_led2_off;
+	//test_led2_off;
 /*		if(DacFlag) 
 		{
 			
@@ -97,6 +131,12 @@ void main(void)
 	    //relay_control(flag_relay);
    	    main_loop_cnt++;
 
+
+//test_led2_on;
+		cana_Tx_process();
+//test_led2_off;
+		//for(i=0;i<60000;i++);
+		//cana_Rx_process();
    }
 }
 

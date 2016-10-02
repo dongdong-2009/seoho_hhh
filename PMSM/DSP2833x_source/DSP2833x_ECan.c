@@ -122,7 +122,7 @@ struct ECAN_REGS ECanaShadow;
     #if (CPU_FRQ_150MHZ)                       // CPU_FRQ_150MHz is defined in DSP2833x_Examples.h
 		/* The following block for all 150 MHz SYSCLKOUT (75 MHz CAN clock) - default. Bit rate = 1 Mbps
 		   See Note at End of File */
-			ECanaShadow.CANBTC.bit.BRPREG = 4;
+			ECanaShadow.CANBTC.bit.BRPREG = 29;
 			ECanaShadow.CANBTC.bit.TSEG2REG = 2;
 			ECanaShadow.CANBTC.bit.TSEG1REG = 10;
     #endif
