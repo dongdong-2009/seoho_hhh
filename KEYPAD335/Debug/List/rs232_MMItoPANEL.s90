@@ -1,15 +1,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                            /
-// IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR   29/Dec/2010  20:40:48 /
+// IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR   07/Jan/2011  17:48:32 /
 // Copyright 1996-2009 IAR Systems AB.                                        /
 //                                                                            /
-//    Source file  =  Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\source\mcu\rs232_ /
+//    Source file  =  Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\source\mcu\rs232_ /
 //                    MMItoPANEL.c                                            /
-//    Command line =  Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\source\mcu\rs232_ /
+//    Command line =  Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\source\mcu\rs232_ /
 //                    MMItoPANEL.c --cpu=m2560 -ms -o                         /
-//                    Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\Debug\Obj\ -lC    /
-//                    Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\Debug\List\ -lA   /
-//                    Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\Debug\List\ -y    /
+//                    Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\Debug\Obj\ -lC    /
+//                    Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\Debug\List\ -lA   /
+//                    Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\Debug\List\ -y    /
 //                    --initializers_in_flash -z3 --no_cse --no_inline        /
 //                    --no_code_motion --no_cross_call --no_clustering        /
 //                    --no_tbaa --debug --enable_external_bus                 /
@@ -18,7 +18,7 @@
 //                    5.3\avr\INC\" -I "C:\Program Files\IAR                  /
 //                    Systems\Embedded Workbench 5.3\avr\INC\CLIB\"           /
 //                    --eeprom_size 4096                                      /
-//    List file    =  Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\Debug\List\rs232_ /
+//    List file    =  Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\Debug\List\rs232_ /
 //                    MMItoPANEL.s90                                          /
 //                                                                            /
 //                                                                            /
@@ -221,7 +221,7 @@ USART0_TX_ISR       SYMBOL "USART0_TX_ISR"
 
         EXTERN DATA_Registers
 
-// Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\source\mcu\rs232_MMItoPANEL.c
+// Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\source\mcu\rs232_MMItoPANEL.c
 //    1 //==============================================================================================
 //    2 //
 //    3 // Copyright(C) 2008 HanYoung ELEC. Co., LTD.

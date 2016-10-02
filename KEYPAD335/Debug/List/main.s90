@@ -1,13 +1,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                            /
-// IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR   30/Dec/2010  18:53:37 /
+// IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR   07/Jan/2011  17:47:50 /
 // Copyright 1996-2009 IAR Systems AB.                                        /
 //                                                                            /
-//    Source file  =  Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\source\main.c     /
-//    Command line =  Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\source\main.c     /
-//                    --cpu=m2560 -ms -o Z:\work\SEOHO_VD\KEYPAD335_101229_IA /
-//                    R\Debug\Obj\ -lC Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\ /
-//                    Debug\List\ -lA Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\D /
+//    Source file  =  Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\source\main.c     /
+//    Command line =  Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\source\main.c     /
+//                    --cpu=m2560 -ms -o Z:\work\SEOHO_VD\KEYPAD335_110107_IA /
+//                    R\Debug\Obj\ -lC Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\ /
+//                    Debug\List\ -lA Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\D /
 //                    ebug\List\ -y --initializers_in_flash -z3 --no_cse      /
 //                    --no_inline --no_code_motion --no_cross_call            /
 //                    --no_clustering --no_tbaa --debug                       /
@@ -16,7 +16,7 @@
 //                    Systems\Embedded Workbench 5.3\avr\INC\" -I             /
 //                    "C:\Program Files\IAR Systems\Embedded Workbench        /
 //                    5.3\avr\INC\CLIB\" --eeprom_size 4096                   /
-//    List file    =  Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\Debug\List\main.s /
+//    List file    =  Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\Debug\List\main.s /
 //                    90                                                      /
 //                                                                            /
 //                                                                            /
@@ -279,7 +279,7 @@ TIMER1_ISR          SYMBOL "TIMER1_ISR"
         EXTERN SCI_Registers
         EXTERN key_press_time
 
-// Z:\work\SEOHO_VD\KEYPAD335_101229_IAR\source\main.c
+// Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\source\main.c
 //    1 //====================================================
 //    2 //
 //    3 // Copyright(C) 2008 HanYoung ELEC. Co., LTD.

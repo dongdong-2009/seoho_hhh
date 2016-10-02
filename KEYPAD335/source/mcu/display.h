@@ -58,6 +58,8 @@ const char* _cpy_flash2memory(char __flash *format);
 const char* _TEXT(char const *format, ...);
 
 
+void SYS_cursor_ON_Mode(unsigned char mode);
+
 
 	void 	SYS_0						(void);
 	void 	SYS_1						(void);

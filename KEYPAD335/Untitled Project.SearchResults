@@ -1,961 +1,847 @@
----- RefreshFlag Matches (960 in 3 files) ----
-Display.c (source\mcu):unsigned char RefreshFlag = 0;
-Display.c (source\mcu):				RefreshFlag=1;
-Display.c (source\mcu):				RefreshFlag=1;
-Display.c (source\mcu):				RefreshFlag=1;
-Display.c (source\mcu):				RefreshFlag=1;
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):		RefreshFlag = 1;
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):		RefreshFlag = 1;
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):		if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag)
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):	if(RefreshFlag) {
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):		RefreshFlag=1;
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	if(RefreshFlag){
-Display.c (source\mcu):	RefreshFlag=0;
-Display.c (source\mcu):		 RefreshFlag=1;
-Display.h (source\mcu):extern unsigned char RefreshFlag;
-Main.c (source): 			RefreshFlag=1;
+---- CLCD_string(0xC0, Matches (846 in 2 files) ----
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			if(Temporary == 0)CLCD_string(0xC0,"[0] Standard I");
+Display.c (source\mcu):			else if(Temporary == 1)CLCD_string(0xC0,"[1] Standard II");
+Display.c (source\mcu):			else if(Temporary == 2)CLCD_string(0xC0,"[2] Application");
+Display.c (source\mcu):			if(edit_Temp == 0)CLCD_string(0xC0,"[0] Standard I");
+Display.c (source\mcu):			else if(edit_Temp == 1)CLCD_string(0xC0,"[1] Standard II");
+Display.c (source\mcu):			else if(edit_Temp == 2)CLCD_string(0xC0,"[2] Application");
+Display.c (source\mcu):			if(Temporary == 0)CLCD_string(0xC0,"[0] 200/400/500");
+Display.c (source\mcu):			else if(Temporary == 1)CLCD_string(0xC0,"[1]    600     ");
+Display.c (source\mcu):			if(edit_Temp == 0)CLCD_string(0xC0,"[0] 200/400/500");
+Display.c (source\mcu):			else if(edit_Temp == 1)CLCD_string(0xC0,"[1]    600     ");
+Display.c (source\mcu):			if(Temporary == 0)CLCD_string(0xC0,"[0]    50Hz    ");
+Display.c (source\mcu):			else if(Temporary == 1)CLCD_string(0xC0,"[1]    60Hz    ");
+Display.c (source\mcu):			if(edit_Temp == 0)CLCD_string(0xC0,"[0]    50Hz    ");
+Display.c (source\mcu):			else if(edit_Temp == 1)CLCD_string(0xC0,"[1]    60Hz    ");
+Display.c (source\mcu):			if(Temporary == 0)CLCD_string(0xC0,"[0] Thermal Rly      ");
+Display.c (source\mcu):			else if(Temporary == 1)CLCD_string(0xC0,"[1] NTC Therm     ");
+Display.c (source\mcu):			if(edit_Temp == 0)CLCD_string(0xC0,"[0]  Thermal Rly      ");
+Display.c (source\mcu):			else if(edit_Temp == 1)CLCD_string(0xC0,"[1]  NTC Therm     ");
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u Kw  ",Temporary/10,Temporary%10));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u Kw  ",edit_Temp/10,edit_Temp%10));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u Vrms",Temporary/10,Temporary%10));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u Vrms",edit_Temp/10,edit_Temp%10));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("        %03u.%01u Vrms",Temporary/10,Temporary%10));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("        %03u.%01u Vrms",edit_Temp/10,edit_Temp%10));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u Hz",Temporary/10,Temporary%10));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u Hz",edit_Temp/10,edit_Temp%10));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u  pole  ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u  pole  ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("       %04u rpm ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("       %04u rpm ",edit_Temp));
+Display.c (source\mcu):			if(Temporary == 0)CLCD_string(0xC0,"[0] V/F Freq             ");
+Display.c (source\mcu):			else if(Temporary == 1)CLCD_string(0xC0,"[1] V/F Speed      ");
+Display.c (source\mcu):			else if(Temporary == 2)CLCD_string(0xC0,"[2] S/L Vector      ");
+Display.c (source\mcu):			else if(Temporary == 3)CLCD_string(0xC0,"[3] Vector Ctrl      ");
+Display.c (source\mcu):			if(edit_Temp == 0)CLCD_string(0xC0,"[0] V/F Freq             ");
+Display.c (source\mcu):			else if(edit_Temp == 1)CLCD_string(0xC0,"[1] V/F Speed      ");
+Display.c (source\mcu):			else if(edit_Temp == 2)CLCD_string(0xC0,"[2] S/L Vector      ");
+Display.c (source\mcu):			else if(edit_Temp == 3)CLCD_string(0xC0,"[3] Vector Ctrl      ");
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u kHz  ",Temporary/10,Temporary%10));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u kHz  ",edit_Temp/10,edit_Temp%10));
+Display.c (source\mcu):			if(Temporary == 0)CLCD_string(0xC0,"[0] Terminal             ");
+Display.c (source\mcu):			else if(Temporary == 1)CLCD_string(0xC0,"[1] Operator      ");
+Display.c (source\mcu):			else if(Temporary == 2)CLCD_string(0xC0,"[2] SyncCtrlBus    ");
+Display.c (source\mcu):			else if(Temporary == 3)CLCD_string(0xC0,"[3] Fieldbus       ");
+Display.c (source\mcu):			else if(Temporary == 4)CLCD_string(0xC0,"[4] Free Func       ");
+Display.c (source\mcu):			if(edit_Temp == 0)CLCD_string(0xC0,"[0] Terminal             ");
+Display.c (source\mcu):			else if(edit_Temp == 1)CLCD_string(0xC0,"[1] Operator      ");
+Display.c (source\mcu):			else if(edit_Temp == 2)CLCD_string(0xC0,"[2] SyncCtrlBus    ");
+Display.c (source\mcu):			else if(edit_Temp == 3)CLCD_string(0xC0,"[3] Fieldbus       ");
+Display.c (source\mcu):			else if(edit_Temp == 4)CLCD_string(0xC0,"[4] Free Func       ");
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_2u.%02u s  ",Temporary/100,Temporary%100));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_2u.%02u s  ",edit_Temp/100,edit_Temp%100));
+Display.c (source\mcu):			if(Temporary == 0)CLCD_string(0xC0,"[0] Ramp STOP  ");
+Display.c (source\mcu):			else if(Temporary == 1)CLCD_string(0xC0,"[1] Free-RUN    ");
+Display.c (source\mcu):			else if(Temporary == 2)CLCD_string(0xC0,"[2] Mixed STOP   ");
+Display.c (source\mcu):			if(edit_Temp == 0)CLCD_string(0xC0,"[0] Ramp STOP  ");
+Display.c (source\mcu):			else if(edit_Temp == 1)CLCD_string(0xC0,"[1] Free-RUN    ");
+Display.c (source\mcu):			else if(edit_Temp == 2)CLCD_string(0xC0,"[2] Mixed STOP   ");
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %03u.%01u %   ",Temporary/10,Temporary%10));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %03u.%01u %   ",edit_Temp/10,edit_Temp%10));
+Display.c (source\mcu):			if(Temporary == 0)CLCD_string(0xC0,"[0] Enabled  ");
+Display.c (source\mcu):			else if(Temporary == 1)CLCD_string(0xC0,"[1] Disabled  ");
+Display.c (source\mcu):			if(edit_Temp == 0)CLCD_string(0xC0,"[0] Enabled  ");
+Display.c (source\mcu):			else if(edit_Temp == 1)CLCD_string(0xC0,"[1] Disabled    ");
+Display.c (source\mcu):			if(Temporary == 0)CLCD_string(0xC0,"[0] X 1 sec  ");
+Display.c (source\mcu):			else if(Temporary == 1)CLCD_string(0xC0,"[1] X 10 SEC  ");
+Display.c (source\mcu):			if(edit_Temp == 0)CLCD_string(0xC0,"[0] X 1 sec  ");
+Display.c (source\mcu):			else if(edit_Temp == 1)CLCD_string(0xC0,"[1] X 10 SEC  ");
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %01u.%03u s  ",Temporary/1000,Temporary%1000));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %01u.%03u s  ",edit_Temp/1000,edit_Temp%1000));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("       %01u.%02u Hz  ",Temporary/100,Temporary%100));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("       %01u.%02u Hz  ",edit_Temp/100,edit_Temp%100));
+Display.c (source\mcu):		if(mode == LEVEL_0)CLCD_string(0xC0,"Prohibited. [L0]");
+Display.c (source\mcu):		else if(mode == LEVEL_1)CLCD_string(0xC0,"Prohibited. [L1]");
+Display.c (source\mcu):		else if(mode == LEVEL_2)CLCD_string(0xC0,"Prohibited. [L2]");
+Display.c (source\mcu):		else if(mode == LEVEL_3)CLCD_string(0xC0,"Prohibited. [L3]");
+Display.c (source\mcu):		else if(mode == LEVEL_4)CLCD_string(0xC0,"Prohibited. [L4]");
+Display.c (source\mcu):		else if(mode == LEVEL_5)CLCD_string(0xC0,"Prohibited. [L5]");
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_ROOT[1][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_ROOT[2][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_ROOT[3][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_ROOT[4][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_ROOT[5][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_ROOT[6][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_ROOT[7][0]));
+Display.c (source\mcu):		if(Temporary) CLCD_string(0xC0,"    [ LOCAL ]    ");
+Display.c (source\mcu):		else CLCD_string(0xC0,"   [ REMOTE ]   ");
+Display.c (source\mcu):		if(!Temporary)CLCD_string(0xC0,"   [ FORWARD ]   ");
+Display.c (source\mcu):		else CLCD_string(0xC0,"   [ REVERSE ]   ");
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_1_X[0][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_1_X[1][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_1_X[2][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("% 11d rpm", ReadDataMem(2310)));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("       %01u.%02u Hz  ",DATA_Registers[2311]/100,DATA_Registers[2311]%100));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u V   ",DATA_Registers[2312]/10,DATA_Registers[2312]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2313]/10,DATA_Registers[2313]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u Vrms",DATA_Registers[2314]/10,DATA_Registers[2314]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2315]/100,DATA_Registers[2315]%100));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u A   ",DATA_Registers[2316]/10,DATA_Registers[2316]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u A   ",DATA_Registers[2317]/10,DATA_Registers[2317]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Kw  ",DATA_Registers[2318]/10,DATA_Registers[2318]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Kw  ",DATA_Registers[2319]/10,DATA_Registers[2319]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2320]/10,DATA_Registers[2320]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2321]/10,DATA_Registers[2321]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2322]/10,DATA_Registers[2322]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2323]/10,DATA_Registers[2323]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("     [%08b]", ReadDataMem(2340)));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("     [%03b]     ", ReadDataMem(2341)));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%03u V   ",DATA_Registers[2342]/1000,DATA_Registers[2342]%1000));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("       %01u.%03u mA  ",DATA_Registers[2343]/1000,DATA_Registers[2343]%1000));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("       %01u.%03u mA  ",DATA_Registers[2344]/1000,DATA_Registers[2344]%1000));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("  Motor % 1d  ", DATA_Registers[2350]+1 ));
+Display.c (source\mcu):		if(DATA_Registers[2351] == 0) CLCD_string(0xC0,"V/F Freq_Ctrl");
+Display.c (source\mcu):		else if(DATA_Registers[2351] == 1) CLCD_string(0xC0,"V/F Speed_Ctrl");
+Display.c (source\mcu):		else if(DATA_Registers[2351] == 2) CLCD_string(0xC0,"S/L Vect_Ctrl");
+Display.c (source\mcu):		else if(DATA_Registers[2351] == 3) CLCD_string(0xC0,"Vector_Ctrl");
+Display.c (source\mcu):		if(DATA_Registers[2352] == 0) CLCD_string(0xC0,"Terminal");
+Display.c (source\mcu):		else if(DATA_Registers[2352] == 1) CLCD_string(0xC0,"Operatorl");
+Display.c (source\mcu):		else if(DATA_Registers[2352] == 2) CLCD_string(0xC0,"Synchronous");
+Display.c (source\mcu):		else if(DATA_Registers[2352] == 3) CLCD_string(0xC0,"FieldBus");
+Display.c (source\mcu):		else if(DATA_Registers[2352] == 4) CLCD_string(0xC0,"Free Function");
+Display.c (source\mcu):		if(DATA_Registers[2353] == 0) CLCD_string(0xC0,"Terminal");
+Display.c (source\mcu):		else if(DATA_Registers[2353] == 1) CLCD_string(0xC0,"Operatorl");
+Display.c (source\mcu):		else if(DATA_Registers[2353] == 2) CLCD_string(0xC0,"Synchronous");
+Display.c (source\mcu):		else if(DATA_Registers[2353] == 3) CLCD_string(0xC0,"FieldBus");
+Display.c (source\mcu):		else if(DATA_Registers[2353] == 4) CLCD_string(0xC0,"Free Function");
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("     %01u.%01u KW  ",DATA_Registers[2354]/10,DATA_Registers[2354]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("   % 4d V", ReadDataMem(2355)));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("% 13d  ", ReadDataMem(2356)));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("     %01u.%02u     ",DATA_Registers[2357]/100,DATA_Registers[2357]%100));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("% 13d  ", ReadDataMem(2358)));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[0][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[1][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[2][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[3][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[4][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[5][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[6][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[7][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[8][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[9][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[10][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[11][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[12][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[13][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[14][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[15][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[16][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[17][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[18][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[19][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[20][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[21][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[22][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_2_XX[23][0]));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",Temporary));
+Display.c (source\mcu):			CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",edit_Temp));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[0][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[1][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[2][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[3][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[3][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[3][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[4][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[4][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[4][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[0][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[1][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[2][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[3][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[4][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[5][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[6][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[7][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[8][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2380]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2381]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("      %_5urpm  ",DATA_Registers[2382]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2383]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2384]));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2385]/10,DATA_Registers[2385]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2386]/10,DATA_Registers[2386]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2387]/100,DATA_Registers[2387]%100));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2388]/10,DATA_Registers[2388]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2389]/10,DATA_Registers[2389]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2390]/10,DATA_Registers[2390]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2391]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2392]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2393]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2394]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2395]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2396]/10,DATA_Registers[2396]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2397]/10,DATA_Registers[2397]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2398]/100,DATA_Registers[2398]%100));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2398]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2400]/10,DATA_Registers[2400]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2401]/10,DATA_Registers[2401]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2402]/10,DATA_Registers[2402]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2403]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2404]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2405]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2406]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2407]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2408]/10,DATA_Registers[2408]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2409]/10,DATA_Registers[2409]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2410]/100,DATA_Registers[2410]%100));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2411]/10,DATA_Registers[2411]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2412]/10,DATA_Registers[2412]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2413]/10,DATA_Registers[2413]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2414]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2415]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2416]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2417]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2418]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2419]/10,DATA_Registers[2419]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2420]/10,DATA_Registers[2420]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2421]/100,DATA_Registers[2421]%100));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2422]/10,DATA_Registers[2422]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2423]/10,DATA_Registers[2423]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2424]/10,DATA_Registers[2424]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2425]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2426]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2427]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2428]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2429]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2430]/10,DATA_Registers[2430]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2431]/10,DATA_Registers[2431]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2432]/100,DATA_Registers[2432]%100));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2433]/10,DATA_Registers[2433]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2434]/10,DATA_Registers[2434]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2435]/10,DATA_Registers[2435]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2436]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2437]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2438]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2439]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2440]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2441]/10,DATA_Registers[2441]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2442]/10,DATA_Registers[2442]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2443]/100,DATA_Registers[2443]%100));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2444]/10,DATA_Registers[2444]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2445]/10,DATA_Registers[2445]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2446]/10,DATA_Registers[2446]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2447]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2448]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2449]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2450]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2451]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2452]/10,DATA_Registers[2452]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2453]/10,DATA_Registers[2453]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2454]/100,DATA_Registers[2454]%100));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2455]/10,DATA_Registers[2455]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2456]/10,DATA_Registers[2456]%10));
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2457]/10,DATA_Registers[2457]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2458]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2459]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2460]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2461]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2462]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2463]/10,DATA_Registers[2463]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2464]/10,DATA_Registers[2464]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2465]/100,DATA_Registers[2465]%100));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2466]/10,DATA_Registers[2466]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2467]/10,DATA_Registers[2467]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2468]/10,DATA_Registers[2468]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2469]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2470]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2471]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2472]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2473]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2474]/10,DATA_Registers[2474]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2475]/10,DATA_Registers[2475]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2476]/100,DATA_Registers[2476]%100));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vdc ",DATA_Registers[2477]/10,DATA_Registers[2477]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2478]/10,DATA_Registers[2478]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2479]/10,DATA_Registers[2479]%10));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[0][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[1][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[2][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[4][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[3][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[5][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_5_XX_XX[5][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_TEXT(  (char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[0][0]), AccessLevel)  );
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[1][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[2][0]));
+Display.c (source\mcu):	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 1))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 2))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 3))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 4))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 5))) ;
+Display.c (source\mcu):		CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[6][0]), 1))) ;
+Display.c (source\mcu):		CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[6][0]), 2))) ;
+Display.c (source\mcu):		CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[6][0]), 3))) ;
+Display.c (source\mcu):		CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[6][0]), 4))) ;
+Display.c (source\mcu):		CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[6][0]), 5))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 1))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 2))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 3))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 4))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[5][0]), 5))) ;
+Display.c (source\mcu):		CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
+Display.c (source\mcu):		CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[4][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
+Display.c (source\mcu):		CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[4][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
+Display.c (source\mcu):		CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[4][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
+Display.c (source\mcu):		CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
+Display.c (source\mcu):	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[4][0]));
+Display.c (source\mcu):		CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
+Display.c (source\mcu):		CLCD_string(0xC0,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[3][0]),password[0],password[1],password[2],password[3]))) ;
+Display.c (source\mcu):		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_6_XX_XX[4][0]));
+Display.c (source\mcu):	CLCD_string(0xC0," by Paul BH Park");
+Main.c (source):	CLCD_string(0xC0,"    AC Drive");
