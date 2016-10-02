@@ -18,8 +18,8 @@
 // $Release Date: August 1, 2008 $
 //###########################################################################
 
-#include "DSP2833x_Device.h"     // Headerfile Include File
-#include "DSP2833x_Examples.h"   // Examples Include File
+#include "..\DSP2833x_include\DSP2833x_Device.h"     // Headerfile Include File
+#include "..\DSP2833x_include\DSP2833x_Examples.h"   // Examples Include File
 
 struct CPUTIMER_VARS CpuTimer0;
 

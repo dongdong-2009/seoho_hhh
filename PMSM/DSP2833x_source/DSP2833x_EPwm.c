@@ -171,6 +171,24 @@ void InitEPwm5Gpio(void)
 #if DSP28_EPWM6
 void InitEPwm6Gpio(void)
 {
+   EALLOW;
+
+/* Enable internal pull-up for the selected pins */
+// Pull-ups can be enabled or disabled by the user. 
+// This will enable the pullups for the specified pins.
+// Comment out other unwanted lines.
+
+    GpioCtrlRegs.GPAPUD.bit.GPIO10 = 0;    // Enable pull-up on GPIO10 (EPWM6A)
+    GpioCtrlRegs.GPAPUD.bit.GPIO11 = 0;    // Enable pull-up on GPIO11 (EPWM6B)
+
+/* Configure ePWM-6 pins using GPIO regs*/
+// This specifies which of the possible GPIO pins will be ePWM6 functional pins.
+// Comment out other unwanted lines.
+
+    GpioCtrlRegs.GPAMUX1.bit.GPIO10 = 1;   // Configure GPIO10 as EPWM6A
+    GpioCtrlRegs.GPAMUX1.bit.GPIO11 = 1;   // Configure GPIO11 as EPWM6B
+	
+    EDIS;
 }
 #endif // endif DSP28_EPWM6  
 

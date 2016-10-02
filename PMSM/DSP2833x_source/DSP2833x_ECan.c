@@ -11,8 +11,8 @@
 // $Release Date: August 1, 2008 $
 //###########################################################################
 
-#include "DSP2833x_Device.h"     // DSP2833x Headerfile Include File
-#include "DSP2833x_Examples.h"   // DSP2833x Examples Include File
+#include "..\DSP2833x_include\DSP2833x_Device.h"     // DSP2833x Headerfile Include File
+#include "..\DSP2833x_include\DSP2833x_Examples.h"   // DSP2833x Examples Include File
 
 
 //---------------------------------------------------------------------------
@@ -124,7 +124,7 @@ struct ECAN_REGS ECanaShadow;
 		   See Note at End of File */
 			ECanaShadow.CANBTC.bit.BRPREG = 29;
 			ECanaShadow.CANBTC.bit.TSEG2REG = 2;
-			ECanaShadow.CANBTC.bit.TSEG1REG = 10;
+			ECanaShadow.CANBTC.bit.TSEG1REG = 5;
     #endif
 	#if (CPU_FRQ_100MHZ)                       // CPU_FRQ_100MHz is defined in DSP2833x_Examples.h
 	/* The following block is only for 100 MHz SYSCLKOUT (50 MHz CAN clock). Bit rate = 1 Mbps

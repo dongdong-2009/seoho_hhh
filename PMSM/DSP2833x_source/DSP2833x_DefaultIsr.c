@@ -21,8 +21,8 @@
 // $Release Date: August 1, 2008 $
 //###########################################################################
 
-#include "DSP2833x_Device.h"     // DSP2833x Headerfile Include File
-#include "DSP2833x_Examples.h"   // DSP2833x Examples Include File
+#include "..\DSP2833x_include\DSP2833x_Device.h"     // DSP2833x Headerfile Include File
+#include "..\DSP2833x_include\DSP2833x_Examples.h"   // DSP2833x Examples Include File
 
 
 // Connected to INT13 of CPU (use MINT13 mask):

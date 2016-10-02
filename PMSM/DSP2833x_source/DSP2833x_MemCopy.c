@@ -29,7 +29,7 @@
 // $Release Date: August 1, 2008 $
 //###########################################################################
 
-#include "DSP2833x_Device.h"
+#include "..\DSP2833x_include\DSP2833x_Device.h"
 
 void MemCopy(Uint16 *SourceAddr, Uint16* SourceEndAddr, Uint16* DestAddr)
 {

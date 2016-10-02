@@ -152,6 +152,7 @@ extern "C" {
 #define	HR_CTR_ZERO		0x0
 #define	HR_CTR_PRD		0x1
 
+
 #ifdef __cplusplus
 }
 #endif /* extern "C" */

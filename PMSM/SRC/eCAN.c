@@ -54,6 +54,7 @@ LONG canb_rx_high_data=0;	// CAN-B ¼ö½Å High Word Data
 WORD Data_Registers[1024];
 WORD Temp_Registers[1024];
 WORD reg_TxOffset=0;
+WORD test=0;
 void cana_Tx_process(void)
 {
 	if(Data_Registers[reg_TxOffset] != Temp_Registers[reg_TxOffset])
@@ -61,12 +62,8 @@ void cana_Tx_process(void)
 		Temp_Registers[reg_TxOffset] = Data_Registers[reg_TxOffset];
 
 
-		GpioDataRegs.GPBSET.bit.GPIO37 	= 1;
-
 		while(ECanaRegs.CANTRS.bit.TRS1);
-
-		GpioDataRegs.GPBCLEAR.bit.GPIO37 	= 1;
-		
+		test++;
 
 		SendDataToECanA(0x1L, 0x08, ((LONG)Data_Registers[reg_TxOffset] & 0x0000FFFF), ((LONG)reg_TxOffset & 0x0000FFFF));
 		//SendDataToECanA(0x1L, 0x08, ((LONG)reg_TxOffset & 0x0000FFFF), ((LONG)reg_TxOffset & 0x0000FFFF));
@@ -78,7 +75,7 @@ void cana_Tx_process(void)
 	}
 
 	reg_TxOffset ++;
-	if(1024 < reg_TxOffset) reg_TxOffset = 0;
+	if(1024 <= reg_TxOffset) reg_TxOffset = 0;
 }
 
 

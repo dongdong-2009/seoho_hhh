@@ -16,8 +16,8 @@
 //###########################################################################
 
 
-#include "DSP2833x_Device.h"     // Headerfile Include File
-#include "DSP2833x_Examples.h"   // Examples Include File
+#include "..\DSP2833x_include\DSP2833x_Device.h"     // Headerfile Include File
+#include "..\DSP2833x_include\DSP2833x_Examples.h"   // Examples Include File
 
 // Functions that will be run from RAM need to be assigned to
 // a different section.  This section will then be mapped to a load and
