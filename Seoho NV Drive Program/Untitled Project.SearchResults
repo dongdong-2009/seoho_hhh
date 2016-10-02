@@ -1,0 +1,7 @@
+---- TxInterval_1s Matches (6 in 4 files) ----
+All_Extern_Variables.h (include\seoho include):extern Uint16 TxInterval_1s;
+All_Global_Variables.h (include\seoho include):Uint16 TxInterval_1s= 0;
+All_Interrupt.c (source\seoho source):	TxInterval_1s++;
+All_Interrupt.c (source\seoho source):	TxInterval_1s++;
+Shell_Communication_SCI.c (source\seoho source):		if (TxInterval_1s>=(Uint16)(1.0/Tsamp))
+Shell_Communication_SCI.c (source\seoho source):			TxInterval_1s= 0;
