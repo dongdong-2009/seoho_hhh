@@ -5,7 +5,6 @@
 void Get_Command( int * Command, double * Init_reference )
 {
 	int Local_command, Terminal_command, Fieldbus_command;
-	double Temp_ref;
 	double Local_reference, Analog_reference, Digital_reference, Terminal_reference,  Fieldbus_reference;
 
 	Local_Processing( & Local_command, & Local_reference );
@@ -17,13 +16,12 @@ void Get_Command( int * Command, double * Init_reference )
 
 	switch ( P.G03.P00_Run_stop_source )
 	{
-		case 0:	if (OP.Run_stop.bit.Local== 0)	* Command= Terminal_command;	break;	// Terminal
-		case 1:	if (OP.Run_stop.bit.Local== 1)	* Command= Local_command;		break;	// Local
-		case 2: if (OP.Run_stop.bit.Local== 0)	* Command= Fieldbus_command;	break;	// Fieldbus
-		default:								* Command= CMD_STOP;			break; 
+		case 0:	if (!OP.Run_stop.bit.Local)	* Command= Terminal_command;	break;	// Terminal
+		case 1:	if (OP.Run_stop.bit.Local)	* Command= Local_command;		break;	// Local
+		case 2: if (!OP.Run_stop.bit.Local)	* Command= Fieldbus_command;	break;	// Fieldbus
+		default:							* Command= CMD_STOP;			break; 
 	}
 
-/*
 	switch ( P.G03.P01_Reference_source )
 	{
 		case 0: if (!OP.Run_stop.bit.Local)	* Init_reference= Terminal_reference;	break;	// Terminal
@@ -31,35 +29,26 @@ void Get_Command( int * Command, double * Init_reference )
 		case 2: if (!OP.Run_stop.bit.Local)	* Init_reference= Fieldbus_reference; 	break;	// Fieldbus
 		default:							* Init_reference= 0.0;					break;
 	}
-*/
-	switch ( P.G03.P01_Reference_source )
-	{
-		case 0: Temp_ref= Terminal_reference;	break;	// Terminal
-		case 1:	Temp_ref= Local_reference;		break;	// Local
-		case 2: Temp_ref= Fieldbus_reference; 	break;	// Fieldbus
-		default:* Init_reference= 0.0;					break;
-	}	
-
-	switch ( P.G03.P00_Run_stop_source )
-	{
-		case 0:	if (Flag.DI.bit.INVERTER_DIR)		Temp_ref= -(Temp_ref);	break;	// Terminal
-		case 1:	if (OP.Run_stop.bit.Local_DIR)		Temp_ref= -(Temp_ref);	break;	// Local
-		case 2:	if (OP.Run_stop.bit.Fieldbus_DIR)	Temp_ref= -(Temp_ref);	break;	// Fieldbus
-	}
 	
+
 	// 초기 필드 형성시간 대기
 	#if (VF_MODE==0)
-		if (!Flux_build_up) Temp_ref= 0.;
+		if (!Flux_build_up) * Init_reference= 0.;
 	#endif
 	if	( 	((Flag.Fault1.all & (~Flag.Fault_Neglect1.all)) != 0x0000) 
 		||	((Flag.Fault2.all & (~Flag.Fault_Neglect2.all)) != 0x0000) 
 		||	(OP.Run_stop.bit.Emergency_STOP)  )
+	{
 		* Command= CMD_STOP;
-
-	if (* Command== CMD_STOP) Temp_ref= 0.;
+		* Init_reference= 0.;
+	}
 	
-	Temp_ref= BOUND(Temp_ref,1,(-1));
-	* Init_reference= Temp_ref;
+	if (* Command== CMD_RUN)	Flag.Monitoring.bit.RUN_STOP_STATUS= 1; 
+	else	Flag.Monitoring.bit.RUN_STOP_STATUS= 0;
+
+	if (* Init_reference< 0.)	Flag.Monitoring.bit.DIR_STATUS= 1;
+	else	Flag.Monitoring.bit.DIR_STATUS= 0;
+
 
 }
 
@@ -229,10 +218,10 @@ void DI_Processing(int * cmd, double * ref )
 //	if(( * ref == 0.0 ) &&( Flag.DI.bit.JOG == 1)) 
 //		* ref = JOG_SPEED; 
 
-//	if (Flag.DI.bit.INVERTER_DIR)	* ref= -(* ref);
+	if (Flag.DI.bit.INVERTER_DIR)	* ref= -(* ref);
 
 	if (Flag.DI.bit.INVERTER_RUN)	* cmd= CMD_RUN;
-	else 	{		* cmd= CMD_STOP; }
+	else 	{	* ref= 0.;			* cmd= CMD_STOP; }
 
 	if( Flag.DI.bit.JOG == 1 )		* ref += (double)P.G09.P00_JOG_set_x1000*1.e-3;
 //	else  							* ref -= (double)P.G09.P00_JOG_set_x1000*1.e-3;
@@ -242,14 +231,14 @@ void DI_Processing(int * cmd, double * ref )
 	if( Flag.DI.bit.EXT_FAULT_A )	
 	{
 		Flag.DO.bit.FAULT_OUT_A = 1;
-		Flag.Fault1.bit.EXT_FAULT_A= 1;
+		Flag.Fault1.bit.EXT_FAULT= 1;
 	}
 	else	Flag.DO.bit.FAULT_OUT_A = 0;
 
 	if( Flag.DI.bit.EXT_FAULT_B )
 	{
 		Flag.DO.bit.FAULT_OUT_B = 1;
-		Flag.Fault1.bit.EXT_FAULT_B= 1;
+		Flag.Fault1.bit.EXT_FAULT= 1;
 	}
 	else 	Flag.DO.bit.FAULT_OUT_B = 0;
 
@@ -272,6 +261,21 @@ int digital_port_check( int out_function )
 	}
 	return i;
 }  	
+
+#define	RELAY_OFF			0
+#define	DRIVER_READY_OUT	1
+#define	FAULT_A_OUT			2
+#define	FAULT_B_OUT			3
+#define	MOTOR_BRAKE_OUT		4
+
+int P12_0 = 0;	// none
+int P12_1 = DRIVER_READY_OUT;	// Driver Ready
+int P12_2 = FAULT_A_OUT;	// Fault_out A
+int P12_3 = FAULT_B_OUT;	// Fault_Out B
+int P12_4 = MOTOR_BRAKE_OUT;	// Motor Brake
+int P12_5 = 0;	// none
+int P12_6 = 0;	// none
+int P12_7 = 0;	// none
 
 
 void digital_out_proc()
@@ -321,7 +325,7 @@ double linear_eq(double x1, double x2, double y1, double y2, double x )
 	return y;
 }
 
-#define Count20mA	1925
+#define Count20mA	1580
 #define Count4mA	11750
 #define Count0mA    14250
 
@@ -336,91 +340,62 @@ void AO_Processing(Uint16 * count1)
 	double Output,RateValue;
 	double Temp;
 	unsigned int count;
-	int Temp1;
 
-	Temp= (double)P.G11.AO1.P02_Adjustment_0mA *(Count20mA-Count0mA);
+	Temp= P.G11.AO1.P02_Adjustment_0mA *(Count20mA-Count0mA);
 	switch ( P.G11.AO1.P00_Output_selection ) //     
 	{
-		case 0:		Output= (Wrpm_det/(double)P.G01.P05_Rated_speed)*(double)P.G01.P03_Rated_frequency;
-					RateValue= (double)P.G01.P03_Rated_frequency;											break;
-		case 1:		Output= Wrpm_det;				RateValue= (double)P.G01.P05_Rated_speed;				break;
-		case 2:		Output= Is_mag_rms;				RateValue= (double)P.G01.P02_Rated_current_x10*0.1;		break;
-		case 3:		Output= (sqrt(Vdss_ref*Vdss_ref+Vqss_ref*Vqss_ref)*SQRT2);
-					RateValue= (double)P.G01.P01_Rated_voltage;												break;
-		case 4:		Output= Te;						RateValue= Te_rate;										break;
-		case 5:		Output= Output_power_x10_kW;	RateValue= (double)P.G01.P00_Rated_power_x10_kW*100;	break;
-		case 6:		Output= Vdc;					RateValue= (double)P.G01.P08_Supply_voltage*SQRT2;		break;
-		// Free Function Output 
-//		case 7:	 	Output= 0.0;					RateValue= 100.0;										break;
+		case 0:		Output= We/2/PI;			RateValue= P.G01.P03_Rated_frequency;						break;
+		case 1:		Output= Wrpm_det;			RateValue= P.G01.P05_Rated_speed;							break;
+		case 2:		Output= Is_mag;				RateValue= (double)P.G01.P02_Rated_current_x10*0.1;			break;
+		case 3:		Output= Vdse_ref;			RateValue= P.G01.P01_Rated_voltage;							break;
+		case 4:		Output= Te;					RateValue= Te_rate;											break;
+		case 5:		Output= Vdse_ref*Is_mag;	RateValue= (double)P.G01.P00_Rated_power_x10_kW*100;		break;
+		case 6:		Output= Vdc;				RateValue= P.G01.P08_Supply_voltage*SQRT2;					break;
+		case 7:	 	Output= 0.0;				RateValue= 100.0;											break;
 		case 8:		count= (unsigned int)Count0mA-(unsigned int)(Temp);										break;
 		case 9:		count= (unsigned int)Count4mA-(unsigned int)(Temp);										break;
 		case 10:	count= (unsigned int)Count20mA-(unsigned int)(Temp);									break;
 		default:	Output= 0.0; 	count= 0;	RateValue= 100.0;											break;
 	}
-/*	
+	
+	
 	if ( P.G11.AO1.P00_Output_selection<= 7 )
 	{
 		x= Output;
 		x1= 0.0;
-		x2= RateValue*(double)P.G11.AO1.P05_Max_output_x1000*1.e-3;
-		y2= (double)P.G11.AO1.P04_Adjustment_20mA;
+		x2= RateValue*P.G11.AO1.P05_Max_output_x1000*1.e-3;
+		y2= P.G11.AO1.P04_Adjustment_20mA;
 		if( P.G11.AO1.P01_Type == 1 ) // 4~20mA 출력 
-			y1 = (double)P.G11.AO1.P03_Adjustment_4mA; // 4mA offset count
-		else y1 = (double)P.G11.AO1.P02_Adjustment_0mA; // 0~ 20mA 출력
+			y1 = P.G11.AO1.P03_Adjustment_4mA; // 4mA offset count
+		else y1 = P.G11.AO1.P02_Adjustment_0mA; // 0~ 20mA 출력
 
 		if(P.G11.AO1.P06_Inversion== 0) // 0일 때 20mA
 			Temp = linear_eq( x1, x2, y1, y2, x );
 		else Temp = linear_eq( x2, x1, y1, y2, x );
+
 		Temp = (1- Temp) * EPwmPeriodCount;
 		count = (Uint16) Temp;
-	}
-*/
-	if ( P.G11.AO1.P00_Output_selection<= 7 )
-	{
-		Temp= fabs(Output)/(RateValue*(double)P.G11.AO1.P05_Max_output_x1000*1.e-3);
-/*		
-		if( P.G11.AO1.P01_Type == 1 ) // 4~20mA 출력 
-			Temp1 = P.G11.AO1.P03_Adjustment_4mA; // 4mA offset count
-		else Temp1 = P.G11.AO1.P02_Adjustment_0mA; // 0~ 20mA 출력
-*/
-		if( P.G11.AO1.P01_Type == 1 ) // 4~20mA 출력 
-			Temp1 = Count4mA; // 4mA offset count
-		else Temp1 = Count0mA; // 0~ 20mA 출력
-				
-		
-		Temp= (Temp*(double)(Temp1-Count20mA));
-		if(P.G11.AO1.P06_Inversion== 1) // 0일 때 20mA
-			Temp= Count20mA+Temp;
-		else	Temp= Temp1-Temp;
-
-		Temp= BOUND(Temp, Temp1, Count20mA);
-			
-		count = (Uint16) Temp;
-		
 	}
 
 	* count1 = count;
 
 // channel 2 
 
-	Temp= (double)P.G11.AO2.P02_Adjustment_0mA *(Count20mA-Count0mA);
+	Temp= P.G11.AO2.P02_Adjustment_0mA *(Count20mA-Count0mA);
 	switch ( P.G11.AO2.P00_Output_selection ) //     
 	{
-		case 0:		Output= (Wrpm_det/(double)P.G01.P05_Rated_speed)*(double)P.G01.P03_Rated_frequency;
-					RateValue= (double)P.G01.P03_Rated_frequency;											break;
-		case 1:		Output= Wrpm_det;				RateValue= (double)P.G01.P05_Rated_speed;				break;
-		case 2:		Output= Is_mag_rms;				RateValue= (double)P.G01.P02_Rated_current_x10*0.1;		break;
-		case 3:		Output= (sqrt(Vdss_ref*Vdss_ref+Vqss_ref*Vqss_ref)*SQRT2);
-					RateValue= (double)P.G01.P01_Rated_voltage;												break;
-		case 4:		Output= Te;						RateValue= Te_rate;										break;
-		case 5:		Output= Output_power_x10_kW;	RateValue= (double)P.G01.P00_Rated_power_x10_kW*100;	break;
-		case 6:		Output= Vdc;					RateValue= (double)P.G01.P08_Supply_voltage*SQRT2;		break;
-		// Free Function Output 
-//		case 7:	 	Output= 0.0;					RateValue= 100.0;										break;
-		case 8:		count= (unsigned int)Count0mA-(unsigned int)(Temp);										break;
-		case 9:		count= (unsigned int)Count4mA-(unsigned int)(Temp);										break;
-		case 10:	count= (unsigned int)Count20mA-(unsigned int)(Temp);									break;
-		default:	Output= 0.0; 	count= 0;	RateValue= 100.0;											break;
+		case 0:		Output= We/2/PI;			RateValue= P.G01.P03_Rated_frequency;					break;
+		case 1:		Output= Wrpm_det;			RateValue= P.G01.P05_Rated_speed;						break;
+		case 2:		Output= Is_mag;				RateValue= (double)P.G01.P02_Rated_current_x10*0.1;		break;
+		case 3:		Output= Vdse_ref;			RateValue= P.G01.P01_Rated_voltage;						break;
+		case 4:		Output= Te;					RateValue= Te_rate;										break;
+		case 5:		Output= Vdse_ref*Is_mag;	RateValue= (double)P.G01.P00_Rated_power_x10_kW*100;	break;
+		case 6:		Output= Vdc;				RateValue= P.G01.P08_Supply_voltage*SQRT2;				break;
+		case 7:	 	Output= 0.0;				RateValue= 100.0;										break;
+		case 8:		count= (unsigned int)Count0mA-(unsigned int)(Temp);									break;
+		case 9:		count= (unsigned int)Count4mA-(unsigned int)(Temp);									break;
+		case 10:	count= (unsigned int)Count20mA-(unsigned int)(Temp);								break;
+		default:	Output= 0.0; 	count= 0;	RateValue= 100.0;										break;
 	}
 	
 	
@@ -428,11 +403,11 @@ void AO_Processing(Uint16 * count1)
 	{
 		x= Output;
 		x1= 0.0;
-		x2= RateValue*(double)P.G11.AO2.P05_Max_output_x1000*1.e-3;
-		y2= (double)P.G11.AO2.P04_Adjustment_20mA;
+		x2= RateValue*P.G11.AO2.P05_Max_output_x1000*1.e-3;
+		y2= P.G11.AO2.P04_Adjustment_20mA;
 		if( P.G11.AO2.P01_Type == 1 ) // 4~20mA 출력 
-			y1 = (double)P.G11.AO2.P03_Adjustment_4mA; // 4mA offset count
-		else y1 = (double)P.G11.AO2.P02_Adjustment_0mA; // 0~ 20mA 출력
+			y1 = P.G11.AO2.P03_Adjustment_4mA; // 4mA offset count
+		else y1 = P.G11.AO2.P02_Adjustment_0mA; // 0~ 20mA 출력
 
 		if(P.G11.AO2.P06_Inversion== 0) // 0일 때 20mA
 			Temp = linear_eq( x1, x2, y1, y2, x );
@@ -442,32 +417,62 @@ void AO_Processing(Uint16 * count1)
 		count = (Uint16) Temp;
 	}
 
-//	* count1 = count; 
+	* count1 = count; 
 }
 
+#define	ANA_INPUT_0_TO_10V		0
+#define	ANA_INPUT_10V_TO_10V	1
+#define	ANA_INPUT_4MA_TO_20MA	2
+#define	ANA_INPUT_0_TO_20MA		3
+#define	ANA_INPUT_10V	0
+#define	ANA_INPUT_10V	0
+#define	ANA_INPUT_10V	0
+#define	ANA_INPUT_10V	0
  
 //====================================
 // 2010-0831 아날로그 입력 지령 처리 
 //====================================
 
-
-#pragma CODE_SECTION(LPF1, "ramfuncs");
-void LPF1(double Ts,double pole,double in,double *out)
-{
-	*out+=pole*(in-*out)*Ts;
-}
+int P6_0	= 1;						// selec ana source
+int P6_1	= 0;						// Disable
+int P6_2	= ANA_INPUT_0_TO_10V;		// type
+double P6_3	= 1.0;		// analog input Low Pass Filter Time const
+double P6_4	= 0.0;		// offset
+double P6_5 = 0.05;		// minimum value
+double P6_6 = 10.0;		// maximum value
+int P6_7	= 0;		// inversion
+int P6_8	= 0;		// discret
+int P6_9    = 0;       // 0--> 물리량 1--> 퍼센트 
  
 double CH1_COUNT_AT_0MA	= 500.0;		// default 4mA input AD count
 double CH1_COUNT_AT_4MA	= 1000.0;		// default 4mA input AD count
 double CH1_COUNT_AT_20MA= 4000.0;		// default 4mA input AD count
-double CH1_COUNT_AT_0V	= 2155.0;
-double CH1_COUNT_AT_10V	= 4095.0;		//	
+double CH1_COUNT_AT_0V	= 2215.0;
+double CH1_COUNT_AT_10V	= 4000.0;		//	
 
 double CH2_COUNT_AT_0MA	=500.0;		// default 4mA input AD count
 double CH2_COUNT_AT_4MA	=1000.0;	// default 4mA input AD count
 double CH2_COUNT_AT_20MA=4000.0;		// default 4mA input AD count
-double CH2_COUNT_AT_0V	=2155.0;
-double CH2_COUNT_AT_10V	=4095.0;		//	
+double CH2_COUNT_AT_0V	=2215.0;
+double CH2_COUNT_AT_10V	=4000.0;		//	
+
+double CH3_COUNT_AT_0MA	=500.0;		// default 4mA input AD count
+double CH3_COUNT_AT_4MA	=1000.0;	// default 4mA input AD count
+double CH3_COUNT_AT_20MA=4000.0;	// default 4mA input AD count
+double CH3_COUNT_AT_0V	=100.0;
+double CH3_COUNT_AT_10V	=4000.0;		//	
+
+double CH4_COUNT_AT_0MA	=500.0;		// default 4mA input AD count
+double CH4_COUNT_AT_4MA	=1000.0;	// default 4mA input AD count
+double CH4_COUNT_AT_20MA=4000.0;	// default 4mA input AD count
+double CH4_COUNT_AT_0V	=100.0;
+double CH4_COUNT_AT_10V	=4000.0;		//	
+
+double CH5_COUNT_AT_0MA	=500.0;		// default 4mA input AD count
+double CH5_COUNT_AT_4MA	=1000.0;	// default 4mA input AD count
+double CH5_COUNT_AT_20MA=4000.0;	// default 4mA input AD count
+double CH5_COUNT_AT_0V	=100.0;
+double CH5_COUNT_AT_10V	=4000.0;	//	
 
 // ADC의 범위는 -1.0 ~ 1.0 까지임 
 #pragma CODE_SECTION(GetAnalogRef, "ramfuncs"); 	
@@ -475,244 +480,532 @@ void GetAnalogRef( double * analog_ref )
 {
 
 	double sign,x1,x2,y1,y2,y;
-	double min,max, Temp1, Temp2, Temp3; 
-	int Temp4;
+	double min,max;
 
-	switch( P.G06.AI0_Analog_reference_source)	// channel select
+	switch( P6_0)	// channel select
 	{
-		case 1:
-			Temp1= (double)P.G06.AI1.P04_Offset_x10*0.1;
-			Temp2= (double)P.G06.AI1.P05_Minimum_x10*0.1;
-			Temp3= (double)P.G06.AI1.P06_Maximum_x10*0.1;
-			Temp4= P.G06.AI1.P09_Unit_selection;
-			switch( P.G06.AI1.P02_Type ) // input type
-			{
-				case 0:				// 0~10V
-			 		x1 = CH1_COUNT_AT_0V; x2 = CH1_COUNT_AT_10V;				
-					y1 = 0	;y2 = 10.0;
-					y = linear_eq( x1, x2, y1, y2, Adc_AIN_V1) + Temp1 ;	// 입력 볼트 
+	case 1:
 
-					if( Temp4 == 0){
-						min = Temp2; 	// 10V 일때 100 임 
-						max = Temp3;
-					}
-					else if( Temp4 == 1 ){
-						min = Temp2 / 10.0; 	// 10V 일때 100 임 
-						max = Temp3 / 10.0;
-					}
+		switch( P6_2 ) // input type
+		{
+		case 0:				// 0~10V
+	 		x1 = CH1_COUNT_AT_0V; x2 = CH1_COUNT_AT_10V;				
+			y1 = 0	;y2 = 10.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_V1) + P6_4 ;	// 입력 볼트 
 
-					if( y < min ) y = 0.0;
-					else if( y > max ) y = max /10.0;
-					else				y = y / 10.0;
 
-					break;
-				
-				case 1 :	// -10 ~ 10V
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = P6_5 / 10.0; 	// 10V 일때 100 임 
+				max = P6_6 / 10.0;
+			}
 
-			 		x1 = CH1_COUNT_AT_0V; x2 = CH1_COUNT_AT_10V;				
-					y1 = 0	;y2 = 10.0;
-					y = linear_eq( x1, x2, y1, y2, Adc_AIN_V1) * 2 - 10.0 + Temp1 ;	// 입력 볼트 
+			if( y < min ) y = 0.0;
+			else if( y > max ) y = max /10.0;
+			else				y = y / 10.0;
 
-					if( y < 0.0 ) sign = -1.0;
-					else		  sign =  1.0;
-
-					if( Temp4 == 0){
-						min = Temp2; 	// 10V 일때 100 임 
-						max = Temp3;
-					}
-					else if( Temp4 == 1 ){
-						min = Temp2 / 10.0; 	// 10V 일때 100 임 
-						max = Temp3 / 10.0;
-					}
-
-					if( (y * sign) < min ) 	 y = 0.0;
-					else if( (y * sign) > max ) y = max / 10.0 * sign ;
-					else						 y = y / 10.0;
-					break;
-				
-				case 2:		// 4 ~ 20 mA
-					 	 						// 0~ 10V
-			 		x1 = CH1_COUNT_AT_4MA; x2 = CH1_COUNT_AT_20MA;				
-					y1 = 4.0	;y2 = 20.0;
-					y = linear_eq( x1, x2, y1, y2, Adc_AIN_I1) + Temp1 ; 
-
-					if( Temp4 == 0){
-						min = Temp2; 	// 10V 일때 100 임 
-						max = Temp3;
-					}
-					else if( Temp4 == 1 ){
-						min = 20.0 * Temp2 / 100.0; 	// 10V 일때 100 임 
-						max = 20.0 * Temp3 / 100.0;
-					}
-
-					if( y < min ) 	   y = 0.0;
-					else if( y > max ) y = max / 20.0;
-					else{			
-				 		x1 = 4.0	; x2 = 20.0;				
-						y1 = 0.0	; y2 = 1.0;
-						y = linear_eq( x1, x2, y1, y2, y ); 
-					}
-					break;
-
-				case 3: // 0~ 20mA
-					 	 						// 0~ 10V
-			 		x1 = CH1_COUNT_AT_0MA; x2 = CH1_COUNT_AT_20MA;				
-					y1 = 0.0	;y2 = 20.0;
-					y = linear_eq( x1, x2, y1, y2, Adc_AIN_I1) + Temp1 ; 
-
-					if( Temp4 == 0){
-						min = Temp2; 	// 10V 일때 100 임 
-						max = Temp3;
-					}
-					else if( Temp4 == 1 ){
-						min = 20.0 * Temp2 / 100.0; 	// 10V 일때 100 임 
-						max = 20.0 * Temp3 / 100.0;
-					}
-
-					if( y < min ) 		y = 0.0;
-					else if( y > max ) y = max / 20.0 ;
-					else				y = y / 20.0 ; 
-
-					break;
-				}
-			
-			Temp1= (double)P.G06.AI1.P08_Discretness;
-			if( P.G06.AI1.P07_Inversion == 1) y = 1.0 - y ;		// y = -y
-			if (( Temp1 > 7 )&&(Temp1 < 129)) y = (((int)( y * Temp1 )) / Temp1); 
-			Temp1= (double)P.G06.AI1.P03_Filter_time_constant_x10_mA *1.e-2; 
-			Temp2= y;
-//			LPF1( Tsamp,Temp1, y, & Temp2); 
+			break;
 		
+		case 1 :	// -10 ~ 10V
+
+	 		x1 = CH1_COUNT_AT_0V; x2 = CH1_COUNT_AT_10V;				
+			y1 = 0	;y2 = 10.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_V1) * 2 - 10.0 + P6_4 ;	// 입력 볼트 
+
+			if( y < 0.0 ) sign = -1.0;
+			else		  sign =  1.0;
+
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = P6_5 / 10.0; 	// 10V 일때 100 임 
+				max = P6_6 / 10.0;
+			}
+
+			if( (y * sign) < min ) 	 y = 0.0;
+			else if( (y * sign) > max ) y = max / 10.0 * sign ;
+			else						 y = y / 10.0;
+			break;
+		
+		case 2:		// 4 ~ 20 mA
+			 	 						// 0~ 10V
+	 		x1 = CH1_COUNT_AT_4MA; x2 = CH1_COUNT_AT_20MA;				
+			y1 = 4.0	;y2 = 20.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_I1) + P6_4 ; 
+
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = 20.0 * P6_5 / 100.0; 	// 10V 일때 100 임 
+				max = 20.0 * P6_6 / 100.0;
+			}
+
+			if( y < min ) 	   y = 0.0;
+			else if( y > max ) y = max / 20.0;
+			else{			
+		 		x1 = 4.0	; x2 = 20.0;				
+				y1 = 0.0	; y2 = 1.0;
+				y = linear_eq( x1, x2, y1, y2, y ); 
+			}
 			break;
 
-		// ----------- ch2 select
+		case 3: // 0~ 20mA
+			 	 						// 0~ 10V
+	 		x1 = CH1_COUNT_AT_0MA; x2 = CH1_COUNT_AT_20MA;				
+			y1 = 0.0	;y2 = 20.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_I1) + P6_4 ; 
 
-		case 2:  
-			Temp1= (double)P.G06.AI2.P04_Offset_x10*0.1;
-			Temp2= (double)P.G06.AI2.P05_Minimum_x10*0.1;
-			Temp3= (double)P.G06.AI2.P06_Maximum_x10*0.1;
-			Temp4= P.G06.AI2.P09_Unit_selection;
-			switch( P.G06.AI2.P02_Type ) // input type
-			{
-				case 0:				// 0~10V
-			 		x1 = CH2_COUNT_AT_0V; x2 = CH2_COUNT_AT_10V;				
-					y1 = 0	;y2 = 10.0;
-					y = linear_eq( x1, x2, y1, y2, Adc_AIN_V2) + Temp1 ;	// 입력 볼트 
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = 20.0 * P6_5 / 100.0; 	// 10V 일때 100 임 
+				max = 20.0 * P6_6 / 100.0;
+			}
 
-					if( Temp4 == 0){
-						min = Temp2; 	// 10V 일때 100 임 
-						max = Temp3;
-					}
-					else if( Temp4 == 1 ){
-						min = Temp2 / 10.0; 	// 10V 일때 100 임 
-						max = Temp3 / 10.0;
-					}
+			if( y < min ) 		y = 0.0;
+			else if( y > max ) y = max / 20.0 ;
+			else				y = y / 20.0 ; 
 
-					if( y < min ) y = 0.0;
-					else if( y > max ) y = max /10.0;
-					else				y = y / 10.0;
+			break;
+		}
 
-					break;
-				
-				case 1 :	// -10 ~ 10V
+		if( P6_7 == 1) y = 1.0 - y ;		// y = -y
+		if (( P6_8 > 7 )&&(P6_8 < 129)) y = (((int)( y * P6_8 )) / P6_8);  
 
-			 		x1 = CH2_COUNT_AT_0V; x2 = CH2_COUNT_AT_10V;				
-					y1 = 0	;y2 = 10.0;
-					y = linear_eq( x1, x2, y1, y2, Adc_AIN_V2) * 2 - 10.0 + Temp1 ;	// 입력 볼트 
+		break;
 
-					if( y < 0.0 ) sign = -1.0;
-					else		  sign =  1.0;
+	// ----------- ch2 select
 
-					if( Temp4 == 0){
-						min = Temp2; 	// 10V 일때 100 임 
-						max = Temp3;
-					}
-					else if( Temp4 == 1 ){
-						min = Temp2 / 10.0; 	// 10V 일때 100 임 
-						max = Temp3 / 10.0;
-					}
+	case 2:  
+		switch( P6_2 ) // input type
+		{
+		case 0:				// 0~10V
+	 		x1 = CH2_COUNT_AT_0V; x2 = CH2_COUNT_AT_10V;				
+			y1 = 0	;y2 = 10.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_V2) + P6_4 ;	// 입력 볼트 
 
-					if( (y * sign) < min ) 	 y = 0.0;
-					else if( (y * sign) > max ) y = max / 10.0 * sign ;
-					else						 y = y / 10.0;
-					break;
-				
-				case 2:		// 4 ~ 20 mA
-					 	 						// 0~ 10V
-			 		x1 = CH2_COUNT_AT_4MA; x2 = CH2_COUNT_AT_20MA;				
-					y1 = 4.0	;y2 = 20.0;
-					y = linear_eq( x1, x2, y1, y2, Adc_AIN_I2) + Temp1 ; 
 
-					if( Temp4 == 0){
-						min = Temp2; 	// 10V 일때 100 임 
-						max = Temp3;
-					}
-					else if( Temp4 == 1 ){
-						min = 20.0 * Temp2 / 100.0; 	// 10V 일때 100 임 
-						max = 20.0 * Temp3 / 100.0;
-					}
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = P6_5 / 10.0; 	// 10V 일때 100 임 
+				max = P6_6 / 10.0;
+			}
 
-					if( y < min ) 	   y = 0.0;
-					else if( y > max ) y = max / 20.0;
-					else{			
-				 		x1 = 4.0	; x2 = 20.0;				
-						y1 = 0.0	; y2 = 1.0;
-						y = linear_eq( x1, x2, y1, y2, y ); 
-					}
-					break;
+			if( y < min ) y = 0.0;
+			else if( y > max ) y = max /10.0;
+			else				y = y / 10.0;
 
-				case 3: // 0~ 20mA
-					 	 						// 0~ 10V
-			 		x1 = CH2_COUNT_AT_0MA; x2 = CH2_COUNT_AT_20MA;				
-					y1 = 0.0	;y2 = 20.0;
-					y = linear_eq( x1, x2, y1, y2, Adc_AIN_I2) + Temp1 ; 
+			break;
+		
+		case 1 :	// -10 ~ 10V
 
-					if( Temp4 == 0){
-						min = Temp2; 	// 10V 일때 100 임 
-						max = Temp3;
-					}
-					else if( Temp4 == 1 ){
-						min = 20.0 * Temp2 / 100.0; 	// 10V 일때 100 임 
-						max = 20.0 * Temp3 / 100.0;
-					}
+	 		x1 = CH2_COUNT_AT_0V; x2 = CH2_COUNT_AT_10V;				
+			y1 = 0	;y2 = 10.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_V2) * 2 - 10.0 + P6_4 ;	// 입력 볼트 
 
-					if( y < min ) 		y = 0.0;
-					else if( y > max ) y = max / 20.0 ;
-					else				y = y / 20.0 ; 
+			if( y < 0.0 ) sign = -1.0;
+			else		  sign =  1.0;
 
-					break;
-				}
-			
-			Temp1= (double)P.G06.AI2.P08_Discretness;
-			if( P.G06.AI2.P07_Inversion == 1) y = 1.0 - y ;		// y = -y
-			if (( Temp1 > 7 )&&(Temp1 < 129)) y = (((int)( y * Temp1 )) / Temp1);  
-			Temp1= (double)P.G06.AI2.P03_Filter_time_constant_x10_mA *1.e-2; 
-			Temp2= y;
-//			LPF1( Tsamp,Temp1, y, & Temp2); 
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = P6_5 / 10.0; 	// 10V 일때 100 임 
+				max = P6_6 / 10.0;
+			}
+
+			if( (y * sign) < min ) 	 y = 0.0;
+			else if( (y * sign) > max ) y = max / 10.0 * sign ;
+			else						 y = y / 10.0;
+			break;
+		
+		case 2:		// 4 ~ 20 mA
+			 	 						// 0~ 10V
+	 		x1 = CH2_COUNT_AT_4MA; x2 = CH2_COUNT_AT_20MA;				
+			y1 = 4.0	;y2 = 20.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_I2) + P6_4 ; 
+
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = 20.0 * P6_5 / 100.0; 	// 10V 일때 100 임 
+				max = 20.0 * P6_6 / 100.0;
+			}
+
+			if( y < min ) 	   y = 0.0;
+			else if( y > max ) y = max / 20.0;
+			else{			
+		 		x1 = 4.0	; x2 = 20.0;				
+				y1 = 0.0	; y2 = 1.0;
+				y = linear_eq( x1, x2, y1, y2, y ); 
+			}
 			break;
 
-		default:
-			y = 0.0;
+		case 3: // 0~ 20mA
+			 	 						// 0~ 10V
+	 		x1 = CH2_COUNT_AT_0MA; x2 = CH2_COUNT_AT_20MA;				
+			y1 = 0.0	;y2 = 20.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_I2) + P6_4 ; 
+
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = 20.0 * P6_5 / 100.0; 	// 10V 일때 100 임 
+				max = 20.0 * P6_6 / 100.0;
+			}
+
+			if( y < min ) 		y = 0.0;
+			else if( y > max ) y = max / 20.0 ;
+			else				y = y / 20.0 ; 
+
 			break;
+		}
+
+		if( P6_7 == 1) y = 1.0 - y ;		// y = -y
+		if (( P6_8 > 7 )&&(P6_8 < 129)) y = (((int)( y * 128 )) / 128.0);  
+
+		break;
+
+	// CH3 process
+	case 3:  
+
+		switch( P6_2 )
+		{
+		case 0:				// 0~10V
+	 		x1 = CH3_COUNT_AT_0V; x2 = CH3_COUNT_AT_10V;				
+			y1 = 0	;y2 = 10.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_3 ) + P6_4 ;	// 입력 볼트 
+
+
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = P6_5 / 10.0; 	// 10V 일때 100 임 
+				max = P6_6 / 10.0;
+			}
+
+			if( y < min ) 		y = 0.0;
+			else if( y > max ) y = max / 10.0 ;
+			else				y = y / 10.0;
+			break;
+		
+		case 1 :	// -10 ~ 10V
+
+	 		x1 = CH3_COUNT_AT_0V; x2 = CH3_COUNT_AT_10V;				
+			y1 = 0	;y2 = 10.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_3) * 2 - 10.0 + P6_4 ;	// 입력 볼트 
+
+			if( y < 0.0 ) sign = -1.0;
+			else		  sign =  1.0;
+
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = P6_5 / 10.0; 	// 10V 일때 100 임 
+				max = P6_6 / 10.0;
+			}
+
+			if( (y * sign) < min ) 	 y = 0.0;
+			else if( (y * sign) > max ) y = max / 10.0 * sign ;
+			else						 y = y / 10.0;
+			break;
+		
+		case 2:		// 4 ~ 20 mA
+			 	 						// 0~ 10V
+	 		x1 = CH3_COUNT_AT_4MA; x2 = CH3_COUNT_AT_20MA;				
+			y1 = 4.0	;y2 = 20.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_3) + P6_4 ; 
+
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = 20.0 * P6_5 / 100.0; 	// 10V 일때 100 임 
+				max = 20.0 * P6_6 / 100.0;
+			}
+
+			if( y < min ) 		y = 0.0;
+			else if( y > max ) y = max / 20.0;
+			else{			
+		 		x1 = 4.0	; x2 = 20.0;				
+				y1 = 0.0	; y2 = 1.0;
+				y = linear_eq( x1, x2, y1, y2, y ); 
+			}
+			break;
+		case 3: // 0~ 20mA
+			 	 						// 0~ 10V
+	 		x1 = CH3_COUNT_AT_0MA; x2 = CH3_COUNT_AT_20MA;				
+			y1 = 0.0	;y2 = 20.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_3) + P6_4 ; 
+
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = 20.0 * P6_5 / 100.0; 	// 10V 일때 100 임 
+				max = 20.0 * P6_6 / 100.0;
+			}
+
+			if( y < min ) 		y = 0.0;
+			else if( y > max ) y = max / 20.0;
+			else				y = y / 20.0 ; 
+			break;
+		}
+
+		if( P6_7 == 1) y = 1.0 - y ;		// y = -y
+		if (( P6_8 > 7 )&&(P6_8 < 129)) y = (((int)( y * 128 )) / 128.0);  
+
+		break;
+
+
+	// CH4 process
+	case 4:  
+
+		switch( P6_2 )
+		{
+		case 0:				// 0~10V
+	 		x1 = CH4_COUNT_AT_0V; x2 = CH4_COUNT_AT_10V;				
+			y1 = 0	;y2 = 10.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_4 ) + P6_4 ;	// 입력 볼트 
+
+
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = P6_5 / 10.0; 	// 10V 일때 100 임 
+				max = P6_6 / 10.0;
+			}
+
+			if( y < min ) 		y = 0.0;
+			else if( y > max ) y = max / 10.0 ;
+			else				y = y / 10.0;
+			break;
+		
+		case 1 :	// -10 ~ 10V
+
+	 		x1 = CH4_COUNT_AT_0V; x2 = CH4_COUNT_AT_10V;				
+			y1 = 0	;y2 = 10.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_4) * 2 - 10.0 + P6_4 ;	// 입력 볼트 
+
+			if( y < 0.0 ) sign = -1.0;
+			else		  sign =  1.0;
+
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = P6_5 / 10.0; 	// 10V 일때 100 임 
+				max = P6_6 / 10.0;
+			}
+
+			if( (y * sign) < min ) 	 y = 0.0;
+			else if( (y * sign) > max ) y = max / 10.0 * sign ;
+			else						 y = y / 10.0;
+			break;
+		
+		case 2:		// 4 ~ 20 mA
+			 	 						// 0~ 10V
+	 		x1 = CH4_COUNT_AT_4MA; x2 = CH4_COUNT_AT_20MA;				
+			y1 = 4.0	;y2 = 20.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_3) + P6_4 ; 
+
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = 20.0 * P6_5 / 100.0; 	// 10V 일때 100 임 
+				max = 20.0 * P6_6 / 100.0;
+			}
+
+			if( y < min ) 		y = 0.0;
+			else if( y > max ) y = max / 20.0;
+			else{			
+		 		x1 = 4.0	; x2 = 20.0;				
+				y1 = 0.0	; y2 = 1.0;
+				y = linear_eq( x1, x2, y1, y2, y ); 
+			}
+			break;
+		case 3: // 0~ 20mA
+			 	 						// 0~ 10V
+	 		x1 = CH4_COUNT_AT_0MA; x2 = CH4_COUNT_AT_20MA;				
+			y1 = 0.0	;y2 = 20.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_4) + P6_4 ; 
+
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = 20.0 * P6_5 / 100.0; 	// 10V 일때 100 임 
+				max = 20.0 * P6_6 / 100.0;
+			}
+
+			if( y < min ) 		y = 0.0;
+			else if( y > max ) y = max / 20.0;
+			else				y = y / 20.0 ; 
+			break;
+		}
+
+		if( P6_7 == 1) y = 1.0 - y ;		// y = -y
+		if (( P6_8 > 7 )&&(P6_8 < 129)) y = (((int)( y * 128 )) / 128.0);  
+
+		break;
+
+
+	// CH3 process
+	case 5:  
+
+		switch( P6_2 )
+		{
+		case 0:				// 0~10V
+	 		x1 = CH5_COUNT_AT_0V; x2 = CH5_COUNT_AT_10V;				
+			y1 = 0	;y2 = 10.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_5 ) + P6_4 ;	// 입력 볼트 
+
+
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = P6_5 / 10.0; 	// 10V 일때 100 임 
+				max = P6_6 / 10.0;
+			}
+
+			if( y < min ) 		y = 0.0;
+			else if( y > max ) y = max / 10.0 ;
+			else				y = y / 10.0;
+			break;
+		
+		case 1 :	// -10 ~ 10V
+
+	 		x1 = CH5_COUNT_AT_0V; x2 = CH5_COUNT_AT_10V;				
+			y1 = 0	;y2 = 10.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_5) * 2 - 10.0 + P6_4 ;	// 입력 볼트 
+
+			if( y < 0.0 ) sign = -1.0;
+			else		  sign =  1.0;
+
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = P6_5 / 10.0; 	// 10V 일때 100 임 
+				max = P6_6 / 10.0;
+			}
+
+			if( (y * sign) < min ) 	 y = 0.0;
+			else if( (y * sign) > max ) y = max / 10.0 * sign ;
+			else						 y = y / 10.0;
+			break;
+		
+		case 2:		// 4 ~ 20 mA
+			 	 						// 0~ 10V
+	 		x1 = CH5_COUNT_AT_4MA; x2 = CH5_COUNT_AT_20MA;				
+			y1 = 4.0	;y2 = 20.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_3) + P6_4 ; 
+
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = 20.0 * P6_5 / 100.0; 	// 10V 일때 100 임 
+				max = 20.0 * P6_6 / 100.0;
+			}
+
+			if( y < min ) 		y = 0.0;
+			else if( y > max ) y = max / 20.0;
+			else{			
+		 		x1 = 4.0	; x2 = 20.0;				
+				y1 = 0.0	; y2 = 1.0;
+				y = linear_eq( x1, x2, y1, y2, y ); 
+			}
+			break;
+		case 3: // 0~ 20mA
+			 	 						// 0~ 10V
+	 		x1 = CH5_COUNT_AT_0MA; x2 = CH5_COUNT_AT_20MA;				
+			y1 = 0.0	;y2 = 20.0;
+			y = linear_eq( x1, x2, y1, y2, Adc_AIN_3) + P6_4 ; 
+
+			if( P6_9 == 0){
+				min = P6_5; 	// 10V 일때 100 임 
+				max = P6_6;
+			}
+			else if( P6_9 == 1 ){
+				min = 20.0 * P6_5 / 100.0; 	// 10V 일때 100 임 
+				max = 20.0 * P6_6 / 100.0;
+			}
+
+			if( y < min ) 		y = 0.0;
+			else if( y > max ) y = max / 20.0;
+			else				y = y / 20.0 ; 
+			break;
+		}
+
+		if( P6_7 == 1) y = 1.0 - y ;		// y = -y
+		if (( P6_8 > 7 )&&(P6_8 < 129)) y = (((int)( y * 128 )) / 128.0);  
+
+		break;
+
+	default:
+		y = 0.0;
+		break;
 	}
 
-	* analog_ref = Temp2;
+	* analog_ref = y;
 }
-
+#pragma CODE_SECTION(LPF1, "ramfuncs");
+void LPF1(double Ts,double pole,double in,double *out)
+{
+	*out+=pole*(in-*out)*Ts;
+}
 
 void AI_Processing(double * ref )
 {
 
-	double adc_in0;
-
+	double adc_in0, adc_in1;
+	 
+	if((P6_1 == 1)||(P6_0 == 0)){
+		* ref = 0.0;
+		return;
+	}
 	
 	GetAnalogRef( & adc_in0);
 
-//	* ref = adc_in1;
-	* ref = (double)((int)(adc_in0*1.e+3)*1.e-3); 
+	LPF1( Tsamp,P6_3, adc_in0, & adc_in1); // debug2010-0901
 
-	if (P.G06.AI0_Analog_reference_source == 0)
-		* ref = 0.0;
+
+	* ref = adc_in1;
+//	* ref = adc_in0; 
 
 }
 
@@ -743,16 +1036,22 @@ void Local_Processing(int * cmd, double * ref )
 	Temp_speed= Temp1;
 	Temp_frequency= Temp2;
 
+	if (OP.Run_stop.bit.Local_DIR)	* ref= -(* ref);
 	if (OP.Run_stop.bit.Local_RUN)	* cmd= CMD_RUN; 
-	else * cmd= CMD_STOP;
+	else { * ref= 0.; * cmd= CMD_STOP;}
+	
+	* ref= BOUND(* ref,1,(-1));
 }
 
 void Fieldbus_Processing( int * cmd, double * ref )
 {
 	* ref= (double)OP.Reference.Fieldbus.Speed/Wrpm_scale; 
 	
+	if (OP.Run_stop.bit.Fieldbus_DIR)	* ref= -(* ref);
 	if (OP.Run_stop.bit.Fieldbus_RUN)	* cmd= CMD_RUN; 
-	else { * cmd= CMD_STOP;}
+	else { *ref= 0.; * cmd= CMD_STOP;}
+	
+	* ref= BOUND(* ref,1,(-1));
 }
 
 

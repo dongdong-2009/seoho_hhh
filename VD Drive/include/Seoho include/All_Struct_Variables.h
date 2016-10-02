@@ -13,29 +13,28 @@ F5 Under_Voltage
 F6 Over_Speed
 F7 Over_Temp
 F8 DB_Fault
-F9 Zero_Sequence_Current
-F10 Ext_Fault_A
-F11 Ext_Fault_B
-F12 Hardware_Fault
-F13 Over_Current_A
-F14 Over_Current_B
-F15 Over_Current_C
-F16 Init_Charge
-F17 Speed_Detection
+F9 Driver_Fault
+F10 Ext_Fault
+F11 Hardware_Fault
+F12 Over_Current_A
+F13 Over_Current_B
+F14 Over_Current_C
+F15 Init_Charge
+F16 Speed_Detect
 */
 // Fault 는 상위 bit->하위 bit 순으로 배치함 
 // 외부인력 요청 (박병훈)
 // Fault 1 Group
 struct FAULT1_BITS	// bits   description 
 {          
-   Uint16	INIT_CHARGE:		1;		// bit . 1  F16
-   Uint16	OC_C:				1;		// bit . 2  F15
-   Uint16	OC_B:				1;		// bit . 3  F14
-   Uint16	OC_A:				1;		// bit . 4  F13
-   Uint16	HARDWARE_FAULT:		1;		// bit . 5  F12
-   Uint16	EXT_FAULT_B:		1;		// bit . 6  F11
-   Uint16	EXT_FAULT_A:		1;		// bit . 7  F10
-   Uint16	ZC:					1;		// bit . 8  F9
+   Uint16	SPEED_DETECTION:	1;		// bit . 1  F16
+   Uint16	INIT_CHARGE:		1;		// bit . 2  F15
+   Uint16	OC_C:				1;		// bit . 3  F14
+   Uint16	OC_B:				1;		// bit . 4  F13
+   Uint16	OC_A:				1;		// bit . 5  F12
+   Uint16	HARDWARE_FAULT:		1;		// bit . 6  F11
+   Uint16	EXT_FAULT:			1;		// bit . 7  F10
+   Uint16	DRIVER:				1;		// bit . 8  F9
    Uint16	DB:					1;		// bit . 9  F8
    Uint16	OT:					1;		// bit . 10 F7
    Uint16	OVER_SPEED:			1;		// bit . 11 F6  
@@ -43,7 +42,7 @@ struct FAULT1_BITS	// bits   description
    Uint16	OV:					1;		// bit . 13 F4
    Uint16	OC_MAG:				1;		// bit . 14 F3
    Uint16	DEVICE_SHORT:		1;		// bit . 15 F2
-   Uint16	OL:					1;		// bit . 16	F1 
+   Uint16	OL:					1;		// bit . 16	F1
 };
 
 union FAULT1_REG 
@@ -56,7 +55,7 @@ union FAULT1_REG
 struct FAULT2_BITS	// bits   description 
 {          
    Uint16	rsvd1:				15;		// bit 
-   Uint16	SPEED_DETECTION:	1;		// bit . 16  F17       	 
+   Uint16	ZC:					1;		// bit . 16      	 
 };
 
 union FAULT2_REG 
@@ -68,15 +67,14 @@ union FAULT2_REG
 // Fault_Neglect 1 Group
 struct FAULT_NEGLECT1_BITS	// bits   description 
 {          
-    
-   Uint16	INIT_CHARGE:		1;		// bit . 1  F16
-   Uint16	OC_C:				1;		// bit . 2  F15
-   Uint16	OC_B:				1;		// bit . 3  F14
-   Uint16	OC_A:				1;		// bit . 4  F13
-   Uint16	HARDWARE_FAULT:		1;		// bit . 5  F12
-   Uint16	EXT_FAULT_B:		1;		// bit . 6  F11
-   Uint16	EXT_FAULT_A:		1;		// bit . 7  F10
-   Uint16	ZC:					1;		// bit . 8  F9
+   Uint16	SPEED_DETECTION:	1;		// bit . 1  F16
+   Uint16	INIT_CHARGE:		1;		// bit . 2  F15
+   Uint16	OC_C:				1;		// bit . 3  F14
+   Uint16	OC_B:				1;		// bit . 4  F13
+   Uint16	OC_A:				1;		// bit . 5  F12
+   Uint16	HARDWARE_FAULT:		1;		// bit . 6  F11
+   Uint16	EXT_FAULT:			1;		// bit . 7  F10
+   Uint16	DRIVER:				1;		// bit . 8  F9
    Uint16	DB:					1;		// bit . 9  F8
    Uint16	OT:					1;		// bit . 10 F7
    Uint16	OVER_SPEED:			1;		// bit . 11 F6  
@@ -84,7 +82,7 @@ struct FAULT_NEGLECT1_BITS	// bits   description
    Uint16	OV:					1;		// bit . 13 F4
    Uint16	OC_MAG:				1;		// bit . 14 F3
    Uint16	DEVICE_SHORT:		1;		// bit . 15 F2
-   Uint16	OL:					1;		// bit . 16	F1      
+   Uint16	OL:					1;		// bit . 16	F1     
 };
 
 union FAULT_NEGLECT1_REG 
@@ -97,7 +95,7 @@ union FAULT_NEGLECT1_REG
 struct FAULT_NEGLECT2_BITS	// bits   description 
 {          
    Uint16	rsvd1:				15;		// bit 
-   Uint16	SPEED_DETECTION:	1;		// bit . 16  F17        
+   Uint16	ZC:					1;		// bit . 16      
 };
 
 union FAULT_NEGLECT2_REG 
@@ -281,15 +279,19 @@ struct PROTECTION_SETUP
 
 struct AI_SETUP
 {
-	int		P01_Function;
-	int		P02_Type;
-	int		P03_Filter_time_constant_x10_mA;
-	int		P04_Offset_x10;
-	int		P05_Minimum_x10;
-	int		P06_Maximum_x10;
-	int		P07_Inversion;
-	int		P08_Discretness;
-	int		P09_Unit_selection;
+	int		P00_Function;
+	int		P01_Type;
+	int		P02_Filter_time_constant_x10_mA;
+	int		P03_Offset;
+	int		P04_Minimum_voltage_x10;
+	int		P05_Minimum_current_x10_mA;
+	int		P06_Minimum_x1000;
+	int		P07_Maximum_voltage_x10;
+	int		P08_Maximum_current_x10_mA;
+	int		P09_Maximum_x1000;
+	int		P10_Inversion;
+	int		P11_Discretness;
+	int		P12_Dead_zone;
 };
 
 union ANALOG_INPUT
@@ -297,9 +299,9 @@ union ANALOG_INPUT
 	int		AI0_Analog_reference_source;
 	struct	AI_SETUP					AI1;
 	struct	AI_SETUP					AI2;
-//	struct	AI_SETUP					AI3;
-//	struct	AI_SETUP					AI4;
-//	struct	AI_SETUP					AI5;
+	struct	AI_SETUP					AI3;
+	struct	AI_SETUP					AI4;
+	struct	AI_SETUP					AI5;
 };
 
 struct	FREE_FUNCTION
@@ -361,11 +363,6 @@ struct	MOTOR_BRAKE_CONTROL
 	int		P00_M1_locked_state_up_speed_up_x1000;
 };
 
-struct	AUTO_TUNING
-{
-	int		P09_Dead_time_compansation_x100_us;
-};
-
 struct	VECTOR_CONTROL
 {
 	int		P00_Number_of_encoder_pulses;
@@ -399,22 +396,22 @@ typedef volatile struct PARAMETER_DEFINE
 	struct	ANALOG_OUTPUT						G11;
 	struct	DIGITAL_OUTPUT						G12;
 	struct	MOTOR_BRAKE_CONTROL					G13;
-	struct	AUTO_TUNING							G14;
 	struct	VECTOR_CONTROL						G19;
 	struct	MOTOR_CONSTANT1						G21;
 }PARAMETER;
 
 struct RUN_STOP_CONTROL_BITS
 {
+	
+	Uint16 FAULT_RESET:1; 
 	Uint16 Local_RUN:1;
 	Uint16 Local_DIR:1;
 	Uint16 Fieldbus_RUN:1;
 	Uint16 Fieldbus_DIR:1;
+
 	Uint16 Local:1;
 	Uint16 Emergency_STOP:1;	// All mode
 	Uint16 AUTO_TUNING:1;	// Only Local Mode
-	Uint16 FAULT_RESET:1;
-	Uint16 rsvd:8;
 };
 
 union RUN_STOP_CONTROL

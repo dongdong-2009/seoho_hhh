@@ -15,10 +15,8 @@ PAGE 0:    /* Program Memory */
    FLASHH      : origin = 0x300000, length = 0x008000     /* on-chip FLASH */
    FLASHG      : origin = 0x308000, length = 0x008000     /* on-chip FLASH */
    FLASHF      : origin = 0x310000, length = 0x008000     /* on-chip FLASH */
-   //°«Å¸ÀÌ~!
-//   FLASHE      : origin = 0x318000, length = 0x008000     /* on-chip FLASH */
- //  FLASHD      : origin = 0x320000, length = 0x008000     /* on-chip FLASH */
-   FLASHD      : origin = 0x318000, length = 0x010000     /* on-chip FLASH */
+   FLASHE      : origin = 0x318000, length = 0x008000     /* on-chip FLASH */
+   FLASHD      : origin = 0x320000, length = 0x008000     /* on-chip FLASH */
    FLASHC      : origin = 0x328000, length = 0x008000     /* on-chip FLASH */
    FLASHA      : origin = 0x338000, length = 0x007F80     /* on-chip FLASH */
    CSM_RSVD    : origin = 0x33FF80, length = 0x000076     /* Part of FLASHA.  Program with all 0x0000 when CSM is in use. */

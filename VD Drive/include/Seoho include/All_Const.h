@@ -18,8 +18,8 @@
 
 
 // 변경 필요 
-#define	T_DEAD_US				(4.)				// Dead time
-#define DEAD_TIME_COUNT		(T_DEAD_US*1.e+2) 		// PWM Dead Time Variable 
+#define	T_DEAD				(4.e-6)				// Dead time
+#define DEAD_TIME_COUNT		(T_DEAD*1.e+8) 		// PWM Dead Time Variable 
 
 //-------
 /* micro-seconds delay function */

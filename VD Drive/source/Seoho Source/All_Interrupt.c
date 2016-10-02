@@ -21,8 +21,7 @@ interrupt void Driver_Calibration(void)
 	 NOP; 
 
 	Main_counter++;
-	Tx_count_15ms++;
-	Tx_count_1s++;
+	Tx_count++;
 	if( Main_counter & 0x1 )			
 	{		
 		#if (DUAL_PWM_INTERRUPT)
@@ -98,30 +97,34 @@ interrupt void Driver_Calibration(void)
 #pragma CODE_SECTION(MainPWM, "ramfuncs");
 interrupt void MainPWM(void)
 {
+	static int FaultDriverCount= 0.; 
+//	static int FaultZCCount= 0.;
 	double Temp;
-//	int j;
+
+	int j;
 
 	Uint16 AO_Count;	// debug2010-0830
 
 
 	Temp= (double)CpuTimer0Regs.TIM.all;
 
+
+
+
 	Main_counter++;
-	Tx_count_15ms++;
-	Tx_count_1s++;
+	Tx_count++;
+	Tx_test++;
 
 	
 	// Wait ADC Sensing
 	// S/H 할 수 있는 시간을 주자
 	// 5.5kW 7.5kW CT 지연시간 10us
-	// 300 당 25us
-//	for (j=0; j<350; j++)
-//	 NOP;
+	for (j=0; j<350; j++)
+	 NOP;
 
 
 	GetSensorValue();			
 	Fault_Check_1Sampling();
-
 	#if (VF_MODE==1)
 		VF_Controller(); 
 	#else
@@ -198,6 +201,17 @@ interrupt void MainPWM(void)
 	
 	DB_Controller();
 	
+	if (GpioDataRegs.GPADAT.bit.GPIO12==0) 	FaultDriverCount++;
+	else if( FaultDriverCount > 0)			FaultDriverCount--;
+	if (FaultDriverCount > 10 )	Flag.Fault1.bit.DRIVER= 1;
+
+
+//	if (GpioDataRegs.GPADAT.bit.GPIO16==0) 	FaultZCCount++;
+//	else if( FaultZCCount > 0)			FaultZCCount--;
+//	if (FaultZCCount > 10 )	Flag.Fault.bit.ZC= 1; 
+
+	
+	
 	if ( (Flag.Fault1.all & (~Flag.Fault_Neglect1.all)) != 0x0000 )	State_Index= STATE_FAULT;
 	if ( (Flag.Fault2.all & (~Flag.Fault_Neglect2.all)) != 0x0000 )	State_Index= STATE_FAULT;
 
@@ -209,7 +223,15 @@ interrupt void MainPWM(void)
 			if ( (Command==CMD_RUN)&&(!OP.Run_stop.bit.Emergency_STOP) )
 			{	PWM_ON_OFF(1);	Driver_ON=1;	}
 			else	
-			{	PWM_ON_OFF(0);	Driver_ON=0;	}
+			{	PWM_ON_OFF(0);	Driver_ON=0;
+				// Trip zone clear 가 완료 되면 clear flag 해제
+				if ( (!EPwm1Regs.TZFLG.bit.OST)&&(!EPwm2Regs.TZFLG.bit.OST)&&(!EPwm3Regs.TZFLG.bit.OST) )
+				{
+					EPwm1Regs.TZCLR.bit.OST= 0;
+					EPwm2Regs.TZCLR.bit.OST= 0;	
+					EPwm3Regs.TZCLR.bit.OST= 0;
+				}
+			}
 
 			break;
 
@@ -255,19 +277,24 @@ interrupt void MainPWM(void)
 
 void DB_Controller()
 {
+	static int FaultDBCount= 0.;
 	double Temp, Temp1;
 
-	if (GpioDataRegs.GPADAT.bit.GPIO13==0) 	Flag.Fault1.bit.DB= 1;;
-
-	// PWM duty 최소 20% ~ 최대 90% 
+	if (GpioDataRegs.GPADAT.bit.GPIO13==0) 	FaultDBCount++;
+	else if( FaultDBCount > 0)			FaultDBCount--;
+	if (FaultDBCount > (0.002/Tsamp) )	Flag.Fault1.bit.DB= 1; 
+	
 	Temp1= (double)EPwmPeriodCount;
 	Temp= (double)(P.G05.P24_DB_full_voltage - P.G05.P23_DB_start_voltage);
-	Temp= Temp1*(0.7*((Vdc-(double)P.G05.P23_DB_start_voltage)/Temp)+0.2);
-	if ( Temp<(Temp1*0.2) ) Temp= 0.;
-	if ( Temp>(Temp1*0.9) ) Temp= Temp1*0.90; // 최대 90% Open
+	Temp= Temp1*((Vdc-(double)P.G05.P23_DB_start_voltage)/Temp);
+	if (Temp<0) Temp= 0.;
+	Temp= Temp1-Temp;
+	if ( Temp<(Temp1*0.1) ) Temp= Temp1*0.1; // 최대 90% Open
+
 	if (Flag.Fault1.bit.DB == 0)
 		EPwm4Regs.CMPA.half.CMPA= (Uint16)Temp;
 	else EPwm4Regs.AQCSFRC.bit.CSFA= 2;
+	
 /*	
 	if (Flag.Fault.bit.DB == 0)
 	{

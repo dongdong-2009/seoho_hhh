@@ -80,9 +80,8 @@ void Reference_Function()
 		Flag.Monitoring.bit.ACC= 0.;
 		Flag.Monitoring.bit.DEC= 0.;
 	}
+
 	Final_reference= BOUND(Out_ref,1,(-1));
-	if (Final_reference< 0.)	Flag.Monitoring.bit.DIR_STATUS= 1;
-	else	Flag.Monitoring.bit.DIR_STATUS= 0;
 }	
 
 //----------------------------------

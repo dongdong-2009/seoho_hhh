@@ -83,7 +83,7 @@ void Speed_Detection()
 	/*----------------------------------------------*/
 		
 		if (OP.Run_stop.bit.FAULT_RESET) 
-			Flag.Fault2.bit.SPEED_DETECTION= 0;
+			Flag.Fault1.bit.SPEED_DETECTION= 0;
 
 		
 		/* to inititial routine */
@@ -237,7 +237,7 @@ void Speed_Detection()
 	}
 	else // 속도 측정 하지 않으면  Fault 발생
 	{
-		Flag.Fault2.bit.SPEED_DETECTION= 1.;
+		Flag.Fault1.bit.SPEED_DETECTION= 1.;
 	}
 
 }

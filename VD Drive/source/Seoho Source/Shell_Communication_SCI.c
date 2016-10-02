@@ -266,13 +266,10 @@ interrupt void scic_tx_isr(void)
 //-----------------------------
 // 데이타 수신
 //-----------------------------
-unsigned int SciC_RxStep=0;
-unsigned int SciC_RxFlag=0;
-unsigned int SciC_TxFlag=0;
+unsigned char SciC_RxStep=0;
+unsigned char SciC_RxFlag=0;
 unsigned int Communication_Fault_Cnt = 3;
-unsigned int Communication_Fault_Flag = 0;
-
-unsigned int Device_type=0;
+unsigned char Communication_Fault_Flag = 0;
 
 
 unsigned int RxType=0;
@@ -374,8 +371,7 @@ interrupt void scic_rx_isr(void)
 					scic_putc(CRC.Byte.b1);
 					scic_putc(CRC.Byte.b0);
 
-					SciC_TxFlag = 1;
-					//SCIC_TX_START;
+					SCIC_TX_START;
 					Data_Registers[RxAddr] = RxData;
 
 					// (110107 by HHH)
@@ -397,25 +393,11 @@ interrupt void scic_rx_isr(void)
 					scic_putc(CRC.Byte.b1);
 					scic_putc(CRC.Byte.b0);
 
-					SCI_Registers[RxAddr] = 0;
-
-					SciC_TxFlag = 1;
-					//SCIC_TX_START;
-
-					// (110107 by HHH)
-					Rx_index= RxAddr;
-					Read_Data_Registers(Rx_index);
-					Flag.Monitoring.bit.EEPROM_WRITE_ENABLE_Rx= 1;
+					SCIC_TX_START;
 				}
 				else if(RxType == QUERY)
 				{
 					Communication_Fault_Cnt = 3;
-					if(RxData==1)
-					{
-						Device_type= 1;
-					}
-					else Device_type= 0;
-
 				}
 				
 			}
@@ -481,61 +463,24 @@ void SCIC_Process(void)
 	// data 가 변경될 경우 Tx 발생
 	// Tx_count 시간에 도달 하지 못한 경우 자동 대기 함
 //	SCI_TxOffset= 2310;
-#if 1
-
-if (Device_type== 0)
-{
-	if(Tx_count_15ms>= (Uint16)(25.e-3/Tsamp))
+	if(Data_Registers[SCI_TxOffset] != SCI_Registers[SCI_TxOffset])
 	{
-		if (Tx_count_1s>=(Uint16)(1.0/Tsamp))
-		{
-			CRC.Word = 0;
-			scic_putc(0xAB);			CRC_16(0xAB);
-			scic_putc(0xCD);			CRC_16(0xCD);
-
-			scic_putc(QUERY);			CRC_16(QUERY);
-
-			scic_putc(0);				CRC_16(0);
-			scic_putc(0);				CRC_16(0);
-
-			scic_putc(0);				CRC_16(0);
-			scic_putc(0);				CRC_16(0);
-
-			scic_putc(CRC.Byte.b1);
-			scic_putc(CRC.Byte.b0);
-
-			SCIC_TX_START;
-
-			if(!Communication_Fault_Cnt)Communication_Fault_Flag=1;
-			else 
-			{
-				Communication_Fault_Cnt--;
-				Communication_Fault_Flag=0;
-			}
-		
-			Tx_count_1s= 0;
-		}
-		else if(SciC_TxFlag)
-		{
-			SCIC_TX_START;
-			SciC_TxFlag=0;
-		}
-		else 
+		if(Tx_count>= (int)(1.e-2/Tsamp))
 		{
 			//SCI_Registers[SCI_TxOffset] = Data_Registers[SCI_TxOffset];
 
 			CRC.Word = 0;
 
-			scic_putc(0xAB);									CRC_16(0xAB);
-			scic_putc(0xCD);									CRC_16(0xCD);
+			scic_putc(0xAB);										CRC_16(0xAB);
+			scic_putc(0xCD);										CRC_16(0xCD);
 
-			scic_putc(SEND);									CRC_16(SEND);
+			scic_putc(SEND);										CRC_16(SEND);
 
 			scic_putc((char)(SCI_TxOffset>>8));					CRC_16((char)(SCI_TxOffset>>8));
-			scic_putc((char)SCI_TxOffset);						CRC_16((char)SCI_TxOffset);
+			scic_putc((char)SCI_TxOffset);							CRC_16((char)SCI_TxOffset);
 
 			scic_putc((char)(Data_Registers[SCI_TxOffset]>>8));	CRC_16((char)(Data_Registers[SCI_TxOffset]>>8));
-			scic_putc((char)Data_Registers[SCI_TxOffset]);		CRC_16((char)Data_Registers[SCI_TxOffset]);
+			scic_putc((char)Data_Registers[SCI_TxOffset]);			CRC_16((char)Data_Registers[SCI_TxOffset]);
 
 			scic_putc(CRC.Byte.b1);
 			scic_putc(CRC.Byte.b0);
@@ -544,26 +489,19 @@ if (Device_type== 0)
 
 			// (110107 by HHH)
 			Tx_index= (int)SCI_TxOffset;
-			Flag.Monitoring.bit.EEPROM_WRITE_ENABLE_Tx= 1;
-			SCI_TxOffset ++;
+			Tx_count= 0;
 			Tx_complete= 1;
+			Flag.Monitoring.bit.EEPROM_WRITE_ENABLE_Tx= 1;
 		}
-
-		Tx_count_15ms= 0;
+		else Tx_complete= 0;
 	}
-
-	if ( (Data_Registers[SCI_TxOffset] == SCI_Registers[SCI_TxOffset])&&(Tx_complete== 1) )
-		SCI_TxOffset ++;
-	else Tx_complete= 0;
-	if(Buf_MAX <= SCI_TxOffset)	SCI_TxOffset = 0;
-}
-else
-{
-//	if(Tx_count_15ms>= (Uint16)(25.e-3/Tsamp))
-//	{
-		if (Tx_count_1s>=(Uint16)(1.0/Tsamp))
+	else
+	{
+		if (Tx_complete) SCI_TxOffset ++;	
+			
+		if (Tx_test>=(Uint16)(1.0/Tsamp))
 		{
-		/*	CRC.Word = 0;
+			CRC.Word = 0;
 			scic_putc(0xAB);			CRC_16(0xAB);
 			scic_putc(0xCD);			CRC_16(0xCD);
 
@@ -578,7 +516,7 @@ else
 			scic_putc(CRC.Byte.b1);
 			scic_putc(CRC.Byte.b0);
 
-			SCIC_TX_START;*/
+			SCIC_TX_START;
 
 			if(!Communication_Fault_Cnt)Communication_Fault_Flag=1;
 			else 
@@ -587,24 +525,38 @@ else
 				Communication_Fault_Flag=0;
 			}
 		
-			Tx_count_1s= 0;
+			Tx_test= 0;
 		}
-		else if(SciC_TxFlag)
+		if(Buf_MAX <= SCI_TxOffset) 
 		{
+			SCI_TxOffset = 0;
+/*
+			CRC.Word = 0;
+			scic_putc(0xAB);			CRC_16(0xAB);
+			scic_putc(0xCD);			CRC_16(0xCD);
+
+			scic_putc(QUERY);			CRC_16(QUERY);
+
+			scic_putc(0);				CRC_16(0);
+			scic_putc(0);				CRC_16(0);
+
+			scic_putc(0);				CRC_16(0);
+			scic_putc(0);				CRC_16(0);
+
+			scic_putc(CRC.Byte.b1);
+			scic_putc(CRC.Byte.b0);
+
 			SCIC_TX_START;
-			SciC_TxFlag=0;
 
-			// (110107 by HHH)
-			//Tx_index= (int)SCI_TxOffset;
-			//Flag.Monitoring.bit.EEPROM_WRITE_ENABLE_Tx= 1;
-		}
+			if(!Communication_Fault_Cnt)Communication_Fault_Flag=1;
+			else 
+			{
+				Communication_Fault_Cnt--;
+				Communication_Fault_Flag=0;
+			}
+*/		}
+	}
 
-//	}
-}
-	#endif
-
-
-	
 }
 
 

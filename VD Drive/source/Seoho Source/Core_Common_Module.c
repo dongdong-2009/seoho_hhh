@@ -377,8 +377,8 @@ void Parameter_Initialization()
 					
 	P.G00.Password= 0;
 												// default //
-	P.G03.P00_Run_stop_source= 0; 				// terminal
-	P.G03.P01_Reference_source= 0;				// terminal
+	P.G03.P00_Run_stop_source= 1; 				// terminal
+	P.G03.P01_Reference_source= 1;				// terminal
 	P.G03.P03_Stop_mode= 0;						// ramp stop
 	P.G03.P04_Stop_hold_time= 0;				// 0s
 	P.G03.P05_Output_off_hold_time= 1; 			// 1s
@@ -400,11 +400,11 @@ void Parameter_Initialization()
 	P.G05.P08_Overload_current_x1000= 1350;			// 135%
 	P.G05.P09_Over_load_time_x10= 600;				// 60s
 	P.G05.P10_Over_load_fault_action= 0;		// normal stop
-	P.G05.P11_Over_current_trip_x1000= 1300;			// 200% -> 120%
+	P.G05.P11_Over_current_trip_x1000= 1200;			// 200% -> 120%
 	P.G05.P12_Zero_sequence_current_trip_x1000= 0.15;	// 15%
 	P.G05.P13_Over_voltage_limiting_function= 0;// disabled
-	P.G05.P14_Over_voltage_limit= 690;			// 350V 임의값 
-	P.G05.P15_Over_voltage_trip= 710;			// 380V 임의값 
+	P.G05.P14_Over_voltage_limit= 580;			// 350V 임의값 
+	P.G05.P15_Over_voltage_trip= 630;			// 380V 임의값 
 	P.G05.P16_Under_voltage_compensation= 0;	// disabled
 	P.G05.P17_UV_compensation_voltage= 450;		// 270V 임의값 
 	P.G05.P18_Under_voltage_trip= 400; 			// 250V 임의값
@@ -412,8 +412,8 @@ void Parameter_Initialization()
 	P.G05.P20_Supply_frequency= 60;				// 60 Hz
 	P.G05.P21_Built_in_dynamic_brake= 0;		// disabled
 	P.G05.P22_DB_switching_frequency= 5.0;		// 5.0 임의값 
-	P.G05.P23_DB_start_voltage= 600;			// 350V 임의값
-	P.G05.P24_DB_full_voltage= 630;				// 370V 임의값
+	P.G05.P23_DB_start_voltage= 580;			// 350V 임의값
+	P.G05.P24_DB_full_voltage= 610;				// 370V 임의값
 	P.G05.P25_Over_temperature_trip_action= 0;	// Control off
 	P.G05.P30_Auto_restart_count= 0;			// 0
 	P.G05.P31_Retry_delay_time_x10= 15;			// 1.5s
@@ -428,54 +428,72 @@ void Parameter_Initialization()
 	P.G05.P43_Line_under_voltage_auto_reset= 0;	// disabled
 	P.G05.P44_Line_unbalance_auto_reset= 0;		// disabled
 
-	P.G06.AI0_Analog_reference_source= 1;		// AI 1
-	P.G06.AI1.P01_Function= 1;					// AI
-	P.G06.AI1.P02_Type= 0;						// 0~10V
-	P.G06.AI1.P03_Filter_time_constant_x10_mA= 5000;	// 0.5s
-	P.G06.AI1.P04_Offset_x10= 0;					// 0
-	P.G06.AI1.P05_Minimum_x10= 50;			// 5%
-	P.G06.AI1.P06_Maximum_x10= 1000;			// 100%
-	P.G06.AI1.P07_Inversion= 0;					// disabled
-	P.G06.AI1.P08_Discretness= 0;				// disabled
-	P.G06.AI1.P09_Unit_selection= 1;			// %
-	P.G06.AI2.P01_Function= 1;					// AI
-	P.G06.AI2.P02_Type= 0;						// 0~10V
-	P.G06.AI2.P03_Filter_time_constant_x10_mA= 5000;	// 0.5s
-	P.G06.AI2.P04_Offset_x10= 0;					// 0
-	P.G06.AI2.P05_Minimum_x10= 50;			// 5%
-	P.G06.AI2.P06_Maximum_x10= 1000;			// 100%
-	P.G06.AI2.P07_Inversion= 0;					// disabled
-	P.G06.AI2.P08_Discretness= 0;				// disabled
-	P.G06.AI2.P09_Unit_selection= 1;			// %
-/*
-	P.G06.AI3.P01_Function= 1;					// AI
-	P.G06.AI3.P02_Type= 0;						// 0~10V
-	P.G06.AI3.P03_Filter_time_constant_x10_mA= 5000;	// 0.5s
-	P.G06.AI3.P04_Offset_x10= 0;					// 0
-	P.G06.AI3.P05_Minimum_x10= 50;			// 5%
-	P.G06.AI3.P06_Maximum_x10= 1000;			// 100%
-	P.G06.AI3.P07_Inversion= 0;					// disabled
-	P.G06.AI3.P08_Discretness= 0;				// disabled
-	P.G06.AI3.P09_Unit_selection= 1;			// %
-	P.G06.AI4.P01_Function= 1;					// AI
-	P.G06.AI4.P02_Type= 0;						// 0~10V
-	P.G06.AI4.P03_Filter_time_constant_x10_mA= 5000;	// 0.5s
-	P.G06.AI4.P04_Offset_x10= 0;					// 0
-	P.G06.AI4.P05_Minimum_x10= 50;			// 5%
-	P.G06.AI4.P06_Maximum_x10= 1000;			// 100%
-	P.G06.AI4.P07_Inversion= 0;					// disabled
-	P.G06.AI4.P08_Discretness= 0;				// disabled
-	P.G06.AI4.P09_Unit_selection= 1;			// % 
-	P.G06.AI5.P01_Function= 1;					// AI
-	P.G06.AI5.P02_Type= 0;						// 0~10V
-	P.G06.AI5.P03_Filter_time_constant_x10_mA= 5000;	// 0.5s
-	P.G06.AI5.P04_Offset_x10= 0;					// 0
-	P.G06.AI5.P05_Minimum_x10= 50;			// 5%
-	P.G06.AI5.P06_Maximum_x10= 1000;			// 100%
-	P.G06.AI5.P07_Inversion= 0;					// disabled
-	P.G06.AI5.P08_Discretness= 0;				// disabled
-	P.G06.AI5.P09_Unit_selection= 1;			// % 
-*/
+	P.G06.AI0_Analog_reference_source= 0;		// AI 1
+	P.G06.AI1.P00_Function= 1;					// AI
+	P.G06.AI1.P01_Type= 0;						// 0~10V
+	P.G06.AI1.P02_Filter_time_constant_x10_mA= 250;	// 25ms
+	P.G06.AI1.P03_Offset= 0;					// 0
+	P.G06.AI1.P04_Minimum_voltage_x10= 0;			// 0
+	P.G06.AI1.P05_Minimum_current_x10_mA= 0;			// 0
+	P.G06.AI1.P06_Minimum_x1000= 0;					// 0
+	P.G06.AI1.P07_Maximum_voltage_x10= 100;			// 10V
+	P.G06.AI1.P08_Maximum_current_x10_mA= 200;		// 20mA
+	P.G06.AI1.P09_Maximum_x1000= 1000;					// 100%
+	P.G06.AI1.P10_Inversion= 0;					// disabled
+	P.G06.AI1.P11_Discretness= 0;				// disabled
+	P.G06.AI1.P12_Dead_zone= 0;					// disabled
+	P.G06.AI2.P00_Function= 1;					// AI
+	P.G06.AI2.P01_Type= 3;						// 0 ~ 20mA
+	P.G06.AI2.P02_Filter_time_constant_x10_mA= 250;	// 25ms
+	P.G06.AI2.P03_Offset= 0;					// 0
+	P.G06.AI2.P04_Minimum_voltage_x10= 0;			// 0
+	P.G06.AI2.P05_Minimum_current_x10_mA= 0;			// 0
+	P.G06.AI2.P06_Minimum_x1000= 0;					// 0
+	P.G06.AI2.P07_Maximum_voltage_x10= 100;			// 10V
+	P.G06.AI2.P08_Maximum_current_x10_mA= 200;		// 20mA
+	P.G06.AI2.P09_Maximum_x1000= 1000;					// 100%
+	P.G06.AI2.P10_Inversion= 0;					// disabled
+	P.G06.AI2.P11_Discretness= 0;				// disabled
+	P.G06.AI2.P12_Dead_zone= 0;					// disabled 
+	P.G06.AI3.P00_Function= 0;					// disabled
+	P.G06.AI3.P01_Type= 3;						// 0 ~ 20mA
+	P.G06.AI3.P02_Filter_time_constant_x10_mA= 250;	// 25ms
+	P.G06.AI3.P03_Offset= 0;					// 0
+	P.G06.AI3.P04_Minimum_voltage_x10= 0;			// 0
+	P.G06.AI3.P05_Minimum_current_x10_mA= 0;			// 0
+	P.G06.AI3.P06_Minimum_x1000= 0;					// 0
+	P.G06.AI3.P07_Maximum_voltage_x10= 100;			// 10V
+	P.G06.AI3.P08_Maximum_current_x10_mA= 200;		// 20mA
+	P.G06.AI3.P09_Maximum_x1000= 1000;					// 100%
+	P.G06.AI3.P10_Inversion= 0;					// disabled
+	P.G06.AI3.P11_Discretness= 0;				// disabled
+	P.G06.AI3.P12_Dead_zone= 0;					// disabled 
+	P.G06.AI4.P00_Function= 0;					// disabled
+	P.G06.AI4.P01_Type= 3;						// 0 ~ 20mA
+	P.G06.AI4.P02_Filter_time_constant_x10_mA= 250;	// 25ms
+	P.G06.AI4.P03_Offset= 0;					// 0
+	P.G06.AI4.P04_Minimum_voltage_x10= 0;			// 0
+	P.G06.AI4.P05_Minimum_current_x10_mA= 0;			// 0
+	P.G06.AI4.P06_Minimum_x1000= 0;					// 0
+	P.G06.AI4.P07_Maximum_voltage_x10= 100;			// 10V
+	P.G06.AI4.P08_Maximum_current_x10_mA= 200;		// 20mA
+	P.G06.AI4.P09_Maximum_x1000= 1000;					// 100%
+	P.G06.AI4.P10_Inversion= 0;					// disabled
+	P.G06.AI4.P11_Discretness= 0;				// disabled
+	P.G06.AI4.P12_Dead_zone= 0;					// disabled 
+	P.G06.AI5.P00_Function= 0;					// disabled
+	P.G06.AI5.P01_Type= 3;						// 0 ~ 20mA
+	P.G06.AI5.P02_Filter_time_constant_x10_mA= 250;	// 25ms
+	P.G06.AI5.P03_Offset= 0;					// 0
+	P.G06.AI5.P04_Minimum_voltage_x10= 0;			// 0
+	P.G06.AI5.P05_Minimum_current_x10_mA= 0;			// 0
+	P.G06.AI5.P06_Minimum_x1000= 0;					// 0
+	P.G06.AI5.P07_Maximum_voltage_x10= 100;			// 10V
+	P.G06.AI5.P08_Maximum_current_x10_mA= 200;		// 20mA
+	P.G06.AI5.P09_Maximum_x1000= 1000;					// 100%
+	P.G06.AI5.P10_Inversion= 0;					// disabled
+	P.G06.AI5.P11_Discretness= 0;				// disabled
+	P.G06.AI5.P12_Dead_zone= 0;					// disabled 
 
 	P.G07.P00_Control_mode= 0;					// disabled
 
@@ -483,7 +501,7 @@ void Parameter_Initialization()
 	P.G08.P01_DI03_function= 2;					// none	- > MULTI_STEP_BIT0
 	P.G08.P02_DI04_function= 3;					// none	- > MULTI_STEP_BIT1	
 	P.G08.P03_DI05_function= 4;					// none	- > MULTI_STEP_BIT2			
-	P.G08.P04_DI06_function= 5;				// none	- > MULTI_STEP_BIT3	
+	P.G08.P04_DI06_function= 5;					// none	- > MULTI_STEP_BIT3	
 	P.G08.P05_DI07_function= 0;					// none			
 	P.G08.P06_DI08_function= 0;					// none	
 	P.G08.P07_DI09_function= 0;					// none			
@@ -519,7 +537,7 @@ void Parameter_Initialization()
 	P.G11.AO1.P05_Max_output_x1000= 1000;				// 100%
 	P.G11.AO1.P06_Inversion= 0;					// disabled
 	P.G11.AO2.P00_Output_selection= 0;			// output frequency
-	P.G11.AO2.P01_Type= 1;
+	P.G11.AO2.P01_Type= 0;
 	P.G11.AO2.P02_Adjustment_0mA= 0;
 	P.G11.AO2.P03_Adjustment_4mA= 0;
 	P.G11.AO2.P04_Adjustment_20mA= 0;
@@ -531,8 +549,6 @@ void Parameter_Initialization()
 	P.G12.P00_DO3_function= 0;
 
 	P.G13.P00_M1_locked_state_up_speed_up_x1000= 4000;// 4%
-
-	P.G14.P09_Dead_time_compansation_x100_us= 99;
 
 	P.G19.P00_Number_of_encoder_pulses= 1024;	//1024
 	P.G19.P01_Inversion_of_PG_direction= 0;		//disabled
@@ -560,7 +576,7 @@ void System_Variable_Initialization()
 {
 	double OL_current;
 	
-//	Flag.DI.all= 0;
+	Flag.DI.all= 0;
 	Flag.DO.all= 0;
 	Flag.Fault1.all= 0;
 	Flag.Fault2.all= 0;
@@ -570,13 +586,11 @@ void System_Variable_Initialization()
 	Flag.Monitoring.all= 0;
 	Flag.Monitoring.bit.FAULT_RESET_COMPLETE= 1; 
 	
-//	OP.Run_stop.all= 0;
+	OP.Run_stop.all= 0;
 	FaultInfo.DATA= 0.;
 	Voltage_class= 0;
 	Command= CMD_STOP;
 	Init_reference= 0.;
-
-	
 
 
 
@@ -592,7 +606,6 @@ void System_Variable_Initialization()
 
 	Vdc_max=0;
 	I_DT= (double)P.G00.IGBT_current*0.01;
-	T_dead_Tuning= (double)P.G14.P09_Dead_time_compansation_x100_us * 1.e-2;
 
 //--------Motor Parameters--------//
 //	Rs= 0.28175;
@@ -616,14 +629,6 @@ void System_Variable_Initialization()
 //	Is_rate=(20.6*SQRT2), Wrpm_rate=1740., 
 	// Wrpm_max=3500.;
 	PPR= P.G19.P00_Number_of_encoder_pulses;
-
-	// 정격출력(W)/정격속도(rad/sec) -> 정격토크
-	// 정격토크 = 정격출력/( (2xPI/60) x rpm)
-	//         =  정격출력 x (30/PI) / rpm 
-	// Te_rated_f = (1.0e3*(1.0e-1*P.G01.P00_Rated_power_x10_kW)*30)/(PI * P.G01.P05_Rated_speed) 
-	// 				->	1.0e2 x 30 / PI x (P.G01.P00_Rated_power_x10_kW / P.G01.P05_Rated_speed)
-	//				->	954.9305 x (P.G01.P00_Rated_power_x10_kW / P.G01.P05_Rated_speed) 
-	Te_rate =  (954.9305*(double)P.G01.P00_Rated_power_x10_kW)/(double)P.G01.P05_Rated_speed;
  
 //------Motor Parameters End------//  
 	
@@ -742,8 +747,7 @@ void System_Variable_Update()
 	LAMdre_rate = 0.45*(double)(P.G01.P08_Supply_voltage)/220.;
 	LAMdre_ref = 0.45*(double)(P.G01.P08_Supply_voltage)/220.;  
 	PPR= P.G19.P00_Number_of_encoder_pulses;
- 	
-	Te_rate =  (954.9305*(double)P.G01.P00_Rated_power_x10_kW)/(double)P.G01.P05_Rated_speed;
+ 
 //------Motor Parameters End------//  
 	
 	Is_max= ((double)P.G01.P02_Rated_current_x10)*0.1*SQRT2;

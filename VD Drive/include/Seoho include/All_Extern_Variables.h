@@ -16,14 +16,16 @@ extern double Tr;
 extern double Rs0, Ls0, Lm0;
 //------Motor Parameters End------//
 
+extern Uint16 Tx_test;
 extern double Temp_HHH1, Temp_HHH2;
-
+extern int Fault_count;
 extern double Jm_est;
 extern double Te_rate;
+extern double Temperature_x10;
 
-
-
-
+extern double IGBT_current;
+extern double I_DT;
+extern double OC_trip_value;
 
 extern double LAMdrs_cm, LAMqrs_cm;
 extern double LAMdrs_vm, LAMqrs_vm; 
@@ -58,7 +60,6 @@ extern double Vqse_ref_integ;
 extern double Vdss_ref, Vqss_ref, Vdse_ref, Vqse_ref;
 
 //전류 
-extern double IGBT_current;
 extern double I_scale;
 extern double Ias, Ibs, Ics;
 extern double Ias_offset, Ibs_offset;
@@ -67,7 +68,6 @@ extern double Is_max, Is_mag, Is_mag_rms;
 extern double Idss, Iqss, Idse, Iqse; 
 extern double Idss_ref, Iqss_ref, Idse_ref, Iqse_ref;
 extern double Idse_ref_max, Iqse_max_fw;
-extern double Iqse_ref_max;
 
 //자속 
 extern double LAMdre;
@@ -82,10 +82,6 @@ extern double Wrpm_ref;
 extern double Wrpm_fw1, Wrpm_fw2;
 extern double Wrm_det, Wrpm_det, Wrm_det_flt; 
 
-// Power
-extern double Input_power_x10_kW;
-extern double Output_power_x10_kW;
-
 //이득
 extern double K_CM1, K_CM2;
 extern double K_fw1, K_fw2;
@@ -95,7 +91,6 @@ extern double Wc_sc, Kp_sc, Ki_sc, Ka_sc;
 extern double Wc_cc, Kp_cc, Ki_cc, Ka_cc;
 extern double L1_sp_est, L2_sp_est, L3_sp_est, L3_sp_tmp;
 extern double Kob_sd;
-
 //위상 
 extern double Theta; 
 extern double Thetar;
@@ -110,20 +105,15 @@ extern double Cos_Theta, Sin_Theta;
 //switch
 extern int Driver_ON,Flux_build_up;
 
-//PWM  
+//PWM Count 
 extern double 	T_dead_Tuning;
 extern Uint16	EPwmPeriodCount;
 extern unsigned int DutyCount[3];
-extern double I_DT;
 
-// Fault
-extern int Fault_count;
-extern double OL_limit;
-extern double Continuous_OL_current;  
-extern double OC_trip_value;
 
 //기타 
-extern int Temperature_x10;
+extern double OL_limit;
+extern double Continuous_OL_current;
 extern long Main_counter;
 extern int State_Index;
 extern int Auto_tuning_index;
@@ -169,9 +159,7 @@ extern SVGENDQ svgen_dq1;
 //변수 통신 관련
 extern Uint16 Rx_index;
 extern Uint16 Tx_index;
-extern Uint16 Tx_count_15ms;
-extern Uint16 Tx_count_1s;
-extern int Dummy_comm;
+extern int Tx_count;
 extern CRC_flg	CRC;
 
 extern char scib_tx_buf[SCIB_BUF_SIZE+1];

@@ -160,17 +160,14 @@ void Flux_Estimation()
 #pragma CODE_SECTION(Current_Controller, "ramfuncs");
 void Current_Controller()
 {
-	static double Vdse_ref_integ= 0., Vdse_ref_ff= 0.;
-	static double Vqse_ref_ff= 0.; 
-
 	double a, b;
 	double Theta_vtg= 0.;
 	double Idse_flt=0., Iqse_flt=0.;
 	double Err_Idse= 0., Err_Iqse= 0.; 
 
-
+	static double Vdse_ref_integ= 0., Vdse_ref_ff= 0.;
+	static double Vqse_ref_ff= 0.;
 //	static double Vdse_ref_fb=0., Vqse_ref_fb=0.; // 관측용 변수 
-
 
 //	Kp_cc = Lsigma*1250.;
 //	Ki_cc = Rs*2.*1250;
@@ -282,7 +279,7 @@ void SVPWM()
 	}
 
 	// Dead_Time Compensation 
-	V_dt = Vdc*( (T_DEAD_US-T_dead_Tuning)/(Tsamp_CC*1.e+6) );	
+	V_dt = Vdc*( (T_DEAD+T_dead_Tuning)/Tsamp_CC );	
 	K_dt = V_dt/(I_DT);
 
 	#if (DUAL_PWM_INTERRUPT)
@@ -331,11 +328,11 @@ void Field_Weakening()
 //  DB control 시 Vdc 떨림 현상 발생 DB Control 추가할것 
 //	Vs_max = (Vdc*0.95)/SQRT3;
 //	Vs_max = (Vdc*0.9)/SQRT3;
-/*
+
 	b= (double)P.G01.P08_Supply_voltage*SQRT2*1.05;
 	if(Vdc>b) a = b;
 	else		a = Vdc;
-*/
+
 	Vs_max = (Vdc*0.9)/SQRT3;
 
     We_fw1= sqrt( (Vs_max*Vs_max) / K_fw1 );
@@ -393,6 +390,7 @@ void Flux_Controller()
 void Speed_Controller()
 {
 	double a;
+	double Iqse_ref_max= 0.;
 	double Wsl= 0., Wrm_ref= 0., Err_Wrm= 0.;
 	
 	static double Wrm_flt= 0.;

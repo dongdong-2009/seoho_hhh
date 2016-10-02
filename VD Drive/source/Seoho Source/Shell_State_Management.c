@@ -11,9 +11,10 @@ void State_Management()
 	if ( (Flag.Fault1.all & (~Flag.Fault_Neglect1.all)) != 0x0000 )	State_Index= STATE_FAULT;
 	if ( (Flag.Fault2.all & (~Flag.Fault_Neglect2.all)) != 0x0000 )	State_Index= STATE_FAULT;
 
+
 	switch( State_Index )
 	{
-		case STATE_POWER_ON:	State_Index= STATE_CALIBRATION; Flag.Monitoring.bit.RUN_STOP_STATUS= 0; break;
+		case STATE_POWER_ON:	State_Index= STATE_CALIBRATION;							break;
 		case STATE_CALIBRATION:	if (Flag.Monitoring.bit.DRIVE_CAL)	State_Index= STATE_STOP;	break;
 		case STATE_STOP:			
 			// (Break On,Off)  의 상태 검사 Code 추가할것 
@@ -22,30 +23,19 @@ void State_Management()
 			{
 				// if ( (Flag.ETC.bit.PWM_ON) && (BREAK_ON) )
 				if (Flag.Monitoring.bit.PWM_ON) State_Index= STATE_ACCELERATING;
-				Flag.Monitoring.bit.RUN_STOP_STATUS= 1;
 			}
 			else if (Command == CMD_STOP)
 			{
 				// if ( (!Flag.ETC.bit.PWM_ON) && (BREAK_OFF) )
-				if (!Flag.Monitoring.bit.PWM_ON)
-				{
-					State_Index= STATE_READY;
-					Flag.Monitoring.bit.RUN_STOP_STATUS= 0;
-				}
+				if (!Flag.Monitoring.bit.PWM_ON) State_Index= STATE_READY;
 			}
 			break;
 
 		case STATE_READY:
-			if (Command == CMD_RUN)
-			{
-				State_Index= STATE_STOP;
-				Flag.Monitoring.bit.RUN_STOP_STATUS= 1;
-			}
+			if (Command == CMD_RUN) State_Index= STATE_STOP;
 			else if (OP.Run_stop.bit.AUTO_TUNING)
-			{
 			 	State_Index= STATE_TUNING;
-				Flag.Monitoring.bit.RUN_STOP_STATUS= 1;
-			}
+
 			break; 
 
 		// STATE_RUNING 의 판단은 입력 속도의 정상상태로 결정한다
@@ -78,7 +68,7 @@ void State_Management()
 			break;  
 
 		case STATE_FAULT:
-			Flag.Monitoring.bit.RUN_STOP_STATUS= 0; 
+//			Init_reference= 0.;
 			if  (Flag.Monitoring.bit.FAULT_RESET_COMPLETE)
 				State_Index= STATE_STOP;
 			break;  

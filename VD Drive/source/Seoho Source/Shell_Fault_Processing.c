@@ -18,122 +18,91 @@ void Fault_Recording(int Fault_code, double Fault_data,char * st)
 void Fault_Processing( )
 {
 	double Temp;
-	static int Vdc_check_Timer= 0, Fault_index= 0;
-	static int Gate_driver_reset_counter= 0;
+	static int Vdc_check_Timer= 0;
+//	static int Gate_driver_reset_counter= 0, Gate_driver_clear_count= 0, Gate_driver_set_count= 0, Gate_driver_complete_count= 0;
 
-
-	Init_reference= Final_reference= 0.;
-	Wrpm_ref= 0.;
 	PWM_ON_OFF(0);	
 	Driver_ON=0;
-	OP.Run_stop.bit.AUTO_TUNING= 0;
-	Auto_tuning_index= 0;
+	Init_reference= Final_reference= 0.;
+	Wrpm_ref= 0.;
+//	OP.Run_stop.bit.AUTO_TUNING= 0;
+	if (Flag.Monitoring.bit.FAULT_RESET_COMPLETE==1) Fault_count++;
+	Flag.Monitoring.bit.FAULT_RESET_COMPLETE= 0;
 	
-	// OP.Run_stop.bit.FAULT_RESET= Data_Registers[2484]; 요렇게 하면 안됨
-	// 우리 모두 원인을 찾아보도록 하자
-	// 아래 명령대로 하면 쓰기가 됨
-	OP.Run_stop.bit.FAULT_RESET= Dummy_comm= Data_Registers[2484];
-	switch (Fault_index)
+
+/*
+		if (Command == CMD_RESET)
+		{
+			State_Index = STATE_POWER_ON;
+			NOP;
+			asm (" .ref _c_int00"); // ;Branch to start of boot.asm in RTS library
+			asm (" LB _c_int00"); // ;Branch to start of boot.asm in RTS library
+		}
+*/
+	
+	if (OP.Run_stop.bit.FAULT_RESET== 0)
+		DC_CONTACT_OFF;		// Main Charge Relay Off
+	else 
 	{
-		case 0:
-			Flag.Monitoring.bit.FAULT_RESET_COMPLETE= 0;
-			DC_CONTACT_OFF; // Main Charge Relay Off
-			Fault_count++;
-			Fault_index++;
+		Auto_tuning_index= 0;
+//		Flag.Monitoring.bit.FAULT_RESET_COMPLETE= 0;
+		
+		Temp= (double)(P.G01.P02_Rated_current_x10)*0.1;
+		if ( fabs(Ias) < Temp )	Flag.Fault1.bit.OC_A= 0;
+		if ( fabs(Ibs) < Temp )	Flag.Fault1.bit.OC_B= 0;
+		if ( fabs(Ics) < Temp )	Flag.Fault1.bit.OC_C= 0;
+		if ( Is_mag    < Temp )	Flag.Fault1.bit.OC_MAG= 0;
+		
+		Flag.Fault1.bit.OL= 0; 
 
-			break;
-		case 1:
-			if (OP.Run_stop.bit.FAULT_RESET== 1)
+		Temp= P.G01.P08_Supply_voltage * SQRT2; // 입력전압 Set 값을 가져와야함 
+		if ((Vdc>(Temp*0.85))&&(Vdc<(Temp*1.1)))	Vdc_check_Timer++;
+		else if (Vdc_check_Timer>0) Vdc_check_Timer--;
+		if (Vdc_check_Timer>10)	
+		{
+			Flag.Fault1.bit.INIT_CHARGE= 0;
+			Flag.Fault1.bit.OV= 0;
+			Flag.Fault1.bit.UV= 0;
+		}
+		if (fabs(Wrpm_det)<=Wrpm_max)	Flag.Fault1.bit.OVER_SPEED= 0;
+		if (GpioDataRegs.GPADAT.bit.GPIO12!=0) 	Flag.Fault1.bit.DRIVER= 0;
+		if (GpioDataRegs.GPADAT.bit.GPIO13!=0)	
+		{	EPwm4Regs.AQCSFRC.bit.CSFA= 0;	Flag.Fault1.bit.DB= 0;	}
+
+		if ( (Flag.DI.bit.EXT_FAULT_A== 0)&&(Flag.DI.bit.EXT_FAULT_B== 0) )	Flag.Fault1.bit.EXT_FAULT= 0;
+
+		if (  ( (Flag.Fault1.all & (~Flag.Fault_Neglect1.all))== 0x0000 )
+			&&( (Flag.Fault2.all & (~Flag.Fault_Neglect2.all))== 0x0000 )  )
+		{
+//			Gate_driver_reset_counter++;
+//			Gate_driver_clear_count= (int)(0.01/Tsamp);
+//			Gate_driver_set_count= (int)(0.02/Tsamp);
+//			Gate_driver_complete_count= (int)(0.025/Tsamp);
+
+			EPwm1Regs.TZCLR.bit.OST= 1;
+			EPwm2Regs.TZCLR.bit.OST= 1;	
+			EPwm3Regs.TZCLR.bit.OST= 1;
+			OP.Run_stop.bit.FAULT_RESET= 0;
+			Flag.Monitoring.bit.FAULT_RESET_COMPLETE= 1;
+			DC_CONTACT_ON; // 메인 전원 on
+/*
+			if (Gate_driver_reset_counter= Gate_driver_clear_count) 
+				RESET_DRIVER_CLEAR; //316J Reset
+			else if (Gate_driver_reset_counter= Gate_driver_set_count)
+				RESET_DRIVER_SET; //316J PWM on
+			else if (Gate_driver_reset_counter>= Gate_driver_complete_count)
 			{
-				Auto_tuning_index= 0;
-				
-				Temp= (double)(P.G01.P02_Rated_current_x10)*0.1;
-				if ( fabs(Ias) < Temp )	Flag.Fault1.bit.OC_A= 0;
-				if ( fabs(Ibs) < Temp )	Flag.Fault1.bit.OC_B= 0;
-				if ( fabs(Ics) < Temp )	Flag.Fault1.bit.OC_C= 0;
-				if ( Is_mag    < Temp )	Flag.Fault1.bit.OC_MAG= 0;
-				
-				Flag.Fault1.bit.OL= 0; 
-
-				Temp= P.G01.P08_Supply_voltage * SQRT2; // 입력전압 Set 값을 가져와야함 
-				if ((Vdc>(Temp*0.85))&&(Vdc<(Temp*1.1)))	Vdc_check_Timer++;
-				else if (Vdc_check_Timer>0) Vdc_check_Timer--;
-				if (Vdc_check_Timer>10)	
-				{
-					Flag.Fault1.bit.INIT_CHARGE= 0;
-					Flag.Fault1.bit.OV= 0;
-					Flag.Fault1.bit.UV= 0;
-				}
-				if (fabs(Wrpm_det)<=Wrpm_max)	Flag.Fault1.bit.OVER_SPEED= 0;
-				if (GpioDataRegs.GPADAT.bit.GPIO12!=0) 	Flag.Fault1.bit.DEVICE_SHORT= 0;
-				if (GpioDataRegs.GPADAT.bit.GPIO13!=0)	
-				{	EPwm4Regs.AQCSFRC.bit.CSFA= 0;	Flag.Fault1.bit.DB= 0;	}
-
-				if (Flag.DI.bit.EXT_FAULT_A== 0)	Flag.Fault1.bit.EXT_FAULT_A= 0;
-				if (Flag.DI.bit.EXT_FAULT_B== 0)	Flag.Fault1.bit.EXT_FAULT_B= 0;
-
-				// Trip zone clear 가 완료 되면 clear flag 해제
-				if ( (!EPwm1Regs.TZFLG.bit.OST)&&(!EPwm2Regs.TZFLG.bit.OST)&&(!EPwm3Regs.TZFLG.bit.OST) )
-				{
-					EPwm1Regs.TZCLR.bit.OST= 0;
-					EPwm2Regs.TZCLR.bit.OST= 0;	
-					EPwm3Regs.TZCLR.bit.OST= 0;
-					Flag.Fault1.bit.HARDWARE_FAULT= 0;
-				}
-				else 
-				{
-					EPwm1Regs.TZCLR.bit.OST= 1;
-					EPwm2Regs.TZCLR.bit.OST= 1;	
-					EPwm3Regs.TZCLR.bit.OST= 1;
-				}
-
-				Fault_index++;
-			}
-			
-			break;
-		case 2:
-			if ( 	((Flag.Fault1.all & (~Flag.Fault_Neglect1.all)) == 0x0000) 
-				&&	((Flag.Fault2.all & (~Flag.Fault_Neglect2.all)) == 0x0000)    ) 
-			{
-				Gate_driver_reset_counter++;
-/*			
+				Gate_driver_reset_counter= 0;
 				EPwm1Regs.TZCLR.bit.OST= 1;
 				EPwm2Regs.TZCLR.bit.OST= 1;	
 				EPwm3Regs.TZCLR.bit.OST= 1;
-				OP.Run_stop.bit.FAULT_RESET= 0;
+//				OP.Run_stop.bit.FAULT_RESET= 0;
 				Flag.Monitoring.bit.FAULT_RESET_COMPLETE= 1;
-				Fault_index= 0;
-				DC_CONTACT_ON; // 메인 전원 on
-*/
-				// Trip zone clear 가 완료 되면 clear flag 해제
-				if ( (!EPwm1Regs.TZFLG.bit.OST)&&(!EPwm2Regs.TZFLG.bit.OST)&&(!EPwm3Regs.TZFLG.bit.OST) )
-				{
-					EPwm1Regs.TZCLR.bit.OST= 0;
-					EPwm2Regs.TZCLR.bit.OST= 0;	
-					EPwm3Regs.TZCLR.bit.OST= 0;
-				}				
-				
-				if (Gate_driver_reset_counter>= ((int)(0.010/Tsamp)))
-				{
-					Gate_driver_reset_counter= 0;
-
-					OP.Run_stop.bit.FAULT_RESET= 0;
-					Flag.Monitoring.bit.FAULT_RESET_COMPLETE= 1;
-					Fault_index= 0;
-					DC_CONTACT_ON; // 메인 전원 on
-				}
-				else if (Gate_driver_reset_counter== ((int)(0.005/Tsamp)))
-					RESET_DRIVER_SET; //316J PWM on
-				else if (Gate_driver_reset_counter<= 1) 
-					RESET_DRIVER_CLEAR; //316J Reset
-
-	
 			}
-			else Fault_index--;
+*/	
+		}
 
-			break;
 	}
-
 
 }
 
@@ -165,7 +134,6 @@ void Fault_Check_1Sampling()
 	if ( EPwm1Regs.TZFLG.bit.OST || EPwm2Regs.TZFLG.bit.OST || EPwm3Regs.TZFLG.bit.OST)
 		Flag.Fault1.bit.HARDWARE_FAULT= 1;
 
-	if (GpioDataRegs.GPADAT.bit.GPIO12==0) 	Flag.Fault1.bit.DEVICE_SHORT= 1;
 }
 
 
@@ -188,11 +156,6 @@ void Fault_Check_4Sampling()
 	if ( Temperature_x10> ((double)P.G05.P40_Over_temperature_trip_x10) )	OT_Timer++;
 	else if (OT_Timer>0)	OT_Timer--;
 	if ( OT_Timer>= (0.002/Tsamp) )	Flag.Fault1.bit.OT= 1;
-
-
-	//	if (GpioDataRegs.GPADAT.bit.GPIO16==0) 	FaultZCCount++;
-//	else if( FaultZCCount > 0)			FaultZCCount--;
-//	if (FaultZCCount > 10 )	Flag.Fault.bit.ZC= 1;
 
 }
 

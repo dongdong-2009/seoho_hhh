@@ -3,7 +3,7 @@
 
 void InitAdc()
 {
-	AdcRegs.ADCMAXCONV.all = 9;       // 16 channel  
+	AdcRegs.ADCMAXCONV.all = 7;       // 16 channel  
 	AdcRegs.ADCTRL1.bit.SUSMOD = 1;
 	AdcRegs.ADCTRL1.bit.ACQ_PS = 15;
 	AdcRegs.ADCTRL1.bit.CPS = 0;
@@ -19,14 +19,11 @@ void InitAdc()
 	AdcRegs.ADCCHSELSEQ2.bit.CONV05 = 5; // voltage 1
 	AdcRegs.ADCCHSELSEQ2.bit.CONV06 = 6; // current 2
 	AdcRegs.ADCCHSELSEQ2.bit.CONV07 = 7; // voltage 2
-//	AdcRegs.ADCCHSELSEQ3.bit.CONV08 = 8; // analog input 3
-//	AdcRegs.ADCCHSELSEQ3.bit.CONV09 = 9; // analog input 4
-//	AdcRegs.ADCCHSELSEQ3.bit.CONV10 = 10; // analog input 5
-//'	AdcRegs.ADCCHSELSEQ3.bit.CONV11 = 14; // temperature
-//	AdcRegs.ADCCHSELSEQ4.bit.CONV12 = 15; // voltage range
-	AdcRegs.ADCCHSELSEQ3.bit.CONV08 = 14; // temperature
-	AdcRegs.ADCCHSELSEQ3.bit.CONV09 = 15; // voltage range
-
+	AdcRegs.ADCCHSELSEQ3.bit.CONV08 = 8; // analog input 3
+	AdcRegs.ADCCHSELSEQ3.bit.CONV09 = 9; // analog input 4
+	AdcRegs.ADCCHSELSEQ3.bit.CONV10 = 10; // analog input 5
+	AdcRegs.ADCCHSELSEQ3.bit.CONV11 = 14; // temperature
+	AdcRegs.ADCCHSELSEQ4.bit.CONV12 = 15; // voltage range
 
 	AdcRegs.ADCTRL2.bit.EPWM_SOCA_SEQ1 = 1;// Enable SOCA from ePWM to start SEQ1
 	AdcRegs.ADCTRL3.all = 0x00F0;  // Power up bandgap/reference/ADC circuits
@@ -34,11 +31,9 @@ void InitAdc()
 
 	//for adc irq 
 	EPwm1Regs.ETSEL.bit.SOCAEN = 1;   // Enable SOC on A group
-	EPwm1Regs.ETSEL.bit.SOCASEL = ET_CTR_PRD;
-//	EPwm1Regs.ETSEL.bit.SOCASEL = ET_CTR_ZERO;
+	EPwm1Regs.ETSEL.bit.SOCASEL = ET_CTR_ZERO;
 	EPwm1Regs.ETPS.bit.SOCAPRD = 1;        // Generate pulse on every event
 	EPwm1Regs.ETCLR.bit.SOCA = 1;	// Clear SOCA flag
-
 
 }
 
@@ -75,13 +70,11 @@ void GetSensorValue( )
 	Adc_AIN_V1 		= (int)(AdcRegs.ADCRESULT5 	>> 4); // voltage 1
 	Adc_AIN_I2 		= (int)(AdcRegs.ADCRESULT6 	>> 4); // current 2
 	Adc_AIN_V2 		= (int)(AdcRegs.ADCRESULT7 	>> 4); // voltage 2
-//	Adc_AIN_3		= (int)(AdcRegs.ADCRESULT8 	>> 4); // analog input 3
-//	Adc_AIN_4		= (int)(AdcRegs.ADCRESULT9 	>> 4); // analog input 4
-//	Adc_AIN_5	 	= (int)(AdcRegs.ADCRESULT10 >> 4); // analog input 5
-//	Adc_Temperature	= (int)(AdcRegs.ADCRESULT11 >> 4); // temperature
-//	Adc_Vclass 		= (int)(AdcRegs.ADCRESULT12 >> 4); // voltage range
-	Adc_Temperature	= (int)(AdcRegs.ADCRESULT8	>> 4); // temperature
-	Adc_Vclass 		= (int)(AdcRegs.ADCRESULT9	>> 4); // voltage range 
+	Adc_AIN_3		= (int)(AdcRegs.ADCRESULT8 	>> 4); // analog input 3
+	Adc_AIN_4		= (int)(AdcRegs.ADCRESULT9 	>> 4); // analog input 4
+	Adc_AIN_5	 	= (int)(AdcRegs.ADCRESULT10 >> 4); // analog input 5
+	Adc_Temperature	= (int)(AdcRegs.ADCRESULT11 >> 4); // temperature
+	Adc_Vclass 	= (int)(AdcRegs.ADCRESULT12 >> 4); // voltage range
 
 
 	Temp= (double)(Adc_Uphase);
@@ -99,17 +92,6 @@ void GetSensorValue( )
 	Vdc=  Vdc_scale *(Temp/4095.0) - Vdc_offset;
 
 	Temperature_x10= Temperature_Calculation(Adc_Temperature);
-
-	// 입력 파워= (3/2) x [(Vd x Id) + (Vq x Iq)]
-	// 스케일 : kW -> x 1.0e-3, x10 -> x 10 
-	// =>  Te x [(PI/30) x rpm] /1000
-	//   = 1.0471967e-3 x [Te x rpm]		: x10
-	Input_power_x10_kW= (int)(1.5e-2*(Vdss_ref*Idss+Vqss_ref*Iqss));
-						
-	// 출력 파워
-	// Pwr[kW] = 1.0e-3 x {Trq[Nm] x (PI/30) x Spd[rpm]}
- 	//         = 1.047197e-3 {Trq[Nm] x Spd[rpm]}
-	Output_power_x10_kW= (int)((1.047197e-3*Te)*Wrpm_det);	
 
 	if (Vdc>Vdc_max) Vdc_max=Vdc;
 
@@ -552,6 +534,7 @@ void EPWM_Initialization()
 	EPwm5Regs.TBPRD 				= EPwmPeriodCount;   // Set timer period
 	EPwm5Regs.TBCTL.bit.CTRMODE 	= TB_COUNT_UPDOWN; 		// Count up
 	EPwm5Regs.TBCTL.bit.PHSEN 	= TB_DISABLE;        // 
+
 	EPwm5Regs.TBCTL.bit.HSPCLKDIV = TB_DIV1;      // 
 	EPwm5Regs.TBCTL.bit.CLKDIV 	= TB_DIV1;         // Slow so we can observe on the scope
 
@@ -572,19 +555,8 @@ void EPWM_Initialization()
 	EPwm5Regs.CMPCTL.bit.SHDWAMODE = CC_SHADOW;
 	EPwm5Regs.CMPCTL.bit.SHDWBMODE = CC_SHADOW;
 
- 	#if (DUAL_PWM_INTERRUPT)
-		EPwm5Regs.CMPCTL.bit.LOADAMODE = CC_CTR_ZERO_PRD;
-		EPwm5Regs.CMPCTL.bit.LOADBMODE = CC_CTR_ZERO_PRD;
-	#else
-		EPwm5Regs.CMPCTL.bit.LOADAMODE = CC_CTR_ZERO;
-		EPwm5Regs.CMPCTL.bit.LOADBMODE = CC_CTR_ZERO;
-	#endif  
-
-	// Active high complementary PWMs - Setup the deadband
-	EPwm5Regs.DBCTL.bit.OUT_MODE = DB_DISABLE;
-	EPwm5Regs.ETSEL.bit.INTEN = 0;                  // Enable INT
-	EPwm5Regs.DBCTL.bit.POLSEL = DB_ACTV_LOC;
-	EPwm5Regs.DBCTL.bit.IN_MODE = DBA_ALL;
+	EPwm5Regs.CMPCTL.bit.LOADAMODE = CC_CTR_ZERO_PRD;
+	EPwm5Regs.CMPCTL.bit.LOADBMODE = CC_CTR_ZERO_PRD;
 
 }
 #pragma CODE_SECTION(PWM_ON_OFF, "ramfuncs");

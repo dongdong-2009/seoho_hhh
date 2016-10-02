@@ -7,7 +7,7 @@ void Auto_Tuning()
 	static long Auto_tuning_counter= 0;
 	static double Vdse_ref_sum= 0.; 		
 	static double Vdse_ref_avg0= 0., Vdse_ref_avg1= 0.;
-	static double Error_integ= 0.;
+	static double Error_integ= 0.0;
 	double Error= 0.;	
 	
 	switch (Auto_tuning_index)
@@ -22,7 +22,6 @@ void Auto_Tuning()
 				Wrpm_ref= 0.;
 				PWM_ON_OFF(1);	
 				Driver_ON=1;
-
 			}
 		
 			if (Flux_build_up) 	
@@ -36,10 +35,10 @@ void Auto_Tuning()
 		case 1 :	// Dead time voltage_compensation & Stator resistance estimation 1
 		
 			Wrpm_ref= 0.;
-			Idse_ref= Idse_ref_max*0.35; 
+			Idse_ref= Idse_ref_max*0.40; 
 			Auto_tuning_counter++;
 
-			if (Auto_tuning_counter>=1500)
+			if (Auto_tuning_counter>=2500)
 			{
 				Vdse_ref_avg0= Vdse_ref_sum*0.001;
 				Vdse_ref_sum= 0.;
@@ -54,27 +53,24 @@ void Auto_Tuning()
 		case 2 : 	// Dead time voltage_compensation & Stator resistance estimation 2
 			
 			Wrpm_ref= 0.;
-			Idse_ref= Idse_ref_max*0.7; 
+			Idse_ref= Idse_ref_max*0.8; 
 			Auto_tuning_counter++;
 
-			if (Auto_tuning_counter>=1500)
+			if (Auto_tuning_counter>=2500)
 			{
 				Vdse_ref_avg1= Vdse_ref_sum*0.001;
 				Vdse_ref_sum= 0.;
 				Auto_tuning_counter= 0.;
 				Error= 2.0- Vdse_ref_avg1/Vdse_ref_avg0;
-				Error_integ+= 2.e-6*Tsamp*3000*Error;
-				T_dead_Tuning= (1.e-8*Error + Error_integ)*1.e+6;
-//				Error_integ+= 2.*Tsamp*3000*Error;
-//				T_dead_Tuning= 2.5e-2*Error + Error_integ;
-							
+				Error_integ+= 1.e-6*Tsamp*5000*Error;
+				T_dead_Tuning= 2.5e-8*Error + Error_integ;
+			
 				if ( (Error>(-0.01))&&(Error<0.01) )
 				{
 					Auto_tuning_counter= 0;
 					Idse_ref= 0.;
 					Error_integ= 0.;
 					identify_offline= 1;
-					Data_Registers[1019]= P.G14.P09_Dead_time_compansation_x100_us= (int)(T_dead_Tuning*1.e+2);
 					Auto_tuning_index= 5;
 				}
 				else	Auto_tuning_index--;

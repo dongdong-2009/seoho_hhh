@@ -16,8 +16,14 @@ double Tr= 0.;
 double Rs0= 0., Ls0= 0., Lm0= 0.;
 //------Motor Parameters End------//  
 
+Uint16 Tx_test= 0;
 double Temp_HHH1, Temp_HHH2;
+int Fault_count= 0;
 
+double IGBT_current= 0.;
+double I_DT= 0.;
+double OC_trip_value= 0.;
+double Temperature_x10= 0.;
 
 double Jm_est= 0.;
 double Te_rate= 0.;
@@ -58,7 +64,6 @@ double Vdss_ref= 0., Vqss_ref= 0., Vdse_ref= 0., Vqse_ref= 0.;
 
 
 //전류 
-double IGBT_current= 0.;
 double I_scale= 0.;
 double Ias=0., Ibs=0., Ics=0.;
 double Ias_offset=0., Ibs_offset=0.;
@@ -67,7 +72,6 @@ double Is_max=0., Is_mag=0., Is_mag_rms=0.;
 double Idss=0., Iqss=0., Idse=0., Iqse=0.; 
 double Idss_ref=0., Iqss_ref=0., Idse_ref=0., Iqse_ref=0.;
 double Idse_ref_max= 0., Iqse_max_fw=0.;
-double Iqse_ref_max= 0.;
 	
 
 //자속 
@@ -82,10 +86,6 @@ double Wr=0.;
 double Wrpm_ref=0.;
 double Wrpm_fw1=0., Wrpm_fw2=0.;
 double Wrm_det=0., Wrpm_det=0., Wrm_det_flt=0.; 
-
-// Power
-double Input_power_x10_kW= 0.;
-double Output_power_x10_kW= 0.;
 
 //이득
 double K_CM1=0., K_CM2=0.;
@@ -111,20 +111,15 @@ double Cos_Theta=1., Sin_Theta=0.;
 //switch
 int Driver_ON=0.,Flux_build_up=0.;
 
-//PWM  
-double T_dead_Tuning= 0.;
+//PWM Count 
+double T_dead_Tuning= -1.e-6;
 Uint16 EPwmPeriodCount= 0.;
 unsigned int DutyCount[3];
-double I_DT= 0.;
 
-// Fault
-int Fault_count= 0;
-double OL_limit= 0.;
-double Continuous_OL_current= 0.;  
-double OC_trip_value= 0.;
 
 //기타 
-int Temperature_x10= 0.;
+double OL_limit= 0.;
+double Continuous_OL_current= 0.; 
 long Main_counter= 0;
 int State_Index= 0;
 int Auto_tuning_index= 0;
@@ -172,9 +167,7 @@ SVGENDQ svgen_dq1 = SVGENDQ_DEFAULTS;
 //변수 통신 관련
 Uint16 Rx_index= 0;
 Uint16 Tx_index= 0;
-Uint16 Tx_count_15ms= 0;
-Uint16 Tx_count_1s= 0;
-int Dummy_comm= 0;
+int Tx_count= 0;
 CRC_flg	CRC ;
 
 /* Variables for Serial Communication  */
