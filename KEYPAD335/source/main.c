@@ -72,6 +72,7 @@ unsigned char EventTimeC = 0;
 unsigned char EventTimeD = 0;
 unsigned char EventTimeE = 0;
 
+extern unsigned int 	key_press_time;
 
 
 void MCU_initialize(void)			/* initialize ATmege1280 MCU & OK-1280 kit */
@@ -155,6 +156,7 @@ void SystemTimeTic(void)
 	if(TimeTic_100ms)
 	{
 		_500ms_Cnt++;
+		key_press_time++;
 		if(5<_500ms_Cnt)
 		{
 			_500ms_Cnt = 1;
@@ -314,8 +316,6 @@ int main(void)
 
 	//CLCD_BackLightOnOff(1);
 	EventFlagE = 1;
-	//history_veriable_init();
-	//history_update(0,0);
 	
 	while(1)
 	{
@@ -351,11 +351,11 @@ int main(void)
 
 		if(TimeTic_500ms)
 		{
-			PORTL = PORTL + 0x01; 
+			PORTL = PORTL ^ 0x0F; 
 			//All_Value_Refresh();
 
-			communication_fault_cnt++;
-			if(5 < communication_fault_cnt)	communication_fault = 1;
+			//communication_fault_cnt++;
+			//if(5 < communication_fault_cnt)	communication_fault = 1;
 			
 		}
 

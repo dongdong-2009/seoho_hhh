@@ -31,14 +31,6 @@
 #define STOP		0xFEFF
 
 
-#define HISTORY_MAX 	40
-#define HISTORY_CHAR_MAX 	40
-
-#define MX_DATA_ARRAY 	250
-
-extern volatile unsigned int main_data_array[MX_DATA_ARRAY];
-extern volatile unsigned int main_data_array_old[MX_DATA_ARRAY];
-
 //extern unsigned long naviMENU;
 extern unsigned char RefreshFlag;
 
@@ -53,7 +45,6 @@ extern unsigned char EventTimeB;
 extern unsigned char EventTimeC;
 extern unsigned char EventTimeD;
 extern unsigned char EventTimeE;
-
 
 void DisplayInit(void);
 void MainSYSTEM(void);
@@ -70,10 +61,9 @@ void PAGE_LineScroll(unsigned char line);
 void irregularPAGE_handler(void);
 void refreshPAGE_handler(void);
 
-void history_veriable_init(void);
-void history_update(char Module_num, char history_eventCode );
 
 const char* _readPGM_TEXT(PGM_P p);
+const char* _cpy_flash2memory(char const *format);
 const char* _TEXT(char const *format, ...);
 
 

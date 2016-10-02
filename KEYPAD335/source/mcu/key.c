@@ -58,25 +58,18 @@ unsigned int KeyScan(void)
 	key = PINJ | ((PINK | 0xFE)<<8);
 
 	if(key != 0xFFFF)key_signal_A=0x00;
-	else key_signal_A=0xFFFF;
+	else key_signal_A=0xFF;
 	
 	if((!key_signal_A)&&(!key_signal_B))//key pressing
 	{
-		key_press_time++;
-		if((2<key_press_time)&&(key_press_time<4))
+		//key_press_time++;
+		if( key_press_time <= 10 ) key_data = key;
+		else
 		{
-			key_data = key;
-		}
-		
-		if(300<key_press_time)//시스템 틱에 연동하여 하는게 졸을것 같기도
-		{
-			if(key_press_time<=301)
-			{
-				//key_press_time=100;
-				key_output = key_data;
-				LongKeyFlag=1;
-				return key_output;
-			}
+			key_press_time = 9;
+			key_output = key_data;
+			LongKeyFlag=1;
+			return key_output;
 		}
 	}
 	else if((!key_signal_A)&&(key_signal_B))// key down edge
