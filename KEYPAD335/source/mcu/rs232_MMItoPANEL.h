@@ -14,13 +14,13 @@
 #ifndef _SERIAL_H_
 #define _SERIAL_H_
 
-//---------------------------------------
-typedef	struct
-{
-	unsigned	char OP;	//MSB
-	unsigned	char OBJ;	//LSB
-} Packet_Head_flg ;
-Packet_Head_flg	Packet_Head ;
+
+#define BUF_MAX 0x600
+
+#define DATA_REG 0x8000
+#define TEMP_REG 0x9000
+
+#define	GEN_POLYNOMAL	0x8821		// CRC Á¬¼ö
 
 //---------------------------------------
 typedef	union
@@ -46,30 +46,13 @@ typedef	union
 }Data_flg;
 Data_flg	data_flg;
 
-extern unsigned int	ms_cnt ;
-extern unsigned int	s_reg ;
-
-extern unsigned char Read_GROUP;
-extern unsigned char Read_INDEX;
-
-extern unsigned char NewDataFlag;
-
-
-void Wait(void); 
 
 void UART_init(void);
 
 void TX0_char( char data);
 
-void Initialize_SCI_Stack(void);
 
-void Send_Parameter(unsigned char GROUP,unsigned char INDEX,unsigned DATA) ;
-
-void WRITE_Packet_PARAMETER_ACCESS(void);
-void WRITE_Packet_PARAMETER_BLOCK_ACCESS(void); 
-
-void Serial_Comm_Protocol(void);
-void Serial_Comm_Service(void); 
-void Read_DATA_from_ControlBoard(unsigned char GROUP, unsigned char INDEX);
+void SCIC_Tx_process(void);
+void SCIC_Rx_process(void);
 
 #endif

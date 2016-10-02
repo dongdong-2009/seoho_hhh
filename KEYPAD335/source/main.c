@@ -264,6 +264,7 @@ ISR(TIMER1_COMPA_vect)
 
 int main(void)
 {
+	unsigned int i;
 	MCU_initialize();                             // initialize MCU and kit
 
 	Delay_ms(200);                                 // wait for system stabilization
@@ -279,17 +280,22 @@ int main(void)
 	Timer_IntteruptSet();
 	UART_init();
 	DisplayInit();
-	
-	// 송수신 스택 초기화
-	Initialize_SCI_Stack() ;					//Serial_Comm.c
 
-	s_reg = ms_cnt + 2000 ;
-	
 //	debug_devopen(TX2_char);
 
 //	RS485_RX_EN0;
 	sei();	
 	//wait() ;
+
+	for(i=0;i<BUF_MAX;i++)
+	{
+		*(volatile int *)((i<<1)+DATA_REG) =0;
+		*(volatile int *)((i<<1)+DATA_REG+1) = 0;
+		
+		*(volatile int *)((i<<1)+TEMP_REG) = 0;
+		*(volatile int *)((i<<1)+TEMP_REG+1) = 0;
+		
+	}
 
 	Delay_ms(500); 
 	Delay_ms(500); 
@@ -297,21 +303,20 @@ int main(void)
 	Delay_ms(500);
 	
 	EventFlagE = 1;
-
-	Read_GROUP =50;
-	Read_INDEX = 0;
 	
 	while(1)
 	{
 		if(TimeTic_1ms)
 		{
 			//mseconds++;
+			
 		}
 
 		if(TimeTic_10ms)
 		{
 			KeyProc();
 			MainSYSTEM();
+			MenuDisplay();
 		}
 
 		if(TimeTic_100ms)
@@ -321,22 +326,22 @@ int main(void)
 		
 		if(TimeTic_200ms)
 		{
-				
 		}
 
 		if(TimeTic_500ms)
 		{
-			Read_DATA_from_ControlBoard(Read_GROUP, Read_INDEX);	
 		}
 
 		if(TimeTic_1s)
 		{
-				
+			//*(volatile int *)0x8000 = 0xAB;
+			//*(volatile int *)0x9000 = 0xCD;
 			//GLCD_print0508(7, 7,_TEXT("20%02d/%02d/%02d %02d:%02d:%02d",year,month,date,hour,min,second));
 		}
 
-		Serial_Comm_Service(); 
-		
+		SCIC_Tx_process();
+		SCIC_Rx_process();
+
 		SystemTimeTic();
 		SystemEventAutoClear();
 	}

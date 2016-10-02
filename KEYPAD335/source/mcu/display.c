@@ -58,12 +58,14 @@ char waiting_flag=0;
 
 
 
+void (*MenuDisplay)(void);
+void (*LCDDisplay)(void);
+
 void DisplayInit(void)
 {
 	naviMENU=1;
 	old_naveMENU = 0xFF;
 }
-
 
 
 
@@ -5600,15 +5602,9 @@ unsigned int Temporary=0;
 
 void SYS_1(void)
 {
-	//Read_GROUP =50;
-	//Read_INDEX = 0;
-	
-	if(KeyState.KeyValue == UP)naviMENU = 7;
-	else if(KeyState.KeyValue == DN)naviMENU = 2;
-	else if(KeyState.KeyValue == ENTER)
-	{
-		 naviMENU = 10;
-	}
+	if(KeyState.KeyValue == UP)MenuDisplay = SYS_7;
+	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2;
+	else if(KeyState.KeyValue == ENTER) MenuDisplay = SYS_1_0;
 	else if(KeyState.KeyValue == (ESC  & RUN & STOP & ENTER) )	naviMENU = 0xFFFFFFFF;
 
 
@@ -5676,26 +5672,6 @@ void SYS_7(void)
 void SYS_1_0(void)
 {
 //	unsigned char c;
-	Read_GROUP =50;
-	Read_INDEX = 0;
-
-	if(EnterFlag)
-	{
-		if(NewDataFlag)
-		{
-			if(Temporary != 1)
-			{
-				Send_Parameter(Read_GROUP,Read_INDEX,1); 
-			}
-			else
-			{
-				EnterFlag =0;
-				naviMENU = 100;
-				PORTL = PORTL | 0x01;
-			}
-			NewDataFlag=0;
-		}
-	}
 
 	if(KeyState.KeyValue == ENTER)EnterFlag = 1;
 	else if(KeyState.KeyValue == ESC)naviMENU = 1;
@@ -5706,27 +5682,6 @@ void SYS_1_0(void)
 }
 void SYS_1_0_0(void)
 {
-	Read_GROUP =50;
-	Read_INDEX = 0;
-
-	if(EnterFlag)
-	{
-		if(NewDataFlag)
-		{
-			if(Temporary != 0)
-			{
-				Send_Parameter(Read_GROUP,Read_INDEX,0); 
-			}
-			else
-			{
-				EnterFlag =0;
-				naviMENU = 10;
-				PORTL = PORTL & 0xFE;
-			}
-			NewDataFlag=0;
-		}
-	}
-	
 	if(KeyState.KeyValue == ENTER)EnterFlag = 1;
 	else if(KeyState.KeyValue == ESC)naviMENU = 1;
 	else if(KeyState.KeyValue == UP)naviMENU = 15;
@@ -5756,9 +5711,6 @@ void SYS_1_2(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =50;
-		Read_INDEX = 2;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -5777,24 +5729,6 @@ void SYS_1_2(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -5866,9 +5800,6 @@ void SYS_1_2(void)
 					posInpage++;
 				}
 			}
-		}
-	
-
 	}
 
 	if(RefreshFlag) PAGE_1_2();
@@ -5877,9 +5808,6 @@ void SYS_1_3(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =50;
-		Read_INDEX = 3;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -5898,24 +5826,6 @@ void SYS_1_3(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -5987,8 +5897,6 @@ void SYS_1_3(void)
 					posInpage++;
 				}
 			}
-		}
-	
 
 	}
 
@@ -5998,9 +5906,6 @@ void SYS_1_4(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =50;
-		Read_INDEX = 4;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -6019,24 +5924,6 @@ void SYS_1_4(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -6108,8 +5995,6 @@ void SYS_1_4(void)
 					posInpage++;
 				}
 			}
-		}
-	
 
 	}
 
@@ -6586,9 +6471,6 @@ void SYS_3_01_00(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =1;
-		Read_INDEX = 0;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -6606,24 +6488,6 @@ void SYS_3_01_00(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -6695,8 +6559,6 @@ void SYS_3_01_00(void)
 					posInpage++;
 				}
 			}
-		}
-	
 
 	}
 	 
@@ -6706,9 +6568,6 @@ void SYS_3_01_01(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =1;
-		Read_INDEX = 1;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -6724,24 +6583,6 @@ void SYS_3_01_01(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -6813,8 +6654,6 @@ void SYS_3_01_01(void)
 					posInpage++;
 				}
 			}
-		}
-	
 
 	}
 	 if(RefreshFlag) PAGE_3_01_01(); 
@@ -6825,8 +6664,6 @@ void SYS_3_01_02(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =1;
-		Read_INDEX = 2;
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -6842,24 +6679,6 @@ void SYS_3_01_02(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -6931,9 +6750,6 @@ void SYS_3_01_02(void)
 					posInpage++;
 				}
 			}
-		}
-	
-
 	}
 	 if(RefreshFlag) PAGE_3_01_02(); 
 	 
@@ -6943,8 +6759,6 @@ void SYS_3_01_03(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =1;
-		Read_INDEX = 3;
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -6960,24 +6774,6 @@ void SYS_3_01_03(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp);  
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -7049,9 +6845,6 @@ void SYS_3_01_03(void)
 					posInpage++;
 				}
 			}
-		}
-	
-
 	}
 	 if(RefreshFlag) PAGE_3_01_03(); 
 	 
@@ -7061,8 +6854,6 @@ void SYS_3_01_04(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =1;
-		Read_INDEX = 4;
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -7078,24 +6869,6 @@ void SYS_3_01_04(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -7167,9 +6940,6 @@ void SYS_3_01_04(void)
 					posInpage++;
 				}
 			}
-		}
-	
-
 	}
 	 if(RefreshFlag) PAGE_3_01_04(); 
 	 
@@ -7179,8 +6949,6 @@ void SYS_3_01_05(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =1;
-		Read_INDEX = 5;
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -7196,24 +6964,6 @@ void SYS_3_01_05(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -7285,9 +7035,6 @@ void SYS_3_01_05(void)
 					posInpage++;
 				}
 			}
-		}
-	
-
 	}
 	 if(RefreshFlag) PAGE_3_01_05(); 
 	 
@@ -7297,8 +7044,6 @@ void SYS_3_01_06(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =1;
-		Read_INDEX = 6;
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -7314,24 +7059,6 @@ void SYS_3_01_06(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -7403,9 +7130,6 @@ void SYS_3_01_06(void)
 					posInpage++;
 				}
 			}
-		}
-	
-
 	}
 	 if(RefreshFlag) PAGE_3_01_06(); 
 	 
@@ -7415,8 +7139,6 @@ void SYS_3_01_07(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =1;
-		Read_INDEX = 7;
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -7432,24 +7154,6 @@ void SYS_3_01_07(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -7521,8 +7225,6 @@ void SYS_3_01_07(void)
 					posInpage++;
 				}
 			}
-		}
-	
 
 	}
 	if(RefreshFlag) PAGE_3_01_07();  
@@ -7533,8 +7235,6 @@ void SYS_3_01_08(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =1;
-		Read_INDEX = 8;
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -7550,24 +7250,6 @@ void SYS_3_01_08(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -7639,9 +7321,6 @@ void SYS_3_01_08(void)
 					posInpage++;
 				}
 			}
-		}
-	
-
 	}
 	if(RefreshFlag) PAGE_3_01_08();  
 	 
@@ -7651,8 +7330,6 @@ void SYS_3_01_09(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =1;
-		Read_INDEX = 9;
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -7669,24 +7346,6 @@ void SYS_3_01_09(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -7758,9 +7417,6 @@ void SYS_3_01_09(void)
 					posInpage++;
 				}
 			}
-		}
-	
-
 	}
 	
 	if(RefreshFlag) PAGE_3_01_09();  
@@ -7846,9 +7502,6 @@ void SYS_3_03_00(void)
 {
   	if(!Edit_flag)
 	{
-		Read_GROUP =3;
-		Read_INDEX = 0;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -7865,24 +7518,6 @@ void SYS_3_03_00(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -7954,8 +7589,6 @@ void SYS_3_03_00(void)
 					posInpage++;
 				}
 			}
-		}
-	
 
 	}
 	
@@ -7967,9 +7600,6 @@ void SYS_3_03_01(void)
 {
   	if(!Edit_flag)
 	{
-		Read_GROUP =3;
-		Read_INDEX = 1;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -7985,24 +7615,6 @@ void SYS_3_03_01(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -8074,9 +7686,6 @@ void SYS_3_03_01(void)
 					posInpage++;
 				}
 			}
-		}
-	
-
 	}
 	if(RefreshFlag) PAGE_3_03_01();
 	 
@@ -8128,9 +7737,6 @@ void SYS_3_03_08(void)
 {
   	if(!Edit_flag)
 	{
-		Read_GROUP =3;
-		Read_INDEX = 8;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -8146,24 +7752,6 @@ void SYS_3_03_08(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -8235,9 +7823,6 @@ void SYS_3_03_08(void)
 					posInpage++;
 				}
 			}
-		}
-	
-
 	}
 	if(RefreshFlag) PAGE_3_03_08(); 
 	 
@@ -8359,9 +7944,6 @@ void SYS_3_03_25(void)
 {
   	if(!Edit_flag)
 	{
-		Read_GROUP =3;
-		Read_INDEX = 25;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -8377,24 +7959,6 @@ void SYS_3_03_25(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -8466,8 +8030,7 @@ void SYS_3_03_25(void)
 					posInpage++;
 				}
 			}
-		}
-	
+
 
 	}
 	if(RefreshFlag) PAGE_3_03_25(); 
@@ -9046,9 +8609,6 @@ void SYS_3_05_00(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =5;
-		Read_INDEX = 0;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -9065,24 +8625,7 @@ void SYS_3_05_00(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
+
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -9154,8 +8697,6 @@ void SYS_3_05_00(void)
 					posInpage++;
 				}
 			}
-		}
-	
 
 	}
 	if(RefreshFlag) PAGE_3_05_00();
@@ -9208,9 +8749,6 @@ void SYS_3_05_07(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =5;
-		Read_INDEX = 7;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -9226,24 +8764,6 @@ void SYS_3_05_07(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -9315,9 +8835,6 @@ void SYS_3_05_07(void)
 					posInpage++;
 				}
 			}
-		}
-	
-
 	}
 	if(RefreshFlag) PAGE_3_05_07(); 
 	 
@@ -9327,9 +8844,6 @@ void SYS_3_05_08(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =5;
-		Read_INDEX = 8;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -9345,24 +8859,6 @@ void SYS_3_05_08(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -9434,9 +8930,6 @@ void SYS_3_05_08(void)
 					posInpage++;
 				}
 			}
-		}
-	
-
 	}
 	if(RefreshFlag) PAGE_3_05_08(); 
 	 
@@ -9460,9 +8953,6 @@ void SYS_3_05_11(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =5;
-		Read_INDEX = 11;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -9478,24 +8968,6 @@ void SYS_3_05_11(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -9568,9 +9040,6 @@ void SYS_3_05_11(void)
 				}
 			}
 		}
-	
-
-	}
 	 if(RefreshFlag) PAGE_3_05_11();
 	 
 	 
@@ -9579,9 +9048,6 @@ void SYS_3_05_12(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =5;
-		Read_INDEX = 12;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -9597,24 +9063,6 @@ void SYS_3_05_12(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -9689,7 +9137,7 @@ void SYS_3_05_12(void)
 		}
 	
 
-	}
+
 	if(RefreshFlag) PAGE_3_05_12(); 
 	 
 	 
@@ -9698,9 +9146,6 @@ void SYS_3_05_13(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =5;
-		Read_INDEX = 13;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -9716,24 +9161,6 @@ void SYS_3_05_13(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -9807,8 +9234,6 @@ void SYS_3_05_13(void)
 			}
 		}
 	
-
-	}
 	if(RefreshFlag) PAGE_3_05_13(); 
 	 
 	 
@@ -9817,9 +9242,6 @@ void SYS_3_05_14(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =5;
-		Read_INDEX = 14;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -9835,24 +9257,6 @@ void SYS_3_05_14(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -9926,8 +9330,6 @@ void SYS_3_05_14(void)
 			}
 		}
 	
-
-	}
 	if(RefreshFlag) PAGE_3_05_14(); 
 	 
 	 
@@ -9936,9 +9338,6 @@ void SYS_3_05_15(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =5;
-		Read_INDEX = 15;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -9954,24 +9353,6 @@ void SYS_3_05_15(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -10045,8 +9426,6 @@ void SYS_3_05_15(void)
 			}
 		}
 	
-
-	}
 	if(RefreshFlag) PAGE_3_05_15(); 
 	 
 	 
@@ -10069,9 +9448,6 @@ void SYS_3_05_18(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =5;
-		Read_INDEX = 18;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -10087,24 +9463,6 @@ void SYS_3_05_18(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp);
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -10179,7 +9537,6 @@ void SYS_3_05_18(void)
 		}
 	
 
-	}
 	if(RefreshFlag) PAGE_3_05_18(); 
 	 
 	 
@@ -10188,9 +9545,6 @@ void SYS_3_05_19(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =5;
-		Read_INDEX = 19;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -10206,24 +9560,6 @@ void SYS_3_05_19(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp);
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -10297,8 +9633,6 @@ void SYS_3_05_19(void)
 			}
 		}
 	
-
-	}
 	if(RefreshFlag) PAGE_3_05_19(); 
 	 
 	 
@@ -10433,9 +9767,6 @@ void SYS_3_05_38(void)
 {
  	if(!Edit_flag)
 	{
-		Read_GROUP =5;
-		Read_INDEX = 38;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -10451,24 +9782,6 @@ void SYS_3_05_38(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp);
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,9);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,8);
@@ -10542,8 +9855,6 @@ void SYS_3_05_38(void)
 			}
 		}
 	
-
-	}
 	if(RefreshFlag) PAGE_3_05_38(); 
 	 
 	 
@@ -12378,8 +11689,6 @@ void SYS_3_17_01(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =17;
-		Read_INDEX = 1;
 
 		if(edit_Temp != Temporary)
 		{
@@ -12397,24 +11706,6 @@ void SYS_3_17_01(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -12489,7 +11780,6 @@ void SYS_3_17_01(void)
 		}
 	
 
-	}
 	if(RefreshFlag) PAGE_3_17_01();    
 	 
 	 
@@ -12498,9 +11788,6 @@ void SYS_3_17_02(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =17;
-		Read_INDEX = 2;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -12517,24 +11804,6 @@ void SYS_3_17_02(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -12609,7 +11878,6 @@ void SYS_3_17_02(void)
 		}
 	
 
-	}
 	if(RefreshFlag) PAGE_3_17_02();    
 	 
 	 
@@ -12618,9 +11886,6 @@ void SYS_3_17_03(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =17;
-		Read_INDEX = 3;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -12637,24 +11902,6 @@ void SYS_3_17_03(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -12728,8 +11975,6 @@ void SYS_3_17_03(void)
 			}
 		}
 	
-
-	}
 	if(RefreshFlag) PAGE_3_17_03();    
 	 
 	 
@@ -12787,15 +12032,6 @@ void SYS_3_17_11(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =17;
-		Read_INDEX = 11;
-
-		if(edit_Temp != Temporary)
-		{
-			edit_Temp = Temporary;
-			RefreshFlag = 1;
-		}
-		
  		SYS_Base_KeyFunction();
 		if(KeyState.KeyValue == ENTER)
 		{
@@ -12806,24 +12042,6 @@ void SYS_3_17_11(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -12898,7 +12116,7 @@ void SYS_3_17_11(void)
 		}
 	
 
-	}
+
 	if(RefreshFlag) PAGE_3_17_11();    
 	 
 	 
@@ -12907,15 +12125,6 @@ void SYS_3_17_12(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =17;
-		Read_INDEX = 12;
-
-		if(edit_Temp != Temporary)
-		{
-			edit_Temp = Temporary;
-			RefreshFlag = 1;
-		}
-		
  		SYS_Base_KeyFunction();
 		if(KeyState.KeyValue == ENTER)
 		{
@@ -12926,24 +12135,7 @@ void SYS_3_17_12(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
+
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -13018,7 +12210,6 @@ void SYS_3_17_12(void)
 		}
 	
 
-	}
 	if(RefreshFlag) PAGE_3_17_12();    
 	 
 	 
@@ -13062,9 +12253,6 @@ void SYS_3_17_18(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =17;
-		Read_INDEX = 18;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -13081,24 +12269,6 @@ void SYS_3_17_18(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -13171,9 +12341,7 @@ void SYS_3_17_18(void)
 				}
 			}
 		}
-	
 
-	}
 	if(RefreshFlag) PAGE_3_17_18();    
 	 
 	 
@@ -13182,9 +12350,6 @@ void SYS_3_17_19(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =17;
-		Read_INDEX = 19;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -13201,24 +12366,6 @@ void SYS_3_17_19(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -13292,8 +12439,6 @@ void SYS_3_17_19(void)
 			}
 		}
 	
-
-	}
 	if(RefreshFlag) PAGE_3_17_19();    
 	 
 	 
@@ -13512,15 +12657,7 @@ void SYS_3_17_50(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =17;
-		Read_INDEX = 50;
 
-		if(edit_Temp != Temporary)
-		{
-			edit_Temp = Temporary;
-			RefreshFlag = 1;
-		}
-		
  		SYS_Base_KeyFunction();
 		if(KeyState.KeyValue == ENTER)
 		{
@@ -13531,24 +12668,6 @@ void SYS_3_17_50(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -13621,9 +12740,6 @@ void SYS_3_17_50(void)
 				}
 			}
 		}
-	
-
-	}
 	if(RefreshFlag) PAGE_3_17_50();    
 	 
 	 
@@ -13632,9 +12748,6 @@ void SYS_3_17_51(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =17;
-		Read_INDEX = 51;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -13652,24 +12765,6 @@ void SYS_3_17_51(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -13744,9 +12839,7 @@ void SYS_3_17_51(void)
 		}
 	
 
-	}
-	
-	 
+ 
 	if(RefreshFlag) PAGE_3_17_51();    
 }
 
@@ -14769,14 +13862,6 @@ void SYS_3_21_09(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =21;
-		Read_INDEX = 9;
-
-		if(edit_Temp != Temporary)
-		{
-			edit_Temp = Temporary;
-			RefreshFlag = 1;
-		}
 		
  		SYS_Base_KeyFunction();
 		if(KeyState.KeyValue == ENTER)
@@ -14788,24 +13873,6 @@ void SYS_3_21_09(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -14878,9 +13945,7 @@ void SYS_3_21_09(void)
 				}
 			}
 		}
-	
 
-	}
 	if(RefreshFlag) PAGE_3_21_09();  
 	 
 	 
@@ -14889,9 +13954,6 @@ void SYS_3_21_10(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =21;
-		Read_INDEX = 10;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -14908,24 +13970,6 @@ void SYS_3_21_10(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -14998,9 +14042,7 @@ void SYS_3_21_10(void)
 				}
 			}
 		}
-	
 
-	}
 	if(RefreshFlag) PAGE_3_21_10();  
 	 
 	 
@@ -15009,9 +14051,6 @@ void SYS_3_21_11(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =21;
-		Read_INDEX = 11;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -15028,24 +14067,6 @@ void SYS_3_21_11(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -15118,9 +14139,6 @@ void SYS_3_21_11(void)
 				}
 			}
 		}
-	
-
-	}
 	if(RefreshFlag) PAGE_3_21_11();  
 	 
 	 
@@ -15129,9 +14147,6 @@ void SYS_3_21_12(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =21;
-		Read_INDEX = 12;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -15148,24 +14163,6 @@ void SYS_3_21_12(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -15238,9 +14235,7 @@ void SYS_3_21_12(void)
 				}
 			}
 		}
-	
 
-	}
 	if(RefreshFlag) PAGE_3_21_12();  
 	 
 	 
@@ -15249,9 +14244,6 @@ void SYS_3_21_13(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =21;
-		Read_INDEX = 13;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -15268,24 +14260,6 @@ void SYS_3_21_13(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -15358,9 +14332,7 @@ void SYS_3_21_13(void)
 				}
 			}
 		}
-	
 
-	}
 	if(RefreshFlag) PAGE_3_21_13();  
 	 
 	 
@@ -15369,9 +14341,6 @@ void SYS_3_21_14(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =21;
-		Read_INDEX = 14;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -15388,24 +14357,6 @@ void SYS_3_21_14(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -15478,9 +14429,6 @@ void SYS_3_21_14(void)
 				}
 			}
 		}
-	
-
-	}
 	if(RefreshFlag) PAGE_3_21_14();  
 	 
 	 
@@ -15489,9 +14437,6 @@ void SYS_3_21_15(void)
 {
 	if(!Edit_flag)
 	{
-		Read_GROUP =21;
-		Read_INDEX = 9;
-
 		if(edit_Temp != Temporary)
 		{
 			edit_Temp = Temporary;
@@ -15509,24 +14454,6 @@ void SYS_3_21_15(void)
 	}
 	else
 	{
-		if(EnterFlag)
-		{
-			if(NewDataFlag)
-			{
-				if(Temporary != edit_Temp)
-				{
-					Send_Parameter(Read_GROUP,Read_INDEX,edit_Temp); 
-				}
-				else
-				{
-					EnterFlag =0;
-					Edit_flag = 0;
-				}
-				NewDataFlag=0;
-			}
-		}
-		else
-		{
 			if(posInpage ==0) CLCD_cursor_ON(0xC0,10);
 			else if(posInpage ==1) CLCD_cursor_ON(0xC0,8);
 			else if(posInpage ==2) CLCD_cursor_ON(0xC0,7);
@@ -15601,9 +14528,6 @@ void SYS_3_21_15(void)
 		}
 	
 
-	}
-	 
-	
 	if(RefreshFlag) PAGE_3_21_15();  
 }
 
@@ -17670,17 +16594,18 @@ char* string = text_buf;
 
 
 void MainSYSTEM(void)
-{	
+{
 	static unsigned char _EventFlagE=0;
 
 	RefreshFlag=0;
 	if(naviMENU!=old_naveMENU)
 	{
-		 RefreshFlag=1;
+		
 	}
 
 	if(KeyState.KeyValue != 0xFFFF)
 	{
+		 RefreshFlag=1;
 		EventFlagE = 1;
 		EventTimeE = 0;
 	}
@@ -17697,46 +16622,13 @@ void MainSYSTEM(void)
 		_EventFlagE=EventFlagE;
 	}
 
+//	
+//
 
-	if(RunFlag)
-	{
-		if(NewDataFlag)
-		{
-			if(Temporary != 1)	Send_Parameter(Read_GROUP,Read_INDEX,1);
-			else {	RunFlag =0;	StopFlag =0;PORTL = PORTL & 0xF9 | 0x02 ;}
-			
-			NewDataFlag=0;
-		}
-	}
 
-	if(StopFlag)
-	{
-		if(NewDataFlag)
-		{
-			if(Temporary != 0) Send_Parameter(Read_GROUP,Read_INDEX,0);
-			else {	StopFlag =0;RunFlag =0; PORTL = PORTL & 0xF9 | 0x04  ; }
-			
-			NewDataFlag=0;
-		}
-	}
 
-	if(KeyState.KeyValue == RUN)
-	{
-		RunFlag = 1;
-		StopFlag = 0;
-		Read_GROUP =50;
-		Read_INDEX = 6;
-	}
-	else if(KeyState.KeyValue == STOP)
-	{
-		RunFlag = 0;
-		StopFlag = 1;
-		Read_GROUP =50;
-		Read_INDEX = 6;
-	}
+#if 0
 
-	if(!RunFlag && !StopFlag)
-	{
 		switch(naviMENU){
 			case  1			 	:				SYS_1						();     		break;
 			case  2			 	:				SYS_2						();     		break;
@@ -18684,10 +17576,8 @@ void MainSYSTEM(void)
 
 			default:		irregularPAGE_handler();		break;
 				}
-		}
-	
-
+#endif
 		if(RefreshFlag)old_naveMENU=naviMENU;
 
-}
 
+}
