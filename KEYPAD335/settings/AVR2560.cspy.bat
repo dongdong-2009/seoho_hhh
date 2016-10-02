@@ -22,7 +22,7 @@
 @REM but they are listed at the end of this file for reference.
 
 
-"C:\Program Files\IAR Systems\Embedded Workbench 5.3\common\bin\cspybat" "C:\Program Files\IAR Systems\Embedded Workbench 5.3\avr\bin\avrproc.dll" "C:\Program Files\IAR Systems\Embedded Workbench 5.3\avr\bin\avrsim.dll"  %1 --plugin "C:\Program Files\IAR Systems\Embedded Workbench 5.3\avr\bin\<libsupport_plugin>" --backend -B "-v0" "--disable_internal_eeprom" "-d" "sim" 
+"C:\Program Files\IAR Systems\Embedded Workbench 5.3\common\bin\cspybat" "C:\Program Files\IAR Systems\Embedded Workbench 5.3\avr\bin\avrproc.dll" "C:\Program Files\IAR Systems\Embedded Workbench 5.3\avr\bin\avrJtagIce-mkII.dll"  %1 --plugin "C:\Program Files\IAR Systems\Embedded Workbench 5.3\avr\bin\<libsupport_plugin>" --backend -B "--cpu=m2560" "--enhanced_core" "-p" "C:\Program Files\IAR Systems\Embedded Workbench 5.3\avr\Config\iom2560.ddf" "--eeprom_size" "4096" "-d" "jtagIceMkII" "--jtagice_clock=3600000" "--drv_set_putchar_breakpoint" "--drv_set_getchar_breakpoint" "--drv_communication=USB" 
 
 
 @REM Loaded plugins:

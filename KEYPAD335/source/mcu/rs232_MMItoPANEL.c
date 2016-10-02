@@ -15,13 +15,14 @@
 //           2008-08-20 - printf함수 포함
 //                              - 링버퍼 수신모듈 리턴인자 수정 (0or1)
 //           1010-03-03 - MINV MMI to CTRL_PANEL간 통신 전용
-//                              - 기존의 링버퍼를 활용하여 자기자신의 데이터가 변할蒻�
-//===============================================================================================
+//                              - 기존의 링버퍼를 활용하여 자기자신의 데이터가 변할蒻?//===============================================================================================
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/delay.h>
+//#include <avr/io.h>
+//#include <avr/interrupt.h>
+//#include <util/delay.h>
 
+#include <inavr.h>
+#include <iom2560.h>
 
 #include <string.h>
 #include "type.h"
@@ -30,7 +31,10 @@
 
 #include "display.h"
 
+CRC_flg	CRC ;
+Data_flg	data_flg;
 
+unsigned int SCI_Registers[BUF_MAX];
 //==============================================================
 // UART  initialize
 void UART_init(void)
@@ -61,27 +65,33 @@ void UART_init(void)
 
 void WriteDataMem(unsigned int addr, unsigned int dat)
 {
-	*(volatile int *)(DATA_REG + (addr<<1)+0) = (char)(dat>>8);
-	*(volatile int *)(DATA_REG + (addr<<1)+1) = (char)dat;
+	//*(volatile int *)(DATA_REG + (addr<<1)+0) = (char)(dat>>8);
+	//*(volatile int *)(DATA_REG + (addr<<1)+1) = (char)dat;
+	DATA_Registers[addr] = dat;
 }
 unsigned int ReadDataMem(unsigned int addr)
 {
-	unsigned int data_word;
-	data_word =  MAKEWORD( (*(volatile int *)(DATA_REG + (addr<<1)+0 )),(*(volatile int *)(DATA_REG + (addr<<1)+1)) );
+	unsigned int data_word = 0;
+	//data_word =  MAKEWORD( (*(volatile int *)(DATA_REG + (addr<<1)+0 )),(*(volatile int *)(DATA_REG + (addr<<1)+1)) );
+	data_word = DATA_Registers[addr];
  	return data_word;
 }
 //-----------------------------
 // 데이타 수신
 //-----------------------------
-volatile unsigned char SciC_RxStep=0;
-volatile unsigned char SciC_RxFlag=0;
+ unsigned char SciC_RxStep=0;
+ unsigned char SciC_RxFlag=0;
 
-volatile unsigned int RxAddr=0;
-volatile unsigned int RxData=0;
-volatile unsigned int RxCRC=0;
-volatile unsigned char RxBuf[8];
-volatile unsigned char RXD0;
-ISR(USART0_RX_vect)	
+ unsigned int RxType=0;
+ unsigned int RxAddr=0;
+ unsigned int RxData=0;
+ unsigned int RxCRC=0;
+ unsigned char RxBuf[9];
+ unsigned char RXD0;
+
+#pragma vector = USART0_RX_vect
+__interrupt void USART0_RX_ISR(void)
+//ISR(USART0_RX_vect)	
 {
 	RXD0 = UDR0 ;
 	if(!SciC_RxFlag)
@@ -105,34 +115,39 @@ ISR(USART0_RX_vect)
 			}
 			else SciC_RxStep=0;
 		}
-		else if(SciC_RxStep == 2)//addr_h
+		else if(SciC_RxStep == 2)//type
 		{
 			RxBuf[2] = RXD0;
 			SciC_RxStep++;
 		}
-		else if(SciC_RxStep == 3)//addr_l
+		else if(SciC_RxStep == 3)//addr_h
 		{
 			RxBuf[3] = RXD0;
 			SciC_RxStep++;
 		}
-		else if(SciC_RxStep == 4)//data_h
+		else if(SciC_RxStep == 4)//addr_l
 		{
 			RxBuf[4] = RXD0;
 			SciC_RxStep++;
 		}
-		else if(SciC_RxStep == 5)//data_l
+		else if(SciC_RxStep == 5)//data_h
 		{
 			RxBuf[5] = RXD0;
 			SciC_RxStep++;
 		}
-		else if(SciC_RxStep == 6)//crc_H
+		else if(SciC_RxStep == 6)//data_l
 		{
 			RxBuf[6] = RXD0;
 			SciC_RxStep++;
 		}
-		else//crc_L
+		else if(SciC_RxStep == 7)//crc_H
 		{
 			RxBuf[7] = RXD0;
+			SciC_RxStep++;
+		}
+		else//crc_L
+		{
+			RxBuf[8] = RXD0;
 
 			CRC.Word = 0;
 			CRC_16(RxBuf[0]);
@@ -141,13 +156,35 @@ ISR(USART0_RX_vect)
 			CRC_16(RxBuf[3]);
 			CRC_16(RxBuf[4]);
 			CRC_16(RxBuf[5]);
+			CRC_16(RxBuf[6]);
 
-			RxAddr = ((unsigned int)RxBuf[2]<<8) | RxBuf[3] ;
-			RxData = ((unsigned int)RxBuf[4]<<8) | RxBuf[5] ;
-			RxCRC   = ((unsigned int)RxBuf[6]<<8) | RxBuf[7] ;
+			RxType = RxBuf[2];
+			RxAddr = ((unsigned int)RxBuf[3]<<8) | RxBuf[4] ;
+			RxData = ((unsigned int)RxBuf[5]<<8) | RxBuf[6] ;
+			RxCRC   = ((unsigned int)RxBuf[7]<<8) | RxBuf[8] ;
 
-			if(RxCRC == CRC.Word) SciC_RxFlag=1;
-			
+			if((RxBuf[7] == CRC.Byte.b1) && (RxBuf[8] == CRC.Byte.b0))
+			{
+				SciC_RxFlag=1;
+				SCI_Registers[RxAddr] = RxData;
+
+				if(RxType == SEND)
+				{
+					CRC.Word = 0;
+					TX0_char(RxBuf[0]);		CRC_16(RxBuf[0]);
+					TX0_char(RxBuf[1]);		CRC_16(RxBuf[1]);
+					TX0_char(RESPONSE);		CRC_16(RESPONSE);
+					TX0_char(RxBuf[3]);		CRC_16(RxBuf[3]);
+					TX0_char(RxBuf[4]);		CRC_16(RxBuf[4]);
+					TX0_char(RxBuf[5]);		CRC_16(RxBuf[5]);
+					TX0_char(RxBuf[6]);		CRC_16(RxBuf[6]);
+					TX0_char(CRC.Byte.b1);
+					TX0_char(CRC.Byte.b0);
+
+					DATA_Registers[RxAddr] = RxData;
+				}
+				
+			}
 			SciC_RxStep=0;
 		}
 	}
@@ -184,75 +221,54 @@ void CRC_16(unsigned char input)
 
 //WORD SCI_Registers[Buf_MAX];
 WORD SCI_TxOffset=0;
-void SCIC_Tx_process(void)
+WORD TxDelyCnt=0;
+void SCI_Process(void)
 {
-	unsigned int data, temp;
-
-	data = MAKEWORD( (*(volatile int *)(DATA_REG + ((SCI_TxOffset<<1) +0)) ),(*(volatile int *)(DATA_REG + (SCI_TxOffset<<1) +1)) ) ;
-	temp = MAKEWORD( (*(volatile int *)(TEMP_REG + ((SCI_TxOffset<<1) +0)) ),(*(volatile int *)(TEMP_REG + (SCI_TxOffset<<1) +1)) ) ;	
-
-	if(data != temp)
-	{
-		//SCI_Registers[SCI_TxOffset] = Data_Registers[SCI_TxOffset];
-
-		CRC.Word = 0;
-
-		TX0_char(0xAB);												CRC_16(0xAB);
-		TX0_char(0xCD);												CRC_16(0xCD);
-
-		TX0_char((char)(SCI_TxOffset>>8));							CRC_16((char)(SCI_TxOffset>>8));
-		TX0_char((char)SCI_TxOffset);									CRC_16((char)SCI_TxOffset);
-
-		TX0_char(*(volatile int *)(DATA_REG + (SCI_TxOffset<<1)+0));		CRC_16(*(volatile int *)(DATA_REG + (SCI_TxOffset<<1)+0));
-		TX0_char(*(volatile int *)(DATA_REG + (SCI_TxOffset<<1)+1));		CRC_16(*(volatile int *)(DATA_REG + (SCI_TxOffset<<1)+1));
-
-		TX0_char(CRC.Byte.b1);
-		TX0_char(CRC.Byte.b0);
-	}
-
-	SCI_TxOffset ++;
-	if(BUF_MAX <= SCI_TxOffset) SCI_TxOffset = 0;
-}
-
-
-void SCIC_Rx_process(void)
-{
-	unsigned int data, temp;
-
+//Rx================================
 	 if(SciC_RxFlag)
       	{
-      		//SCI_Registers[RxAddr] = RxData;
-      		*(volatile int *)(TEMP_REG + (RxAddr<<1)+0) = RxBuf[4];
-      		*(volatile int *)(TEMP_REG + (RxAddr<<1)+1) = RxBuf[5];
-
-		data = MAKEWORD( (*(volatile int *)(DATA_REG + ((RxAddr<<1) +0)) ),(*(volatile int *)(DATA_REG + (RxAddr<<1) +1)) ) ;
-		temp = MAKEWORD( (*(volatile int *)(TEMP_REG + ((RxAddr<<1) +0)) ),(*(volatile int *)(TEMP_REG + (RxAddr<<1) +1)) ) ;		
-		if(data != temp )
-		{
-			TX0_char(RxBuf[0]);
-			TX0_char(RxBuf[1]);
-			TX0_char(RxBuf[2]);
-			TX0_char(RxBuf[3]);
-			TX0_char(RxBuf[4]);
-			TX0_char(RxBuf[5]);
-			TX0_char(RxBuf[6]);
-			TX0_char(RxBuf[7]);
-
-			*(volatile int *)(DATA_REG + (RxAddr<<1)+0) = RxBuf[4];
-  			*(volatile int *)(DATA_REG + (RxAddr<<1)+1) = RxBuf[5];
-			//Data_Registers[RxAddr] = RxData;
-		}
-				
 		SciC_RxFlag = 0;
       	}
+	 
+//Tx================================
+	if(!TxDelyCnt)
+	{
+		if(DATA_Registers[SCI_TxOffset] != SCI_Registers[SCI_TxOffset])
+		{
+			CRC.Word = 0;
+
+
+			TX0_char(0xAB);										CRC_16(0xAB);
+			TX0_char(0xCD);										CRC_16(0xCD);
+
+			TX0_char(SEND);										CRC_16(SEND);
+
+			TX0_char((char)(SCI_TxOffset>>8));					CRC_16((char)(SCI_TxOffset>>8));
+			TX0_char((char)SCI_TxOffset);							CRC_16((char)SCI_TxOffset);
+	                
+	              TX0_char((char)(DATA_Registers[SCI_TxOffset]>>8));	CRC_16((char)(DATA_Registers[SCI_TxOffset]>>8));
+			TX0_char((char)DATA_Registers[SCI_TxOffset]);		CRC_16((char)DATA_Registers[SCI_TxOffset]);
+
+			TX0_char(CRC.Byte.b1);
+			TX0_char(CRC.Byte.b0);
+			TxDelyCnt = 10;
+		}
+
+		SCI_TxOffset ++;
+		if(BUF_MAX <= SCI_TxOffset) SCI_TxOffset = 0;
+	}
+	else
+	{
+		TxDelyCnt--;
+	}
 }
 
 
-
-ISR(USART0_TX_vect)             // USART2 Tx Complete interrupt
+#pragma vector = USART0_TX_vect
+__interrupt void USART0_TX_ISR(void)
+//ISR(USART0_TX_vect)             // USART2 Tx Complete interrupt
 {
 	UCSR0B = UCSR0B | 0x10;
 }
-
 
 

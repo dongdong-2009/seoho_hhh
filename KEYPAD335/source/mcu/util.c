@@ -18,12 +18,12 @@ void Delay_us(unsigned char time_us)		/* time delay for us */
 { register unsigned char i;
 
   for(i = 0; i < time_us; i++)			// 4 cycle +
-    { asm volatile(" PUSH  R0 ");		// 2 cycle +
-      asm volatile(" POP   R0 ");		// 2 cycle +
-      asm volatile(" PUSH  R0 ");		// 2 cycle +
-      asm volatile(" POP   R0 ");		// 2 cycle +
-      asm volatile(" PUSH  R0 ");		// 2 cycle +
-      asm volatile(" POP   R0 ");		// 2 cycle = 16 cycle = 1 us for 16MHz
+    { asm (" PUSH  R0 ");		// 2 cycle +
+      asm (" POP   R0 ");		// 2 cycle +
+      asm (" PUSH  R0 ");		// 2 cycle +
+      asm (" POP   R0 ");		// 2 cycle +
+      asm (" PUSH  R0 ");		// 2 cycle +
+      asm (" POP   R0 ");		// 2 cycle = 16 cycle = 1 us for 16MHz
     }
 }
 

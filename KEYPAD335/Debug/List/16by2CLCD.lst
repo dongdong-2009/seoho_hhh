@@ -1,0 +1,303 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR    09/Dec/2010  19:38:40 #
+# Copyright 1996-2009 IAR Systems AB.                                         #
+#                                                                             #
+#    Source file  =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\16by2CL #
+#                    CD.c                                                     #
+#    Command line =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\16by2CL #
+#                    CD.c --cpu=m2560 -ms -o K:\work\SEOHO_VD\KEYPAD335_10120 #
+#                    3_IAR\Debug\Obj\ -lC K:\work\SEOHO_VD\KEYPAD335_101203_I #
+#                    AR\Debug\List\ -lA K:\work\SEOHO_VD\KEYPAD335_101203_IAR #
+#                    \Debug\List\ -y --initializers_in_flash -z3 --no_cse     #
+#                    --no_inline --no_code_motion --no_cross_call             #
+#                    --no_clustering --no_tbaa --debug --enable_external_bus  #
+#                    -DENABLE_BIT_DEFINITIONS -e --enable_multibytes -I       #
+#                    "C:\Program Files\IAR Systems\Embedded Workbench         #
+#                    5.3\avr\INC\" -I "C:\Program Files\IAR Systems\Embedded  #
+#                    Workbench 5.3\avr\INC\CLIB\" --eeprom_size 4096          #
+#    List file    =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\Debug\List\16by2CL #
+#                    CD.lst                                                   #
+#    Object file  =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\Debug\Obj\16by2CLC #
+#                    D.r90                                                    #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\16by2CLCD.c
+      1          //=====================================================================================================
+      2          //
+      3          // Copyright(C) 2008 HanYoung ELEC. Co., LTD.
+      4          // Designed by Paul B.H Park(idonno2000)
+      5          //
+      6          //
+      7          //	filename : 16by2CLCD.c
+      8          //	description : Ä³¸¯ÅÍLCD
+      9          //
+     10          //	history : - Designed and programmed by Duck-Yong Yoon in 2006.
+     11          //            - Revised by Paul B.H Park(idonno2000) at 2008.06.23
+     12          //
+     13          //=====================================================================================================
+     14          //#include "include.h"
+     15          
+     16          #include <inavr.h>
+     17          #include <iom2560.h>
+
+   \                                 In  segment ABSOLUTE, at 0x102
+   \   <__C75> volatile __ext_io _A_PORTH
+   \                     _A_PORTH:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x2b
+   \   <__C455> volatile __io _A_PORTD
+   \                     _A_PORTD:
+   \   00000000                      DS8 1
+     18          
+     19          //#include <avr/io.h>
+     20          //#include <util/delay.h>
+     21          #include <stdio.h>
+     22          
+     23          //#include <avr/interrupt.h>
+     24          //#include <avr/pgmspace.h>
+     25          
+     26          #include "16by2CLCD.h"
+     27          #include "util.h"
+     28          
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     29          char posInpage=0;
+   \                     posInpage:
+   \   00000000                      DS8 1
+     30          
+
+   \                                 In  segment FARCODE, align 2, keep-with-next
+     31          void CLCD_command(unsigned char command)		/* write a command(instruction) to text LCD */
+   \                     CLCD_command:
+     32          {
+   \   00000000                      REQUIRE __RSTACK_in_external_ram_new_way
+     33            PORTD = PORTD & 0x40;					// E = 0, Rs = 0, R/-W = 0
+   \   00000000   B11B               IN      R17, 0x0B
+   \   00000002   7410               ANDI    R17, 0x40
+   \   00000004   B91B               OUT     0x0B, R17
+     34            PORTH = command;				// output command
+   \   00000006   9300....           STS     _A_PORTH, R16
+     35            PORTD =  PORTD & 0x40 | 0x20;					// E = 1
+   \   0000000A   B10B               IN      R16, 0x0B
+   \   0000000C   7400               ANDI    R16, 0x40
+   \   0000000E   6200               ORI     R16, 0x20
+   \   00000010   B90B               OUT     0x0B, R16
+     36          
+     37            asm(" PUSH  R0 ");			// delay for about 250 ns
+   \   00000012   920F               PUSH  R0 
+     38            asm(" POP   R0 ");
+   \   00000014   900F               POP   R0 
+     39            PORTD = PORTD & 0x40;					// E = 0
+   \   00000016   B10B               IN      R16, 0x0B
+   \   00000018   7400               ANDI    R16, 0x40
+   \   0000001A   B90B               OUT     0x0B, R16
+     40            Delay_us(50);
+   \   0000001C   E302               LDI     R16, 50
+   \   0000001E   ........           CALL    Delay_us
+     41          }
+   \   00000022   9508               RET
+   \   00000024                      REQUIRE _A_PORTH
+   \   00000024                      REQUIRE _A_PORTD
+     42          
+
+   \                                 In  segment FARCODE, align 2, keep-with-next
+     43          void CLCD_data(unsigned char data)		/* display a character on text LCD */
+   \                     CLCD_data:
+     44          {
+   \   00000000                      REQUIRE __RSTACK_in_external_ram_new_way
+     45           PORTD = PORTD & 0x40 | 0x10;					// E = 0, Rs = 1, R/-W = 0
+   \   00000000   B11B               IN      R17, 0x0B
+   \   00000002   7410               ANDI    R17, 0x40
+   \   00000004   6110               ORI     R17, 0x10
+   \   00000006   B91B               OUT     0x0B, R17
+     46          
+     47            PORTH = data;					// output data
+   \   00000008   9300....           STS     _A_PORTH, R16
+     48            PORTD = PORTD & 0x40 | 0x30;					// E = 1
+   \   0000000C   B10B               IN      R16, 0x0B
+   \   0000000E   7400               ANDI    R16, 0x40
+   \   00000010   6300               ORI     R16, 0x30
+   \   00000012   B90B               OUT     0x0B, R16
+     49          
+     50            asm (" PUSH  R0 ");			// delay for about 250 ns
+   \   00000014   920F               PUSH  R0 
+     51            asm (" POP   R0 ");
+   \   00000016   900F               POP   R0 
+     52            PORTD = PORTD & 0x40 | 0x10;					// E = 0
+   \   00000018   B10B               IN      R16, 0x0B
+   \   0000001A   7400               ANDI    R16, 0x40
+   \   0000001C   6100               ORI     R16, 0x10
+   \   0000001E   B90B               OUT     0x0B, R16
+     53          
+     54            Delay_us(50);
+   \   00000020   E302               LDI     R16, 50
+   \   00000022   ........           CALL    Delay_us
+     55          }
+   \   00000026   9508               RET
+   \   00000028                      REQUIRE _A_PORTH
+   \   00000028                      REQUIRE _A_PORTD
+     56          
+
+   \                                 In  segment FARCODE, align 2, keep-with-next
+     57          void CLCD_cursor_ON(unsigned char pos, unsigned char offset)		/* write a command(instruction) to text LCD */
+   \                     CLCD_cursor_ON:
+     58          {
+   \   00000000                      REQUIRE __RSTACK_in_external_ram_new_way
+     59          	CLCD_command(pos|offset);
+   \   00000000   2B01               OR      R16, R17
+   \   00000002   ....               RCALL   CLCD_command
+     60            	CLCD_command(0x0F);
+   \   00000004   E00F               LDI     R16, 15
+   \   00000006   ....               RCALL   CLCD_command
+     61          }
+   \   00000008   9508               RET
+     62          
+
+   \                                 In  segment FARCODE, align 2, keep-with-next
+     63          void CLCD_cursor_OFF(void)		/* write a command(instruction) to text LCD */
+   \                     CLCD_cursor_OFF:
+     64          {
+   \   00000000                      REQUIRE __RSTACK_in_external_ram_new_way
+     65            	CLCD_command(0x0C);
+   \   00000000   E00C               LDI     R16, 12
+   \   00000002   ....               RCALL   CLCD_command
+     66          	posInpage = 0xFF;
+   \   00000004   EF0F               LDI     R16, 255
+   \   00000006   9300....           STS     posInpage, R16
+     67          }
+   \   0000000A   9508               RET
+     68          
+
+   \                                 In  segment FARCODE, align 2, keep-with-next
+     69          void CLCD_string(unsigned char command, char *string) /* display a string on LCD */
+   \                     CLCD_string:
+     70          {
+   \   00000000   93BA               ST      -Y, R27
+   \   00000002   93AA               ST      -Y, R26
+   \   00000004                      REQUIRE __RSTACK_in_external_ram_new_way
+   \   00000004   01D9               MOVW    R27:R26, R19:R18
+     71            CLCD_command(command);				// start position of string
+   \   00000006   ....               RCALL   CLCD_command
+   \   00000008   C003               RJMP    ??CLCD_string_0
+     72            while(*string != 0x00)			// display string
+     73              { CLCD_data(*string);
+   \                     ??CLCD_string_1:
+   \   0000000A   910C               LD      R16, X
+   \   0000000C   ....               RCALL   CLCD_data
+     74                 string++;
+   \   0000000E   9611               ADIW    R27:R26, 1
+     75              }
+   \                     ??CLCD_string_0:
+   \   00000010   910C               LD      R16, X
+   \   00000012   2300               TST     R16
+   \   00000014   F7D1               BRNE    ??CLCD_string_1
+     76          }
+   \   00000016   91A9               LD      R26, Y+
+   \   00000018   91B9               LD      R27, Y+
+   \   0000001A   9508               RET
+     77          
+
+   \                                 In  segment FARCODE, align 2, keep-with-next
+     78          void CLCD_initialize(void)			/* initialize text LCD module */
+   \                     CLCD_initialize:
+     79          {
+   \   00000000                      REQUIRE __RSTACK_in_external_ram_new_way
+     80            CLCD_command(0x38);				// function set(8 bit, 2 line, 5x7 dot)
+   \   00000000   E308               LDI     R16, 56
+   \   00000002   ....               RCALL   CLCD_command
+     81            CLCD_command(0x0C);				// display control(display ON, cursor OFF)
+   \   00000004   E00C               LDI     R16, 12
+   \   00000006   ....               RCALL   CLCD_command
+     82            //CLCD_command(0x0F);				// display control(display ON, cursor OFF)
+     83            CLCD_command(0x06);				// entry mode set(increment, not shift)
+   \   00000008   E006               LDI     R16, 6
+   \   0000000A   ....               RCALL   CLCD_command
+     84            CLCD_command(0x01);				// clear display
+   \   0000000C   E001               LDI     R16, 1
+   \   0000000E   ....               RCALL   CLCD_command
+     85            Delay_ms(2);
+   \   00000010   E002               LDI     R16, 2
+   \   00000012   E010               LDI     R17, 0
+   \   00000014   ........           CALL    Delay_ms
+     86          }
+   \   00000018   9508               RET
+     87          
+     88          
+
+   \                                 In  segment FARCODE, align 2, keep-with-next
+     89          void CLCD_BackLightOnOff(char OnOff)//PORD bit 6
+   \                     CLCD_BackLightOnOff:
+     90          {
+   \   00000000                      REQUIRE __RSTACK_in_external_ram_new_way
+     91          	if(OnOff) PORTD = PORTD | 0x40;
+   \   00000000   2300               TST     R16
+   \   00000002   F011               BREQ    ??CLCD_BackLightOnOff_0
+   \   00000004   9A5E               SBI     0x0B, 0x06
+   \   00000006   9508               RET
+     92          	else		PORTD = PORTD & 0xBF;
+   \                     ??CLCD_BackLightOnOff_0:
+   \   00000008   985E               CBI     0x0B, 0x06
+     93          }
+   \   0000000A   9508               RET
+   \   0000000C                      REQUIRE _A_PORTD
+     94          
+     95          
+     96          
+
+   Maximum stack usage in bytes:
+
+     Function            CSTACK RSTACK
+     --------            ------ ------
+     CLCD_BackLightOnOff     0      3
+     CLCD_command            0      3
+       -> Delay_us           0      3
+     CLCD_cursor_OFF         0      3
+       -> CLCD_command       0      3
+     CLCD_cursor_ON          0      3
+       -> CLCD_command       0      3
+       -> CLCD_command       0      3
+     CLCD_data               0      3
+       -> Delay_us           0      3
+     CLCD_initialize         0      3
+       -> CLCD_command       0      3
+       -> CLCD_command       0      3
+       -> CLCD_command       0      3
+       -> CLCD_command       0      3
+       -> Delay_ms           0      3
+     CLCD_string             2      3
+       -> CLCD_command       2      3
+       -> CLCD_data          2      3
+
+
+   Segment part sizes:
+
+     Function/Label      Bytes
+     --------------      -----
+     _A_PORTH               1
+     _A_PORTD               1
+     posInpage              1
+     CLCD_command          36
+     CLCD_data             40
+     CLCD_cursor_ON        10
+     CLCD_cursor_OFF       12
+     CLCD_string           28
+     CLCD_initialize       26
+     CLCD_BackLightOnOff   12
+      Others                7
+
+ 
+   2 bytes in segment ABSOLUTE
+ 164 bytes in segment FARCODE
+   7 bytes in segment INITTAB
+   1 byte  in segment NEAR_Z
+ 
+ 164 bytes of CODE memory (+ 7 bytes shared)
+   1 byte  of DATA memory (+ 2 bytes shared)
+
+Errors: none
+Warnings: none

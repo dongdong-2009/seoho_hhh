@@ -12,17 +12,21 @@
 //
 //=====================================================================================================
 //#include "include.h"
-#include <avr/io.h>
-#include <util/delay.h>
+
+#include <inavr.h>
+#include <iom2560.h>
+
+//#include <avr/io.h>
+//#include <util/delay.h>
 #include <stdio.h>
 
-#include <avr/interrupt.h>
-#include <avr/pgmspace.h>
+//#include <avr/interrupt.h>
+//#include <avr/pgmspace.h>
 
 #include "16by2CLCD.h"
 #include "util.h"
 
-char posInpage=6;
+char posInpage=0;
 
 void CLCD_command(unsigned char command)		/* write a command(instruction) to text LCD */
 {
@@ -30,8 +34,8 @@ void CLCD_command(unsigned char command)		/* write a command(instruction) to tex
   PORTH = command;				// output command
   PORTD =  PORTD & 0x40 | 0x20;					// E = 1
 
-  asm volatile(" PUSH  R0 ");			// delay for about 250 ns
-  asm volatile(" POP   R0 ");
+  asm(" PUSH  R0 ");			// delay for about 250 ns
+  asm(" POP   R0 ");
   PORTD = PORTD & 0x40;					// E = 0
   Delay_us(50);
 }
@@ -43,8 +47,8 @@ void CLCD_data(unsigned char data)		/* display a character on text LCD */
   PORTH = data;					// output data
   PORTD = PORTD & 0x40 | 0x30;					// E = 1
 
-  asm volatile(" PUSH  R0 ");			// delay for about 250 ns
-  asm volatile(" POP   R0 ");
+  asm (" PUSH  R0 ");			// delay for about 250 ns
+  asm (" POP   R0 ");
   PORTD = PORTD & 0x40 | 0x10;					// E = 0
 
   Delay_us(50);

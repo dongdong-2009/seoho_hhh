@@ -15,7 +15,7 @@
 #ifndef _TYPE_H_
 #define _TYPE_H_
 
-#include <avr/sfr_defs.h>
+//#include <avr/sfr_defs.h>
 
 #ifndef BYTE
 	#define	BYTE unsigned char

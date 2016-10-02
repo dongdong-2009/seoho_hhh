@@ -2,140 +2,64 @@
 
 <Workspace>
   <ConfigDictionary>
-    <CurrentConfigs>
-      <Project>AVR2560/Debug</Project>
-    </CurrentConfigs>
-  </ConfigDictionary>
+    
+  <CurrentConfigs><Project>AVR2560/Debug</Project></CurrentConfigs></ConfigDictionary>
   <Desktop>
     <Static>
       <Workspace>
         <ColumnWidths>
-          <Column0>257</Column0>
-          <Column1>0</Column1>
-          <Column2>27</Column2>
-          <Column3>2009170900</Column3>
-        </ColumnWidths>
+          
+          
+          
+          
+        <Column0>193</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
       </Workspace>
       <Build>
-        <ColumnWidth0>20</ColumnWidth0>
-        <ColumnWidth1>888</ColumnWidth1>
-        <ColumnWidth2>237</ColumnWidth2>
-        <ColumnWidth3>59</ColumnWidth3>
-      </Build>
-    </Static>
+        
+        
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1009</ColumnWidth1><ColumnWidth2>269</ColumnWidth2><ColumnWidth3>67</ColumnWidth3></Build>
+    <TerminalIO/><Disassembly><PreferedWindows><Position>4</Position><ScreenPosX>794</ScreenPosX><ScreenPosY>168</ScreenPosY><Windows><Window><Factory>Watch</Factory></Window></Windows></PreferedWindows><MixedMode>1</MixedMode><CodeCovShow>0</CodeCovShow></Disassembly><Debug-Log><ColumnWidth0>24</ColumnWidth0><ColumnWidth1>1342</ColumnWidth1></Debug-Log><Watch><PreferedWindows><Position>4</Position><ScreenPosX>794</ScreenPosX><ScreenPosY>168</ScreenPosY><Windows><Window><Factory>Disassembly</Factory></Window></Windows></PreferedWindows></Watch><Auto><PreferedWindows><Position>4</Position><ScreenPosX>831</ScreenPosX><ScreenPosY>349</ScreenPosY><Windows/></PreferedWindows></Auto><Tool-Output/></Static>
     <Windows>
-      <Wnd1>
+      
+      
+    <Wnd1>
         <Tabs>
           <Tab>
-            <Identity>TabID-12607-10147</Identity>
+            <Identity>TabID-14552-12567</Identity>
             <TabName>Workspace</TabName>
             <Factory>Workspace</Factory>
             <Session>
-              <NodeDict>
-                <ExpandedNode>AVR2560</ExpandedNode>
-                <ExpandedNode>AVR2560/Output</ExpandedNode>
-              </NodeDict>
-            </Session>
+              
+            <NodeDict><ExpandedNode>AVR2560</ExpandedNode><ExpandedNode>AVR2560/Output</ExpandedNode><ExpandedNode>AVR2560/Output/AVR2560.hex</ExpandedNode></NodeDict></Session>
           </Tab>
         </Tabs>
-        <SelectedTab>0</SelectedTab>
-      </Wnd1>
-      <Wnd0>
+        
+      <SelectedTab>0</SelectedTab></Wnd1><Wnd3>
         <Tabs>
           <Tab>
-            <Identity>TabID-26094-10917</Identity>
+            <Identity>TabID-21955-14679</Identity>
             <TabName>Build</TabName>
             <Factory>Build</Factory>
             <Session/>
           </Tab>
-        </Tabs>
-        <SelectedTab>0</SelectedTab>
-      </Wnd0>
-    </Windows>
+        <Tab><Identity>TabID-10240-30437</Identity><TabName>Debug Log</TabName><Factory>Debug-Log</Factory><Session/></Tab><Tab><Identity>TabID-22331-23438</Identity><TabName>Tool Output</TabName><Factory>Tool-Output</Factory><Session/></Tab></Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd3></Windows>
     <Editor>
-      <Pane>
-        <Tab>
-          <Factory>TextEditor</Factory>
-          <Filename>D:\work\SEOHO_VD\KEYPAD335_101203\source\mcu\16by2CLCD.c</Filename>
-          <XPos>0</XPos>
-          <YPos>92</YPos>
-          <SelStart>0</SelStart>
-          <SelEnd>0</SelEnd>
-        </Tab>
-        <ActiveTab>0</ActiveTab>
-      </Pane>
-      <ActivePane>0</ActivePane>
-      <Sizes>
-        <Pane>
-          <X>1000000</X>
-          <Y>1000000</Y>
-        </Pane>
-      </Sizes>
-      <SplitMode>1</SplitMode>
-    </Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\16by2CLCD.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>625</SelStart><SelEnd>625</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\main.c</Filename><XPos>0</XPos><YPos>243</YPos><SelStart>3900</SelStart><SelEnd>3900</SelEnd></Tab><ActiveTab>1</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\rs232_MMItoPANEL.c</Filename><XPos>18</XPos><YPos>149</YPos><SelStart>3720</SelStart><SelEnd>3720</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\rs232_MMItoPANEL.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>767</SelStart><SelEnd>767</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\key.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>518</SelStart><SelEnd>518</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\display.c</Filename><XPos>0</XPos><YPos>26707</YPos><SelStart>614786</SelStart><SelEnd>614786</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>K:\work\SEOHO_VD\KEYPAD335_101203_IAR\Debug\List\AVR2560.map</Filename><XPos>0</XPos><YPos>58306</YPos><SelStart>2777235</SelStart><SelEnd>2777235</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
-      <Top>
-        <Row0>
-          <Sizes>
-            <Toolbar-006e99f8>
-              <key>iaridepm.enu1</key>
-            </Toolbar-006e99f8>
-          </Sizes>
-        </Row0>
-      </Top>
-      <Left>
-        <Row0>
-          <Sizes>
-            <Wnd1>
-              <Rect>
-                <Top>-2</Top>
-                <Left>-2</Left>
-                <Bottom>436</Bottom>
-                <Right>304</Right>
-                <x>-2</x>
-                <y>-2</y>
-                <xscreen>200</xscreen>
-                <yscreen>200</yscreen>
-                <sizeHorzCX>142349</sizeHorzCX>
-                <sizeHorzCY>294551</sizeHorzCY>
-                <sizeVertCX>217794</sizeVertCX>
-                <sizeVertCY>645066</sizeVertCY>
-              </Rect>
-            </Wnd1>
-          </Sizes>
-        </Row0>
-      </Left>
-      <Right>
-        <Row0>
-          <Sizes/>
-        </Row0>
-      </Right>
-      <Bottom>
-        <Row0>
-          <Sizes>
-            <Wnd0>
-              <Rect>
-                <Top>-2</Top>
-                <Left>-2</Left>
-                <Bottom>198</Bottom>
-                <Right>1407</Right>
-                <x>-2</x>
-                <y>-2</y>
-                <xscreen>1409</xscreen>
-                <yscreen>200</yscreen>
-                <sizeHorzCX>1002847</sizeHorzCX>
-                <sizeHorzCY>294551</sizeHorzCY>
-                <sizeVertCX>142349</sizeVertCX>
-                <sizeVertCY>294551</sizeVertCY>
-              </Rect>
-            </Wnd0>
-          </Sizes>
-        </Row0>
-      </Bottom>
-      <Float>
-        <Sizes/>
-      </Float>
-    </Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-00b097f0><key>iaridepm.enu1</key></Toolbar-00b097f0></Sizes></Row0><Row1><Sizes/></Row1><Row2><Sizes><Toolbar-03bf67f0><key>debuggergui.enu1</key></Toolbar-03bf67f0></Sizes></Row2></Top><Left><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>738</Bottom><Right>267</Right><x>-2</x><y>-2</y><xscreen>189</xscreen><yscreen>193</yscreen><sizeHorzCX>135000</sizeHorzCX><sizeHorzCY>198152</sizeHorzCY><sizeVertCX>192143</sizeVertCX><sizeVertCY>759754</sizeVertCY></Rect></Wnd1></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>191</Bottom><Right>1402</Right><x>-2</x><y>-2</y><xscreen>1404</xscreen><yscreen>193</yscreen><sizeHorzCX>1002857</sizeHorzCX><sizeHorzCY>198152</sizeHorzCY><sizeVertCX>135000</sizeVertCX><sizeVertCY>198152</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Workspace>
 

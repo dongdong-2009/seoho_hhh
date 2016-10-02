@@ -34,7 +34,7 @@ typedef struct{
 	unsigned char	KeyHandle;
 
 }KEY;
-KEY KeyState;
+extern KEY KeyState;
 
 void KeyInit(void);
 unsigned int KeyScan(void);

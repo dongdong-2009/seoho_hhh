@@ -17,8 +17,13 @@
 
 #define BUF_MAX 3400
 
-#define DATA_REG 0x8000
-#define TEMP_REG 0xB000
+//#define DATA_REG 0x8000
+//#define TEMP_REG 0xB000
+
+#define SEND		0x02
+#define RESPONSE 0x03
+
+extern unsigned int SCI_Registers[BUF_MAX];
 
 #define	GEN_POLYNOMAL	0x8821		// CRC 젯수
 
@@ -32,7 +37,7 @@ typedef	union
 		unsigned char b1;	// CRC16 상위 바이트
 	} Byte;
 } CRC_flg ;
-CRC_flg	CRC ;
+extern CRC_flg	CRC ;
 
 //---------------------------------------
 typedef	union
@@ -44,7 +49,7 @@ typedef	union
 		unsigned char b1;	// CRC16 상위 바이트
 	} Byte;
 }Data_flg;
-Data_flg	data_flg;
+extern Data_flg	data_flg;
 
 void WriteDataMem(unsigned int addr, unsigned int dat);
 unsigned int ReadDataMem(unsigned int addr);
@@ -54,8 +59,7 @@ void UART_init(void);
 void TX0_char( char data);
 
 void CRC_16(unsigned char input);
-void SCIC_Tx_process(void);
-void SCIC_Rx_process(void);
+void SCI_Process(void);
 
 void InputDataReg(unsigned int addr, unsigned int dat);
 

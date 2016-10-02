@@ -5,37 +5,32 @@
 //
 //
 //	filename : main.c
-//	description : π€úëµZœa
-//	last revision : 2008-05-09 4:02îı“Å
+//	description : ∏ﬁ¿Œ«‘ºˆ
+//	last revision : 2008-05-09 4:02îı?
 //	history : 
 //
 //====================================================
 
-#define F_CPU 16000000UL // ªÁøÎ«œ¥¬ CPU ≈¨∑∞¿ª º≥¡§
+//#define F_CPU 16000000UL // ªÁøÎ«œ¥¬ CPU ≈¨∑∞¿ª º≥¡§
 //#define __OPTIMIZE__ 
 
+#include <inavr.h>
+#include <iom2560.h>
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/delay.h>
+//#include <avr/io.h>
+//#include <avr/interrupt.h>
+//#include <util/delay.h>
+//#include <avr/eeprom.h>
 
-#include <avr/eeprom.h>
+#include "mcu/16by2CLCD.h"
+#include "mcu/key.h"
 
-
-
-//#include "128by64GLCD.h"
-#include "16by2clcd.h"
-#include "key.h"
-
-#include "rs232_MMItoPANEL.h"
+#include "mcu/rs232_MMItoPANEL.h"
 //#include "ProtoMod.h"
-#include "display.h"
-#include "util.h"
+#include "mcu/display.h"
+#include "mcu/util.h"
 
-
-//#include "ds1307.h"
-
-#include "debug_printf.h"
+#include "mcu/debug_printf.h"
 
 char PacketBuf[100];
 char PacketCMD = 0xFF;
@@ -89,8 +84,12 @@ void MCU_initialize(void)			/* initialize ATmege1280 MCU & OK-1280 kit */
 
 	DDRE = 0x00;					
 	PORTE = 0x00;	
+
 	DDRF = 0xFF;         		
 	PORTF = 0x00;
+
+	DDRG = 0xFF;         		
+	PORTG = 0x00;
 
 	DDRH = 0xFF;				
 	PORTH = 0x00;				
@@ -256,8 +255,9 @@ void SystemEventAutoClear(void)
 	}
 }
 
-
-ISR(TIMER1_COMPA_vect)
+#pragma vector = TIMER1_COMPA_vect
+__interrupt void TIMER1_ISR(void)
+//ISR(TIMER1_COMPA_vect)	
 {
 	TimerTicFlag = 1;
 }
@@ -284,16 +284,22 @@ int main(void)
 //	debug_devopen(TX2_char);
 
 //	RS485_RX_EN0;
-	sei();	
+	//sei();	
+      __enable_interrupt();
+
 	//wait() ;
 
 	for(i=0;i<BUF_MAX;i++)
 	{
-		*(volatile int *)((i<<1)+DATA_REG) =0;
-		*(volatile int *)((i<<1)+DATA_REG+1) = 0;
+		//*(volatile int *)((i<<1)+DATA_REG) =0;
+		//*(volatile int *)((i<<1)+DATA_REG+1) = 0;
 		
-		*(volatile int *)((i<<1)+TEMP_REG) = 0;
-		*(volatile int *)((i<<1)+TEMP_REG+1) = 0;
+		//*(volatile int *)((i<<1)+TEMP_REG) = 0;
+		//*(volatile int *)((i<<1)+TEMP_REG+1) = 0;
+          
+            DATA_Registers[i]=0;
+            SCI_Registers[i]=0;
+            
 	}
 
 	Delay_ms(500); 
@@ -302,13 +308,20 @@ int main(void)
 	Delay_ms(500);
 	
 	EventFlagE = 1;
-	
+
+	 DATA_Registers[3195] = 1;
 	while(1)
 	{
 		if(TimeTic_10ms)
 		{
 			KeyProc();
 			MainSYSTEM();
+		}
+
+		if(TimeTic_500ms)
+		{
+			//PORTL = PORTL ^ 0xFF;
+			PORTG_Bit3 = PORTG_Bit3^1;
 		}
 
 		if(TimeTic_1s)
@@ -321,8 +334,8 @@ int main(void)
 		{
 			MenuDisplay();
 		}
-		SCIC_Tx_process();
-		SCIC_Rx_process();
+
+		SCI_Process();
 
 		SystemTimeTic();
 		SystemEventAutoClear();

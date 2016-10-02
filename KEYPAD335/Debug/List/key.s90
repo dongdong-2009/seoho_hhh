@@ -1,0 +1,614 @@
+///////////////////////////////////////////////////////////////////////////////
+//                                                                            /
+// IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR   09/Dec/2010  19:39:20 /
+// Copyright 1996-2009 IAR Systems AB.                                        /
+//                                                                            /
+//    Source file  =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\key.c  /
+//    Command line =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\key.c  /
+//                    --cpu=m2560 -ms -o K:\work\SEOHO_VD\KEYPAD335_101203_IA /
+//                    R\Debug\Obj\ -lC K:\work\SEOHO_VD\KEYPAD335_101203_IAR\ /
+//                    Debug\List\ -lA K:\work\SEOHO_VD\KEYPAD335_101203_IAR\D /
+//                    ebug\List\ -y --initializers_in_flash -z3 --no_cse      /
+//                    --no_inline --no_code_motion --no_cross_call            /
+//                    --no_clustering --no_tbaa --debug                       /
+//                    --enable_external_bus -DENABLE_BIT_DEFINITIONS -e       /
+//                    --enable_multibytes -I "C:\Program Files\IAR            /
+//                    Systems\Embedded Workbench 5.3\avr\INC\" -I             /
+//                    "C:\Program Files\IAR Systems\Embedded Workbench        /
+//                    5.3\avr\INC\CLIB\" --eeprom_size 4096                   /
+//    List file    =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\Debug\List\key.s9 /
+//                    0                                                       /
+//                                                                            /
+//                                                                            /
+///////////////////////////////////////////////////////////////////////////////
+
+        NAME key
+
+        RTMODEL "__64bit_doubles", "disabled"
+        RTMODEL "__cpu", "5"
+        RTMODEL "__cpu_name", "ATmega2560"
+        RTMODEL "__enhanced_core", "enabled"
+        RTMODEL "__has_elpm", "true"
+        RTMODEL "__memory_model", "2"
+        RTMODEL "__no_rampd", "enabled"
+        RTMODEL "__rt_version", "3"
+
+        RSEG CSTACK:DATA:NOROOT(0)
+        RSEG RSTACK:DATA:NOROOT(0)
+
+        EXTERN ?SV_SWITCH_L06
+        EXTERN ?need_segment_init
+        EXTERN __RSTACK_in_external_ram_new_way
+
+        PUBWEAK `?<Segment init: NEAR_I>`
+        PUBWEAK `?<Segment init: NEAR_Z>`
+        PUBLIC KeyInit
+        FUNCTION KeyInit,0203H
+        ARGFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC KeyProc
+        FUNCTION KeyProc,021203H
+        ARGFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC KeyScan
+        FUNCTION KeyScan,0203H
+        ARGFRAME RSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC KeyState
+        PUBLIC LongKeyFlag
+        PUBWEAK _A_PINJ
+        PUBWEAK _A_PINK
+        PUBWEAK __?EEARH
+        PUBWEAK __?EEARL
+        PUBWEAK __?EECR
+        PUBWEAK __?EEDR
+        PUBWEAK __?XMCRA
+        PUBLIC key_data
+        PUBLIC key_press_time
+        PUBLIC key_signal_A
+        PUBLIC key_signal_B
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA_Y Y DATA
+        CFI StackFrame CFA_SP SP DATA
+        CFI VirtualResource ?RetPad:1, ?RetByte3:8, ?RetHigh:8, ?RetLow:8
+        CFI VirtualResource ?Ret:25
+        CFI Resource R0:8, R1:8, R2:8, R3:8, R4:8, R5:8, R6:8, R7:8, R8:8, R9:8
+        CFI Resource R10:8, R11:8, R12:8, R13:8, R14:8, R15:8, R16:8, R17:8
+        CFI Resource R18:8, R19:8, R20:8, R21:8, R22:8, R23:8, R24:8, R25:8
+        CFI Resource R26:8, R27:8, R28:8, R29:8, R30:8, R31:8
+        CFI Resource ?RetHighByteMask:8, SP:16, SPH:8, SPL:8, Y:16
+        CFI ResourceParts ?Ret ?RetByte3, ?RetHigh, ?RetLow, ?RetPad
+        CFI ResourceParts SP SPH, SPL
+        CFI ResourceParts Y R29, R28
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Y+0
+        CFI CFA_SP SP+3
+        CFI ?RetPad 0
+        CFI ?RetByte3 and(load(1, DATA, sub(CFA_SP, 2)), ?RetHighByteMask)
+        CFI ?RetHigh Frame(CFA_SP, -1)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 Undefined
+        CFI R17 Undefined
+        CFI R18 Undefined
+        CFI R19 Undefined
+        CFI R20 Undefined
+        CFI R21 Undefined
+        CFI R22 Undefined
+        CFI R23 Undefined
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 Undefined
+        CFI R31 Undefined
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI EndCommon cfiCommon0
+        
+// K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\key.c
+//    1 //====================================================
+//    2 //
+//    3 // Copyright(C) 2008 HanYoung ELEC. Co., LTD.
+//    4 // Designed by Paul B.H Park(idonno2000)
+//    5 //
+//    6 //
+//    7 //	filename : key.c
+//    8 //	description : Key or Ir or interrupt Input state
+//    9 //
+//   10 //	history : - frist designed at 2008-05-28 4:02¿ÀÈÄ
+//   11 //
+//   12 //====================================================
+//   13 
+//   14 //#include <avr/io.h>
+//   15 //#include <util/delay.h>
+//   16 
+//   17 #include <inavr.h>
+//   18 #include <iom2560.h>
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0106H
+// <__C63> volatile __ext_io _A_PINK
+_A_PINK:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0103H
+// <__C72> volatile __ext_io _A_PINJ
+_A_PINJ:
+        DS8 1
+//   19 
+//   20 #include "key.h"
+//   21 
+//   22 #include "debug_printf.h"
+//   23 
+//   24 
+
+        RSEG NEAR_I:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_I>`
+//   25 unsigned char key_signal_A=0xFF;
+key_signal_A:
+        DS8 1
+        REQUIRE `?<Initializer for key_signal_A>`
+
+        RSEG NEAR_I:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_I>`
+//   26 unsigned char key_signal_B=0xFF;
+key_signal_B:
+        DS8 1
+        REQUIRE `?<Initializer for key_signal_B>`
+
+        RSEG NEAR_I:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_I>`
+//   27 unsigned int key_data = 0xFF;
+key_data:
+        DS8 2
+        REQUIRE `?<Initializer for key_data>`
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   28 unsigned int 	key_press_time=0;
+key_press_time:
+        DS8 2
+//   29 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   30 unsigned char LongKeyFlag=0;
+LongKeyFlag:
+        DS8 1
+//   31 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   32 KEY KeyState;
+KeyState:
+        DS8 3
+//   33 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   34 void KeyInit(void)
+KeyInit:
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI Function KeyInit
+//   35 {
+        REQUIRE __RSTACK_in_external_ram_new_way
+//   36 	//ADCSRA = 0xA5;
+//   37 	//ADCSRB = 0x08;
+//   38 	//ADMUX = 0x60;
+//   39 	//_delay_ms(500); 
+//   40 	//ADCSRA = 0xE5;
+//   41 	//_delay_ms(100); 
+//   42 	
+//   43 
+//   44 	KeyState.KeyValue = 0xFF;
+        LDI     R16, 255
+        STS     KeyState, R16
+//   45 	KeyState.LongKeyFlag = 0;
+        LDI     R16, 0
+        STS     (KeyState + 1), R16
+//   46 
+//   47 }
+        RET
+        CFI EndBlock cfiBlock0
+//   48 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   49 void KeyProc(void)
+KeyProc:
+        CFI Block cfiBlock1 Using cfiCommon0
+        CFI Function KeyProc
+//   50 {
+        FUNCALL KeyProc, KeyScan
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        REQUIRE __RSTACK_in_external_ram_new_way
+//   51 	//KeyState.KeyValue = RX3_char();
+//   52 
+//   53 	KeyState.KeyValue = KeyScan();
+        RCALL   KeyScan
+        STS     KeyState, R16
+//   54 	KeyState.LongKeyFlag = LongKeyFlag;
+        LDS     R16, LongKeyFlag
+        STS     (KeyState + 1), R16
+//   55 }
+        RET
+        CFI EndBlock cfiBlock1
+//   56 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   57 unsigned int KeyScan(void)
+KeyScan:
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI Function KeyScan
+//   58 {
+        REQUIRE __RSTACK_in_external_ram_new_way
+//   59 	unsigned char key_output=0xFF;
+        LDI     R16, 255
+//   60 	unsigned int key = 0xFFFF;
+        LDI     R18, 255
+        LDI     R19, 255
+//   61         key = PINK | 0xFE;
+        LDS     R17, _A_PINK
+        MOV     R20, R17
+        ANDI    R20, 0x01
+        ANDI    R21, 0x00
+        ORI     R20, 0xFE
+        ORI     R21, 0x00
+        MOVW    R19:R18, R21:R20
+//   62 	key = PINJ | (key<<8);
+        LDS     R22, _A_PINJ
+        LDI     R23, 0
+        MOVW    R21:R20, R19:R18
+        MOV     R21, R20
+        LDI     R20, 0
+        MOVW    R19:R18, R23:R22
+        OR      R18, R20
+        OR      R19, R21
+//   63 
+//   64 	if(key != 0xFFFF)key_signal_A=0x00;
+        CPI     R18, 255
+        LDI     R17, 255
+        CPC     R19, R17
+        BREQ    ??KeyScan_0
+        LDI     R17, 0
+        STS     key_signal_A, R17
+        RJMP    ??KeyScan_1
+//   65 	else key_signal_A=0xFF;
+??KeyScan_0:
+        LDI     R17, 255
+        STS     key_signal_A, R17
+//   66 	
+//   67 	if((!key_signal_A)&&(!key_signal_B))//key pressing
+??KeyScan_1:
+        LDS     R17, key_signal_A
+        TST     R17
+        BRNE    ??KeyScan_2
+        LDS     R17, key_signal_B
+        TST     R17
+        BRNE    ??KeyScan_2
+//   68 	{
+//   69 		//key_press_time++;
+//   70 		if( key_press_time <= 10 ) key_data = key;
+        LDS     R30, key_press_time
+        LDS     R31, (key_press_time + 1)
+        SBIW    R31:R30, 11
+        BRCC    ??KeyScan_3
+        STS     key_data, R18
+        STS     (key_data + 1), R19
+        RJMP    ??KeyScan_4
+//   71 		else
+//   72 		{
+//   73 			key_press_time = 9;
+??KeyScan_3:
+        LDI     R16, 9
+        LDI     R17, 0
+        STS     key_press_time, R16
+        STS     (key_press_time + 1), R17
+//   74 
+//   75 			switch(key_data){
+        LDS     R16, key_data
+        LDS     R17, (key_data + 1)
+        LDI     R30, LOW(`?<Jumptable for KeyScan>_0`)
+        LDI     R31, (`?<Jumptable for KeyScan>_0`) >> 16
+        OUT     0x3B, R31
+        LDI     R31, HIGH(`?<Jumptable for KeyScan>_0`)
+        JMP     ?SV_SWITCH_L06
+//   76 				case 0xFFFD:		key_output = UP;		break;
+??KeyScan_5:
+        LDI     R16, 1
+        RJMP    ??KeyScan_6
+//   77 				case 0xFF7F:		key_output = DN;		break;
+??KeyScan_7:
+        LDI     R16, 2
+        RJMP    ??KeyScan_6
+//   78 				case 0xFFDF:		key_output = RIGHT;	break;
+??KeyScan_8:
+        LDI     R16, 3
+        RJMP    ??KeyScan_6
+//   79 				case 0xFFF7:		key_output = LEFT;	break;
+??KeyScan_9:
+        LDI     R16, 4
+        RJMP    ??KeyScan_6
+//   80 				case 0xFFFE:		key_output = ESC;		break;
+??KeyScan_10:
+        LDI     R16, 5
+        RJMP    ??KeyScan_6
+//   81 				case 0xFFFB:		key_output = ENTER;	break;
+??KeyScan_11:
+        LDI     R16, 6
+        RJMP    ??KeyScan_6
+//   82 				case 0xFFEF:		key_output = MENU;	break;
+??KeyScan_12:
+        LDI     R16, 7
+        RJMP    ??KeyScan_6
+//   83 				case 0xFFBF:		key_output = RUN;		break;
+??KeyScan_13:
+        LDI     R16, 8
+        RJMP    ??KeyScan_6
+//   84 				case 0xFEFF:		key_output = STOP;	break;
+??KeyScan_14:
+        LDI     R16, 9
+        RJMP    ??KeyScan_6
+//   85 				case 0xFEBA:		key_output = 0xFE;	break;
+??KeyScan_15:
+        LDI     R16, 254
+        RJMP    ??KeyScan_6
+//   86 				default:			key_output = 0xFF;	break;
+??KeyScan_16:
+        LDI     R16, 255
+//   87 				}
+//   88 			
+//   89 			LongKeyFlag=1;
+??KeyScan_6:
+        LDI     R17, 1
+        STS     LongKeyFlag, R17
+//   90 			return key_output;
+        LDI     R17, 0
+        RET
+//   91 		}
+//   92 	}
+//   93 	else if((!key_signal_A)&&(key_signal_B))// key down edge
+??KeyScan_2:
+        LDS     R17, key_signal_A
+        TST     R17
+        BRNE    ??KeyScan_17
+        LDS     R17, key_signal_B
+        TST     R17
+        BREQ    ??KeyScan_17
+//   94 	{
+//   95 		key_press_time=0;
+        LDI     R18, 0
+        LDI     R19, 0
+        STS     key_press_time, R18
+        STS     (key_press_time + 1), R19
+//   96 		LongKeyFlag=0;
+        LDI     R17, 0
+        STS     LongKeyFlag, R17
+        RJMP    ??KeyScan_4
+//   97 	}
+//   98 	else if((key_signal_A)&&(!key_signal_B))// key up edge
+??KeyScan_17:
+        LDS     R17, key_signal_A
+        TST     R17
+        BREQ    ??KeyScan_18
+        LDS     R17, key_signal_B
+        TST     R17
+        BRNE    ??KeyScan_18
+//   99 	{
+//  100 
+//  101 		if(!LongKeyFlag)
+        LDS     R17, LongKeyFlag
+        TST     R17
+        BRNE    ??KeyScan_4
+//  102 		{
+//  103 			switch(key_data){
+        LDS     R16, key_data
+        LDS     R17, (key_data + 1)
+        LDI     R30, LOW(`?<Jumptable for KeyScan>_1`)
+        LDI     R31, (`?<Jumptable for KeyScan>_1`) >> 16
+        OUT     0x3B, R31
+        LDI     R31, HIGH(`?<Jumptable for KeyScan>_1`)
+        JMP     ?SV_SWITCH_L06
+//  104 				case 0xFFFD:		key_output = UP;		break;
+??KeyScan_19:
+        LDI     R16, 1
+        RJMP    ??KeyScan_20
+//  105 				case 0xFF7F:		key_output = DN;		break;
+??KeyScan_21:
+        LDI     R16, 2
+        RJMP    ??KeyScan_20
+//  106 				case 0xFFDF:		key_output = RIGHT;	break;
+??KeyScan_22:
+        LDI     R16, 3
+        RJMP    ??KeyScan_20
+//  107 				case 0xFFF7:		key_output = LEFT;	break;
+??KeyScan_23:
+        LDI     R16, 4
+        RJMP    ??KeyScan_20
+//  108 				case 0xFFFE:		key_output = ESC;		break;
+??KeyScan_24:
+        LDI     R16, 5
+        RJMP    ??KeyScan_20
+//  109 				case 0xFFFB:		key_output = ENTER;	break;
+??KeyScan_25:
+        LDI     R16, 6
+        RJMP    ??KeyScan_20
+//  110 				case 0xFFEF:		key_output = MENU;	break;
+??KeyScan_26:
+        LDI     R16, 7
+        RJMP    ??KeyScan_20
+//  111 				case 0xFFBF:		key_output = RUN;		break;
+??KeyScan_27:
+        LDI     R16, 8
+        RJMP    ??KeyScan_20
+//  112 				case 0xFEFF:		key_output = STOP;	break;
+??KeyScan_28:
+        LDI     R16, 9
+        RJMP    ??KeyScan_20
+//  113 				default:			key_output = 0xFF;	break;
+??KeyScan_29:
+        LDI     R16, 255
+//  114 				}
+//  115 			key_press_time=0;
+??KeyScan_20:
+        LDI     R18, 0
+        LDI     R19, 0
+        STS     key_press_time, R18
+        STS     (key_press_time + 1), R19
+        RJMP    ??KeyScan_4
+//  116 		}
+//  117 	//debug_printf("\x1B[2J");
+//  118 	//debug_printf("0x%02x", key_output );
+//  119 	}
+//  120 	else if((key_signal_A)&&(key_signal_B))// key release
+??KeyScan_18:
+        LDS     R17, key_signal_A
+        TST     R17
+//  121 	{
+//  122 	}
+//  123 	
+//  124 	key_signal_B = key_signal_A;
+??KeyScan_4:
+        LDS     R17, key_signal_A
+        STS     key_signal_B, R17
+//  125 
+//  126 	return key_output;
+        LDI     R17, 0
+        RET
+        CFI EndBlock cfiBlock2
+        REQUIRE _A_PINK
+        REQUIRE _A_PINJ
+//  127 }
+
+        ASEGN ABSOLUTE:DATA:NOROOT,01fH
+__?EECR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,020H
+__?EEDR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,021H
+__?EEARL:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,022H
+__?EEARH:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,074H
+__?XMCRA:
+
+        RSEG NEAR_ID:CODE:NOROOT(0)
+`?<Initializer for key_signal_A>`:
+        DC8 255
+
+        RSEG INITTAB:CODE:NOROOT(0)
+`?<Segment init: NEAR_I>`:
+        DC16    SFE(NEAR_I) - SFB(NEAR_I)
+        DC16    SFB(NEAR_I)
+        DP      SFB(NEAR_ID)
+        REQUIRE ?need_segment_init
+
+        RSEG NEAR_ID:CODE:NOROOT(0)
+`?<Initializer for key_signal_B>`:
+        DC8 255
+
+        RSEG NEAR_ID:CODE:NOROOT(0)
+`?<Initializer for key_data>`:
+        DC16 255
+
+        RSEG INITTAB:CODE:NOROOT(0)
+`?<Segment init: NEAR_Z>`:
+        DC16    SFE(NEAR_Z) - SFB(NEAR_Z)
+        DC16    SFB(NEAR_Z)
+        DP      0
+        REQUIRE ?need_segment_init
+
+        RSEG SWITCH:CODE:NOROOT(1)
+`?<Jumptable for KeyScan>_0`:
+        DW      47870
+        DB      1
+        DP      (??KeyScan_16) /2
+        DP      (??KeyScan_15) /2
+        DB      0x45
+        DP      (??KeyScan_14) /2
+        DB      0x80
+        DP      (??KeyScan_7) /2
+        DB      0x40
+        DP      (??KeyScan_13) /2
+        DB      0x20
+        DP      (??KeyScan_8) /2
+        DB      0x10
+        DP      (??KeyScan_12) /2
+        DB      0x8
+        DP      (??KeyScan_9) /2
+        DB      0x4
+        DP      (??KeyScan_11) /2
+        DB      0x2
+        DP      (??KeyScan_5) /2
+        DB      0x1
+        DP      (??KeyScan_10) /2
+        DB      251
+
+        RSEG SWITCH:CODE:NOROOT(1)
+`?<Jumptable for KeyScan>_1`:
+        DW      65534
+        DB      1
+        DP      (??KeyScan_29) /2
+        DP      (??KeyScan_28) /2
+        DB      0x80
+        DP      (??KeyScan_21) /2
+        DB      0x40
+        DP      (??KeyScan_27) /2
+        DB      0x20
+        DP      (??KeyScan_22) /2
+        DB      0x10
+        DP      (??KeyScan_26) /2
+        DB      0x8
+        DP      (??KeyScan_23) /2
+        DB      0x4
+        DP      (??KeyScan_25) /2
+        DB      0x2
+        DP      (??KeyScan_19) /2
+        DB      0x1
+        DP      (??KeyScan_24) /2
+        DB      251
+
+        END
+//  128 
+// 
+//   2 bytes in segment ABSOLUTE
+// 364 bytes in segment FARCODE
+//  14 bytes in segment INITTAB
+//   4 bytes in segment NEAR_I
+//   4 bytes in segment NEAR_ID
+//   6 bytes in segment NEAR_Z
+//  88 bytes in segment SWITCH
+// 
+// 456 bytes of CODE memory (+ 14 bytes shared)
+//  10 bytes of DATA memory (+  2 bytes shared)
+//
+//Errors: none
+//Warnings: none

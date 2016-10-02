@@ -1,0 +1,479 @@
+///////////////////////////////////////////////////////////////////////////////
+//                                                                            /
+// IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR   09/Dec/2010  19:39:22 /
+// Copyright 1996-2009 IAR Systems AB.                                        /
+//                                                                            /
+//    Source file  =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\util.c /
+//    Command line =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\util.c /
+//                     --cpu=m2560 -ms -o K:\work\SEOHO_VD\KEYPAD335_101203_I /
+//                    AR\Debug\Obj\ -lC K:\work\SEOHO_VD\KEYPAD335_101203_IAR /
+//                    \Debug\List\ -lA K:\work\SEOHO_VD\KEYPAD335_101203_IAR\ /
+//                    Debug\List\ -y --initializers_in_flash -z3 --no_cse     /
+//                    --no_inline --no_code_motion --no_cross_call            /
+//                    --no_clustering --no_tbaa --debug                       /
+//                    --enable_external_bus -DENABLE_BIT_DEFINITIONS -e       /
+//                    --enable_multibytes -I "C:\Program Files\IAR            /
+//                    Systems\Embedded Workbench 5.3\avr\INC\" -I             /
+//                    "C:\Program Files\IAR Systems\Embedded Workbench        /
+//                    5.3\avr\INC\CLIB\" --eeprom_size 4096                   /
+//    List file    =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\Debug\List\util.s /
+//                    90                                                      /
+//                                                                            /
+//                                                                            /
+///////////////////////////////////////////////////////////////////////////////
+
+        NAME util
+
+        RTMODEL "__64bit_doubles", "disabled"
+        RTMODEL "__cpu", "5"
+        RTMODEL "__cpu_name", "ATmega2560"
+        RTMODEL "__enhanced_core", "enabled"
+        RTMODEL "__has_elpm", "true"
+        RTMODEL "__memory_model", "2"
+        RTMODEL "__no_rampd", "enabled"
+        RTMODEL "__rt_version", "3"
+
+        RSEG CSTACK:DATA:NOROOT(0)
+        RSEG RSTACK:DATA:NOROOT(0)
+
+        EXTERN ?EPILOGUE_B4_L09
+        EXTERN ?PROLOGUE4_L09
+        EXTERN ?SS_DIVMOD_L02
+        EXTERN __RSTACK_in_external_ram_new_way
+
+        PUBLIC Delay_ms
+        FUNCTION Delay_ms,021203H
+        ARGFRAME CSTACK, 0, STACK
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC Delay_us
+        FUNCTION Delay_us,080203H
+        ARGFRAME RSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBWEAK __?EEARH
+        PUBWEAK __?EEARL
+        PUBWEAK __?EECR
+        PUBWEAK __?EEDR
+        PUBWEAK __?XMCRA
+        PUBLIC inttoa
+        FUNCTION inttoa,0203H
+        ARGFRAME CSTACK, 0, STACK
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 6, STACK
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA_Y Y DATA
+        CFI StackFrame CFA_SP SP DATA
+        CFI VirtualResource ?RetPad:1, ?RetByte3:8, ?RetHigh:8, ?RetLow:8
+        CFI VirtualResource ?Ret:25
+        CFI Resource R0:8, R1:8, R2:8, R3:8, R4:8, R5:8, R6:8, R7:8, R8:8, R9:8
+        CFI Resource R10:8, R11:8, R12:8, R13:8, R14:8, R15:8, R16:8, R17:8
+        CFI Resource R18:8, R19:8, R20:8, R21:8, R22:8, R23:8, R24:8, R25:8
+        CFI Resource R26:8, R27:8, R28:8, R29:8, R30:8, R31:8
+        CFI Resource ?RetHighByteMask:8, SP:16, SPH:8, SPL:8, Y:16
+        CFI ResourceParts ?Ret ?RetByte3, ?RetHigh, ?RetLow, ?RetPad
+        CFI ResourceParts SP SPH, SPL
+        CFI ResourceParts Y R29, R28
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Y+0
+        CFI CFA_SP SP+3
+        CFI ?RetPad 0
+        CFI ?RetByte3 and(load(1, DATA, sub(CFA_SP, 2)), ?RetHighByteMask)
+        CFI ?RetHigh Frame(CFA_SP, -1)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 Undefined
+        CFI R17 Undefined
+        CFI R18 Undefined
+        CFI R19 Undefined
+        CFI R20 Undefined
+        CFI R21 Undefined
+        CFI R22 Undefined
+        CFI R23 Undefined
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 Undefined
+        CFI R31 Undefined
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI EndCommon cfiCommon0
+        
+// K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\util.c
+//    1 //====================================================
+//    2 //
+//    3 // Copyright(C) 2008 HanYoung ELEC. Co., LTD.
+//    4 // Designed by Paul B.H Park(idonno2000)
+//    5 //
+//    6 //
+//    7 //	filename : util.c
+//    8 //	description : 유틸함수(delay)
+//    9 //
+//   10 //	history : - frist designed at 2008-05-28 4:02오후
+//   11 //
+//   12 //====================================================
+//   13 
+//   14 #include "util.h"
+//   15 
+//   16 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   17 void Delay_us(unsigned char time_us)		/* time delay for us */
+Delay_us:
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI Function Delay_us
+//   18 { register unsigned char i;
+        REQUIRE __RSTACK_in_external_ram_new_way
+//   19 
+//   20   for(i = 0; i < time_us; i++)			// 4 cycle +
+        LDI     R17, 0
+        RJMP    ??Delay_us_0
+//   21     { asm (" PUSH  R0 ");		// 2 cycle +
+??Delay_us_1:
+        PUSH  R0 
+//   22       asm (" POP   R0 ");		// 2 cycle +
+        POP   R0 
+//   23       asm (" PUSH  R0 ");		// 2 cycle +
+        PUSH  R0 
+//   24       asm (" POP   R0 ");		// 2 cycle +
+        POP   R0 
+//   25       asm (" PUSH  R0 ");		// 2 cycle +
+        PUSH  R0 
+//   26       asm (" POP   R0 ");		// 2 cycle = 16 cycle = 1 us for 16MHz
+        POP   R0 
+//   27     }
+        INC     R17
+??Delay_us_0:
+        CP      R17, R16
+        BRCS    ??Delay_us_1
+//   28 }
+        RET
+        CFI EndBlock cfiBlock0
+//   29 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   30 void Delay_ms(unsigned int time_ms)		/* time delay for ms */
+Delay_ms:
+        CFI Block cfiBlock1 Using cfiCommon0
+        CFI Function Delay_ms
+//   31 { register unsigned int i;
+        FUNCALL Delay_ms, Delay_us
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL Delay_ms, Delay_us
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL Delay_ms, Delay_us
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL Delay_ms, Delay_us
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        CALL    ?PROLOGUE4_L09
+        CFI R27 Frame(CFA_Y, -1)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R24 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        REQUIRE __RSTACK_in_external_ram_new_way
+        MOVW    R25:R24, R17:R16
+//   32 
+//   33   for(i = 0; i < time_ms; i++)
+        LDI     R26, 0
+        LDI     R27, 0
+        RJMP    ??Delay_ms_0
+//   34     { Delay_us(250);
+??Delay_ms_1:
+        LDI     R16, 250
+        RCALL   Delay_us
+//   35       Delay_us(250);
+        LDI     R16, 250
+        RCALL   Delay_us
+//   36       Delay_us(250);
+        LDI     R16, 250
+        RCALL   Delay_us
+//   37       Delay_us(250);
+        LDI     R16, 250
+        RCALL   Delay_us
+//   38     }
+        ADIW    R27:R26, 1
+??Delay_ms_0:
+        CP      R26, R24
+        CPC     R27, R25
+        BRCS    ??Delay_ms_1
+//   39 }
+        LDI     R30, 4
+        JMP     ?EPILOGUE_B4_L09
+        CFI EndBlock cfiBlock1
+//   40 
+//   41 
+//   42 
+//   43 /*--- INTERGER TO ASCII CONVERSION ---*/
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   44 void inttoa(int val, char *str, int len)
+inttoa:
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI Function inttoa
+//   45 {
+        CALL    ?PROLOGUE4_L09
+        CFI R27 Frame(CFA_Y, -1)
+        CFI R26 Frame(CFA_Y, -2)
+        CFI R25 Frame(CFA_Y, -3)
+        CFI R24 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        REQUIRE __RSTACK_in_external_ram_new_way
+        MOVW    R25:R24, R17:R16
+        MOVW    R27:R26, R19:R18
+//   46 	int irem;
+//   47 	
+//   48 	switch( len ){
+        SUBI    R20, 1
+        SBCI    R21, 0
+        BREQ    ??inttoa_0
+        SUBI    R20, 1
+        SBCI    R21, 0
+        BREQ    ??inttoa_1
+        SUBI    R20, 1
+        SBCI    R21, 0
+        BREQ    ??inttoa_2
+        SUBI    R20, 1
+        SBCI    R21, 0
+        BREQ    ??inttoa_3
+        SUBI    R20, 1
+        SBCI    R21, 0
+        BRNE    $+2+2
+        RJMP    ??inttoa_4
+        RJMP    ??inttoa_5
+//   49 		case 1:	*(str+0) = (char)(val + 48);
+??inttoa_0:
+        SUBI    R24, 208
+        ST      X, R24
+        RJMP    ??inttoa_5
+//   50 			break;
+//   51 		case 2:	*(str+0) = (char)(val/10 + 48);
+??inttoa_1:
+        LDI     R20, 10
+        LDI     R21, 0
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        SUBI    R16, 208
+        ST      X, R16
+//   52 			irem = val % 10;
+        LDI     R20, 10
+        LDI     R21, 0
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        MOVW    R25:R24, R21:R20
+//   53 			*(str+1) = (char)(irem + 48);
+        SUBI    R24, 208
+        MOVW    R31:R30, R27:R26
+        STD     Z+1, R24
+        RJMP    ??inttoa_5
+//   54 			break;
+//   55 		case 3:	*(str+0) = (char)(val/100 + 48);
+??inttoa_2:
+        LDI     R20, 100
+        LDI     R21, 0
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        SUBI    R16, 208
+        ST      X, R16
+//   56 			irem = val % 100;
+        LDI     R20, 100
+        LDI     R21, 0
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        MOVW    R25:R24, R21:R20
+//   57 			*(str+1) = (char)(irem/10 + 48);
+        LDI     R20, 10
+        LDI     R21, 0
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        SUBI    R16, 208
+        MOVW    R31:R30, R27:R26
+        STD     Z+1, R16
+//   58 			irem = irem % 10;
+        LDI     R20, 10
+        LDI     R21, 0
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        MOVW    R25:R24, R21:R20
+//   59 			*(str+2) = (char)(irem + 48);
+        SUBI    R24, 208
+        MOVW    R31:R30, R27:R26
+        STD     Z+2, R24
+        RJMP    ??inttoa_5
+//   60 			break;
+//   61 		case 4:	*(str+0) = (char)(val/1000 + 48);
+??inttoa_3:
+        LDI     R20, 232
+        LDI     R21, 3
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        SUBI    R16, 208
+        ST      X, R16
+//   62 			irem = val % 1000;
+        LDI     R20, 232
+        LDI     R21, 3
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        MOVW    R25:R24, R21:R20
+//   63 			*(str+1) = (char)(irem/100 + 48);
+        LDI     R20, 100
+        LDI     R21, 0
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        SUBI    R16, 208
+        MOVW    R31:R30, R27:R26
+        STD     Z+1, R16
+//   64 			irem = irem % 100;
+        LDI     R20, 100
+        LDI     R21, 0
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        MOVW    R25:R24, R21:R20
+//   65 			*(str+2) = (char)(irem/10 + 48);
+        LDI     R20, 10
+        LDI     R21, 0
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        SUBI    R16, 208
+        MOVW    R31:R30, R27:R26
+        STD     Z+2, R16
+//   66 			irem = irem % 10;
+        LDI     R20, 10
+        LDI     R21, 0
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        MOVW    R25:R24, R21:R20
+//   67 			*(str+3) = (char)(irem + 48);
+        SUBI    R24, 208
+        MOVW    R31:R30, R27:R26
+        STD     Z+3, R24
+        RJMP    ??inttoa_5
+//   68 			break;
+//   69 		case 5:	*(str+0) = (char)(val/10000 + 48);
+??inttoa_4:
+        LDI     R20, 16
+        LDI     R21, 39
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        SUBI    R16, 208
+        ST      X, R16
+//   70 			irem = val % 10000;
+        LDI     R20, 16
+        LDI     R21, 39
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        MOVW    R25:R24, R21:R20
+//   71 			*(str+1) = (char)(irem/1000 + 48);
+        LDI     R20, 232
+        LDI     R21, 3
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        SUBI    R16, 208
+        MOVW    R31:R30, R27:R26
+        STD     Z+1, R16
+//   72 			irem = irem % 1000;
+        LDI     R20, 232
+        LDI     R21, 3
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        MOVW    R25:R24, R21:R20
+//   73 			*(str+2) = (char)(irem/100 + 48);
+        LDI     R20, 100
+        LDI     R21, 0
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        SUBI    R16, 208
+        MOVW    R31:R30, R27:R26
+        STD     Z+2, R16
+//   74 			irem = irem % 100;
+        LDI     R20, 100
+        LDI     R21, 0
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        MOVW    R25:R24, R21:R20
+//   75 			*(str+3) = (char)(irem/10 + 48);
+        LDI     R20, 10
+        LDI     R21, 0
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        SUBI    R16, 208
+        MOVW    R31:R30, R27:R26
+        STD     Z+3, R16
+//   76 			irem = irem % 10;
+        LDI     R20, 10
+        LDI     R21, 0
+        MOVW    R17:R16, R25:R24
+        CALL    ?SS_DIVMOD_L02
+        MOVW    R25:R24, R21:R20
+//   77 			*(str+4) = (char)(irem + 48);
+        SUBI    R24, 208
+        MOVW    R31:R30, R27:R26
+        STD     Z+4, R24
+//   78 			break;
+//   79 		default: break;	
+//   80 	}
+//   81 }
+??inttoa_5:
+        LDI     R30, 4
+        JMP     ?EPILOGUE_B4_L09
+        CFI EndBlock cfiBlock2
+
+        ASEGN ABSOLUTE:DATA:NOROOT,01fH
+__?EECR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,020H
+__?EEDR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,021H
+__?EEARL:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,022H
+__?EEARH:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,074H
+__?XMCRA:
+
+        END
+//   82 
+//   83 
+//   84 
+// 
+// 422 bytes in segment FARCODE
+// 
+// 422 bytes of CODE memory
+//
+//Errors: none
+//Warnings: none

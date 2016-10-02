@@ -1,0 +1,1259 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR    09/Dec/2010  19:38:40 #
+# Copyright 1996-2009 IAR Systems AB.                                         #
+#                                                                             #
+#    Source file  =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\main.c      #
+#    Command line =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\main.c      #
+#                    --cpu=m2560 -ms -o K:\work\SEOHO_VD\KEYPAD335_101203_IAR #
+#                    \Debug\Obj\ -lC K:\work\SEOHO_VD\KEYPAD335_101203_IAR\De #
+#                    bug\List\ -lA K:\work\SEOHO_VD\KEYPAD335_101203_IAR\Debu #
+#                    g\List\ -y --initializers_in_flash -z3 --no_cse          #
+#                    --no_inline --no_code_motion --no_cross_call             #
+#                    --no_clustering --no_tbaa --debug --enable_external_bus  #
+#                    -DENABLE_BIT_DEFINITIONS -e --enable_multibytes -I       #
+#                    "C:\Program Files\IAR Systems\Embedded Workbench         #
+#                    5.3\avr\INC\" -I "C:\Program Files\IAR Systems\Embedded  #
+#                    Workbench 5.3\avr\INC\CLIB\" --eeprom_size 4096          #
+#    List file    =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\Debug\List\main.ls #
+#                    t                                                        #
+#    Object file  =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\Debug\Obj\main.r90 #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\main.c
+      1          //====================================================
+      2          //
+      3          // Copyright(C) 2008 HanYoung ELEC. Co., LTD.
+      4          // Designed by Paul B.H Park(idonno2000)
+      5          //
+      6          //
+      7          //	filename : main.c
+      8          //	description : 메인함수
+      9          //	last revision : 2008-05-09 4:02뷈?
+     10          //	history : 
+     11          //
+     12          //====================================================
+     13          
+     14          //#define F_CPU 16000000UL // 사용하는 CPU 클럭을 설정
+     15          //#define __OPTIMIZE__ 
+     16          
+     17          #include <inavr.h>
+     18          #include <iom2560.h>
+
+   \                                 In  segment ABSOLUTE, at 0x10b
+   \   <__C48> volatile __ext_io _A_PORTL
+   \                     _A_PORTL:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x10a
+   \   <__C51> volatile __ext_io _A_DDRL
+   \                     _A_DDRL:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x108
+   \   <__C57> volatile __ext_io _A_PORTK
+   \                     _A_PORTK:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x107
+   \   <__C60> volatile __ext_io _A_DDRK
+   \                     _A_DDRK:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x105
+   \   <__C66> volatile __ext_io _A_PORTJ
+   \                     _A_PORTJ:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x104
+   \   <__C69> volatile __ext_io _A_DDRJ
+   \                     _A_DDRJ:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x102
+   \   <__C75> volatile __ext_io _A_PORTH
+   \                     _A_PORTH:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x101
+   \   <__C78> volatile __ext_io _A_DDRH
+   \                     _A_DDRH:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x88
+   \   <__C230> volatile __io _A_OCR1A
+   \                     _A_OCR1A:
+   \   00000000                      DS8 2
+
+   \                                 In  segment ABSOLUTE, at 0x84
+   \   <__C238> volatile __io _A_TCNT1
+   \                     _A_TCNT1:
+   \   00000000                      DS8 2
+
+   \                                 In  segment ABSOLUTE, at 0x82
+   \   <__C241> volatile __io _A_TCCR1C
+   \                     _A_TCCR1C:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x81
+   \   <__C244> volatile __io _A_TCCR1B
+   \                     _A_TCCR1B:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x80
+   \   <__C247> volatile __io _A_TCCR1A
+   \                     _A_TCCR1A:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x75
+   \   <__C272> volatile __io _A_XMCRB
+   \                     _A_XMCRB:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x74
+   \   <__C275> volatile __io _A_XMCRA
+   \                     _A_XMCRA:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x6f
+   \   <__C290> volatile __io _A_TIMSK1
+   \                     _A_TIMSK1:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x36
+   \   <__C422> volatile __io _A_TIFR1
+   \                     _A_TIFR1:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x34
+   \   <__C428> volatile __io _A_PORTG
+   \                     _A_PORTG:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x33
+   \   <__C431> volatile __io _A_DDRG
+   \                     _A_DDRG:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x31
+   \   <__C437> volatile __io _A_PORTF
+   \                     _A_PORTF:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x30
+   \   <__C440> volatile __io _A_DDRF
+   \                     _A_DDRF:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x2e
+   \   <__C446> volatile __io _A_PORTE
+   \                     _A_PORTE:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x2d
+   \   <__C449> volatile __io _A_DDRE
+   \                     _A_DDRE:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x2b
+   \   <__C455> volatile __io _A_PORTD
+   \                     _A_PORTD:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x2a
+   \   <__C458> volatile __io _A_DDRD
+   \                     _A_DDRD:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x25
+   \   <__C473> volatile __io _A_PORTB
+   \                     _A_PORTB:
+   \   00000000                      DS8 1
+
+   \                                 In  segment ABSOLUTE, at 0x24
+   \   <__C476> volatile __io _A_DDRB
+   \                     _A_DDRB:
+   \   00000000                      DS8 1
+     19          
+     20          //#include <avr/io.h>
+     21          //#include <avr/interrupt.h>
+     22          //#include <util/delay.h>
+     23          //#include <avr/eeprom.h>
+     24          
+     25          #include "mcu/16by2CLCD.h"
+     26          #include "mcu/key.h"
+     27          
+     28          #include "mcu/rs232_MMItoPANEL.h"
+     29          //#include "ProtoMod.h"
+     30          #include "mcu/display.h"
+     31          #include "mcu/util.h"
+     32          
+     33          #include "mcu/debug_printf.h"
+     34          
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     35          char PacketBuf[100];
+   \                     PacketBuf:
+   \   00000000                      DS8 100
+
+   \                                 In  segment NEAR_I, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_I>`
+     36          char PacketCMD = 0xFF;
+   \                     PacketCMD:
+   \   00000000                      DS8 1
+   \   00000001                      REQUIRE `?<Initializer for PacketCMD>`
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     37          char* Packet;
+   \                     Packet:
+   \   00000000                      DS8 2
+     38          
+     39          
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     40          volatile unsigned char TimerTicFlag = 0;
+   \                     TimerTicFlag:
+   \   00000000                      DS8 1
+     41          
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     42          unsigned char TimeTic_1ms = 0;
+   \                     TimeTic_1ms:
+   \   00000000                      DS8 1
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     43          unsigned char TimeTic_10ms = 0;
+   \                     TimeTic_10ms:
+   \   00000000                      DS8 1
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     44          unsigned char TimeTic_100ms = 0;
+   \                     TimeTic_100ms:
+   \   00000000                      DS8 1
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     45          unsigned char TimeTic_200ms = 0;
+   \                     TimeTic_200ms:
+   \   00000000                      DS8 1
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     46          unsigned char TimeTic_500ms = 0;
+   \                     TimeTic_500ms:
+   \   00000000                      DS8 1
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     47          unsigned char TimeTic_1s = 0;
+   \                     TimeTic_1s:
+   \   00000000                      DS8 1
+     48          
+
+   \                                 In  segment NEAR_I, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_I>`
+     49          unsigned char _10ms_Cnt = 1;
+   \                     _10ms_Cnt:
+   \   00000000                      DS8 1
+   \   00000001                      REQUIRE `?<Initializer for _10ms_Cnt>`
+
+   \                                 In  segment NEAR_I, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_I>`
+     50          unsigned char _100ms_Cnt = 1;
+   \                     _100ms_Cnt:
+   \   00000000                      DS8 1
+   \   00000001                      REQUIRE `?<Initializer for _100ms_Cnt>`
+
+   \                                 In  segment NEAR_I, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_I>`
+     51          unsigned char _200ms_Cnt = 1;
+   \                     _200ms_Cnt:
+   \   00000000                      DS8 1
+   \   00000001                      REQUIRE `?<Initializer for _200ms_Cnt>`
+
+   \                                 In  segment NEAR_I, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_I>`
+     52          unsigned char _500ms_Cnt = 1;
+   \                     _500ms_Cnt:
+   \   00000000                      DS8 1
+   \   00000001                      REQUIRE `?<Initializer for _500ms_Cnt>`
+
+   \                                 In  segment NEAR_I, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_I>`
+     53          unsigned char _1s_Cnt = 1;
+   \                     _1s_Cnt:
+   \   00000000                      DS8 1
+   \   00000001                      REQUIRE `?<Initializer for _1s_Cnt>`
+     54          
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     55          unsigned char Toggle10ms = 0;
+   \                     Toggle10ms:
+   \   00000000                      DS8 1
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     56          unsigned char Toggle500ms = 0;
+   \                     Toggle500ms:
+   \   00000000                      DS8 1
+     57          
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     58          unsigned char EventFlagA = 0;
+   \                     EventFlagA:
+   \   00000000                      DS8 1
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     59          unsigned char EventFlagB = 0;
+   \                     EventFlagB:
+   \   00000000                      DS8 1
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     60          unsigned char EventFlagC = 0;
+   \                     EventFlagC:
+   \   00000000                      DS8 1
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     61          unsigned char EventFlagD = 0;
+   \                     EventFlagD:
+   \   00000000                      DS8 1
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     62          unsigned char EventFlagE= 0; //backlight event
+   \                     EventFlagE:
+   \   00000000                      DS8 1
+     63          
+     64          
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     65          unsigned char EventTimeA = 0;
+   \                     EventTimeA:
+   \   00000000                      DS8 1
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     66          unsigned char EventTimeB = 0;
+   \                     EventTimeB:
+   \   00000000                      DS8 1
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     67          unsigned char EventTimeC = 0;
+   \                     EventTimeC:
+   \   00000000                      DS8 1
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     68          unsigned char EventTimeD = 0;
+   \                     EventTimeD:
+   \   00000000                      DS8 1
+
+   \                                 In  segment NEAR_Z, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_Z>`
+     69          unsigned char EventTimeE = 0;
+   \                     EventTimeE:
+   \   00000000                      DS8 1
+     70          
+     71          extern unsigned int 	key_press_time;
+     72          
+     73          
+
+   \                                 In  segment FARCODE, align 2, keep-with-next
+     74          void MCU_initialize(void)			/* initialize ATmege1280 MCU & OK-1280 kit */
+   \                     MCU_initialize:
+     75          { 
+   \   00000000                      REQUIRE __RSTACK_in_external_ram_new_way
+     76          	XMCRA = 0xC3;					// 0x2200-0x7FFF=3 wait, 0x8000-0xFFFF=0 wait
+   \   00000000   EC03               LDI     R16, 195
+   \   00000002   9300....           STS     _A_XMCRA, R16
+     77          	XMCRB = 0x80;					// enable bus keeper, use PC0-PC7 as address
+   \   00000006   E800               LDI     R16, 128
+   \   00000008   9300....           STS     _A_XMCRB, R16
+     78          
+     79          	DDRB = 0xFF;				
+   \   0000000C   EF0F               LDI     R16, 255
+   \   0000000E   B904               OUT     0x04, R16
+     80          	PORTB = 0x00;
+   \   00000010   E000               LDI     R16, 0
+   \   00000012   B905               OUT     0x05, R16
+     81          
+     82          	DDRD = 0xF1;	
+   \   00000014   EF01               LDI     R16, 241
+   \   00000016   B90A               OUT     0x0A, R16
+     83          	PORTD = 0x00;
+   \   00000018   E000               LDI     R16, 0
+   \   0000001A   B90B               OUT     0x0B, R16
+     84          
+     85          	DDRE = 0x00;					
+   \   0000001C   E000               LDI     R16, 0
+   \   0000001E   B90D               OUT     0x0D, R16
+     86          	PORTE = 0x00;	
+   \   00000020   E000               LDI     R16, 0
+   \   00000022   B90E               OUT     0x0E, R16
+     87          
+     88          	DDRF = 0xFF;         		
+   \   00000024   EF0F               LDI     R16, 255
+   \   00000026   BB00               OUT     0x10, R16
+     89          	PORTF = 0x00;
+   \   00000028   E000               LDI     R16, 0
+   \   0000002A   BB01               OUT     0x11, R16
+     90          
+     91          	DDRG = 0xFF;         		
+   \   0000002C   EF0F               LDI     R16, 255
+   \   0000002E   BB03               OUT     0x13, R16
+     92          	PORTG = 0x00;
+   \   00000030   E000               LDI     R16, 0
+   \   00000032   BB04               OUT     0x14, R16
+     93          
+     94          	DDRH = 0xFF;				
+   \   00000034   EF0F               LDI     R16, 255
+   \   00000036   9300....           STS     _A_DDRH, R16
+     95          	PORTH = 0x00;				
+   \   0000003A   E000               LDI     R16, 0
+   \   0000003C   9300....           STS     _A_PORTH, R16
+     96          	
+     97          	DDRJ = 0x00;				
+   \   00000040   E000               LDI     R16, 0
+   \   00000042   9300....           STS     _A_DDRJ, R16
+     98          	PORTJ = 0x00;			
+   \   00000046   E000               LDI     R16, 0
+   \   00000048   9300....           STS     _A_PORTJ, R16
+     99          	DDRK = 0x00;          
+   \   0000004C   E000               LDI     R16, 0
+   \   0000004E   9300....           STS     _A_DDRK, R16
+    100          	PORTK = 0x00;
+   \   00000052   E000               LDI     R16, 0
+   \   00000054   9300....           STS     _A_PORTK, R16
+    101          	
+    102          	DDRL = 0xFF;					// PORTL7-0 = output
+   \   00000058   EF0F               LDI     R16, 255
+   \   0000005A   9300....           STS     _A_DDRL, R16
+    103          	PORTL = 0x00;					//    * clear
+   \   0000005E   E000               LDI     R16, 0
+   \   00000060   9300....           STS     _A_PORTL, R16
+    104          }
+   \   00000064   9508               RET
+   \   00000066                      REQUIRE _A_PORTL
+   \   00000066                      REQUIRE _A_DDRL
+   \   00000066                      REQUIRE _A_PORTK
+   \   00000066                      REQUIRE _A_DDRK
+   \   00000066                      REQUIRE _A_PORTJ
+   \   00000066                      REQUIRE _A_DDRJ
+   \   00000066                      REQUIRE _A_PORTH
+   \   00000066                      REQUIRE _A_DDRH
+   \   00000066                      REQUIRE _A_XMCRB
+   \   00000066                      REQUIRE _A_XMCRA
+   \   00000066                      REQUIRE _A_PORTG
+   \   00000066                      REQUIRE _A_DDRG
+   \   00000066                      REQUIRE _A_PORTF
+   \   00000066                      REQUIRE _A_DDRF
+   \   00000066                      REQUIRE _A_PORTE
+   \   00000066                      REQUIRE _A_DDRE
+   \   00000066                      REQUIRE _A_PORTD
+   \   00000066                      REQUIRE _A_DDRD
+   \   00000066                      REQUIRE _A_PORTB
+   \   00000066                      REQUIRE _A_DDRB
+    105          
+
+   \                                 In  segment FARCODE, align 2, keep-with-next
+    106          void Timer_IntteruptSet(void)
+   \                     Timer_IntteruptSet:
+    107          {
+   \   00000000                      REQUIRE __RSTACK_in_external_ram_new_way
+    108          	//timer 1 인터럽트
+    109          	TCCR1A = 0x10;
+   \   00000000   E100               LDI     R16, 16
+   \   00000002   9300....           STS     _A_TCCR1A, R16
+    110          	TCCR1B = 0x0C;
+   \   00000006   E00C               LDI     R16, 12
+   \   00000008   9300....           STS     _A_TCCR1B, R16
+    111          	TCCR1C = 0x00;
+   \   0000000C   E000               LDI     R16, 0
+   \   0000000E   9300....           STS     _A_TCCR1C, R16
+    112          	OCR1A = 62;
+   \   00000012   E30E               LDI     R16, 62
+   \   00000014   E010               LDI     R17, 0
+   \   00000016   9310....           STS     (_A_OCR1A + 1), R17
+   \   0000001A   9300....           STS     _A_OCR1A, R16
+    113          	TCNT1 = 0x0000;
+   \   0000001E   E000               LDI     R16, 0
+   \   00000020   E010               LDI     R17, 0
+   \   00000022   9310....           STS     (_A_TCNT1 + 1), R17
+   \   00000026   9300....           STS     _A_TCNT1, R16
+    114          
+    115          	TIMSK1 = 0x02;
+   \   0000002A   E002               LDI     R16, 2
+   \   0000002C   9300....           STS     _A_TIMSK1, R16
+    116          	TIFR1 = 0x2F;
+   \   00000030   E20F               LDI     R16, 47
+   \   00000032   BB06               OUT     0x16, R16
+    117          
+    118          }
+   \   00000034   9508               RET
+   \   00000036                      REQUIRE _A_OCR1A
+   \   00000036                      REQUIRE _A_TCNT1
+   \   00000036                      REQUIRE _A_TCCR1C
+   \   00000036                      REQUIRE _A_TCCR1B
+   \   00000036                      REQUIRE _A_TCCR1A
+   \   00000036                      REQUIRE _A_TIMSK1
+   \   00000036                      REQUIRE _A_TIFR1
+    119          
+    120          
+    121          
+    122          
+
+   \                                 In  segment FARCODE, align 2, keep-with-next
+    123          void SystemTimeTic(void)
+   \                     SystemTimeTic:
+    124          {
+   \   00000000                      REQUIRE __RSTACK_in_external_ram_new_way
+    125          	TimeTic_1ms = 0;
+   \   00000000   E000               LDI     R16, 0
+   \   00000002   9300....           STS     TimeTic_1ms, R16
+    126          	TimeTic_10ms = 0;
+   \   00000006   E000               LDI     R16, 0
+   \   00000008   9300....           STS     TimeTic_10ms, R16
+    127          	TimeTic_100ms = 0;
+   \   0000000C   E000               LDI     R16, 0
+   \   0000000E   9300....           STS     TimeTic_100ms, R16
+    128          	TimeTic_200ms = 0;
+   \   00000012   E000               LDI     R16, 0
+   \   00000014   9300....           STS     TimeTic_200ms, R16
+    129          	TimeTic_500ms = 0;
+   \   00000018   E000               LDI     R16, 0
+   \   0000001A   9300....           STS     TimeTic_500ms, R16
+    130          	TimeTic_1s = 0;
+   \   0000001E   E000               LDI     R16, 0
+   \   00000020   9300....           STS     TimeTic_1s, R16
+    131          
+    132          	if(TimerTicFlag)TimeTic_1ms = 1;
+   \   00000024   9100....           LDS     R16, TimerTicFlag
+   \   00000028   2300               TST     R16
+   \   0000002A   F019               BREQ    ??SystemTimeTic_0
+   \   0000002C   E001               LDI     R16, 1
+   \   0000002E   9300....           STS     TimeTic_1ms, R16
+    133          	TimerTicFlag = 0;
+   \                     ??SystemTimeTic_0:
+   \   00000032   E000               LDI     R16, 0
+   \   00000034   9300....           STS     TimerTicFlag, R16
+    134          
+    135          	if(TimeTic_1ms)
+   \   00000038   9100....           LDS     R16, TimeTic_1ms
+   \   0000003C   2300               TST     R16
+   \   0000003E   F079               BREQ    ??SystemTimeTic_1
+    136          	{
+    137          		_10ms_Cnt++;
+   \   00000040   9100....           LDS     R16, _10ms_Cnt
+   \   00000044   9503               INC     R16
+   \   00000046   9300....           STS     _10ms_Cnt, R16
+    138          		if(10<_10ms_Cnt)
+   \   0000004A   9100....           LDS     R16, _10ms_Cnt
+   \   0000004E   300B               CPI     R16, 11
+   \   00000050   F030               BRCS    ??SystemTimeTic_1
+    139          		{
+    140          			_10ms_Cnt = 1;
+   \   00000052   E001               LDI     R16, 1
+   \   00000054   9300....           STS     _10ms_Cnt, R16
+    141          			TimeTic_10ms = 1;
+   \   00000058   E001               LDI     R16, 1
+   \   0000005A   9300....           STS     TimeTic_10ms, R16
+    142          		}
+    143          	}
+    144          	
+    145          	if(TimeTic_10ms)
+   \                     ??SystemTimeTic_1:
+   \   0000005E   9100....           LDS     R16, TimeTic_10ms
+   \   00000062   2300               TST     R16
+   \   00000064   F079               BREQ    ??SystemTimeTic_2
+    146          	{
+    147          		_100ms_Cnt++;
+   \   00000066   9100....           LDS     R16, _100ms_Cnt
+   \   0000006A   9503               INC     R16
+   \   0000006C   9300....           STS     _100ms_Cnt, R16
+    148          		if(10<_100ms_Cnt)
+   \   00000070   9100....           LDS     R16, _100ms_Cnt
+   \   00000074   300B               CPI     R16, 11
+   \   00000076   F030               BRCS    ??SystemTimeTic_2
+    149          		{
+    150          			_100ms_Cnt = 1;
+   \   00000078   E001               LDI     R16, 1
+   \   0000007A   9300....           STS     _100ms_Cnt, R16
+    151          			TimeTic_100ms = 1;
+   \   0000007E   E001               LDI     R16, 1
+   \   00000080   9300....           STS     TimeTic_100ms, R16
+    152          		}
+    153          
+    154          	}
+    155          
+    156          	if(TimeTic_100ms)
+   \                     ??SystemTimeTic_2:
+   \   00000084   9100....           LDS     R16, TimeTic_100ms
+   \   00000088   2300               TST     R16
+   \   0000008A   F131               BREQ    ??SystemTimeTic_3
+    157          	{
+    158          		_500ms_Cnt++;
+   \   0000008C   9100....           LDS     R16, _500ms_Cnt
+   \   00000090   9503               INC     R16
+   \   00000092   9300....           STS     _500ms_Cnt, R16
+    159          		key_press_time++;
+   \   00000096   ....               LDI     R30, LOW(key_press_time)
+   \   00000098   ....               LDI     R31, (key_press_time) >> 8
+   \   0000009A   8100               LD      R16, Z
+   \   0000009C   8111               LDD     R17, Z+1
+   \   0000009E   5F0F               SUBI    R16, 255
+   \   000000A0   4F1F               SBCI    R17, 255
+   \   000000A2   8300               ST      Z, R16
+   \   000000A4   8311               STD     Z+1, R17
+    160          		if(5<_500ms_Cnt)
+   \   000000A6   9100....           LDS     R16, _500ms_Cnt
+   \   000000AA   3006               CPI     R16, 6
+   \   000000AC   F030               BRCS    ??SystemTimeTic_4
+    161          		{
+    162          			_500ms_Cnt = 1;
+   \   000000AE   E001               LDI     R16, 1
+   \   000000B0   9300....           STS     _500ms_Cnt, R16
+    163          			TimeTic_500ms = 1;
+   \   000000B4   E001               LDI     R16, 1
+   \   000000B6   9300....           STS     TimeTic_500ms, R16
+    164          		}
+    165          		
+    166          		_200ms_Cnt++;
+   \                     ??SystemTimeTic_4:
+   \   000000BA   9100....           LDS     R16, _200ms_Cnt
+   \   000000BE   9503               INC     R16
+   \   000000C0   9300....           STS     _200ms_Cnt, R16
+    167          		if(2<_200ms_Cnt)
+   \   000000C4   9100....           LDS     R16, _200ms_Cnt
+   \   000000C8   3003               CPI     R16, 3
+   \   000000CA   F030               BRCS    ??SystemTimeTic_3
+    168          		{
+    169          			_200ms_Cnt = 1;
+   \   000000CC   E001               LDI     R16, 1
+   \   000000CE   9300....           STS     _200ms_Cnt, R16
+    170          			TimeTic_200ms = 1;
+   \   000000D2   E001               LDI     R16, 1
+   \   000000D4   9300....           STS     TimeTic_200ms, R16
+    171          		}
+    172          	
+    173          	}
+    174          
+    175          	if(TimeTic_500ms)
+   \                     ??SystemTimeTic_3:
+   \   000000D8   9100....           LDS     R16, TimeTic_500ms
+   \   000000DC   2300               TST     R16
+   \   000000DE   F079               BREQ    ??SystemTimeTic_5
+    176          	{
+    177          		_1s_Cnt++;
+   \   000000E0   9100....           LDS     R16, _1s_Cnt
+   \   000000E4   9503               INC     R16
+   \   000000E6   9300....           STS     _1s_Cnt, R16
+    178          		if(2<_1s_Cnt)
+   \   000000EA   9100....           LDS     R16, _1s_Cnt
+   \   000000EE   3003               CPI     R16, 3
+   \   000000F0   F030               BRCS    ??SystemTimeTic_5
+    179          		{
+    180          			_1s_Cnt = 1;
+   \   000000F2   E001               LDI     R16, 1
+   \   000000F4   9300....           STS     _1s_Cnt, R16
+    181          			TimeTic_1s = 1;
+   \   000000F8   E001               LDI     R16, 1
+   \   000000FA   9300....           STS     TimeTic_1s, R16
+    182          		}
+    183          
+    184          	}
+    185          		
+    186          	
+    187          
+    188          	if(TimeTic_10ms)
+   \                     ??SystemTimeTic_5:
+   \   000000FE   9100....           LDS     R16, TimeTic_10ms
+   \   00000102   2300               TST     R16
+   \   00000104   F059               BREQ    ??SystemTimeTic_6
+    189          	{
+    190          		if(Toggle10ms)Toggle10ms = 0;
+   \   00000106   9100....           LDS     R16, Toggle10ms
+   \   0000010A   2300               TST     R16
+   \   0000010C   F021               BREQ    ??SystemTimeTic_7
+   \   0000010E   E000               LDI     R16, 0
+   \   00000110   9300....           STS     Toggle10ms, R16
+   \   00000114   C003               RJMP    ??SystemTimeTic_6
+    191          		else Toggle10ms = 1;
+   \                     ??SystemTimeTic_7:
+   \   00000116   E001               LDI     R16, 1
+   \   00000118   9300....           STS     Toggle10ms, R16
+    192          	}
+    193          	
+    194          	if(TimeTic_500ms)
+   \                     ??SystemTimeTic_6:
+   \   0000011C   9100....           LDS     R16, TimeTic_500ms
+   \   00000120   2300               TST     R16
+   \   00000122   F059               BREQ    ??SystemTimeTic_8
+    195          	{
+    196          		if(Toggle500ms)Toggle500ms = 0x00;
+   \   00000124   9100....           LDS     R16, Toggle500ms
+   \   00000128   2300               TST     R16
+   \   0000012A   F021               BREQ    ??SystemTimeTic_9
+   \   0000012C   E000               LDI     R16, 0
+   \   0000012E   9300....           STS     Toggle500ms, R16
+   \   00000132   9508               RET
+    197          		else Toggle500ms = 0xFF;
+   \                     ??SystemTimeTic_9:
+   \   00000134   EF0F               LDI     R16, 255
+   \   00000136   9300....           STS     Toggle500ms, R16
+    198          	}
+    199          }
+   \                     ??SystemTimeTic_8:
+   \   0000013A   9508               RET
+    200          
+
+   \                                 In  segment FARCODE, align 2, keep-with-next
+    201          void SystemEventAutoClear(void)
+   \                     SystemEventAutoClear:
+    202          {
+   \   00000000                      REQUIRE __RSTACK_in_external_ram_new_way
+    203          	if(TimeTic_1s)
+   \   00000000   9100....           LDS     R16, TimeTic_1s
+   \   00000004   2300               TST     R16
+   \   00000006   F409               BRNE    $+2+2
+   \   00000008   C05F               RJMP    ??SystemEventAutoClear_0
+    204          	{
+    205          		if(EventFlagA)//using DpMenu5
+   \   0000000A   9100....           LDS     R16, EventFlagA
+   \   0000000E   2300               TST     R16
+   \   00000010   F079               BREQ    ??SystemEventAutoClear_1
+    206          		{
+    207          			EventTimeA++;
+   \   00000012   9100....           LDS     R16, EventTimeA
+   \   00000016   9503               INC     R16
+   \   00000018   9300....           STS     EventTimeA, R16
+    208          			if(1<EventTimeA)//1s
+   \   0000001C   9100....           LDS     R16, EventTimeA
+   \   00000020   3002               CPI     R16, 2
+   \   00000022   F030               BRCS    ??SystemEventAutoClear_1
+    209          			{
+    210          				EventFlagA = 0;
+   \   00000024   E000               LDI     R16, 0
+   \   00000026   9300....           STS     EventFlagA, R16
+    211          				EventTimeA = 0;
+   \   0000002A   E000               LDI     R16, 0
+   \   0000002C   9300....           STS     EventTimeA, R16
+    212          
+    213          			}
+    214          		}
+    215          
+    216          		if(EventFlagB)
+   \                     ??SystemEventAutoClear_1:
+   \   00000030   9100....           LDS     R16, EventFlagB
+   \   00000034   2300               TST     R16
+   \   00000036   F079               BREQ    ??SystemEventAutoClear_2
+    217          		{
+    218          			EventTimeB++;
+   \   00000038   9100....           LDS     R16, EventTimeB
+   \   0000003C   9503               INC     R16
+   \   0000003E   9300....           STS     EventTimeB, R16
+    219          			if(5<EventTimeB)//5s
+   \   00000042   9100....           LDS     R16, EventTimeB
+   \   00000046   3006               CPI     R16, 6
+   \   00000048   F030               BRCS    ??SystemEventAutoClear_2
+    220          			{
+    221          				EventFlagB = 0;
+   \   0000004A   E000               LDI     R16, 0
+   \   0000004C   9300....           STS     EventFlagB, R16
+    222          				EventTimeB = 0;
+   \   00000050   E000               LDI     R16, 0
+   \   00000052   9300....           STS     EventTimeB, R16
+    223          			}
+    224          		}
+    225          
+    226          		if(EventFlagC)
+   \                     ??SystemEventAutoClear_2:
+   \   00000056   9100....           LDS     R16, EventFlagC
+   \   0000005A   2300               TST     R16
+   \   0000005C   F079               BREQ    ??SystemEventAutoClear_3
+    227          		{
+    228          			EventTimeC++;
+   \   0000005E   9100....           LDS     R16, EventTimeC
+   \   00000062   9503               INC     R16
+   \   00000064   9300....           STS     EventTimeC, R16
+    229          			if(60<EventTimeC)//60s
+   \   00000068   9100....           LDS     R16, EventTimeC
+   \   0000006C   330D               CPI     R16, 61
+   \   0000006E   F030               BRCS    ??SystemEventAutoClear_3
+    230          			{
+    231          				EventFlagC = 0;
+   \   00000070   E000               LDI     R16, 0
+   \   00000072   9300....           STS     EventFlagC, R16
+    232          				EventTimeC = 0;
+   \   00000076   E000               LDI     R16, 0
+   \   00000078   9300....           STS     EventTimeC, R16
+    233          			}
+    234          		}
+    235          
+    236          		if(EventFlagD)
+   \                     ??SystemEventAutoClear_3:
+   \   0000007C   9100....           LDS     R16, EventFlagD
+   \   00000080   2300               TST     R16
+   \   00000082   F079               BREQ    ??SystemEventAutoClear_4
+    237          		{
+    238          			EventTimeD++;
+   \   00000084   9100....           LDS     R16, EventTimeD
+   \   00000088   9503               INC     R16
+   \   0000008A   9300....           STS     EventTimeD, R16
+    239          			if(120<EventTimeD)//120s alarm
+   \   0000008E   9100....           LDS     R16, EventTimeD
+   \   00000092   3709               CPI     R16, 121
+   \   00000094   F030               BRCS    ??SystemEventAutoClear_4
+    240          			{
+    241          				EventFlagD = 0;
+   \   00000096   E000               LDI     R16, 0
+   \   00000098   9300....           STS     EventFlagD, R16
+    242          				EventTimeD = 0;
+   \   0000009C   E000               LDI     R16, 0
+   \   0000009E   9300....           STS     EventTimeD, R16
+    243          			}
+    244          		}
+    245          
+    246          		if(EventFlagE)
+   \                     ??SystemEventAutoClear_4:
+   \   000000A2   9100....           LDS     R16, EventFlagE
+   \   000000A6   2300               TST     R16
+   \   000000A8   F079               BREQ    ??SystemEventAutoClear_0
+    247          		{
+    248          			EventTimeE++;
+   \   000000AA   9100....           LDS     R16, EventTimeE
+   \   000000AE   9503               INC     R16
+   \   000000B0   9300....           STS     EventTimeE, R16
+    249          			if(10<EventTimeE)//180s alarm
+   \   000000B4   9100....           LDS     R16, EventTimeE
+   \   000000B8   300B               CPI     R16, 11
+   \   000000BA   F030               BRCS    ??SystemEventAutoClear_0
+    250          			{
+    251          				EventFlagE = 0;
+   \   000000BC   E000               LDI     R16, 0
+   \   000000BE   9300....           STS     EventFlagE, R16
+    252          				EventTimeE = 0;
+   \   000000C2   E000               LDI     R16, 0
+   \   000000C4   9300....           STS     EventTimeE, R16
+    253          			}
+    254          		}
+    255          	}
+    256          }
+   \                     ??SystemEventAutoClear_0:
+   \   000000C8   9508               RET
+    257          
+    258          #pragma vector = TIMER1_COMPA_vect
+
+   \                                 In  segment FARCODE, align 2, keep-with-next
+    259          __interrupt void TIMER1_ISR(void)
+   \                     TIMER1_ISR:
+    260          //ISR(TIMER1_COMPA_vect)	
+    261          {
+   \   00000000   933A               ST      -Y, R19
+   \   00000002   932A               ST      -Y, R18
+   \   00000004   931A               ST      -Y, R17
+   \   00000006   930A               ST      -Y, R16
+   \   00000008   B71F               IN      R17, 0x3F
+   \   0000000A   B72B               IN      R18, 0x3B
+   \   0000000C   B73C               IN      R19, 0x3C
+   \   0000000E                      REQUIRE __RSTACK_in_external_ram_new_way
+    262          	TimerTicFlag = 1;
+   \   0000000E   E001               LDI     R16, 1
+   \   00000010   9300....           STS     TimerTicFlag, R16
+    263          }
+   \   00000014   BF3C               OUT     0x3C, R19
+   \   00000016   BF2B               OUT     0x3B, R18
+   \   00000018   BF1F               OUT     0x3F, R17
+   \   0000001A   9109               LD      R16, Y+
+   \   0000001C   9119               LD      R17, Y+
+   \   0000001E   9129               LD      R18, Y+
+   \   00000020   9139               LD      R19, Y+
+   \   00000022   9518               RETI
+    264          
+
+   \                                 In  segment FARCODE, align 2, keep-with-next
+    265          int main(void)
+   \                     main:
+    266          {
+   \   00000000   939A               ST      -Y, R25
+   \   00000002   938A               ST      -Y, R24
+   \   00000004                      REQUIRE __RSTACK_in_external_ram_new_way
+    267          	unsigned int i;
+    268          	MCU_initialize();                             // initialize MCU and kit
+   \   00000004   ....               RCALL   MCU_initialize
+    269          
+    270          	Delay_ms(200);                                 // wait for system stabilization
+   \   00000006   EC08               LDI     R16, 200
+   \   00000008   E010               LDI     R17, 0
+   \   0000000A   ........           CALL    Delay_ms
+    271          
+    272          	CLCD_initialize();                             // initialize text LCD module
+   \   0000000E   ........           CALL    CLCD_initialize
+    273          
+    274          	CLCD_string(0x80," Seoho Electric");          // display title
+   \   00000012   ....               LDI     R18, LOW(`?<Constant " Seoho Electric">`)
+   \   00000014   ....               LDI     R19, (`?<Constant " Seoho Electric">`) >> 8
+   \   00000016   E800               LDI     R16, 128
+   \   00000018   ........           CALL    CLCD_string
+    275          	CLCD_string(0xC0,"    AC Drive");
+   \   0000001C   ....               LDI     R18, LOW(`?<Constant "    AC Drive">`)
+   \   0000001E   ....               LDI     R19, (`?<Constant "    AC Drive">`) >> 8
+   \   00000020   EC00               LDI     R16, 192
+   \   00000022   ........           CALL    CLCD_string
+    276          
+    277          	CLCD_BackLightOnOff(1);
+   \   00000026   E001               LDI     R16, 1
+   \   00000028   ........           CALL    CLCD_BackLightOnOff
+    278          
+    279          	KeyInit();
+   \   0000002C   ........           CALL    KeyInit
+    280          	Timer_IntteruptSet();
+   \   00000030   ....               RCALL   Timer_IntteruptSet
+    281          	UART_init();
+   \   00000032   ........           CALL    UART_init
+    282          	DisplayInit();
+   \   00000036   ........           CALL    DisplayInit
+    283          
+    284          //	debug_devopen(TX2_char);
+    285          
+    286          //	RS485_RX_EN0;
+    287          	//sei();	
+    288                __enable_interrupt();
+   \   0000003A   9478               SEI
+    289          
+    290          	//wait() ;
+    291          
+    292          	for(i=0;i<BUF_MAX;i++)
+   \   0000003C   E080               LDI     R24, 0
+   \   0000003E   E090               LDI     R25, 0
+   \   00000040   C015               RJMP    ??main_0
+    293          	{
+    294          		//*(volatile int *)((i<<1)+DATA_REG) =0;
+    295          		//*(volatile int *)((i<<1)+DATA_REG+1) = 0;
+    296          		
+    297          		//*(volatile int *)((i<<1)+TEMP_REG) = 0;
+    298          		//*(volatile int *)((i<<1)+TEMP_REG+1) = 0;
+    299                    
+    300                      DATA_Registers[i]=0;
+   \                     ??main_1:
+   \   00000042   E000               LDI     R16, 0
+   \   00000044   E010               LDI     R17, 0
+   \   00000046   019C               MOVW    R19:R18, R25:R24
+   \   00000048   0F22               LSL     R18
+   \   0000004A   1F33               ROL     R19
+   \   0000004C   01F9               MOVW    R31:R30, R19:R18
+   \   0000004E   ....               SUBI    R30, LOW((-(DATA_Registers) & 0xFFFF))
+   \   00000050   ....               SBCI    R31, (-(DATA_Registers) & 0xFFFF) >> 8
+   \   00000052   8300               ST      Z, R16
+   \   00000054   8311               STD     Z+1, R17
+    301                      SCI_Registers[i]=0;
+   \   00000056   E000               LDI     R16, 0
+   \   00000058   E010               LDI     R17, 0
+   \   0000005A   019C               MOVW    R19:R18, R25:R24
+   \   0000005C   0F22               LSL     R18
+   \   0000005E   1F33               ROL     R19
+   \   00000060   01F9               MOVW    R31:R30, R19:R18
+   \   00000062   ....               SUBI    R30, LOW((-(SCI_Registers) & 0xFFFF))
+   \   00000064   ....               SBCI    R31, (-(SCI_Registers) & 0xFFFF) >> 8
+   \   00000066   8300               ST      Z, R16
+   \   00000068   8311               STD     Z+1, R17
+    302                      
+    303          	}
+   \   0000006A   9601               ADIW    R25:R24, 1
+   \                     ??main_0:
+   \   0000006C   3488               CPI     R24, 72
+   \   0000006E   E00D               LDI     R16, 13
+   \   00000070   0790               CPC     R25, R16
+   \   00000072   F338               BRCS    ??main_1
+    304          
+    305          	Delay_ms(500); 
+   \   00000074   EF04               LDI     R16, 244
+   \   00000076   E011               LDI     R17, 1
+   \   00000078   ........           CALL    Delay_ms
+    306          	Delay_ms(500); 
+   \   0000007C   EF04               LDI     R16, 244
+   \   0000007E   E011               LDI     R17, 1
+   \   00000080   ........           CALL    Delay_ms
+    307          	Delay_ms(500); 
+   \   00000084   EF04               LDI     R16, 244
+   \   00000086   E011               LDI     R17, 1
+   \   00000088   ........           CALL    Delay_ms
+    308          	Delay_ms(500);
+   \   0000008C   EF04               LDI     R16, 244
+   \   0000008E   E011               LDI     R17, 1
+   \   00000090   ........           CALL    Delay_ms
+    309          	
+    310          	EventFlagE = 1;
+   \   00000094   E001               LDI     R16, 1
+   \   00000096   9300....           STS     EventFlagE, R16
+    311          
+    312          	 DATA_Registers[3195] = 1;
+   \   0000009A   E001               LDI     R16, 1
+   \   0000009C   E010               LDI     R17, 0
+   \   0000009E   9300....           STS     (DATA_Registers + 6390), R16
+   \   000000A2   9310....           STS     (DATA_Registers + 6391), R17
+    313          	while(1)
+    314          	{
+    315          		if(TimeTic_10ms)
+   \                     ??main_2:
+   \   000000A6   9100....           LDS     R16, TimeTic_10ms
+   \   000000AA   2300               TST     R16
+   \   000000AC   F021               BREQ    ??main_3
+    316          		{
+    317          			KeyProc();
+   \   000000AE   ........           CALL    KeyProc
+    318          			MainSYSTEM();
+   \   000000B2   ........           CALL    MainSYSTEM
+    319          		}
+    320          
+    321          		if(TimeTic_500ms)
+   \                     ??main_3:
+   \   000000B6   9100....           LDS     R16, TimeTic_500ms
+   \   000000BA   2300               TST     R16
+   \   000000BC   F049               BREQ    ??main_4
+    322          		{
+    323          			//PORTL = PORTL ^ 0xFF;
+    324          			PORTG_Bit3 = PORTG_Bit3^1;
+   \   000000BE   E010               LDI     R17, 0
+   \   000000C0   99A3               SBIC    0x14, 0x03
+   \   000000C2   9513               INC     R17
+   \                     ??main_5:
+   \   000000C4   E001               LDI     R16, 1
+   \   000000C6   2710               EOR     R17, R16
+   \   000000C8   FB10               BST     R17, 0
+   \   000000CA   B314               IN      R17, 0x14
+   \   000000CC   F913               BLD     R17, 3
+   \   000000CE   BB14               OUT     0x14, R17
+    325          		}
+    326          
+    327          		if(TimeTic_1s)
+   \                     ??main_4:
+   \   000000D0   9100....           LDS     R16, TimeTic_1s
+   \   000000D4   2300               TST     R16
+   \   000000D6   F019               BREQ    ??main_6
+    328          		{
+    329           			RefreshFlag=1;
+   \   000000D8   E001               LDI     R16, 1
+   \   000000DA   9300....           STS     RefreshFlag, R16
+    330          		}
+    331          
+    332          		//display
+    333          		if(TimeTic_10ms)
+   \                     ??main_6:
+   \   000000DE   9100....           LDS     R16, TimeTic_10ms
+   \   000000E2   2300               TST     R16
+   \   000000E4   F041               BREQ    ??main_7
+    334          		{
+    335          			MenuDisplay();
+   \   000000E6   ....               LDI     R30, LOW(MenuDisplay)
+   \   000000E8   ....               LDI     R31, (MenuDisplay) >> 8
+   \   000000EA   8100               LD      R16, Z
+   \   000000EC   8111               LDD     R17, Z+1
+   \   000000EE   8122               LDD     R18, Z+2
+   \   000000F0   01F8               MOVW    R31:R30, R17:R16
+   \   000000F2   BF2C               OUT     0x3C, R18
+   \   000000F4   9519               EICALL
+    336          		}
+    337          
+    338          		SCI_Process();
+   \                     ??main_7:
+   \   000000F6   ........           CALL    SCI_Process
+    339          
+    340          		SystemTimeTic();
+   \   000000FA   ....               RCALL   SystemTimeTic
+    341          		SystemEventAutoClear();
+   \   000000FC   ....               RCALL   SystemEventAutoClear
+   \   000000FE   CFD3               RJMP    ??main_2
+   \   00000100                      REQUIRE _A_PORTG
+    342          	}
+    343          }
+
+   \                                 In  segment INTVEC, offset 0x44, root
+   \                     `??TIMER1_ISR??INTVEC 68`:
+   \   00000044   ........           JMP     TIMER1_ISR
+
+   \                                 In  segment NEAR_ID, align 1, keep-with-next
+   \                     `?<Initializer for <Constant " Seoho Electric">`:
+   \   00000000   53206F656F68       DC8 " Seoho Electric"
+   \              4520656C7463
+   \              69720063    
+
+   \                                 In  segment NEAR_ID, align 1, keep-with-next
+   \                     `?<Initializer for <Constant "    AC Drive">>`:
+   \   00000000   202020204341       DC8 "    AC Drive"
+   \              442069726576
+   \              00          
+
+   \                                 In  segment NEAR_ID, align 1, keep-with-next
+   \                     `?<Initializer for PacketCMD>`:
+   \   00000000   FF                 DC8 255
+
+   \                                 In  segment NEAR_ID, align 1, keep-with-next
+   \                     `?<Initializer for _10ms_Cnt>`:
+   \   00000000   01                 DC8 1
+
+   \                                 In  segment NEAR_ID, align 1, keep-with-next
+   \                     `?<Initializer for _100ms_Cnt>`:
+   \   00000000   01                 DC8 1
+
+   \                                 In  segment NEAR_ID, align 1, keep-with-next
+   \                     `?<Initializer for _200ms_Cnt>`:
+   \   00000000   01                 DC8 1
+
+   \                                 In  segment NEAR_ID, align 1, keep-with-next
+   \                     `?<Initializer for _500ms_Cnt>`:
+   \   00000000   01                 DC8 1
+
+   \                                 In  segment NEAR_ID, align 1, keep-with-next
+   \                     `?<Initializer for _1s_Cnt>`:
+   \   00000000   01                 DC8 1
+
+   \                                 In  segment NEAR_I, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_I>`
+   \                     `?<Constant " Seoho Electric">`:
+   \   00000000                      DS8 16
+   \   00000010                      REQUIRE `?<Initializer for <Constant " Seoho Electric">`
+
+   \                                 In  segment NEAR_I, align 1, keep-with-next
+   \   00000000                      REQUIRE `?<Segment init: NEAR_I>`
+   \                     `?<Constant "    AC Drive">`:
+   \   00000000                      DS8 13
+   \   0000000D                      REQUIRE `?<Initializer for <Constant "    AC Drive">>`
+
+   Maximum stack usage in bytes:
+
+     Function                  CSTACK RSTACK
+     --------                  ------ ------
+     MCU_initialize                0      3
+     SystemEventAutoClear          0      3
+     SystemTimeTic                 0      3
+     TIMER1_ISR                    4      3
+     Timer_IntteruptSet            0      3
+     main                          2      3
+       -> MCU_initialize           2      3
+       -> Delay_ms                 2      3
+       -> CLCD_initialize          2      3
+       -> CLCD_string              2      3
+       -> CLCD_string              2      3
+       -> CLCD_BackLightOnOff      2      3
+       -> KeyInit                  2      3
+       -> Timer_IntteruptSet       2      3
+       -> UART_init                2      3
+       -> DisplayInit              2      3
+       -> Delay_ms                 2      3
+       -> Delay_ms                 2      3
+       -> Delay_ms                 2      3
+       -> Delay_ms                 2      3
+       -> KeyProc                  2      3
+       -> MainSYSTEM               2      3
+       ->   Indirect call          2      3
+       -> SCI_Process              2      3
+       -> SystemTimeTic            2      3
+       -> SystemEventAutoClear     2      3
+
+
+   Segment part sizes:
+
+     Function/Label                                 Bytes
+     --------------                                 -----
+     _A_PORTL                                          1
+     _A_DDRL                                           1
+     _A_PORTK                                          1
+     _A_DDRK                                           1
+     _A_PORTJ                                          1
+     _A_DDRJ                                           1
+     _A_PORTH                                          1
+     _A_DDRH                                           1
+     _A_OCR1A                                          2
+     _A_TCNT1                                          2
+     _A_TCCR1C                                         1
+     _A_TCCR1B                                         1
+     _A_TCCR1A                                         1
+     _A_XMCRB                                          1
+     _A_XMCRA                                          1
+     _A_TIMSK1                                         1
+     _A_TIFR1                                          1
+     _A_PORTG                                          1
+     _A_DDRG                                           1
+     _A_PORTF                                          1
+     _A_DDRF                                           1
+     _A_PORTE                                          1
+     _A_DDRE                                           1
+     _A_PORTD                                          1
+     _A_DDRD                                           1
+     _A_PORTB                                          1
+     _A_DDRB                                           1
+     PacketBuf                                       100
+     PacketCMD                                         1
+     Packet                                            2
+     TimerTicFlag                                      1
+     TimeTic_1ms                                       1
+     TimeTic_10ms                                      1
+     TimeTic_100ms                                     1
+     TimeTic_200ms                                     1
+     TimeTic_500ms                                     1
+     TimeTic_1s                                        1
+     _10ms_Cnt                                         1
+     _100ms_Cnt                                        1
+     _200ms_Cnt                                        1
+     _500ms_Cnt                                        1
+     _1s_Cnt                                           1
+     Toggle10ms                                        1
+     Toggle500ms                                       1
+     EventFlagA                                        1
+     EventFlagB                                        1
+     EventFlagC                                        1
+     EventFlagD                                        1
+     EventFlagE                                        1
+     EventTimeA                                        1
+     EventTimeB                                        1
+     EventTimeC                                        1
+     EventTimeD                                        1
+     EventTimeE                                        1
+     MCU_initialize                                  102
+     Timer_IntteruptSet                               54
+     SystemTimeTic                                   316
+     SystemEventAutoClear                            202
+     TIMER1_ISR                                       36
+     main                                            256
+     ??TIMER1_ISR??INTVEC 68                           4
+     ?<Initializer for <Constant " Seoho Electric">   16
+     ?<Initializer for <Constant "    AC Drive">>     13
+     ?<Initializer for PacketCMD>                      1
+     ?<Initializer for _10ms_Cnt>                      1
+     ?<Initializer for _100ms_Cnt>                     1
+     ?<Initializer for _200ms_Cnt>                     1
+     ?<Initializer for _500ms_Cnt>                     1
+     ?<Initializer for _1s_Cnt>                        1
+     ?<Constant " Seoho Electric">                    16
+     ?<Constant "    AC Drive">                       13
+      Others                                          14
+
+ 
+  29 bytes in segment ABSOLUTE
+ 966 bytes in segment FARCODE
+  14 bytes in segment INITTAB
+   4 bytes in segment INTVEC
+  35 bytes in segment NEAR_I
+  35 bytes in segment NEAR_ID
+ 121 bytes in segment NEAR_Z
+ 
+ 1 001 bytes of CODE memory (+ 18 bytes shared)
+   156 bytes of DATA memory (+ 29 bytes shared)
+
+Errors: none
+Warnings: none

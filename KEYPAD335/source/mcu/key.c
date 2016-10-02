@@ -11,8 +11,11 @@
 //
 //====================================================
 
-#include <avr/io.h>
-#include <util/delay.h>
+//#include <avr/io.h>
+//#include <util/delay.h>
+
+#include <inavr.h>
+#include <iom2560.h>
 
 #include "key.h"
 
@@ -26,6 +29,7 @@ unsigned int 	key_press_time=0;
 
 unsigned char LongKeyFlag=0;
 
+KEY KeyState;
 
 void KeyInit(void)
 {
@@ -54,8 +58,8 @@ unsigned int KeyScan(void)
 {
 	unsigned char key_output=0xFF;
 	unsigned int key = 0xFFFF;
-
-	key = PINJ | ((PINK | 0xFE)<<8);
+        key = PINK | 0xFE;
+	key = PINJ | (key<<8);
 
 	if(key != 0xFFFF)key_signal_A=0x00;
 	else key_signal_A=0xFF;

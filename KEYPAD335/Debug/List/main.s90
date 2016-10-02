@@ -1,0 +1,1552 @@
+///////////////////////////////////////////////////////////////////////////////
+//                                                                            /
+// IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR   09/Dec/2010  19:38:40 /
+// Copyright 1996-2009 IAR Systems AB.                                        /
+//                                                                            /
+//    Source file  =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\main.c     /
+//    Command line =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\main.c     /
+//                    --cpu=m2560 -ms -o K:\work\SEOHO_VD\KEYPAD335_101203_IA /
+//                    R\Debug\Obj\ -lC K:\work\SEOHO_VD\KEYPAD335_101203_IAR\ /
+//                    Debug\List\ -lA K:\work\SEOHO_VD\KEYPAD335_101203_IAR\D /
+//                    ebug\List\ -y --initializers_in_flash -z3 --no_cse      /
+//                    --no_inline --no_code_motion --no_cross_call            /
+//                    --no_clustering --no_tbaa --debug                       /
+//                    --enable_external_bus -DENABLE_BIT_DEFINITIONS -e       /
+//                    --enable_multibytes -I "C:\Program Files\IAR            /
+//                    Systems\Embedded Workbench 5.3\avr\INC\" -I             /
+//                    "C:\Program Files\IAR Systems\Embedded Workbench        /
+//                    5.3\avr\INC\CLIB\" --eeprom_size 4096                   /
+//    List file    =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\Debug\List\main.s /
+//                    90                                                      /
+//                                                                            /
+//                                                                            /
+///////////////////////////////////////////////////////////////////////////////
+
+        NAME main
+
+        RTMODEL "__64bit_doubles", "disabled"
+        RTMODEL "__cpu", "5"
+        RTMODEL "__cpu_name", "ATmega2560"
+        RTMODEL "__enhanced_core", "enabled"
+        RTMODEL "__has_elpm", "true"
+        RTMODEL "__memory_model", "2"
+        RTMODEL "__no_rampd", "enabled"
+        RTMODEL "__rt_version", "3"
+
+        RSEG CSTACK:DATA:NOROOT(0)
+        RSEG RSTACK:DATA:NOROOT(0)
+
+        EXTERN ?need_segment_init
+        EXTERN __RSTACK_in_external_ram_new_way
+
+        PUBWEAK `?<Segment init: NEAR_I>`
+        PUBWEAK `?<Segment init: NEAR_Z>`
+        PUBWEAK `??TIMER1_ISR??INTVEC 68`
+        PUBLIC EventFlagA
+        PUBLIC EventFlagB
+        PUBLIC EventFlagC
+        PUBLIC EventFlagD
+        PUBLIC EventFlagE
+        PUBLIC EventTimeA
+        PUBLIC EventTimeB
+        PUBLIC EventTimeC
+        PUBLIC EventTimeD
+        PUBLIC EventTimeE
+        PUBLIC MCU_initialize
+        FUNCTION MCU_initialize,0203H
+        ARGFRAME RSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC Packet
+        PUBLIC PacketBuf
+        PUBLIC PacketCMD
+        PUBLIC SystemEventAutoClear
+        FUNCTION SystemEventAutoClear,0203H
+        ARGFRAME RSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC SystemTimeTic
+        FUNCTION SystemTimeTic,0203H
+        ARGFRAME RSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC TIMER1_ISR
+        FUNCTION TIMER1_ISR,0233H
+        ARGFRAME CSTACK, 0, STACK
+        LOCFRAME CSTACK, 4, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC TimeTic_100ms
+        PUBLIC TimeTic_10ms
+        PUBLIC TimeTic_1ms
+        PUBLIC TimeTic_1s
+        PUBLIC TimeTic_200ms
+        PUBLIC TimeTic_500ms
+        PUBLIC TimerTicFlag
+        PUBLIC Timer_IntteruptSet
+        FUNCTION Timer_IntteruptSet,0203H
+        ARGFRAME RSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC Toggle10ms
+        PUBLIC Toggle500ms
+        PUBLIC _100ms_Cnt
+        PUBLIC _10ms_Cnt
+        PUBLIC _1s_Cnt
+        PUBLIC _200ms_Cnt
+        PUBLIC _500ms_Cnt
+        PUBWEAK _A_DDRB
+        PUBWEAK _A_DDRD
+        PUBWEAK _A_DDRE
+        PUBWEAK _A_DDRF
+        PUBWEAK _A_DDRG
+        PUBWEAK _A_DDRH
+        PUBWEAK _A_DDRJ
+        PUBWEAK _A_DDRK
+        PUBWEAK _A_DDRL
+        PUBWEAK _A_OCR1A
+        PUBWEAK _A_PORTB
+        PUBWEAK _A_PORTD
+        PUBWEAK _A_PORTE
+        PUBWEAK _A_PORTF
+        PUBWEAK _A_PORTG
+        PUBWEAK _A_PORTH
+        PUBWEAK _A_PORTJ
+        PUBWEAK _A_PORTK
+        PUBWEAK _A_PORTL
+        PUBWEAK _A_TCCR1A
+        PUBWEAK _A_TCCR1B
+        PUBWEAK _A_TCCR1C
+        PUBWEAK _A_TCNT1
+        PUBWEAK _A_TIFR1
+        PUBWEAK _A_TIMSK1
+        PUBWEAK _A_XMCRA
+        PUBWEAK _A_XMCRB
+        PUBWEAK __?EEARH
+        PUBWEAK __?EEARL
+        PUBWEAK __?EECR
+        PUBWEAK __?EEDR
+        PUBWEAK __?XMCRA
+        PUBLIC main
+        FUNCTION main,061a03H
+        ARGFRAME CSTACK, 0, STACK
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA_Y Y DATA
+        CFI StackFrame CFA_SP SP DATA
+        CFI VirtualResource ?RetPad:1, ?RetByte3:8, ?RetHigh:8, ?RetLow:8
+        CFI VirtualResource ?Ret:25
+        CFI Resource R0:8, R1:8, R2:8, R3:8, R4:8, R5:8, R6:8, R7:8, R8:8, R9:8
+        CFI Resource R10:8, R11:8, R12:8, R13:8, R14:8, R15:8, R16:8, R17:8
+        CFI Resource R18:8, R19:8, R20:8, R21:8, R22:8, R23:8, R24:8, R25:8
+        CFI Resource R26:8, R27:8, R28:8, R29:8, R30:8, R31:8
+        CFI Resource ?RetHighByteMask:8, SP:16, SPH:8, SPL:8, Y:16
+        CFI ResourceParts ?Ret ?RetByte3, ?RetHigh, ?RetLow, ?RetPad
+        CFI ResourceParts SP SPH, SPL
+        CFI ResourceParts Y R29, R28
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Y+0
+        CFI CFA_SP SP+3
+        CFI ?RetPad 0
+        CFI ?RetByte3 and(load(1, DATA, sub(CFA_SP, 2)), ?RetHighByteMask)
+        CFI ?RetHigh Frame(CFA_SP, -1)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 Undefined
+        CFI R17 Undefined
+        CFI R18 Undefined
+        CFI R19 Undefined
+        CFI R20 Undefined
+        CFI R21 Undefined
+        CFI R22 Undefined
+        CFI R23 Undefined
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 Undefined
+        CFI R31 Undefined
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI EndCommon cfiCommon0
+        
+        
+        CFI Common cfiCommon1 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Y+0
+        CFI CFA_SP SP+3
+        CFI ?RetPad 0
+        CFI ?RetByte3 and(load(1, DATA, sub(CFA_SP, 2)), ?RetHighByteMask)
+        CFI ?RetHigh Frame(CFA_SP, -1)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 SameValue
+        CFI R1 SameValue
+        CFI R2 SameValue
+        CFI R3 SameValue
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 SameValue
+        CFI R17 SameValue
+        CFI R18 SameValue
+        CFI R19 SameValue
+        CFI R20 SameValue
+        CFI R21 SameValue
+        CFI R22 SameValue
+        CFI R23 SameValue
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 SameValue
+        CFI R31 SameValue
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI EndCommon cfiCommon1
+        
+TIMER1_ISR          SYMBOL "TIMER1_ISR"
+`??TIMER1_ISR??INTVEC 68` SYMBOL "??INTVEC 68", TIMER1_ISR
+
+        EXTERN Delay_ms
+        FUNCTION Delay_ms,0202H
+        ARGFRAME RSTACK, 0, STACK
+        EXTERN CLCD_initialize
+        FUNCTION CLCD_initialize,0202H
+        ARGFRAME RSTACK, 0, STACK
+        EXTERN CLCD_string
+        FUNCTION CLCD_string,0202H
+        ARGFRAME RSTACK, 0, STACK
+        EXTERN CLCD_BackLightOnOff
+        FUNCTION CLCD_BackLightOnOff,0202H
+        ARGFRAME RSTACK, 0, STACK
+        EXTERN KeyInit
+        FUNCTION KeyInit,0202H
+        ARGFRAME RSTACK, 0, STACK
+        EXTERN UART_init
+        FUNCTION UART_init,0202H
+        ARGFRAME RSTACK, 0, STACK
+        EXTERN DisplayInit
+        FUNCTION DisplayInit,0202H
+        ARGFRAME RSTACK, 0, STACK
+        EXTERN KeyProc
+        FUNCTION KeyProc,0202H
+        ARGFRAME RSTACK, 0, STACK
+        EXTERN MainSYSTEM
+        FUNCTION MainSYSTEM,0202H
+        ARGFRAME RSTACK, 0, STACK
+        EXTERN SCI_Process
+        FUNCTION SCI_Process,0202H
+        ARGFRAME RSTACK, 0, STACK
+        EXTERN DATA_Registers
+        EXTERN MenuDisplay
+        EXTERN RefreshFlag
+        EXTERN SCI_Registers
+        EXTERN key_press_time
+
+// K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\main.c
+//    1 //====================================================
+//    2 //
+//    3 // Copyright(C) 2008 HanYoung ELEC. Co., LTD.
+//    4 // Designed by Paul B.H Park(idonno2000)
+//    5 //
+//    6 //
+//    7 //	filename : main.c
+//    8 //	description : 메인함수
+//    9 //	last revision : 2008-05-09 4:02뷈?
+//   10 //	history : 
+//   11 //
+//   12 //====================================================
+//   13 
+//   14 //#define F_CPU 16000000UL // 사용하는 CPU 클럭을 설정
+//   15 //#define __OPTIMIZE__ 
+//   16 
+//   17 #include <inavr.h>
+//   18 #include <iom2560.h>
+
+        ASEGN ABSOLUTE:DATA:NOROOT,010bH
+// <__C48> volatile __ext_io _A_PORTL
+_A_PORTL:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,010aH
+// <__C51> volatile __ext_io _A_DDRL
+_A_DDRL:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0108H
+// <__C57> volatile __ext_io _A_PORTK
+_A_PORTK:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0107H
+// <__C60> volatile __ext_io _A_DDRK
+_A_DDRK:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0105H
+// <__C66> volatile __ext_io _A_PORTJ
+_A_PORTJ:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0104H
+// <__C69> volatile __ext_io _A_DDRJ
+_A_DDRJ:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0102H
+// <__C75> volatile __ext_io _A_PORTH
+_A_PORTH:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0101H
+// <__C78> volatile __ext_io _A_DDRH
+_A_DDRH:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,088H
+// <__C230> volatile __io _A_OCR1A
+_A_OCR1A:
+        DS8 2
+
+        ASEGN ABSOLUTE:DATA:NOROOT,084H
+// <__C238> volatile __io _A_TCNT1
+_A_TCNT1:
+        DS8 2
+
+        ASEGN ABSOLUTE:DATA:NOROOT,082H
+// <__C241> volatile __io _A_TCCR1C
+_A_TCCR1C:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,081H
+// <__C244> volatile __io _A_TCCR1B
+_A_TCCR1B:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,080H
+// <__C247> volatile __io _A_TCCR1A
+_A_TCCR1A:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,075H
+// <__C272> volatile __io _A_XMCRB
+_A_XMCRB:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,074H
+// <__C275> volatile __io _A_XMCRA
+_A_XMCRA:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,06fH
+// <__C290> volatile __io _A_TIMSK1
+_A_TIMSK1:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,036H
+// <__C422> volatile __io _A_TIFR1
+_A_TIFR1:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,034H
+// <__C428> volatile __io _A_PORTG
+_A_PORTG:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,033H
+// <__C431> volatile __io _A_DDRG
+_A_DDRG:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,031H
+// <__C437> volatile __io _A_PORTF
+_A_PORTF:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,030H
+// <__C440> volatile __io _A_DDRF
+_A_DDRF:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,02eH
+// <__C446> volatile __io _A_PORTE
+_A_PORTE:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,02dH
+// <__C449> volatile __io _A_DDRE
+_A_DDRE:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,02bH
+// <__C455> volatile __io _A_PORTD
+_A_PORTD:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,02aH
+// <__C458> volatile __io _A_DDRD
+_A_DDRD:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,025H
+// <__C473> volatile __io _A_PORTB
+_A_PORTB:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,024H
+// <__C476> volatile __io _A_DDRB
+_A_DDRB:
+        DS8 1
+//   19 
+//   20 //#include <avr/io.h>
+//   21 //#include <avr/interrupt.h>
+//   22 //#include <util/delay.h>
+//   23 //#include <avr/eeprom.h>
+//   24 
+//   25 #include "mcu/16by2CLCD.h"
+//   26 #include "mcu/key.h"
+//   27 
+//   28 #include "mcu/rs232_MMItoPANEL.h"
+//   29 //#include "ProtoMod.h"
+//   30 #include "mcu/display.h"
+//   31 #include "mcu/util.h"
+//   32 
+//   33 #include "mcu/debug_printf.h"
+//   34 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   35 char PacketBuf[100];
+PacketBuf:
+        DS8 100
+
+        RSEG NEAR_I:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_I>`
+`?<Constant " Seoho Electric">`:
+        DS8 16
+        REQUIRE `?<Initializer for <Constant " Seoho Electric">`
+
+        RSEG NEAR_I:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_I>`
+`?<Constant "    AC Drive">`:
+        DS8 13
+        REQUIRE `?<Initializer for <Constant "    AC Drive">>`
+
+        RSEG NEAR_I:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_I>`
+//   36 char PacketCMD = 0xFF;
+PacketCMD:
+        DS8 1
+        REQUIRE `?<Initializer for PacketCMD>`
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   37 char* Packet;
+Packet:
+        DS8 2
+//   38 
+//   39 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   40 volatile unsigned char TimerTicFlag = 0;
+TimerTicFlag:
+        DS8 1
+//   41 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   42 unsigned char TimeTic_1ms = 0;
+TimeTic_1ms:
+        DS8 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   43 unsigned char TimeTic_10ms = 0;
+TimeTic_10ms:
+        DS8 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   44 unsigned char TimeTic_100ms = 0;
+TimeTic_100ms:
+        DS8 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   45 unsigned char TimeTic_200ms = 0;
+TimeTic_200ms:
+        DS8 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   46 unsigned char TimeTic_500ms = 0;
+TimeTic_500ms:
+        DS8 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   47 unsigned char TimeTic_1s = 0;
+TimeTic_1s:
+        DS8 1
+//   48 
+
+        RSEG NEAR_I:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_I>`
+//   49 unsigned char _10ms_Cnt = 1;
+_10ms_Cnt:
+        DS8 1
+        REQUIRE `?<Initializer for _10ms_Cnt>`
+
+        RSEG NEAR_I:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_I>`
+//   50 unsigned char _100ms_Cnt = 1;
+_100ms_Cnt:
+        DS8 1
+        REQUIRE `?<Initializer for _100ms_Cnt>`
+
+        RSEG NEAR_I:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_I>`
+//   51 unsigned char _200ms_Cnt = 1;
+_200ms_Cnt:
+        DS8 1
+        REQUIRE `?<Initializer for _200ms_Cnt>`
+
+        RSEG NEAR_I:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_I>`
+//   52 unsigned char _500ms_Cnt = 1;
+_500ms_Cnt:
+        DS8 1
+        REQUIRE `?<Initializer for _500ms_Cnt>`
+
+        RSEG NEAR_I:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_I>`
+//   53 unsigned char _1s_Cnt = 1;
+_1s_Cnt:
+        DS8 1
+        REQUIRE `?<Initializer for _1s_Cnt>`
+//   54 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   55 unsigned char Toggle10ms = 0;
+Toggle10ms:
+        DS8 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   56 unsigned char Toggle500ms = 0;
+Toggle500ms:
+        DS8 1
+//   57 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   58 unsigned char EventFlagA = 0;
+EventFlagA:
+        DS8 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   59 unsigned char EventFlagB = 0;
+EventFlagB:
+        DS8 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   60 unsigned char EventFlagC = 0;
+EventFlagC:
+        DS8 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   61 unsigned char EventFlagD = 0;
+EventFlagD:
+        DS8 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   62 unsigned char EventFlagE= 0; //backlight event
+EventFlagE:
+        DS8 1
+//   63 
+//   64 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   65 unsigned char EventTimeA = 0;
+EventTimeA:
+        DS8 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   66 unsigned char EventTimeB = 0;
+EventTimeB:
+        DS8 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   67 unsigned char EventTimeC = 0;
+EventTimeC:
+        DS8 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   68 unsigned char EventTimeD = 0;
+EventTimeD:
+        DS8 1
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   69 unsigned char EventTimeE = 0;
+EventTimeE:
+        DS8 1
+//   70 
+//   71 extern unsigned int 	key_press_time;
+//   72 
+//   73 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   74 void MCU_initialize(void)			/* initialize ATmege1280 MCU & OK-1280 kit */
+MCU_initialize:
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI Function MCU_initialize
+//   75 { 
+        REQUIRE __RSTACK_in_external_ram_new_way
+//   76 	XMCRA = 0xC3;					// 0x2200-0x7FFF=3 wait, 0x8000-0xFFFF=0 wait
+        LDI     R16, 195
+        STS     _A_XMCRA, R16
+//   77 	XMCRB = 0x80;					// enable bus keeper, use PC0-PC7 as address
+        LDI     R16, 128
+        STS     _A_XMCRB, R16
+//   78 
+//   79 	DDRB = 0xFF;				
+        LDI     R16, 255
+        OUT     0x04, R16
+//   80 	PORTB = 0x00;
+        LDI     R16, 0
+        OUT     0x05, R16
+//   81 
+//   82 	DDRD = 0xF1;	
+        LDI     R16, 241
+        OUT     0x0A, R16
+//   83 	PORTD = 0x00;
+        LDI     R16, 0
+        OUT     0x0B, R16
+//   84 
+//   85 	DDRE = 0x00;					
+        LDI     R16, 0
+        OUT     0x0D, R16
+//   86 	PORTE = 0x00;	
+        LDI     R16, 0
+        OUT     0x0E, R16
+//   87 
+//   88 	DDRF = 0xFF;         		
+        LDI     R16, 255
+        OUT     0x10, R16
+//   89 	PORTF = 0x00;
+        LDI     R16, 0
+        OUT     0x11, R16
+//   90 
+//   91 	DDRG = 0xFF;         		
+        LDI     R16, 255
+        OUT     0x13, R16
+//   92 	PORTG = 0x00;
+        LDI     R16, 0
+        OUT     0x14, R16
+//   93 
+//   94 	DDRH = 0xFF;				
+        LDI     R16, 255
+        STS     _A_DDRH, R16
+//   95 	PORTH = 0x00;				
+        LDI     R16, 0
+        STS     _A_PORTH, R16
+//   96 	
+//   97 	DDRJ = 0x00;				
+        LDI     R16, 0
+        STS     _A_DDRJ, R16
+//   98 	PORTJ = 0x00;			
+        LDI     R16, 0
+        STS     _A_PORTJ, R16
+//   99 	DDRK = 0x00;          
+        LDI     R16, 0
+        STS     _A_DDRK, R16
+//  100 	PORTK = 0x00;
+        LDI     R16, 0
+        STS     _A_PORTK, R16
+//  101 	
+//  102 	DDRL = 0xFF;					// PORTL7-0 = output
+        LDI     R16, 255
+        STS     _A_DDRL, R16
+//  103 	PORTL = 0x00;					//    * clear
+        LDI     R16, 0
+        STS     _A_PORTL, R16
+//  104 }
+        RET
+        CFI EndBlock cfiBlock0
+        REQUIRE _A_PORTL
+        REQUIRE _A_DDRL
+        REQUIRE _A_PORTK
+        REQUIRE _A_DDRK
+        REQUIRE _A_PORTJ
+        REQUIRE _A_DDRJ
+        REQUIRE _A_PORTH
+        REQUIRE _A_DDRH
+        REQUIRE _A_XMCRB
+        REQUIRE _A_XMCRA
+        REQUIRE _A_PORTG
+        REQUIRE _A_DDRG
+        REQUIRE _A_PORTF
+        REQUIRE _A_DDRF
+        REQUIRE _A_PORTE
+        REQUIRE _A_DDRE
+        REQUIRE _A_PORTD
+        REQUIRE _A_DDRD
+        REQUIRE _A_PORTB
+        REQUIRE _A_DDRB
+//  105 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  106 void Timer_IntteruptSet(void)
+Timer_IntteruptSet:
+        CFI Block cfiBlock1 Using cfiCommon0
+        CFI Function Timer_IntteruptSet
+//  107 {
+        REQUIRE __RSTACK_in_external_ram_new_way
+//  108 	//timer 1 인터럽트
+//  109 	TCCR1A = 0x10;
+        LDI     R16, 16
+        STS     _A_TCCR1A, R16
+//  110 	TCCR1B = 0x0C;
+        LDI     R16, 12
+        STS     _A_TCCR1B, R16
+//  111 	TCCR1C = 0x00;
+        LDI     R16, 0
+        STS     _A_TCCR1C, R16
+//  112 	OCR1A = 62;
+        LDI     R16, 62
+        LDI     R17, 0
+        STS     (_A_OCR1A + 1), R17
+        STS     _A_OCR1A, R16
+//  113 	TCNT1 = 0x0000;
+        LDI     R16, 0
+        LDI     R17, 0
+        STS     (_A_TCNT1 + 1), R17
+        STS     _A_TCNT1, R16
+//  114 
+//  115 	TIMSK1 = 0x02;
+        LDI     R16, 2
+        STS     _A_TIMSK1, R16
+//  116 	TIFR1 = 0x2F;
+        LDI     R16, 47
+        OUT     0x16, R16
+//  117 
+//  118 }
+        RET
+        CFI EndBlock cfiBlock1
+        REQUIRE _A_OCR1A
+        REQUIRE _A_TCNT1
+        REQUIRE _A_TCCR1C
+        REQUIRE _A_TCCR1B
+        REQUIRE _A_TCCR1A
+        REQUIRE _A_TIMSK1
+        REQUIRE _A_TIFR1
+//  119 
+//  120 
+//  121 
+//  122 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  123 void SystemTimeTic(void)
+SystemTimeTic:
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI Function SystemTimeTic
+//  124 {
+        REQUIRE __RSTACK_in_external_ram_new_way
+//  125 	TimeTic_1ms = 0;
+        LDI     R16, 0
+        STS     TimeTic_1ms, R16
+//  126 	TimeTic_10ms = 0;
+        LDI     R16, 0
+        STS     TimeTic_10ms, R16
+//  127 	TimeTic_100ms = 0;
+        LDI     R16, 0
+        STS     TimeTic_100ms, R16
+//  128 	TimeTic_200ms = 0;
+        LDI     R16, 0
+        STS     TimeTic_200ms, R16
+//  129 	TimeTic_500ms = 0;
+        LDI     R16, 0
+        STS     TimeTic_500ms, R16
+//  130 	TimeTic_1s = 0;
+        LDI     R16, 0
+        STS     TimeTic_1s, R16
+//  131 
+//  132 	if(TimerTicFlag)TimeTic_1ms = 1;
+        LDS     R16, TimerTicFlag
+        TST     R16
+        BREQ    ??SystemTimeTic_0
+        LDI     R16, 1
+        STS     TimeTic_1ms, R16
+//  133 	TimerTicFlag = 0;
+??SystemTimeTic_0:
+        LDI     R16, 0
+        STS     TimerTicFlag, R16
+//  134 
+//  135 	if(TimeTic_1ms)
+        LDS     R16, TimeTic_1ms
+        TST     R16
+        BREQ    ??SystemTimeTic_1
+//  136 	{
+//  137 		_10ms_Cnt++;
+        LDS     R16, _10ms_Cnt
+        INC     R16
+        STS     _10ms_Cnt, R16
+//  138 		if(10<_10ms_Cnt)
+        LDS     R16, _10ms_Cnt
+        CPI     R16, 11
+        BRCS    ??SystemTimeTic_1
+//  139 		{
+//  140 			_10ms_Cnt = 1;
+        LDI     R16, 1
+        STS     _10ms_Cnt, R16
+//  141 			TimeTic_10ms = 1;
+        LDI     R16, 1
+        STS     TimeTic_10ms, R16
+//  142 		}
+//  143 	}
+//  144 	
+//  145 	if(TimeTic_10ms)
+??SystemTimeTic_1:
+        LDS     R16, TimeTic_10ms
+        TST     R16
+        BREQ    ??SystemTimeTic_2
+//  146 	{
+//  147 		_100ms_Cnt++;
+        LDS     R16, _100ms_Cnt
+        INC     R16
+        STS     _100ms_Cnt, R16
+//  148 		if(10<_100ms_Cnt)
+        LDS     R16, _100ms_Cnt
+        CPI     R16, 11
+        BRCS    ??SystemTimeTic_2
+//  149 		{
+//  150 			_100ms_Cnt = 1;
+        LDI     R16, 1
+        STS     _100ms_Cnt, R16
+//  151 			TimeTic_100ms = 1;
+        LDI     R16, 1
+        STS     TimeTic_100ms, R16
+//  152 		}
+//  153 
+//  154 	}
+//  155 
+//  156 	if(TimeTic_100ms)
+??SystemTimeTic_2:
+        LDS     R16, TimeTic_100ms
+        TST     R16
+        BREQ    ??SystemTimeTic_3
+//  157 	{
+//  158 		_500ms_Cnt++;
+        LDS     R16, _500ms_Cnt
+        INC     R16
+        STS     _500ms_Cnt, R16
+//  159 		key_press_time++;
+        LDI     R30, LOW(key_press_time)
+        LDI     R31, (key_press_time) >> 8
+        LD      R16, Z
+        LDD     R17, Z+1
+        SUBI    R16, 255
+        SBCI    R17, 255
+        ST      Z, R16
+        STD     Z+1, R17
+//  160 		if(5<_500ms_Cnt)
+        LDS     R16, _500ms_Cnt
+        CPI     R16, 6
+        BRCS    ??SystemTimeTic_4
+//  161 		{
+//  162 			_500ms_Cnt = 1;
+        LDI     R16, 1
+        STS     _500ms_Cnt, R16
+//  163 			TimeTic_500ms = 1;
+        LDI     R16, 1
+        STS     TimeTic_500ms, R16
+//  164 		}
+//  165 		
+//  166 		_200ms_Cnt++;
+??SystemTimeTic_4:
+        LDS     R16, _200ms_Cnt
+        INC     R16
+        STS     _200ms_Cnt, R16
+//  167 		if(2<_200ms_Cnt)
+        LDS     R16, _200ms_Cnt
+        CPI     R16, 3
+        BRCS    ??SystemTimeTic_3
+//  168 		{
+//  169 			_200ms_Cnt = 1;
+        LDI     R16, 1
+        STS     _200ms_Cnt, R16
+//  170 			TimeTic_200ms = 1;
+        LDI     R16, 1
+        STS     TimeTic_200ms, R16
+//  171 		}
+//  172 	
+//  173 	}
+//  174 
+//  175 	if(TimeTic_500ms)
+??SystemTimeTic_3:
+        LDS     R16, TimeTic_500ms
+        TST     R16
+        BREQ    ??SystemTimeTic_5
+//  176 	{
+//  177 		_1s_Cnt++;
+        LDS     R16, _1s_Cnt
+        INC     R16
+        STS     _1s_Cnt, R16
+//  178 		if(2<_1s_Cnt)
+        LDS     R16, _1s_Cnt
+        CPI     R16, 3
+        BRCS    ??SystemTimeTic_5
+//  179 		{
+//  180 			_1s_Cnt = 1;
+        LDI     R16, 1
+        STS     _1s_Cnt, R16
+//  181 			TimeTic_1s = 1;
+        LDI     R16, 1
+        STS     TimeTic_1s, R16
+//  182 		}
+//  183 
+//  184 	}
+//  185 		
+//  186 	
+//  187 
+//  188 	if(TimeTic_10ms)
+??SystemTimeTic_5:
+        LDS     R16, TimeTic_10ms
+        TST     R16
+        BREQ    ??SystemTimeTic_6
+//  189 	{
+//  190 		if(Toggle10ms)Toggle10ms = 0;
+        LDS     R16, Toggle10ms
+        TST     R16
+        BREQ    ??SystemTimeTic_7
+        LDI     R16, 0
+        STS     Toggle10ms, R16
+        RJMP    ??SystemTimeTic_6
+//  191 		else Toggle10ms = 1;
+??SystemTimeTic_7:
+        LDI     R16, 1
+        STS     Toggle10ms, R16
+//  192 	}
+//  193 	
+//  194 	if(TimeTic_500ms)
+??SystemTimeTic_6:
+        LDS     R16, TimeTic_500ms
+        TST     R16
+        BREQ    ??SystemTimeTic_8
+//  195 	{
+//  196 		if(Toggle500ms)Toggle500ms = 0x00;
+        LDS     R16, Toggle500ms
+        TST     R16
+        BREQ    ??SystemTimeTic_9
+        LDI     R16, 0
+        STS     Toggle500ms, R16
+        RET
+//  197 		else Toggle500ms = 0xFF;
+??SystemTimeTic_9:
+        LDI     R16, 255
+        STS     Toggle500ms, R16
+//  198 	}
+//  199 }
+??SystemTimeTic_8:
+        RET
+        CFI EndBlock cfiBlock2
+//  200 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  201 void SystemEventAutoClear(void)
+SystemEventAutoClear:
+        CFI Block cfiBlock3 Using cfiCommon0
+        CFI Function SystemEventAutoClear
+//  202 {
+        REQUIRE __RSTACK_in_external_ram_new_way
+//  203 	if(TimeTic_1s)
+        LDS     R16, TimeTic_1s
+        TST     R16
+        BRNE    $+2+2
+        RJMP    ??SystemEventAutoClear_0
+//  204 	{
+//  205 		if(EventFlagA)//using DpMenu5
+        LDS     R16, EventFlagA
+        TST     R16
+        BREQ    ??SystemEventAutoClear_1
+//  206 		{
+//  207 			EventTimeA++;
+        LDS     R16, EventTimeA
+        INC     R16
+        STS     EventTimeA, R16
+//  208 			if(1<EventTimeA)//1s
+        LDS     R16, EventTimeA
+        CPI     R16, 2
+        BRCS    ??SystemEventAutoClear_1
+//  209 			{
+//  210 				EventFlagA = 0;
+        LDI     R16, 0
+        STS     EventFlagA, R16
+//  211 				EventTimeA = 0;
+        LDI     R16, 0
+        STS     EventTimeA, R16
+//  212 
+//  213 			}
+//  214 		}
+//  215 
+//  216 		if(EventFlagB)
+??SystemEventAutoClear_1:
+        LDS     R16, EventFlagB
+        TST     R16
+        BREQ    ??SystemEventAutoClear_2
+//  217 		{
+//  218 			EventTimeB++;
+        LDS     R16, EventTimeB
+        INC     R16
+        STS     EventTimeB, R16
+//  219 			if(5<EventTimeB)//5s
+        LDS     R16, EventTimeB
+        CPI     R16, 6
+        BRCS    ??SystemEventAutoClear_2
+//  220 			{
+//  221 				EventFlagB = 0;
+        LDI     R16, 0
+        STS     EventFlagB, R16
+//  222 				EventTimeB = 0;
+        LDI     R16, 0
+        STS     EventTimeB, R16
+//  223 			}
+//  224 		}
+//  225 
+//  226 		if(EventFlagC)
+??SystemEventAutoClear_2:
+        LDS     R16, EventFlagC
+        TST     R16
+        BREQ    ??SystemEventAutoClear_3
+//  227 		{
+//  228 			EventTimeC++;
+        LDS     R16, EventTimeC
+        INC     R16
+        STS     EventTimeC, R16
+//  229 			if(60<EventTimeC)//60s
+        LDS     R16, EventTimeC
+        CPI     R16, 61
+        BRCS    ??SystemEventAutoClear_3
+//  230 			{
+//  231 				EventFlagC = 0;
+        LDI     R16, 0
+        STS     EventFlagC, R16
+//  232 				EventTimeC = 0;
+        LDI     R16, 0
+        STS     EventTimeC, R16
+//  233 			}
+//  234 		}
+//  235 
+//  236 		if(EventFlagD)
+??SystemEventAutoClear_3:
+        LDS     R16, EventFlagD
+        TST     R16
+        BREQ    ??SystemEventAutoClear_4
+//  237 		{
+//  238 			EventTimeD++;
+        LDS     R16, EventTimeD
+        INC     R16
+        STS     EventTimeD, R16
+//  239 			if(120<EventTimeD)//120s alarm
+        LDS     R16, EventTimeD
+        CPI     R16, 121
+        BRCS    ??SystemEventAutoClear_4
+//  240 			{
+//  241 				EventFlagD = 0;
+        LDI     R16, 0
+        STS     EventFlagD, R16
+//  242 				EventTimeD = 0;
+        LDI     R16, 0
+        STS     EventTimeD, R16
+//  243 			}
+//  244 		}
+//  245 
+//  246 		if(EventFlagE)
+??SystemEventAutoClear_4:
+        LDS     R16, EventFlagE
+        TST     R16
+        BREQ    ??SystemEventAutoClear_0
+//  247 		{
+//  248 			EventTimeE++;
+        LDS     R16, EventTimeE
+        INC     R16
+        STS     EventTimeE, R16
+//  249 			if(10<EventTimeE)//180s alarm
+        LDS     R16, EventTimeE
+        CPI     R16, 11
+        BRCS    ??SystemEventAutoClear_0
+//  250 			{
+//  251 				EventFlagE = 0;
+        LDI     R16, 0
+        STS     EventFlagE, R16
+//  252 				EventTimeE = 0;
+        LDI     R16, 0
+        STS     EventTimeE, R16
+//  253 			}
+//  254 		}
+//  255 	}
+//  256 }
+??SystemEventAutoClear_0:
+        RET
+        CFI EndBlock cfiBlock3
+//  257 
+//  258 #pragma vector = TIMER1_COMPA_vect
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  259 __interrupt void TIMER1_ISR(void)
+TIMER1_ISR:
+        CFI Block cfiBlock4 Using cfiCommon1
+        CFI Function TIMER1_ISR
+//  260 //ISR(TIMER1_COMPA_vect)	
+//  261 {
+        ST      -Y, R19
+        CFI R19 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST      -Y, R18
+        CFI R18 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+        ST      -Y, R17
+        CFI R17 Frame(CFA_Y, -3)
+        CFI CFA_Y Y+3
+        ST      -Y, R16
+        CFI R16 Frame(CFA_Y, -4)
+        CFI CFA_Y Y+4
+        IN      R17, 0x3F
+        IN      R18, 0x3B
+        IN      R19, 0x3C
+        REQUIRE __RSTACK_in_external_ram_new_way
+//  262 	TimerTicFlag = 1;
+        LDI     R16, 1
+        STS     TimerTicFlag, R16
+//  263 }
+        OUT     0x3C, R19
+        OUT     0x3B, R18
+        OUT     0x3F, R17
+        LD      R16, Y+
+        CFI R16 SameValue
+        CFI CFA_Y Y+3
+        LD      R17, Y+
+        CFI R17 SameValue
+        CFI CFA_Y Y+2
+        LD      R18, Y+
+        CFI R18 SameValue
+        CFI CFA_Y Y+1
+        LD      R19, Y+
+        CFI R19 SameValue
+        CFI CFA_Y Y+0
+        RETI
+        CFI EndBlock cfiBlock4
+//  264 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//  265 int main(void)
+main:
+        CFI Block cfiBlock5 Using cfiCommon0
+        CFI Function main
+//  266 {
+        FUNCALL main, MCU_initialize
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, Delay_ms
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, CLCD_initialize
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, CLCD_string
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, CLCD_string
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, CLCD_BackLightOnOff
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, KeyInit
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, Timer_IntteruptSet
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, UART_init
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, DisplayInit
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, Delay_ms
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, Delay_ms
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, Delay_ms
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, Delay_ms
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, KeyProc
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, MainSYSTEM
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, SCI_Process
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, SystemTimeTic
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, SystemEventAutoClear
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        ST      -Y, R25
+        CFI R25 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST      -Y, R24
+        CFI R24 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+        REQUIRE __RSTACK_in_external_ram_new_way
+//  267 	unsigned int i;
+//  268 	MCU_initialize();                             // initialize MCU and kit
+        RCALL   MCU_initialize
+//  269 
+//  270 	Delay_ms(200);                                 // wait for system stabilization
+        LDI     R16, 200
+        LDI     R17, 0
+        CALL    Delay_ms
+//  271 
+//  272 	CLCD_initialize();                             // initialize text LCD module
+        CALL    CLCD_initialize
+//  273 
+//  274 	CLCD_string(0x80," Seoho Electric");          // display title
+        LDI     R18, LOW(`?<Constant " Seoho Electric">`)
+        LDI     R19, (`?<Constant " Seoho Electric">`) >> 8
+        LDI     R16, 128
+        CALL    CLCD_string
+//  275 	CLCD_string(0xC0,"    AC Drive");
+        LDI     R18, LOW(`?<Constant "    AC Drive">`)
+        LDI     R19, (`?<Constant "    AC Drive">`) >> 8
+        LDI     R16, 192
+        CALL    CLCD_string
+//  276 
+//  277 	CLCD_BackLightOnOff(1);
+        LDI     R16, 1
+        CALL    CLCD_BackLightOnOff
+//  278 
+//  279 	KeyInit();
+        CALL    KeyInit
+//  280 	Timer_IntteruptSet();
+        RCALL   Timer_IntteruptSet
+//  281 	UART_init();
+        CALL    UART_init
+//  282 	DisplayInit();
+        CALL    DisplayInit
+//  283 
+//  284 //	debug_devopen(TX2_char);
+//  285 
+//  286 //	RS485_RX_EN0;
+//  287 	//sei();	
+//  288       __enable_interrupt();
+        SEI
+//  289 
+//  290 	//wait() ;
+//  291 
+//  292 	for(i=0;i<BUF_MAX;i++)
+        LDI     R24, 0
+        LDI     R25, 0
+        RJMP    ??main_0
+//  293 	{
+//  294 		//*(volatile int *)((i<<1)+DATA_REG) =0;
+//  295 		//*(volatile int *)((i<<1)+DATA_REG+1) = 0;
+//  296 		
+//  297 		//*(volatile int *)((i<<1)+TEMP_REG) = 0;
+//  298 		//*(volatile int *)((i<<1)+TEMP_REG+1) = 0;
+//  299           
+//  300             DATA_Registers[i]=0;
+??main_1:
+        LDI     R16, 0
+        LDI     R17, 0
+        MOVW    R19:R18, R25:R24
+        LSL     R18
+        ROL     R19
+        MOVW    R31:R30, R19:R18
+        SUBI    R30, LOW((-(DATA_Registers) & 0xFFFF))
+        SBCI    R31, (-(DATA_Registers) & 0xFFFF) >> 8
+        ST      Z, R16
+        STD     Z+1, R17
+//  301             SCI_Registers[i]=0;
+        LDI     R16, 0
+        LDI     R17, 0
+        MOVW    R19:R18, R25:R24
+        LSL     R18
+        ROL     R19
+        MOVW    R31:R30, R19:R18
+        SUBI    R30, LOW((-(SCI_Registers) & 0xFFFF))
+        SBCI    R31, (-(SCI_Registers) & 0xFFFF) >> 8
+        ST      Z, R16
+        STD     Z+1, R17
+//  302             
+//  303 	}
+        ADIW    R25:R24, 1
+??main_0:
+        CPI     R24, 72
+        LDI     R16, 13
+        CPC     R25, R16
+        BRCS    ??main_1
+//  304 
+//  305 	Delay_ms(500); 
+        LDI     R16, 244
+        LDI     R17, 1
+        CALL    Delay_ms
+//  306 	Delay_ms(500); 
+        LDI     R16, 244
+        LDI     R17, 1
+        CALL    Delay_ms
+//  307 	Delay_ms(500); 
+        LDI     R16, 244
+        LDI     R17, 1
+        CALL    Delay_ms
+//  308 	Delay_ms(500);
+        LDI     R16, 244
+        LDI     R17, 1
+        CALL    Delay_ms
+//  309 	
+//  310 	EventFlagE = 1;
+        LDI     R16, 1
+        STS     EventFlagE, R16
+//  311 
+//  312 	 DATA_Registers[3195] = 1;
+        LDI     R16, 1
+        LDI     R17, 0
+        STS     (DATA_Registers + 6390), R16
+        STS     (DATA_Registers + 6391), R17
+//  313 	while(1)
+//  314 	{
+//  315 		if(TimeTic_10ms)
+??main_2:
+        LDS     R16, TimeTic_10ms
+        TST     R16
+        BREQ    ??main_3
+//  316 		{
+//  317 			KeyProc();
+        CALL    KeyProc
+//  318 			MainSYSTEM();
+        CALL    MainSYSTEM
+//  319 		}
+//  320 
+//  321 		if(TimeTic_500ms)
+??main_3:
+        LDS     R16, TimeTic_500ms
+        TST     R16
+        BREQ    ??main_4
+//  322 		{
+//  323 			//PORTL = PORTL ^ 0xFF;
+//  324 			PORTG_Bit3 = PORTG_Bit3^1;
+        LDI     R17, 0
+        SBIC    0x14, 0x03
+        INC     R17
+??main_5:
+        LDI     R16, 1
+        EOR     R17, R16
+        BST     R17, 0
+        IN      R17, 0x14
+        BLD     R17, 3
+        OUT     0x14, R17
+//  325 		}
+//  326 
+//  327 		if(TimeTic_1s)
+??main_4:
+        LDS     R16, TimeTic_1s
+        TST     R16
+        BREQ    ??main_6
+//  328 		{
+//  329  			RefreshFlag=1;
+        LDI     R16, 1
+        STS     RefreshFlag, R16
+//  330 		}
+//  331 
+//  332 		//display
+//  333 		if(TimeTic_10ms)
+??main_6:
+        LDS     R16, TimeTic_10ms
+        TST     R16
+        BREQ    ??main_7
+//  334 		{
+//  335 			MenuDisplay();
+        LDI     R30, LOW(MenuDisplay)
+        LDI     R31, (MenuDisplay) >> 8
+        LD      R16, Z
+        LDD     R17, Z+1
+        LDD     R18, Z+2
+        MOVW    R31:R30, R17:R16
+        OUT     0x3C, R18
+        EICALL
+//  336 		}
+//  337 
+//  338 		SCI_Process();
+??main_7:
+        CALL    SCI_Process
+//  339 
+//  340 		SystemTimeTic();
+        RCALL   SystemTimeTic
+//  341 		SystemEventAutoClear();
+        RCALL   SystemEventAutoClear
+        RJMP    ??main_2
+        CFI EndBlock cfiBlock5
+        REQUIRE _A_PORTG
+//  342 	}
+//  343 }
+
+        ASEGN ABSOLUTE:DATA:NOROOT,01fH
+__?EECR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,020H
+__?EEDR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,021H
+__?EEARL:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,022H
+__?EEARH:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,074H
+__?XMCRA:
+
+        COMMON INTVEC:CODE:ROOT(1)
+        ORG 68
+`??TIMER1_ISR??INTVEC 68`:
+        JMP     TIMER1_ISR
+
+        RSEG NEAR_ID:CODE:NOROOT(0)
+`?<Initializer for <Constant " Seoho Electric">`:
+        DC8 " Seoho Electric"
+
+        RSEG INITTAB:CODE:NOROOT(0)
+`?<Segment init: NEAR_I>`:
+        DC16    SFE(NEAR_I) - SFB(NEAR_I)
+        DC16    SFB(NEAR_I)
+        DP      SFB(NEAR_ID)
+        REQUIRE ?need_segment_init
+
+        RSEG NEAR_ID:CODE:NOROOT(0)
+`?<Initializer for <Constant "    AC Drive">>`:
+        DC8 "    AC Drive"
+
+        RSEG INITTAB:CODE:NOROOT(0)
+`?<Segment init: NEAR_Z>`:
+        DC16    SFE(NEAR_Z) - SFB(NEAR_Z)
+        DC16    SFB(NEAR_Z)
+        DP      0
+        REQUIRE ?need_segment_init
+
+        RSEG NEAR_ID:CODE:NOROOT(0)
+`?<Initializer for PacketCMD>`:
+        DC8 255
+
+        RSEG NEAR_ID:CODE:NOROOT(0)
+`?<Initializer for _10ms_Cnt>`:
+        DC8 1
+
+        RSEG NEAR_ID:CODE:NOROOT(0)
+`?<Initializer for _100ms_Cnt>`:
+        DC8 1
+
+        RSEG NEAR_ID:CODE:NOROOT(0)
+`?<Initializer for _200ms_Cnt>`:
+        DC8 1
+
+        RSEG NEAR_ID:CODE:NOROOT(0)
+`?<Initializer for _500ms_Cnt>`:
+        DC8 1
+
+        RSEG NEAR_ID:CODE:NOROOT(0)
+`?<Initializer for _1s_Cnt>`:
+        DC8 1
+
+        END
+// 
+//  29 bytes in segment ABSOLUTE
+// 966 bytes in segment FARCODE
+//  14 bytes in segment INITTAB
+//   4 bytes in segment INTVEC
+//  35 bytes in segment NEAR_I
+//  35 bytes in segment NEAR_ID
+// 121 bytes in segment NEAR_Z
+// 
+// 1 001 bytes of CODE memory (+ 18 bytes shared)
+//   156 bytes of DATA memory (+ 29 bytes shared)
+//
+//Errors: none
+//Warnings: none

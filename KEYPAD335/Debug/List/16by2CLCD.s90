@@ -1,0 +1,487 @@
+///////////////////////////////////////////////////////////////////////////////
+//                                                                            /
+// IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR   09/Dec/2010  19:38:40 /
+// Copyright 1996-2009 IAR Systems AB.                                        /
+//                                                                            /
+//    Source file  =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\16by2C /
+//                    LCD.c                                                   /
+//    Command line =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\16by2C /
+//                    LCD.c --cpu=m2560 -ms -o K:\work\SEOHO_VD\KEYPAD335_101 /
+//                    203_IAR\Debug\Obj\ -lC K:\work\SEOHO_VD\KEYPAD335_10120 /
+//                    3_IAR\Debug\List\ -lA K:\work\SEOHO_VD\KEYPAD335_101203 /
+//                    _IAR\Debug\List\ -y --initializers_in_flash -z3         /
+//                    --no_cse --no_inline --no_code_motion --no_cross_call   /
+//                    --no_clustering --no_tbaa --debug                       /
+//                    --enable_external_bus -DENABLE_BIT_DEFINITIONS -e       /
+//                    --enable_multibytes -I "C:\Program Files\IAR            /
+//                    Systems\Embedded Workbench 5.3\avr\INC\" -I             /
+//                    "C:\Program Files\IAR Systems\Embedded Workbench        /
+//                    5.3\avr\INC\CLIB\" --eeprom_size 4096                   /
+//    List file    =  K:\work\SEOHO_VD\KEYPAD335_101203_IAR\Debug\List\16by2C /
+//                    LCD.s90                                                 /
+//                                                                            /
+//                                                                            /
+///////////////////////////////////////////////////////////////////////////////
+
+        NAME `16by2CLCD`
+
+        RTMODEL "__64bit_doubles", "disabled"
+        RTMODEL "__cpu", "5"
+        RTMODEL "__cpu_name", "ATmega2560"
+        RTMODEL "__enhanced_core", "enabled"
+        RTMODEL "__has_elpm", "true"
+        RTMODEL "__memory_model", "2"
+        RTMODEL "__no_rampd", "enabled"
+        RTMODEL "__rt_version", "3"
+
+        RSEG CSTACK:DATA:NOROOT(0)
+        RSEG RSTACK:DATA:NOROOT(0)
+
+        EXTERN ?need_segment_init
+        EXTERN __RSTACK_in_external_ram_new_way
+
+        PUBWEAK `?<Segment init: NEAR_Z>`
+        PUBLIC CLCD_BackLightOnOff
+        FUNCTION CLCD_BackLightOnOff,0203H
+        ARGFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC CLCD_command
+        FUNCTION CLCD_command,0a1203H
+        ARGFRAME RSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC CLCD_cursor_OFF
+        FUNCTION CLCD_cursor_OFF,021203H
+        ARGFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC CLCD_cursor_ON
+        FUNCTION CLCD_cursor_ON,021203H
+        ARGFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC CLCD_data
+        FUNCTION CLCD_data,0a1203H
+        ARGFRAME RSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC CLCD_initialize
+        FUNCTION CLCD_initialize,021203H
+        ARGFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBLIC CLCD_string
+        FUNCTION CLCD_string,021203H
+        ARGFRAME CSTACK, 0, STACK
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        PUBWEAK _A_PORTD
+        PUBWEAK _A_PORTH
+        PUBWEAK __?EEARH
+        PUBWEAK __?EEARL
+        PUBWEAK __?EECR
+        PUBWEAK __?EEDR
+        PUBWEAK __?XMCRA
+        PUBLIC posInpage
+        
+        CFI Names cfiNames0
+        CFI StackFrame CFA_Y Y DATA
+        CFI StackFrame CFA_SP SP DATA
+        CFI VirtualResource ?RetPad:1, ?RetByte3:8, ?RetHigh:8, ?RetLow:8
+        CFI VirtualResource ?Ret:25
+        CFI Resource R0:8, R1:8, R2:8, R3:8, R4:8, R5:8, R6:8, R7:8, R8:8, R9:8
+        CFI Resource R10:8, R11:8, R12:8, R13:8, R14:8, R15:8, R16:8, R17:8
+        CFI Resource R18:8, R19:8, R20:8, R21:8, R22:8, R23:8, R24:8, R25:8
+        CFI Resource R26:8, R27:8, R28:8, R29:8, R30:8, R31:8
+        CFI Resource ?RetHighByteMask:8, SP:16, SPH:8, SPL:8, Y:16
+        CFI ResourceParts ?Ret ?RetByte3, ?RetHigh, ?RetLow, ?RetPad
+        CFI ResourceParts SP SPH, SPL
+        CFI ResourceParts Y R29, R28
+        CFI EndNames cfiNames0
+        
+        CFI Common cfiCommon0 Using cfiNames0
+        CFI CodeAlign 1
+        CFI DataAlign 1
+        CFI ReturnAddress ?Ret CODE
+        CFI CFA_Y Y+0
+        CFI CFA_SP SP+3
+        CFI ?RetPad 0
+        CFI ?RetByte3 and(load(1, DATA, sub(CFA_SP, 2)), ?RetHighByteMask)
+        CFI ?RetHigh Frame(CFA_SP, -1)
+        CFI ?RetLow Frame(CFA_SP, 0)
+        CFI ?Ret Concat
+        CFI R0 Undefined
+        CFI R1 Undefined
+        CFI R2 Undefined
+        CFI R3 Undefined
+        CFI R4 SameValue
+        CFI R5 SameValue
+        CFI R6 SameValue
+        CFI R7 SameValue
+        CFI R8 SameValue
+        CFI R9 SameValue
+        CFI R10 SameValue
+        CFI R11 SameValue
+        CFI R12 SameValue
+        CFI R13 SameValue
+        CFI R14 SameValue
+        CFI R15 SameValue
+        CFI R16 Undefined
+        CFI R17 Undefined
+        CFI R18 Undefined
+        CFI R19 Undefined
+        CFI R20 Undefined
+        CFI R21 Undefined
+        CFI R22 Undefined
+        CFI R23 Undefined
+        CFI R24 SameValue
+        CFI R25 SameValue
+        CFI R26 SameValue
+        CFI R27 SameValue
+        CFI R28 Undefined
+        CFI R29 Undefined
+        CFI R30 Undefined
+        CFI R31 Undefined
+        CFI ?RetHighByteMask SameValue
+        CFI SPH Undefined
+        CFI SPL Undefined
+        CFI EndCommon cfiCommon0
+        
+        EXTERN Delay_us
+        FUNCTION Delay_us,0202H
+        ARGFRAME RSTACK, 0, STACK
+        EXTERN Delay_ms
+        FUNCTION Delay_ms,0202H
+        ARGFRAME RSTACK, 0, STACK
+
+// K:\work\SEOHO_VD\KEYPAD335_101203_IAR\source\mcu\16by2CLCD.c
+//    1 //=====================================================================================================
+//    2 //
+//    3 // Copyright(C) 2008 HanYoung ELEC. Co., LTD.
+//    4 // Designed by Paul B.H Park(idonno2000)
+//    5 //
+//    6 //
+//    7 //	filename : 16by2CLCD.c
+//    8 //	description : Ä³¸¯ÅÍLCD
+//    9 //
+//   10 //	history : - Designed and programmed by Duck-Yong Yoon in 2006.
+//   11 //            - Revised by Paul B.H Park(idonno2000) at 2008.06.23
+//   12 //
+//   13 //=====================================================================================================
+//   14 //#include "include.h"
+//   15 
+//   16 #include <inavr.h>
+//   17 #include <iom2560.h>
+
+        ASEGN ABSOLUTE:DATA:NOROOT,0102H
+// <__C75> volatile __ext_io _A_PORTH
+_A_PORTH:
+        DS8 1
+
+        ASEGN ABSOLUTE:DATA:NOROOT,02bH
+// <__C455> volatile __io _A_PORTD
+_A_PORTD:
+        DS8 1
+//   18 
+//   19 //#include <avr/io.h>
+//   20 //#include <util/delay.h>
+//   21 #include <stdio.h>
+//   22 
+//   23 //#include <avr/interrupt.h>
+//   24 //#include <avr/pgmspace.h>
+//   25 
+//   26 #include "16by2CLCD.h"
+//   27 #include "util.h"
+//   28 
+
+        RSEG NEAR_Z:DATA:NOROOT(0)
+        REQUIRE `?<Segment init: NEAR_Z>`
+//   29 char posInpage=0;
+posInpage:
+        DS8 1
+//   30 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   31 void CLCD_command(unsigned char command)		/* write a command(instruction) to text LCD */
+CLCD_command:
+        CFI Block cfiBlock0 Using cfiCommon0
+        CFI Function CLCD_command
+//   32 {
+        FUNCALL CLCD_command, Delay_us
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        REQUIRE __RSTACK_in_external_ram_new_way
+//   33   PORTD = PORTD & 0x40;					// E = 0, Rs = 0, R/-W = 0
+        IN      R17, 0x0B
+        ANDI    R17, 0x40
+        OUT     0x0B, R17
+//   34   PORTH = command;				// output command
+        STS     _A_PORTH, R16
+//   35   PORTD =  PORTD & 0x40 | 0x20;					// E = 1
+        IN      R16, 0x0B
+        ANDI    R16, 0x40
+        ORI     R16, 0x20
+        OUT     0x0B, R16
+//   36 
+//   37   asm(" PUSH  R0 ");			// delay for about 250 ns
+        PUSH  R0 
+//   38   asm(" POP   R0 ");
+        POP   R0 
+//   39   PORTD = PORTD & 0x40;					// E = 0
+        IN      R16, 0x0B
+        ANDI    R16, 0x40
+        OUT     0x0B, R16
+//   40   Delay_us(50);
+        LDI     R16, 50
+        CALL    Delay_us
+//   41 }
+        RET
+        CFI EndBlock cfiBlock0
+        REQUIRE _A_PORTH
+        REQUIRE _A_PORTD
+//   42 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   43 void CLCD_data(unsigned char data)		/* display a character on text LCD */
+CLCD_data:
+        CFI Block cfiBlock1 Using cfiCommon0
+        CFI Function CLCD_data
+//   44 {
+        FUNCALL CLCD_data, Delay_us
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        REQUIRE __RSTACK_in_external_ram_new_way
+//   45  PORTD = PORTD & 0x40 | 0x10;					// E = 0, Rs = 1, R/-W = 0
+        IN      R17, 0x0B
+        ANDI    R17, 0x40
+        ORI     R17, 0x10
+        OUT     0x0B, R17
+//   46 
+//   47   PORTH = data;					// output data
+        STS     _A_PORTH, R16
+//   48   PORTD = PORTD & 0x40 | 0x30;					// E = 1
+        IN      R16, 0x0B
+        ANDI    R16, 0x40
+        ORI     R16, 0x30
+        OUT     0x0B, R16
+//   49 
+//   50   asm (" PUSH  R0 ");			// delay for about 250 ns
+        PUSH  R0 
+//   51   asm (" POP   R0 ");
+        POP   R0 
+//   52   PORTD = PORTD & 0x40 | 0x10;					// E = 0
+        IN      R16, 0x0B
+        ANDI    R16, 0x40
+        ORI     R16, 0x10
+        OUT     0x0B, R16
+//   53 
+//   54   Delay_us(50);
+        LDI     R16, 50
+        CALL    Delay_us
+//   55 }
+        RET
+        CFI EndBlock cfiBlock1
+        REQUIRE _A_PORTH
+        REQUIRE _A_PORTD
+//   56 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   57 void CLCD_cursor_ON(unsigned char pos, unsigned char offset)		/* write a command(instruction) to text LCD */
+CLCD_cursor_ON:
+        CFI Block cfiBlock2 Using cfiCommon0
+        CFI Function CLCD_cursor_ON
+//   58 {
+        FUNCALL CLCD_cursor_ON, CLCD_command
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL CLCD_cursor_ON, CLCD_command
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        REQUIRE __RSTACK_in_external_ram_new_way
+//   59 	CLCD_command(pos|offset);
+        OR      R16, R17
+        RCALL   CLCD_command
+//   60   	CLCD_command(0x0F);
+        LDI     R16, 15
+        RCALL   CLCD_command
+//   61 }
+        RET
+        CFI EndBlock cfiBlock2
+//   62 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   63 void CLCD_cursor_OFF(void)		/* write a command(instruction) to text LCD */
+CLCD_cursor_OFF:
+        CFI Block cfiBlock3 Using cfiCommon0
+        CFI Function CLCD_cursor_OFF
+//   64 {
+        FUNCALL CLCD_cursor_OFF, CLCD_command
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        REQUIRE __RSTACK_in_external_ram_new_way
+//   65   	CLCD_command(0x0C);
+        LDI     R16, 12
+        RCALL   CLCD_command
+//   66 	posInpage = 0xFF;
+        LDI     R16, 255
+        STS     posInpage, R16
+//   67 }
+        RET
+        CFI EndBlock cfiBlock3
+//   68 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   69 void CLCD_string(unsigned char command, char *string) /* display a string on LCD */
+CLCD_string:
+        CFI Block cfiBlock4 Using cfiCommon0
+        CFI Function CLCD_string
+//   70 {
+        FUNCALL CLCD_string, CLCD_command
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL CLCD_string, CLCD_data
+        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        ST      -Y, R27
+        CFI R27 Frame(CFA_Y, -1)
+        CFI CFA_Y Y+1
+        ST      -Y, R26
+        CFI R26 Frame(CFA_Y, -2)
+        CFI CFA_Y Y+2
+        REQUIRE __RSTACK_in_external_ram_new_way
+        MOVW    R27:R26, R19:R18
+//   71   CLCD_command(command);				// start position of string
+        RCALL   CLCD_command
+        RJMP    ??CLCD_string_0
+//   72   while(*string != 0x00)			// display string
+//   73     { CLCD_data(*string);
+??CLCD_string_1:
+        LD      R16, X
+        RCALL   CLCD_data
+//   74        string++;
+        ADIW    R27:R26, 1
+//   75     }
+??CLCD_string_0:
+        LD      R16, X
+        TST     R16
+        BRNE    ??CLCD_string_1
+//   76 }
+        LD      R26, Y+
+        CFI R26 SameValue
+        CFI CFA_Y Y+1
+        LD      R27, Y+
+        CFI R27 SameValue
+        CFI CFA_Y Y+0
+        RET
+        CFI EndBlock cfiBlock4
+//   77 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   78 void CLCD_initialize(void)			/* initialize text LCD module */
+CLCD_initialize:
+        CFI Block cfiBlock5 Using cfiCommon0
+        CFI Function CLCD_initialize
+//   79 {
+        FUNCALL CLCD_initialize, CLCD_command
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL CLCD_initialize, CLCD_command
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL CLCD_initialize, CLCD_command
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL CLCD_initialize, CLCD_command
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL CLCD_initialize, Delay_ms
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        REQUIRE __RSTACK_in_external_ram_new_way
+//   80   CLCD_command(0x38);				// function set(8 bit, 2 line, 5x7 dot)
+        LDI     R16, 56
+        RCALL   CLCD_command
+//   81   CLCD_command(0x0C);				// display control(display ON, cursor OFF)
+        LDI     R16, 12
+        RCALL   CLCD_command
+//   82   //CLCD_command(0x0F);				// display control(display ON, cursor OFF)
+//   83   CLCD_command(0x06);				// entry mode set(increment, not shift)
+        LDI     R16, 6
+        RCALL   CLCD_command
+//   84   CLCD_command(0x01);				// clear display
+        LDI     R16, 1
+        RCALL   CLCD_command
+//   85   Delay_ms(2);
+        LDI     R16, 2
+        LDI     R17, 0
+        CALL    Delay_ms
+//   86 }
+        RET
+        CFI EndBlock cfiBlock5
+//   87 
+//   88 
+
+        RSEG FARCODE:CODE:NOROOT(1)
+//   89 void CLCD_BackLightOnOff(char OnOff)//PORD bit 6
+CLCD_BackLightOnOff:
+        CFI Block cfiBlock6 Using cfiCommon0
+        CFI Function CLCD_BackLightOnOff
+//   90 {
+        REQUIRE __RSTACK_in_external_ram_new_way
+//   91 	if(OnOff) PORTD = PORTD | 0x40;
+        TST     R16
+        BREQ    ??CLCD_BackLightOnOff_0
+        SBI     0x0B, 0x06
+        RET
+//   92 	else		PORTD = PORTD & 0xBF;
+??CLCD_BackLightOnOff_0:
+        CBI     0x0B, 0x06
+//   93 }
+        RET
+        CFI EndBlock cfiBlock6
+        REQUIRE _A_PORTD
+
+        ASEGN ABSOLUTE:DATA:NOROOT,01fH
+__?EECR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,020H
+__?EEDR:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,021H
+__?EEARL:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,022H
+__?EEARH:
+
+        ASEGN ABSOLUTE:DATA:NOROOT,074H
+__?XMCRA:
+
+        RSEG INITTAB:CODE:NOROOT(0)
+`?<Segment init: NEAR_Z>`:
+        DC16    SFE(NEAR_Z) - SFB(NEAR_Z)
+        DC16    SFB(NEAR_Z)
+        DP      0
+        REQUIRE ?need_segment_init
+
+        END
+//   94 
+//   95 
+//   96 
+// 
+//   2 bytes in segment ABSOLUTE
+// 164 bytes in segment FARCODE
+//   7 bytes in segment INITTAB
+//   1 byte  in segment NEAR_Z
+// 
+// 164 bytes of CODE memory (+ 7 bytes shared)
+//   1 byte  of DATA memory (+ 2 bytes shared)
+//
+//Errors: none
+//Warnings: none
