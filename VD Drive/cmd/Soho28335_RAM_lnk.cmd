@@ -26,11 +26,14 @@ PAGE 0 :
    BOOT_RSVD  : origin = 0x000002, length = 0x00004E     /* Part of M0, BOOT rom will use this for stack */               
    RAMM0      : origin = 0x000050, length = 0x0003B0
 
-   RAML0      : origin = 0x008000, length = 0x000600    
-/*   RAML1      : origin = 0x009000, length = 0x005000    */
-   RAML1      : origin = 0x008600, length = 0x006500        
+   RAML0      : origin = 0x008000, length = 0x000200    
+   RAML1      : origin = 0x008200, length = 0x005700  
+   	  
+//   RAML1      : origin = 0x008600, length = 0x006700
+//   RAML1      : origin = 0x008600, length = 0x1F7A00          
 /*
    RAML2      : origin = 0x00A000, length = 0x001000    
+
    RAML3      : origin = 0x00B000, length = 0x001000 
    RAML4      : origin = 0x00C000, length = 0x001000    
    RAML5      : origin = 0x00D000, length = 0x001000    
@@ -38,7 +41,7 @@ PAGE 0 :
    RAML7      : origin = 0x00F000, length = 0x001000 
 */
 
-//   ZONE7A     : origin = 0x200000, length = 0x00FC00    /* XINTF zone 7 - program space */ 
+   ZONE7A     : origin = 0x200000, length = 0x00FC00    /* XINTF zone 7 - program space */ 
    CSM_RSVD   : origin = 0x33FF80, length = 0x000076     /* Part of FLASHA.  Program with all 0x0000 when CSM is in use. */
    CSM_PWL    : origin = 0x33FFF8, length = 0x000008     /* Part of FLASHA.  CSM password locations in FLASHA            */
    ADC_CAL    : origin = 0x380080, length = 0x000009
@@ -51,8 +54,8 @@ PAGE 0 :
 PAGE 1 : 
    RAMM1      : origin = 0x000400, length = 0x000400     
 
-   RAML4      : origin = 0x00ED00, length = 0x002000    
-
+   RAML4      : origin = 0x00D900, length = 0x002900    
+//   RAML4      : origin = 0x3F8000, length = 0x004000  
 /*
    RAML4      : origin = 0x00C000, length = 0x001000    
    RAML5      : origin = 0x00D000, length = 0x001000    
@@ -61,7 +64,7 @@ PAGE 1 :
 */
    ZONE0      : origin = 0x004000, length = 0x001000    
 /*   ZONE6      : origin = 0x100000, length = 0x100000   */
-//   ZONE7B     : origin = 0x20FC00, length = 0x000400     
+   ZONE7B     : origin = 0x20FC00, length = 0x000400     
 }
   
 SECTIONS
@@ -96,7 +99,7 @@ SECTIONS
    
    ZONE0DATA        : > ZONE0,     PAGE = 1  
 /*   ZONE6DATA        : > ZONE6,     PAGE = 1  */
-//   ZONE7DATA        : > ZONE7B,    PAGE = 1  
+   ZONE7DATA        : > ZONE7B,    PAGE = 1  
 
    .reset           : > RESET,     PAGE = 0, TYPE = DSECT /* not used                    */
    csm_rsvd         : > CSM_RSVD   PAGE = 0, TYPE = DSECT /* not used for SARAM examples */

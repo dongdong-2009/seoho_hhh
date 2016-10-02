@@ -11,9 +11,8 @@
 // $Release Date: February 15, 2008 $
 //###########################################################################
 
-#include "All_Const.h"
-#include "Core_DSP2833x_Device.h"     // DSP2833x Headerfile Include File
-#include "Core_DSP2833x_Examples.h"   // DSP2833x Examples Include File
+#include "DSP2833x_Device.h"     // DSP2833x Headerfile Include File
+#include "DSP2833x_Examples.h"   // DSP2833x Examples Include File
 
 //---------------------------------------------------------------------------
 // MCBSP_INIT_DELAY determines the amount of CPU cycles in the 2 sample rate
@@ -26,11 +25,18 @@
 // CPU_FRQ_100MHZ and CPU_FRQ_150MHZ are defined in DSP2833x_Examples.h
 //---------------------------------------------------------------------------
 
-#define MCBSP_SRG_FREQ       CPU_CLOCK/4                    // SRG input is LSPCLK (SYSCLKOUT/4) for examples
+#if CPU_FRQ_150MHZ                                          // For 150 MHz SYSCLKOUT(default)
+  #define CPU_SPD              150E6
+  #define MCBSP_SRG_FREQ       CPU_SPD/4                    // SRG input is LSPCLK (SYSCLKOUT/4) for examples
+#endif
+#if CPU_FRQ_100MHZ                                          // For 100 MHz SYSCLKOUT
+  #define CPU_SPD              100E6
+  #define MCBSP_SRG_FREQ       CPU_SPD/4                    // SRG input is LSPCLK (SYSCLKOUT/4) for examples
+#endif
 
 #define CLKGDV_VAL           1
-#define MCBSP_INIT_DELAY     2*(CPU_CLOCK/MCBSP_SRG_FREQ)                  // # of CPU cycles in 2 SRG cycles-init delay
-#define MCBSP_CLKG_DELAY     2*(CPU_CLOCK/(MCBSP_SRG_FREQ/(1+CLKGDV_VAL))) // # of CPU cycles in 2 CLKG cycles-init delay
+#define MCBSP_INIT_DELAY     2*(CPU_SPD/MCBSP_SRG_FREQ)                  // # of CPU cycles in 2 SRG cycles-init delay
+#define MCBSP_CLKG_DELAY     2*(CPU_SPD/(MCBSP_SRG_FREQ/(1+CLKGDV_VAL))) // # of CPU cycles in 2 CLKG cycles-init delay
 //---------------------------------------------------------------------------
 // InitMcbsp:
 //---------------------------------------------------------------------------
@@ -50,9 +56,7 @@ void InitMcbsp(void)
 
 void InitMcbspa(void)
 {
-/*
 // McBSP-A register settings
-
 
     McbspaRegs.SPCR2.all=0x0000;		// Reset FS generator, sample rate generator & transmitter
 	McbspaRegs.SPCR1.all=0x0000;		// Reset Receiver, Right justify word
@@ -84,63 +88,6 @@ void InitMcbspa(void)
 	McbspaRegs.SPCR1.bit.RRST=1; // Release RX from Reset
     McbspaRegs.SPCR2.bit.FRST=1; // Frame Sync Generator reset
 
-*/
-  
-//*************** RESET MCBSP
-   McbspaRegs.SPCR2.bit.FRST=0; // Frame Sync generator reset
-   McbspaRegs.SPCR2.bit.GRST=0; // Sample Rate generator Reset
-   McbspaRegs.SPCR2.bit.XRST=0; // Transmitter reset
-   McbspaRegs.SPCR1.bit.RRST=0; // Receiver reset
-
-//*************** Initialize McBSP Registers
-// McBSP register settings for Digital loop back
-   McbspaRegs.SPCR2.all=0x0000; // XRST =0
-//   McbspaRegs.SPCR1.all=0x8000; // RRST =0, DLB enabled
-   McbspaRegs.SPCR1.all=0x0000; // RRST =0, DLB enabled
- McbspaRegs.PCR.all=0x0F08;           //(CLKXM=CLKRM=FSXM=FSRM= 1, FSXP = 1)
-
-//   McbspaRegs.SPCR1.bit.DLB=0;  //chy
-   McbspaRegs.SPCR1.bit.CLKSTP = 2;     // Together with CLKXP/CLKRP determines clocking scheme
-
-   McbspaRegs.PCR.bit.CLKXP = 1;		 // CPOL = 0, CPHA = 0 rising edge no delay
-   McbspaRegs.PCR.bit.CLKRP = 0;
-    McbspaRegs.RCR2.bit.RDATDLY=01;      // FSX setup time 1 in master mode. 0 for slave mode (Receive)
-    McbspaRegs.XCR2.bit.XDATDLY=01;      // FSX setup time 1 in master mode. 0 for slave mode (Transmit)
-
-//   McbspaRegs.RCR2.all=0x0001;  // RDATDLY = 1
-//   McbspaRegs.RCR1.all=0x0;
-//   McbspaRegs.XCR2.all=0x0001;  // XDATDLY = 1
-//   McbspaRegs.XCR1.all=0x0;
-	McbspaRegs.RCR1.bit.RWDLEN1=5;     // 32-bit word
-    McbspaRegs.XCR1.bit.XWDLEN1=5;     // 32-bit word
- 
-
-//   McbspaRegs.SRGR2.all=0x3140;
-//   McbspaRegs.SRGR1.all=0x010f;
-
-    McbspaRegs.SRGR2.all=0x2000; 	 	 // CLKSM=1, FPER = 1 CLKG periods
-    McbspaRegs.SRGR1.all= 0x00AF;	     // Frame Width = 1 CLKG period, CLKGDV=16
-
-//   McbspaRegs.MCR2.all=0x0;
-//   McbspaRegs.MCR1.all=0x0;
-//   McbspaRegs.PCR.all=0x0A00;
-
-   McbspaRegs.MFFINT.bit.XINT = 1; // Enable Transmit Interrupts
-   McbspaRegs.MFFINT.bit.RINT = 1; // Enable Receive Interrupts
-
-//************* Enable Sample rate generator
-   McbspaRegs.SPCR2.bit.GRST=1;
-   delay_loop();                   // Wait at least 2 SRG clock cycles
-
-//************ Enable TX/RX unit
-   McbspaRegs.SPCR2.bit.XRST=1;
-   McbspaRegs.SPCR1.bit.RRST=1;
-
-//************ Frame Sync generator reset
-   McbspaRegs.SPCR2.bit.FRST=1;
-
-
- 
 }
 
 
@@ -281,10 +228,10 @@ void InitMcbspaGpio(void)
 	GpioCtrlRegs.GPAMUX2.bit.GPIO20 = 2;	// GPIO20 is MDXA pin
 	GpioCtrlRegs.GPAMUX2.bit.GPIO21 = 2;	// GPIO21 is MDRA pin
     GpioCtrlRegs.GPAMUX2.bit.GPIO22 = 2;	// GPIO22 is MCLKXA pin
-//    GpioCtrlRegs.GPAMUX1.bit.GPIO7 = 2;		// GPIO7 is MCLKRA pin (Comment as needed)
+    GpioCtrlRegs.GPAMUX1.bit.GPIO7 = 2;		// GPIO7 is MCLKRA pin (Comment as needed)
 	//GpioCtrlRegs.GPBMUX2.bit.GPIO58 = 1;	// GPIO58 is MCLKRA pin (Comment as needed)
     GpioCtrlRegs.GPAMUX2.bit.GPIO23 = 2;	// GPIO23 is MFSXA pin
- //   GpioCtrlRegs.GPAMUX1.bit.GPIO5 = 2;		// GPIO5 is MFSRA pin (Comment as needed)
+    GpioCtrlRegs.GPAMUX1.bit.GPIO5 = 2;		// GPIO5 is MFSRA pin (Comment as needed)
 	//GpioCtrlRegs.GPBMUX2.bit.GPIO59 = 1;	// GPIO59 is MFSRA pin (Comment as needed)
 
 /* Enable internal pull-up for the selected pins */
@@ -295,10 +242,10 @@ void InitMcbspaGpio(void)
 	GpioCtrlRegs.GPAPUD.bit.GPIO20 = 0;     // Enable pull-up on GPIO20 (MDXA)
 	GpioCtrlRegs.GPAPUD.bit.GPIO21 = 0;     // Enable pull-up on GPIO21 (MDRA)
 	GpioCtrlRegs.GPAPUD.bit.GPIO22 = 0;     // Enable pull-up on GPIO22 (MCLKXA)
-//	GpioCtrlRegs.GPAPUD.bit.GPIO7 = 0;      // Enable pull-up on GPIO7 (MCLKRA) (Comment as needed)
+	GpioCtrlRegs.GPAPUD.bit.GPIO7 = 0;      // Enable pull-up on GPIO7 (MCLKRA) (Comment as needed)
 	//GpioCtrlRegs.GPBPUD.bit.GPIO58 = 0;   // Enable pull-up on GPIO58 (MCLKRA) (Comment as needed)
 	GpioCtrlRegs.GPAPUD.bit.GPIO23 = 0;     // Enable pull-up on GPIO23 (MFSXA)
-//	GpioCtrlRegs.GPAPUD.bit.GPIO5 = 0;      // Enable pull-up on GPIO5 (MFSRA) (Comment as needed)
+	GpioCtrlRegs.GPAPUD.bit.GPIO5 = 0;      // Enable pull-up on GPIO5 (MFSRA) (Comment as needed)
 	//GpioCtrlRegs.GPBPUD.bit.GPIO59 = 0;   // Enable pull-up on GPIO59 (MFSRA) (Comment as needed)
 
 /* Set qualification for selected input pins to asynch only */
@@ -308,10 +255,10 @@ void InitMcbspaGpio(void)
 
     GpioCtrlRegs.GPAQSEL2.bit.GPIO21 = 3;   // Asynch input GPIO21 (MDRA)
     GpioCtrlRegs.GPAQSEL2.bit.GPIO22 = 3;   // Asynch input GPIO22 (MCLKXA)
-//    GpioCtrlRegs.GPAQSEL1.bit.GPIO7 = 3;    // Asynch input GPIO7 (MCLKRA) (Comment as needed)
+    GpioCtrlRegs.GPAQSEL1.bit.GPIO7 = 3;    // Asynch input GPIO7 (MCLKRA) (Comment as needed)
     //GpioCtrlRegs.GPBQSEL2.bit.GPIO58 = 3; // Asynch input GPIO58(MCLKRA) (Comment as needed)
     GpioCtrlRegs.GPAQSEL2.bit.GPIO23 = 3;   // Asynch input GPIO23 (MFSXA)
-//    GpioCtrlRegs.GPAQSEL1.bit.GPIO5 = 3;    // Asynch input GPIO5 (MFSRA) (Comment as needed)
+    GpioCtrlRegs.GPAQSEL1.bit.GPIO5 = 3;    // Asynch input GPIO5 (MFSRA) (Comment as needed)
     //GpioCtrlRegs.GPBQSEL2.bit.GPIO59 = 3; // Asynch input GPIO59 (MFSRA) (Comment as needed)
 
 	EDIS;
@@ -390,11 +337,6 @@ void clkg_delay_loop(void)
 // No more.
 //===========================================================================
 
-void mcbsp_xmit(int a, int b)
-{
-    McbspaRegs.DXR2.all=b;
-    McbspaRegs.DXR1.all=a;
-}
 
 
 

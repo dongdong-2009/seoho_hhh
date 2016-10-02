@@ -141,31 +141,23 @@ void InitGpio(void)
    GpioCtrlRegs.GPAQSEL2.bit.GPIO23 = 3;   // Asynch input GPIO23 (MFSXA)
 //   GpioCtrlRegs.GPADIR.bit.GPIO23 	= 1;  // GPIO23 = Output
 
-   //GPIO24 QEP A2 MDXB
-   GpioCtrlRegs.GPAPUD.bit.GPIO24 	= 0;
-   GpioCtrlRegs.GPAMUX2.bit.GPIO24 	= 3;  // GPIO24 = MDXB
-   GpioCtrlRegs.GPAQSEL2.bit.GPIO24 = 3; 
-//   GpioCtrlRegs.GPADIR.bit.GPIO24 	= 0;  // GPIO24 = Input
+   // QEP ¼öÁ¤
+   //GPIO24 QEP A2
+   GpioCtrlRegs.GPAMUX2.bit.GPIO24	= 2;  
+   GpioCtrlRegs.GPADIR.bit.GPIO24	= 0;
 
-   //GPIO25 QEP B2 MDRB
-   GpioCtrlRegs.GPAPUD.bit.GPIO25 	= 0;
-   GpioCtrlRegs.GPAMUX2.bit.GPIO25 	= 3;  // GPIO25 = MDXB
-   GpioCtrlRegs.GPAQSEL2.bit.GPIO25 = 3;   // Asynch input GPIO25 (MDRB) (Comment as needed)
-//   GpioCtrlRegs.GPADIR.bit.GPIO25 	= 0;  // GPIO25 = Input
+   //GPIO25 QEP B2 
+   GpioCtrlRegs.GPAMUX2.bit.GPIO25 	= 2;  
+   GpioCtrlRegs.GPADIR.bit.GPIO25 	= 0;  
 
-   // GPIO26 QEP I2 MCLKXB
-   GpioCtrlRegs.GPAPUD.bit.GPIO26 	= 0;  // Enable pullup on GPIO24   
-//   GpioDataRegs.GPASET.bit.GPIO26 	= 1;  // SET Output High            
-   GpioCtrlRegs.GPAMUX2.bit.GPIO26 	= 3;  // GPIO26 = MCLKXB
-   GpioCtrlRegs.GPAQSEL2.bit.GPIO26 = 3;   // Asynch input GPIO26(MCLKXB) (Comment as needed)
-//   GpioCtrlRegs.GPADIR.bit.GPIO26 	= 1;  // GPIO26 = Output
+   // GPIO26 GPIO
+   GpioCtrlRegs.GPAMUX2.bit.GPIO26 	= 0;  
+   GpioCtrlRegs.GPADIR.bit.GPIO26 	= 0;   
 
-   // GPIO27 QEP S2 MFSXB
-   GpioCtrlRegs.GPAPUD.bit.GPIO27 	= 0;  // Enable pullup on GPIO27
-//   GpioDataRegs.GPASET.bit.GPIO27 	= 1;  // SET Output High            
-   GpioCtrlRegs.GPAMUX2.bit.GPIO27 	= 3;  // GPIO27 = eQEP2 strobe 
-   GpioCtrlRegs.GPAQSEL2.bit.GPIO27 = 3;   // Asynch input GPIO27 (MFSXB) (Comment as needed)
-//   GpioCtrlRegs.GPADIR.bit.GPIO27 	= 1;  // GPIO27 = Output
+   // GPIO27 GPIO
+   GpioCtrlRegs.GPAMUX2.bit.GPIO27 	= 0;   
+   GpioCtrlRegs.GPADIR.bit.GPIO27 	= 0;  
+
 
    // GPIO28 RS232_SCIRXDA
 //   GpioCtrlRegs.GPAPUD.bit.GPIO28 	= 0;  // Enable pullup on GPIO28      
@@ -258,50 +250,47 @@ void InitGpio(void)
    GpioCtrlRegs.GPBMUX2.bit.GPIO51 	= 1;  // GPIO51 = EQEP1B
    GpioCtrlRegs.GPBDIR.bit.GPIO51 	= 0;  // GPIO51 = INPUT
 
-   // GPIO52 QEP.S1
+   // GPIO52 GPIO
 //   GpioCtrlRegs.GPBPUD.bit.GPIO52 	= 1;  // GPIO49 Enable pullup   
 //   GpioDataRegs.GPBCLEAR.bit.GPIO52	= 1;  // GPIO49 Set Low              
-   GpioCtrlRegs.GPBMUX2.bit.GPIO52 	= 1;  // GPIO52 = EQEP1S
-   GpioCtrlRegs.GPBDIR.bit.GPIO52 	= 1;  // GPIO52 = OUTPUT
+   GpioCtrlRegs.GPBMUX2.bit.GPIO52 	= 0;  // GPIO52 = EQEP1S
+   GpioCtrlRegs.GPBDIR.bit.GPIO52 	= 0;  // GPIO52 = OUTPUT
 
-   // GPIO53 QEP.I1
+   // GPIO53 GPIO
 //   GpioCtrlRegs.GPBPUD.bit.GPIO53 	= 1;  // GPIO53 Enable pullup   
 //   GpioDataRegs.GPBCLEAR.bit.GPIO53	= 1;  // GPIO53 Set Low              
-   GpioCtrlRegs.GPBMUX2.bit.GPIO53 	= 1;  // GPIO53 = EQEP1 INDEX
-   GpioCtrlRegs.GPBDIR.bit.GPIO53 	= 1;  // GPIO53 = OUTPUT
+   GpioCtrlRegs.GPBMUX2.bit.GPIO53 	= 0;  // GPIO53 = EQEP1 INDEX
+   GpioCtrlRegs.GPBDIR.bit.GPIO53 	= 0;  // GPIO53 = OUTPUT
 
- 
   // GPIO54 SPISIMOA
-   GpioCtrlRegs.GPBPUD.bit.GPIO54 	= 0;  
+//   GpioCtrlRegs.GPBPUD.bit.GPIO54 	= 1;  
 //   GpioDataRegs.GPBSET.bit.GPIO54	= 1;          
-   GpioCtrlRegs.GPBQSEL2.bit.GPIO54 = 3;     // Asynch input GPIO24 (SPISIMOB)
    GpioCtrlRegs.GPBMUX2.bit.GPIO54 	= 1; //GPIO54 = SPI slave in, master out
-//   GpioCtrlRegs.GPBDIR.bit.GPIO54 	= 1; 
+   GpioCtrlRegs.GPBDIR.bit.GPIO54 	= 1; 
    
-   // GPIO55  nDAC1_CS pin setup
+   // GPIO55 SPISOMIA
 //   GpioCtrlRegs.GPBPUD.bit.GPIO55 	= 1;  
 //   GpioDataRegs.GPBSET.bit.GPIO55	= 1;          
-   GpioCtrlRegs.GPBMUX2.bit.GPIO55 	= 0;  // SPI-A slave out, master in
-   GpioCtrlRegs.GPBDIR.bit.GPIO55 	= 1; 
+   GpioCtrlRegs.GPBMUX2.bit.GPIO55 	= 1;  // SPI-A slave out, master in
+   GpioCtrlRegs.GPBDIR.bit.GPIO55 	= 0; 
 
    // GPIO56 SPICLKA
-   GpioCtrlRegs.GPBPUD.bit.GPIO56 	= 0;  
+//   GpioCtrlRegs.GPBPUD.bit.GPIO56 	= 1;  
 //   GpioDataRegs.GPBSET.bit.GPIO56	= 1;          
-   GpioCtrlRegs.GPBQSEL2.bit.GPIO56 = 3; 
    GpioCtrlRegs.GPBMUX2.bit.GPIO56 	= 1;  // GPIO56 = SPI-A clock input / output
-//   GpioCtrlRegs.GPBDIR.bit.GPIO56 	= 1;  // GPIO56 = OUTPUT
+   GpioCtrlRegs.GPBDIR.bit.GPIO56 	= 1;  // GPIO56 = OUTPUT
 
-   // GPIO57  nDAC2_CS pin setup
+   // GPIO57 SPISTEA
 //   GpioCtrlRegs.GPBPUD.bit.GPIO57 	= 1;  
 //   GpioDataRegs.GPBSET.bit.GPIO57	= 1;          
-   GpioCtrlRegs.GPBMUX2.bit.GPIO57 	= 0;  // GPIO57 = SPI-A slave transmit enable
+   GpioCtrlRegs.GPBMUX2.bit.GPIO57 	= 1;  // GPIO57 = SPI-A slave transmit enable
    GpioCtrlRegs.GPBDIR.bit.GPIO57 	= 1;  // GPIO57 = OUTPUT
 
    // GPIO58 DO1
    GpioCtrlRegs.GPBPUD.bit.GPIO58 	= 1;  
    GpioDataRegs.GPBSET.bit.GPIO58	= 1;          
    GpioCtrlRegs.GPBMUX2.bit.GPIO58 	= 0;  
-   GpioCtrlRegs.GPBDIR.bit.GPIO58 	= 1; 
+   GpioCtrlRegs.GPBDIR.bit.GPIO58 	= 1;  
 
    // GPIO59 DO2
    GpioCtrlRegs.GPBPUD.bit.GPIO59 	= 1;  
@@ -363,7 +352,7 @@ void InitGpio(void)
 }
 
 
-/*
+
 
 void InitXintf(void)
 {
@@ -405,15 +394,14 @@ void InitXintf(void)
     XintfRegs.XTIMING0.bit.X2TIMING = 1;
 
     // Zone will sample XREADY signal
-//    XintfRegs.XTIMING0.bit.USEREADY = 1;
-    XintfRegs.XTIMING0.bit.USEREADY = 0;
+    XintfRegs.XTIMING0.bit.USEREADY = 0;   // ignore XREADY signal
     XintfRegs.XTIMING0.bit.READYMODE = 1;  // sample asynchronous
 
     // Size must be either:
     // 0,1 = x32 or
     // 1,1 = x16 other values are reserved
     XintfRegs.XTIMING0.bit.XSIZE = 3;
-
+/*
     // Zone 6------------------------------------
     // When using ready, ACTIVE must be 1 or greater
     // Lead must always be 1 or greater
@@ -430,9 +418,8 @@ void InitXintf(void)
     XintfRegs.XTIMING6.bit.X2TIMING = 1;
 
     // Zone will sample XREADY signal
- //   XintfRegs.XTIMING6.bit.USEREADY = 1;
-	XintfRegs.XTIMING6.bit.USEREADY = 0;	// 090617
-    XintfRegs.XTIMING6.bit.READYMODE = 0;  // sample asynchronous
+    XintfRegs.XTIMING6.bit.USEREADY = 1;
+    XintfRegs.XTIMING6.bit.READYMODE = 1;  // sample asynchronous
 
     // Size must be either:
     // 0,1 = x32 or
@@ -456,8 +443,8 @@ void InitXintf(void)
     XintfRegs.XTIMING7.bit.X2TIMING = 1;
 
     // Zone will sample XREADY signal
-    XintfRegs.XTIMING7.bit.USEREADY = 0;
-    XintfRegs.XTIMING7.bit.READYMODE = 0;  // sample asynchronous
+    XintfRegs.XTIMING7.bit.USEREADY = 1;
+    XintfRegs.XTIMING7.bit.READYMODE = 1;  // sample asynchronous
 
     // Size must be either:
     // 0,1 = x32 or
@@ -470,17 +457,16 @@ void InitXintf(void)
     // This will help avoid bus contention.
     XintfRegs.XBANK.bit.BANK = 7;
     XintfRegs.XBANK.bit.BCYC = 7;
+*/
     EDIS;
    //Force a pipeline flush to ensure that the write to
    //the last register configured occurs before returning.
 
-   InitXintf16Gpio();			// 090617 eunwho
-// InitXintf32Gpio();
+   InitXintf16Gpio();
 
    asm(" RPT #7 || NOP");
 
 }
-*/
 
 void InitXintf16Gpio()
 {
@@ -516,6 +502,9 @@ void InitXintf16Gpio()
      EDIS;
   
 }
+
+
+
 
 //===========================================================================
 // No more.

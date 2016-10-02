@@ -1,15 +1,18 @@
 #include	<All_Header.h>
 #include	<All_Extern_Variables.h>
-//#include 	<Shell_SCI_BC.h> 
 
-//PWM interrupt
 interrupt void Driver_Calibration(void)
 {
 	static long	counter=0;
 	static double Ias_sum=0., Ibs_sum=0.;
-	static int INIT_CHARGE_Timer= 0.;
+	static int INIT_CHARGE_Timer= 0;
 	double Temp;
-	int j= 0.;
+	int j= 0, COUNT_START, COUNT_END;
+
+	Temp= (double)P.G01.P07_PWM_frequency_x10_kHz*1e+2;
+	COUNT_START=		((int)(0.01/((1./Temp)/2.)+0.5));		// 초기 ADC 안정화를 기다리는 시간 
+	COUNT_END=			((int)(0.2/((1./Temp)/2.)+0.5)); 
+
 
 	// Wait ADC Sensing
 	// S/H 할 수 있는 시간을 주자
@@ -18,7 +21,8 @@ interrupt void Driver_Calibration(void)
 	 NOP; 
 
 	Main_counter++;
-
+	Tx_count_15ms++;
+	Tx_count_1s++;
 	if( Main_counter & 0x1 )			
 	{		
 		#if (DUAL_PWM_INTERRUPT)
@@ -34,28 +38,34 @@ interrupt void Driver_Calibration(void)
 		#endif 
 	}
 
-//	GetSensorValue();
 
-	if (counter<=COUNT_START)
-		counter++;
-	else if (counter<=COUNT_END)
+	if (counter<=(long)COUNT_START)
 	{
+		counter++;
+		Ias_sum=0.;
+		Ibs_sum=0.;
+		INIT_CHARGE_Timer= 0;
+	}
+	else if (counter<=(long)COUNT_END)
+	{
+		Ias_offset = 0.;
+		Ibs_offset = 0.;
 		GetSensorValue();
-		Temp= Supply_Voltage * SQRT2; // 입력전압 Set 값을 가져와야함 	
-		if ((Vdc<(Temp*0.85))||(Vdc>(Temp*1.1)))	INIT_CHARGE_Timer++;
+		if (Adc_Vclass<1366)	Voltage_class= 0;
+		else Voltage_class= 1;
+		Temp= P.G01.P08_Supply_voltage * SQRT2; // 입력전압 Set 값을 가져와야함 	
+		if ((Vdc<(Temp*0.5))||(Vdc>(Temp*1.5)))	INIT_CHARGE_Timer++;
 		else if (INIT_CHARGE_Timer>0) INIT_CHARGE_Timer--;
-//		if (INIT_CHARGE_Timer>10)	Flag.Fault.bit.INIT_CHARGE= 1;           chy      테스트를 위해서 마스킹 시킨다.
-		 
+		if (INIT_CHARGE_Timer>10)	Flag.Fault1.bit.INIT_CHARGE= 1;
 		Ias_sum += Ias;		
 		Ibs_sum += Ibs;
 		counter++;
 	}
 	else
 	{
-		GetSensorValue();
 		Ias_offset = Ias_sum/(COUNT_END-COUNT_START);
 		Ibs_offset = Ibs_sum/(COUNT_END-COUNT_START);
-		Flag.ETC.bit.DRIVE_CAL= 1.;
+		Flag.Monitoring.bit.DRIVE_CAL= 1.;
 
 		EALLOW;
 		PieVectTable.EPWM1_INT 	= &MainPWM;
@@ -69,22 +79,6 @@ interrupt void Driver_Calibration(void)
 
 }
 
-
-
-interrupt void MainPWM(void)
-{
-//	unsigned int ChACount,ChBCount;
-	static int FaultDriverCount= 0.; 
-//	static int FaultZCCount= 0.;
-	double Temp;
-	static int ms_cnt= 0;
-
-	int j;
-
-	Uint16 count1,count2;	// debug2010-0830
-
-
-	Temp= (double)CpuTimer0Regs.TIM.all;
 	/*---------------------------------------------**
 	**    Seoho VD Drive Program             	   **
 	** 		1. Shell Program(Wait ADC S/H)         **
@@ -101,46 +95,39 @@ interrupt void MainPWM(void)
 	**      9. State Management					   **
 	**---------------------------------------------*/
 
+#pragma CODE_SECTION(MainPWM, "ramfuncs");
+interrupt void MainPWM(void)
+{
+	double Temp;
+//	int j;
+
+	Uint16 AO_Count;	// debug2010-0830
+
+
+	Temp= (double)CpuTimer0Regs.TIM.all;
 
 	Main_counter++;
+	Tx_count_15ms++;
+	Tx_count_1s++;
 
-
-	ms_cnt++;
-
-	if(ms_cnt >= 65535) ms_cnt = 0 ;
-
-	//=========================================================================
-
-	if(ms_cnt > 3) // 3
-	{
-		ms_cnt = 0;
-
-		if (TXD_StackReadPtr != TXD_StackWritePtr)
-		{
-			if(ScicRegs.SCICTL2.bit.TXRDY) 				// 송신버퍼가 비어 있음
-			{
-				ScicRegs.SCITXBUF = TXD_Stack[TXD_StackReadPtr++] ;
-				if (TXD_StackReadPtr >= TXD_STACK_LENGTH)
-				{
-					TXD_StackReadPtr = 0 ;
-				}
-			}
-		}
-	}
-	//=========================================================================
-
+	
 	// Wait ADC Sensing
 	// S/H 할 수 있는 시간을 주자
 	// 5.5kW 7.5kW CT 지연시간 10us
-	for (j=0; j<300; j++)
-	 NOP;
+	// 300 당 25us
+//	for (j=0; j<350; j++)
+//	 NOP;
+
 
 	GetSensorValue();			
+	Fault_Check_1Sampling();
 
-
-//	Flux_Estimation();			// 3465	->	23.1us
-	VF_Controller(); 
-//	Current_Controller();		// 679	->	4.527us
+	#if (VF_MODE==1)
+		VF_Controller(); 
+	#else
+		Flux_Estimation();			// 3465	->	23.1us
+		Current_Controller();		// 679	->	4.527us
+	#endif
 	SVPWM();					// 1090	->	7.267us
 
 	// Call Scheduled Routines 
@@ -153,23 +140,20 @@ interrupt void MainPWM(void)
 //			EPwm2Regs.CMPCTL.bit.LOADAMODE = CC_CTR_PRD;
 //			EPwm3Regs.CMPCTL.bit.LOADAMODE = CC_CTR_PRD;
 		#endif
+	
 
 		if( Main_counter & 0x2 ) 	// 4*CC Routines : 10  
 		{		
-//			x4_routine();
-		    if (rx_complete != 1)  
-		    {		    
-		    		     mcbsp_xmit(0xFF,0xFF);
-			}
+			Fault_Check_4Sampling();	
 		}
-		else if( Main_counter & 0x4 ) 	// 8*CC Routines : 100 
-		{	
+//		else if( Main_counter & 0x4 ) 	// 8*CC Routines : 100 
+//		{	
 //			x8_routine();
-		}
-		else if( Main_counter & 0x8 ) 	// 16*CC Routines : 1000 
-		{	
+//		}
+//		else if( Main_counter & 0x8 ) 	// 16*CC Routines : 1000 
+//		{	
 //			x16_routine();
-		}	
+//		}	
 	}
 	else
 	{
@@ -185,50 +169,44 @@ interrupt void MainPWM(void)
 
 		if( Main_counter & 0x2 ) 	// 4*CC Routines : 10  
 		{		
-			#if (!ENCODER_TYPE)	
-				Speed_Calculation();
-			#else
-				Speed_Calculation_ABS();
-				rx_complete = 0;
-//				dev_BackgroundDAC ();
+//			if(!OP.Run_stop.bit.AUTO_TUNING){ 
+			Speed_Detection();
+			#if (VF_MODE==0)
+				if(!OP.Run_stop.bit.AUTO_TUNING) Wrpm_ref = Final_reference*Wrpm_scale;
 			#endif
-//			Wrpm_ref = Final_reference*Wrpm_scale;
-//			Speed_Controller();
+			Speed_Controller();
+//			}
 //			x4_routine();
 		}
 		else if( Main_counter & 0x4 ) 	// 8*CC Routines : 100 
 		{	
-//			Field_Weakening();
-//			Flux_Controller();
+//			if(!OP.Run_stop.bit.AUTO_TUNING){
+			Field_Weakening();
+			Flux_Controller();
+//			}
 //			x8_routine();
 		}
 		else if( Main_counter & 0x8 ) 	// 16*CC Routines : 1000 
 		{	
-//			Field_Weakening();
-//			Flux_Controller();
+//			if(!OP.Run_stop.bit.AUTO_TUNING){
+			Field_Weakening();
+			Flux_Controller();
+//			}
 //			x16_routine();
 		}		
 	}
 	
 	DB_Controller();
 	
-	if (GpioDataRegs.GPADAT.bit.GPIO12==0) 	FaultDriverCount++;
-	else if( FaultDriverCount > 0)			FaultDriverCount--;
-	if (FaultDriverCount > 10 )	Flag.Fault.bit.DRIVER= 1;
-
-/*
-	if (GpioDataRegs.GPADAT.bit.GPIO16==0) 	FaultZCCount++;
-	else if( FaultZCCount > 0)			FaultZCCount--;
-	if (FaultZCCount > 10 )	Flag.Fault.bit.ZC= 1; 
-*/
-	
-	if (Flag.Fault.all != 0)	State_Index= STATE_FAULT;
+	if ( (Flag.Fault1.all & (~Flag.Fault_Neglect1.all)) != 0x0000 )	State_Index= STATE_FAULT;
+	if ( (Flag.Fault2.all & (~Flag.Fault_Neglect2.all)) != 0x0000 )	State_Index= STATE_FAULT;
 
 	switch(State_Index)
 	{
+		case STATE_READY: 			System_Variable_Update();		break;
 		case STATE_STOP:
 			
-			if (Command==CMD_RUN)
+			if ( (Command==CMD_RUN)&&(!OP.Run_stop.bit.Emergency_STOP) )
 			{	PWM_ON_OFF(1);	Driver_ON=1;	}
 			else	
 			{	PWM_ON_OFF(0);	Driver_ON=0;	}
@@ -237,41 +215,28 @@ interrupt void MainPWM(void)
 
 		case STATE_ACCELERATING:	Reference_Function();			break;		
 		case STATE_DECELERATING:	Reference_Function();			break;
-		case STATE_RUNNING:			Reference_Function();			break;
+		case STATE_RUNNING:			Reference_Function();			break; 
 		case STATE_TUNING:			Auto_Tuning();					break;			 
 		case STATE_FAULT:			Fault_Processing();				break; 			 
 		default: 					PWM_ON_OFF(0);	Driver_ON=0;	break;
 	}
 
 
+
 //========================================================
 //	start 2010-0830
 //========================================================
 
-	GetAnaCount( &count1, &count2);
+	AO_Processing( & AO_Count );
 
-	EPwm5Regs.CMPA.half.CMPA 	= count1;
-	EPwm5Regs.CMPB  			= count2;
+	EPwm5Regs.CMPA.half.CMPA 	= AO_Count;
+	EPwm5Regs.CMPB  			= AO_Count;
 	
 //========================================================
 //	end of 2010-0830 
 //========================================================
 
-
-//	DA1=Iqse_ref;	DA1_mid=0;	DA1_rng=40;  
-//	DA2=Iqse;	DA2_mid=0;	DA2_rng=40;
-//	DA3=Temp_HHH1;		DA3_mid=0;	DA3_rng=20;
-//	DA4=Iqse;		DA4_mid=0;	DA4_rng=40;
-//	DAC_Setup();  
-
-
-
-
-//--- Ana Monitor 1,2 
-//	GetAnaMonitCount(&ChACount,&ChBCount);
-//	EPwm5Regs.CMPA.half.CMPA 	= ChACount;
-//	EPwm5Regs.CMPB  			= ChBCount;
-	
+	dev_BackgroundDAC ();
 
 
 	Temp= (Temp-(double)CpuTimer0Regs.TIM.all)/150.;  // us Time
@@ -285,97 +250,33 @@ interrupt void MainPWM(void)
 	 
 }
 
-void GetAnaMonitCount(unsigned int * piChA, unsigned * piChB)
-{
-	double fTemp;
-	static double Theta_a=0;
-
-	fTemp = (double)(EPwmPeriodCount >> 1); 
 
 
-	Theta_a += 2.* PI * 20 * TSAMP;
-
-	if (Theta_a>PI)			Theta_a-=2.*PI;
-	else if (Theta_a<-PI)	Theta_a+=2.*PI;		
-
-	* piChA = (unsigned int) ( fTemp *  ( sin(Theta_a) + 1 ));
-	* piChB = (unsigned int) ( fTemp *  ( cos(Theta_a) + 1 ));
-}
-
-	
-
-void PWM_ON_OFF(int On_Off)
-{
-	if (On_Off)
-	{	
-		EPwm1Regs.AQCSFRC.bit.CSFA= 0;
-		EPwm2Regs.AQCSFRC.bit.CSFA= 0;
-		EPwm3Regs.AQCSFRC.bit.CSFA= 0;
-		PWM_HARDWARE_ON;
-		BOOT_MODE_ON;
-		Flag.ETC.bit.PWM_ON= 1.;
-	}
-	else
-	{
-		PWM_HARDWARE_OFF;
-		BOOT_MODE_OFF;		
-		EPwm1Regs.CMPA.half.CMPA= EPwmPeriodCount;
-		EPwm2Regs.CMPA.half.CMPA= EPwmPeriodCount;
-		EPwm3Regs.CMPA.half.CMPA= EPwmPeriodCount;
-		EPwm1Regs.AQCSFRC.bit.CSFA= 2; //Forced High-Value
-		EPwm2Regs.AQCSFRC.bit.CSFA= 2; //Forced High-Value
-		EPwm3Regs.AQCSFRC.bit.CSFA= 2; //Forced High-Value
-		Flag.ETC.bit.PWM_ON= 0.;
-	}
-}
 
 void DB_Controller()
 {
-	static int FaultDBCount= 0.;
+	double Temp, Temp1;
 
-	if (GpioDataRegs.GPADAT.bit.GPIO13==0) 	FaultDBCount++;
-	else if( FaultDBCount > 0)			FaultDBCount--;
-	if (FaultDBCount > 10 )	Flag.Fault.bit.DB= 1; 
-	
+	if (GpioDataRegs.GPADAT.bit.GPIO13==0) 	Flag.Fault1.bit.DB= 1;;
+
+	// PWM duty 최소 20% ~ 최대 90% 
+	Temp1= (double)EPwmPeriodCount;
+	Temp= (double)(P.G05.P24_DB_full_voltage - P.G05.P23_DB_start_voltage);
+	Temp= Temp1*(0.7*((Vdc-(double)P.G05.P23_DB_start_voltage)/Temp)+0.2);
+	if ( Temp<(Temp1*0.2) ) Temp= 0.;
+	if ( Temp>(Temp1*0.9) ) Temp= Temp1*0.90; // 최대 90% Open
+	if (Flag.Fault1.bit.DB == 0)
+		EPwm4Regs.CMPA.half.CMPA= (Uint16)Temp;
+	else EPwm4Regs.AQCSFRC.bit.CSFA= 2;
+/*	
 	if (Flag.Fault.bit.DB == 0)
 	{
-		if ( Vdc >  370.0)	EPwm4Regs.AQCSFRC.bit.CSFA= 1;
-		else if ( Vdc <  350.0)	EPwm4Regs.AQCSFRC.bit.CSFA= 2;
+		if ( Vdc >  (double)P.G05.P24_DB_full_voltage)	EPwm4Regs.AQCSFRC.bit.CSFA= 1;
+		else if ( Vdc <  (double)P.G05.P23_DB_start_voltage)	EPwm4Regs.AQCSFRC.bit.CSFA= 2;
 	}
+*/
 }
 
-
-// chy added 2010.10.25
-
-interrupt void Mcbsp_TxINTA_ISR(void)
-{
-//    McbspaRegs.DXR1.all= sdata;
-//   sdata = (sdata+1)& 0x00FF ;
-    // To receive more interrupts from this PIE group, acknowledge this interrupt
-    PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
-}
-
-interrupt void Mcbsp_RxINTA_ISR(void)
-{
-//    rdata=McbspaRegs.DRR1.all;
-//    if (rdata != ( (rdata_point) & 0x00FF) ) error();
-//    rdata_point = (rdata_point+1) & 0x00FF;
-    // To receive more interrupts from this PIE group, acknowledge this interrupt
-//    PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
-
-//   if( McbspaRegs.SPCR1.bit.RRDY == 1 )
-//   {
-		rdata2 = McbspaRegs.DRR2.all;		                             // Read DRR2 first.
-    	rdata1 = McbspaRegs.DRR1.all; 
-	
-	rx_complete = 1;
-//	}
-    PieCtrlRegs.PIEACK.all = PIEACK_GROUP6;
-}
-
-//===========================================================================
-// No more.
-//===========================================================================
 
 
 

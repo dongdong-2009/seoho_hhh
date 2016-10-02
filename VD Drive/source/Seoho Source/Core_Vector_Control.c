@@ -1,21 +1,21 @@
 #include	<All_Header.h>
 #include	<All_Extern_Variables.h>
-
+#pragma CODE_SECTION(VF_Controller, "ramfuncs");
 void VF_Controller()
 {
 	double a;
 
 	freq_vf_set = Final_reference*Wrpm_scale/30.;
 	if(freq_vf > freq_vf_set) {
-		freq_vf -= 10.*TSAMP_VF;
+		freq_vf -= 10.*Tsamp_VF;
 		if(freq_vf < freq_vf_set) freq_vf = freq_vf_set;	
 	}
 	else {
-		freq_vf += 10.*TSAMP_VF;
+		freq_vf += 10.*Tsamp_VF;
 		if(freq_vf > freq_vf_set) freq_vf = freq_vf_set;	
 	}
 	We = (2.*PI)*freq_vf;
-	a = Theta + We*TSAMP_VF;
+	a = Theta + We*Tsamp_VF;
 	Theta = BOUND_PI(a);
 	Sin_Theta_vtg = sin(Theta);    	Cos_Theta_vtg = cos(Theta);
 
@@ -30,7 +30,7 @@ void VF_Controller()
 	if (!Driver_ON)	freq_vf=Theta=0.;
 
 }
-
+#pragma CODE_SECTION(Flux_Estimation, "ramfuncs");
 void Flux_Estimation()
 {
 	long i,j; 
@@ -63,7 +63,6 @@ void Flux_Estimation()
 
 	// Flux Estimation  
     // Current Model 
-#if	(!ENCODER_TYPE)
 	j = (EQep1Regs.QPOSLAT)&(0xffff);
 	i = j - Theta_rm_counter;
 	if(i>(32768))		i = i - (65536);
@@ -71,16 +70,6 @@ void Flux_Estimation()
 	Theta_rm_counter=j;
 
 	a = Thetar + (2.*PI)/(PPR*4)*(float)i*Pole_pair;
-#else
-	j = (abs_position)&(0xfff);
-	i = j - Theta_rm_counter;
-	if(i>(2048))		i = i - (4096);
-	else if(i<-(2048))	i = i + (4096);
-	Theta_rm_counter=j;
-
-	a = Thetar + (2.*PI)/(PPR)*(float)i*Pole_pair; 
-#endif
-
 	Thetar = (float)(Driver_ON*Flux_build_up)*BOUND_PI(a);   
 														  
    	Sin_Thetar = sin(Thetar);    	Cos_Thetar = cos(Thetar);
@@ -97,7 +86,7 @@ void Flux_Estimation()
 	LAMqrs_cm = Sin_Thetar*LAMdrr_cm+Cos_Thetar*LAMqrr_cm; 
 
 	// Delay Angle Compensation 
-	a = We*TSAMP_CC;
+	a = We*Tsamp_CC;
    	Sin_WeT = sin(a);    	Cos_WeT = cos(a);
 
 	LAMdrs_vm_predict =  Cos_WeT*LAMdrs_vm - Sin_WeT*LAMqrs_vm;
@@ -116,23 +105,23 @@ void Flux_Estimation()
 
 	// Flux Estimation Controller 
   	a=LAMdrs_cm-LAMdrs_vm_predict; 
-	Edss=Edss+Kp_Fst*(a-Err_LAMdst)+Ki_Fst*TSAMP_CC*a;
+	Edss=Edss+Kp_Fst*(a-Err_LAMdst)+Ki_Fst*Tsamp_CC*a;
    	Err_LAMdst=a;
-	Edss = BOUND(Edss,20.,-20.);// (HHH 범위에 대한 정확한 수식을 생각해보자)
+	Edss = BOUND(Edss,20.,-20.);
 
 	a=LAMqrs_cm-LAMqrs_vm_predict;  
-	Eqss=Eqss+Kp_Fst*(a-Err_LAMqst)+Ki_Fst*TSAMP_CC*a;
+	Eqss=Eqss+Kp_Fst*(a-Err_LAMqst)+Ki_Fst*Tsamp_CC*a;
 	Err_LAMqst=a;
 	Eqss = BOUND(Eqss,20.,-20.);
 
     // Voltage Model 
 	a=-Rs*Idss+Edss; 
-	LAMdss_vm=LAMdss_vm+TSAMP_CC*Vdss_ref_old+(TSAMP_CC/2.)*(a+Vdss);	
+	LAMdss_vm=LAMdss_vm+Tsamp_CC*Vdss_ref_old+(Tsamp_CC/2.)*(a+Vdss);	
 	Vdss=a;
     LAMdrs_vm=(Lr/Lm)*(LAMdss_vm-Lsigma*Idss);
 
 	a=-Rs*Iqss+Eqss; 
-	LAMqss_vm=LAMqss_vm+TSAMP_CC*Vqss_ref_old+(TSAMP_CC/2.)*(a+Vqss);	
+	LAMqss_vm=LAMqss_vm+Tsamp_CC*Vqss_ref_old+(Tsamp_CC/2.)*(a+Vqss);	
 	Vqss=a;
     LAMqrs_vm=(Lr/Lm)*(LAMqss_vm-Lsigma*Iqss);
 
@@ -155,10 +144,7 @@ void Flux_Estimation()
 
 
 	//---- Flux Angle Detection ----//
-	if (Auto_tuning_index!= 3)
-		Theta = (float)(Driver_ON*Flux_build_up)*atan2(LAMqrs, LAMdrs); //hhh
-//	else if (Auto_tuning_index!= 4) Theta= 0;
-	else Theta= 0;
+	Theta = (float)(Driver_ON*Flux_build_up)*atan2(LAMqrs, LAMdrs); //hhh
 
     Sin_Theta = sin(Theta);    	Cos_Theta = cos(Theta);
 
@@ -171,23 +157,26 @@ void Flux_Estimation()
 //  LAMqre_cm = -Sin_Theta*LAMdrs_cm + Cos_Theta*LAMqrs_cm; 
 
 } 
-
+#pragma CODE_SECTION(Current_Controller, "ramfuncs");
 void Current_Controller()
 {
+	static double Vdse_ref_integ= 0., Vdse_ref_ff= 0.;
+	static double Vqse_ref_ff= 0.; 
+
 	double a, b;
 	double Theta_vtg= 0.;
 	double Idse_flt=0., Iqse_flt=0.;
 	double Err_Idse= 0., Err_Iqse= 0.; 
 
-	static double Vdse_ref_integ= 0., Vdse_ref_ff= 0.;
-	static double Vqse_ref_ff= 0.;
+
 //	static double Vdse_ref_fb=0., Vqse_ref_fb=0.; // 관측용 변수 
+
 
 //	Kp_cc = Lsigma*1250.;
 //	Ki_cc = Rs*2.*1250;
 //	Ka_cc = 3./Kp_cc;
 
-	a = Theta + We*(1.5*TSAMP_CC);
+	a = Theta + We*(1.5*Tsamp_CC);
 	Theta_vtg = BOUND_PI(a);				
 	Sin_Theta_vtg = sin(Theta_vtg);    	Cos_Theta_vtg = cos(Theta_vtg);
 
@@ -203,23 +192,19 @@ void Current_Controller()
 
 	// d-axis Current Control 
 	Err_Idse = Idse_ref-Idse_flt;
-    Vdse_ref_integ+= Ki_cc*TSAMP_CC*(Err_Idse-Ka_cc*(Vdse_ref_fb+Vdse_ref_ff-Vdse_ref)); 
+    Vdse_ref_integ+= Ki_cc*Tsamp_CC*(Err_Idse-Ka_cc*(Vdse_ref_fb+Vdse_ref_ff-Vdse_ref)); 
 	Vdse_ref_fb=Vdse_ref_integ+Kp_cc*Err_Idse; // Vdse_ref_fb 은 0~Rs*Idse -> 관측용 전역변수 
 	Vdse_ref_ff=-We*Lsigma*Iqse-Rr*Lm/(Lr*Lr)*LAMdre; 			
 //	Vdse_ref_ff = 0.;
-//	if ((Auto_tuning_index!= 3)&&(Auto_tuning_index!= 4))
-	if (Auto_tuning_index!= 3)
-	   Vdse_ref = Vdse_ref_fb + Vdse_ref_ff;  
+	Vdse_ref = Vdse_ref_fb + Vdse_ref_ff;  
 
 	// q-axis Current Control 
 	Err_Iqse = Iqse_ref-Iqse_flt;
-	Vqse_ref_integ+= Ki_cc*TSAMP_CC*(Err_Iqse-Ka_cc*(Vqse_ref_fb+Vqse_ref_ff-Vqse_ref));
+	Vqse_ref_integ+= Ki_cc*Tsamp_CC*(Err_Iqse-Ka_cc*(Vqse_ref_fb+Vqse_ref_ff-Vqse_ref));
 	Vqse_ref_fb=Vqse_ref_integ+Kp_cc*Err_Iqse;  // Vqse_ref_fb 은 0~Rs*Iqse -> 관측용 전역변수
 	Vqse_ref_ff=We*Lsigma*Idse+Wr*Lm/Lr*LAMdre;
 //	Vqse_ref_ff = 0.;
-//	if ((Auto_tuning_index!= 3)&&(Auto_tuning_index!= 4))
-	if (Auto_tuning_index!= 3)
-	    Vqse_ref = Vqse_ref_fb + Vqse_ref_ff; 
+	Vqse_ref = Vqse_ref_fb + Vqse_ref_ff; 
 	 
 
 //	Vdse_ref = BOUND(Vdse_ref,20., -20.);
@@ -235,7 +220,7 @@ void Current_Controller()
 	Ics_ref = -(Ias_ref+Ibs_ref); 
 
 } 
-
+#pragma CODE_SECTION(SVPWM, "ramfuncs");
 void SVPWM()
 {
 	long i;
@@ -297,7 +282,7 @@ void SVPWM()
 	}
 
 	// Dead_Time Compensation 
-	V_dt = Vdc*( (T_DEAD+T_dead_Tuning)/TSAMP_CC );	
+	V_dt = Vdc*( (T_DEAD_US-T_dead_Tuning)/(Tsamp_CC*1.e+6) );	
 	K_dt = V_dt/(I_DT);
 
 	#if (DUAL_PWM_INTERRUPT)
@@ -335,7 +320,7 @@ void SVPWM()
 
 
 
-
+#pragma CODE_SECTION(Field_Weakening, "ramfuncs");
 void Field_Weakening()
 {
 	double a, b;
@@ -346,10 +331,12 @@ void Field_Weakening()
 //  DB control 시 Vdc 떨림 현상 발생 DB Control 추가할것 
 //	Vs_max = (Vdc*0.95)/SQRT3;
 //	Vs_max = (Vdc*0.9)/SQRT3;
-	b= Supply_Voltage*SQRT2*1.05;
-	if(Vdc>b) 	a = b;
+/*
+	b= (double)P.G01.P08_Supply_voltage*SQRT2*1.05;
+	if(Vdc>b) a = b;
 	else		a = Vdc;
-	Vs_max = (a*0.9)/SQRT3;
+*/
+	Vs_max = (Vdc*0.9)/SQRT3;
 
     We_fw1= sqrt( (Vs_max*Vs_max) / K_fw1 );
 	We_fw2= K_fw2*(Vs_max/Is_max);
@@ -359,19 +346,19 @@ void Field_Weakening()
     if(a<We_fw1) { 								
         LAMdre_ref=LAMdre_rate;
         b = LAMdre_ref/Lm;		  				Iqse_max_fw=sqrt(Is_max*Is_max-b*b);
-		Flag.ETC.bit.FW_MODE=0.;
+		Flag.Monitoring.bit.FW_MODE=0.;
 	}		
     else if( (a>We_fw1) && (a<We_fw2) ) { 			
         b= ( (Vs_max*Vs_max)/(a*a)-(Lsigma*Is_max)*(Lsigma*Is_max) ) / (Ls*Ls-Lsigma*Lsigma);
         LAMdre_ref=Lm*sqrt(b);        			Iqse_max_fw=sqrt(Is_max*Is_max-b);
-		Flag.ETC.bit.FW_MODE=1.;
+		Flag.Monitoring.bit.FW_MODE=1.;
 	}
     else {                               		
         LAMdre_ref=Lm*Vs_max/(SQRT2*a*Ls);		Iqse_max_fw=Vs_max/(SQRT2*a*Lsigma);
-		Flag.ETC.bit.FW_MODE=2.;
+		Flag.Monitoring.bit.FW_MODE=2.;
     }
 }
-
+#pragma CODE_SECTION(Flux_Controller, "ramfuncs");
 void Flux_Controller()
 {
 	double a;
@@ -383,7 +370,7 @@ void Flux_Controller()
 //	Ki_fc = Wc_fc/Lm;
 //	Ka_fc = 2./Kp_fc; 
 
-	LAMdre_flt+= ((Wc_fc*5.)*TSAMP_FC)*(LAMdre-LAMdre_flt);
+	LAMdre_flt+= ((Wc_fc*5.)*Tsamp_FC)*(LAMdre-LAMdre_flt);
 	if(!Driver_ON) {	  
 		Idse_ref = Idse_ref_fb = Idse_ref_ff = Idse_ref_integ = 0.;
 		Flux_build_up=0;
@@ -393,30 +380,26 @@ void Flux_Controller()
 
 
 		Err_flux = LAMdre_ref - LAMdre_flt;
-		Idse_ref_integ += Ki_fc*TSAMP_FC*(Err_flux-Ka_fc*(Idse_ref_fb+Idse_ref_ff-Idse_ref));
+		Idse_ref_integ += Ki_fc*Tsamp_FC*(Err_flux-Ka_fc*(Idse_ref_fb+Idse_ref_ff-Idse_ref));
 		Idse_ref_fb = Kp_fc*Err_flux + Idse_ref_integ;
 		Idse_ref_ff = LAMdre_ref/Lm;
 		a = Idse_ref_fb + Idse_ref_ff;
 		// Limit 
-		// Lsigma tuning 실행시 -> 아래 주석처리
-		if (Auto_tuning_index!= 3)
-			Idse_ref  = BOUND(a, Idse_ref_max, (-Idse_ref_max));
+		Idse_ref  = BOUND(a, Idse_ref_max, (-Idse_ref_max));
 
 	}	
 }
-
+#pragma CODE_SECTION(Speed_Controller, "ramfuncs");
 void Speed_Controller()
 {
-	
 	double a;
-	double Iqse_ref_max= 0.;
 	double Wsl= 0., Wrm_ref= 0., Err_Wrm= 0.;
 	
 	static double Wrm_flt= 0.;
 	static double Iqse_ref_integ= 0.;
 	static double Iqse_ref_fb= 0., Iqse_ref_ff= 0.;
 
-	Wrm_flt+= (1250.*TSAMP_SC)*(Wrm_det_flt-Wrm_flt);
+	Wrm_flt+= (1250.*Tsamp_SC)*(Wrm_det_flt-Wrm_flt);
 
 //	Wc_sc = 250.;
 	Kp_sc = Jm*Wc_sc/Kt;
@@ -438,7 +421,7 @@ void Speed_Controller()
 		if(a<Iqse_max_fw)	Iqse_ref_max = a;
 		else				Iqse_ref_max = Iqse_max_fw;
 
-		Iqse_ref_integ += Ki_sc*TSAMP_SC*(Err_Wrm-Ka_sc*(Iqse_ref_fb+Iqse_ref_ff-Iqse_ref));
+		Iqse_ref_integ += Ki_sc*Tsamp_SC*(Err_Wrm-Ka_sc*(Iqse_ref_fb+Iqse_ref_ff-Iqse_ref));
 		Iqse_ref_fb = Kp_sc*Err_Wrm + Iqse_ref_integ;
 		Iqse_ref_ff = 0.;
 		a = Iqse_ref_fb + Iqse_ref_ff;
@@ -447,39 +430,11 @@ void Speed_Controller()
 		// Angular Frequency 
 		Wsl = Rr*Lm/Lr*Iqse_ref/LAMdre_ref;
 		We = Wr + Wsl;	
-  		   
+			   
 	}
 
 }
 
-/*
-void Position_Control()
-{
-//	Wc_sc = 250.;	 (참고용) 
-	Wc_pc= 25.;
-
-	if (Flag_zero_position)
-	{
-		EQep1Regs.QPOSCNT= 0;
-		EQep1Regs.QPOSLAT= 0;
-		Flag_zero_position= 0;
-	}
-
-	j = (EQep1Regs.QPOSLAT)&(0xffff);
-	i = j - Theta_rm_counter;
-	if(i>(32768))		{	i = i - (65536);	Turn_count++;	}
-	else if(i<-(32768))	{	i = i + (65536);	Turn_count--;	}
-	Theta_rm_counter=j;
-
-	a = Thetar + (2.*PI)/(PPR*4)*(float)i*Pole_pair;
-	Thetar = (float)(Driver_ON*Flux_build_up)*BOUND_PI(a);
-
-	Theta_fb= Thetar+2.*PI*Turn_count;
-	Theta_err= Theta_ref-Theta_fb;
-	Wrpm_ref= Wc_pc*Theta_err;
-	if (!Driver_ON)	Wrpm_ref= 0.;
-}
-*/
 
 // end of file
 

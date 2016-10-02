@@ -77,7 +77,8 @@ typedef volatile struct {
     U8  ucType;
 	F32 fValue;
 	F32 fScale;
-	float *piChData;
+	double *piChData;
+//	float *piChData;
 } DAC;
 
 extern DAC	deg_Dac [ 4 ];

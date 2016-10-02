@@ -1,8 +1,3 @@
 ---------------------  Seoho VD Drive Program.pjt - Debug  ---------------------
-[DEV_EasydspDac28335.c] "C:\Program Files\Texas Instruments\C2000 Code Generation Tools 5.2.1\bin\cl2000" -gt -pdsw225 -fr"C:/tidcs/Seoho_VD_Drive_Program(101110_28bit)ssi/Debug" -i"C:/tidcs/Seoho_VD_Drive_Program(101110_28bit)ssi/lib" -i"C:/tidcs/Seoho_VD_Drive_Program(101110_28bit)ssi/include/Seoho include" -i"C:/tidcs/Seoho_VD_Drive_Program(101110_28bit)ssi/include/TI include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 --float_support=fpu32 -@"../../Debug.lkf" "DEV_EasydspDac28335.c"
-
-[Linking...] "C:\Program Files\Texas Instruments\C2000 Code Generation Tools 5.2.1\bin\cl2000" -@"Debug.lkf"
-<Linking>
-
 Build Complete,
   0 Errors, 0 Warnings, 0 Remarks.

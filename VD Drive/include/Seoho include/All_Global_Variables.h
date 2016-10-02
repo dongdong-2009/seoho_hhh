@@ -3,38 +3,40 @@
 
 //------------- Core Variables Start -------------//
 
-//--------Motor Parameters--------//
-
+//--------Motor Parameters--------// 절대 수정 금지 
 double Rs=2.0, Rr=0.9, Lsigma=12e-3, Lm=154e-3;
 double Jm=0.005, inv_Jm=200, Pole_pair=2., Bm= 0.; 
-double LAMdre_rate = 0.777, LAMdre_ref = 0.777;              // 380V 수정 0.45*(380/220)
+double LAMdre_rate = 0.45, LAMdre_ref = 0.45; 
 double Lr, Lls= 0., Llr= 0.;
 double Ls, Kt; 
-double Is_rate=(3.4*SQRT2), Wrpm_rate=1425., Wrpm_max=12000.;  // 380V시 수정
-int PPR=4096;
-
+double Wrpm_max=3000.;
+// double Is_rate=(5.5*SQRT2), Wrpm_rate=1435., Wrpm_max=12000.;
+int PPR=1024;
+double Tr= 0.;
+double Rs0= 0., Ls0= 0., Lm0= 0.;
 //------Motor Parameters End------//  
 
-double Load_Power= 1.5e+3;
-//double Supply_Voltage= 220.;    // 380V시 수정
-double Supply_Voltage= 380.;    // 380V시 수정
-//--------Motor Parameters--------//
-//double Rs=2.2, Rr=2.0, Lsigma=12e-3, Lm=154e-3;
-//double Jm=0.005, inv_Jm=200, Pole_pair=2., Bm= 0.; 
-//double LAMdre_rate = 0.45, LAMdre_ref = 0.45; 
-//double Lr, Lls= 0., Llr= 0.;
-//double Ls, Kt; 
-//double Is_rate=(21.*SQRT2), Wrpm_rate=1755., Wrpm_max=3500.;   
-//int PPR=1024;
-//------Motor Parameters End------//  
+double Temp_HHH1, Temp_HHH2;
 
 
-double Temp_HHH1= 0., Temp_HHH2= 0., Temp_HHH3= 0.;
 double Jm_est= 0.;
+double Te_rate= 0.;
 
 double LAMdrs_cm= 0., LAMqrs_cm= 0.;
 double LAMdrs_vm= 0., LAMqrs_vm= 0.;
 double LAMdrs=0., LAMqrs=0.;
+
+// Sampling Time
+double Tsamp= 0.;			
+double Tsamp_VF= 0.;	
+double Tsamp_CC= 0.;	
+double Tsamp_SC= 0.;		
+double Tsamp_SD= 0.;		
+double Tsamp_FC= 0.;		
+Uint32 Period_SD= 0.;	
+
+
+
 
 //입력 
 int    Command= 0.;
@@ -42,12 +44,10 @@ double Init_reference= 0.;
 double Init_reference_Auto_tuning= 0.;
 double Final_reference= 0.; 
 double Wrpm_scale= 0.;
-double AnaCmdReference= 0.;
 double Accel_time= 0.;	
 double Decel_time= 0.;	
 double Accel_time_Auto_tuning= 0.;	
 double Decel_time_Auto_tuning= 0.;	
-
 
 //전압  
 double Vdc= 0., Vdc_max= 0.;
@@ -58,6 +58,8 @@ double Vdss_ref= 0., Vqss_ref= 0., Vdse_ref= 0., Vqse_ref= 0.;
 
 
 //전류 
+double IGBT_current= 0.;
+double I_scale= 0.;
 double Ias=0., Ibs=0., Ics=0.;
 double Ias_offset=0., Ibs_offset=0.;
 double Ias_ref=0., Ibs_ref=0., Ics_ref=0.;  
@@ -65,6 +67,7 @@ double Is_max=0., Is_mag=0., Is_mag_rms=0.;
 double Idss=0., Iqss=0., Idse=0., Iqse=0.; 
 double Idss_ref=0., Iqss_ref=0., Idse_ref=0., Iqse_ref=0.;
 double Idse_ref_max= 0., Iqse_max_fw=0.;
+double Iqse_ref_max= 0.;
 	
 
 //자속 
@@ -80,6 +83,10 @@ double Wrpm_ref=0.;
 double Wrpm_fw1=0., Wrpm_fw2=0.;
 double Wrm_det=0., Wrpm_det=0., Wrm_det_flt=0.; 
 
+// Power
+double Input_power_x10_kW= 0.;
+double Output_power_x10_kW= 0.;
+
 //이득
 double K_CM1=0., K_CM2=0.;
 double K_fw1=0., K_fw2=0.;
@@ -88,7 +95,7 @@ double Wc_fc=0., Kp_fc=0., Ki_fc=0., Ka_fc=0.;
 double Wc_sc=0., Kp_sc=0., Ki_sc=0., Ka_sc=0.; 
 double Wc_cc=0., Kp_cc=0., Ki_cc=0., Ka_cc=0.;
 double L1_sp_est= 0., L2_sp_est= 0., L3_sp_est= 0., L3_sp_tmp= 0.;
-
+double Kob_sd= 0.;
 
 //위상 
 double Theta=0.; 
@@ -104,65 +111,89 @@ double Cos_Theta=1., Sin_Theta=0.;
 //switch
 int Driver_ON=0.,Flux_build_up=0.;
 
-//PWM Count 
+//PWM  
 double T_dead_Tuning= 0.;
 Uint16 EPwmPeriodCount= 0.;
 unsigned int DutyCount[3];
+double I_DT= 0.;
 
+// Fault
+int Fault_count= 0;
+double OL_limit= 0.;
+double Continuous_OL_current= 0.;  
+double OC_trip_value= 0.;
 
 //기타 
-long Main_counter= 0.;
-int State_Index= 0.;
-int Auto_tuning_index= 0.;
-double Interrupt_time_max=0.;
+int Temperature_x10= 0.;
+long Main_counter= 0;
+int State_Index= 0;
+int Auto_tuning_index= 0;
+double Interrupt_time_max= 0.;
+int Voltage_class= 0;
+
+// ISR_FREQUENCY= 5;
+// float T = 0.001/ISR_FREQUENCY;   // Samping period (sec), see parameter.h ,ISR_FREQUENCY=3    
+float T = 0;   // Samping period (sec), see parameter.h ,ISR_FREQUENCY=3  
+
+int cishu=0;
+int cs=30;
+	////////dead-time compensation//////
+float Td= 1.25/1000;// dead-time (ms)
+float Ton= 0.085/1000;//1.0/1000; Switching Times of IGBT (ms)
+float Toff= 0.42/1000;//2.0/1000;Switching Times of IGBT (ms)
+float Vs= 1.8;//2.5; Collector-Emitter Saturation Voltage (v)
+float Vd= 1.75;//2.5; FWD Forward Voltage (v)
+float M= 0.;
+float M1= 0.;
+	// the variables of third-order butterworth digital filter
+float Wc= 40.;// the cutoff frequency of third-order butterworth digital filter (Hz)
+float a0= 1.0, a1= 2.0, a2= 2.0; //the coefficient of third-order butterworth digital filter transfer function
+float A0= 0., A1= 0., A2= 0.;
+float b= 0.001;//prediction weight
+float B1= 0., B2= 0.;
+
+
+float Hui=500.0;
+float C1=0.0;
+float C2=0.0;
+//float Hui1=150;
+//float cc1=0.0;
+//float cc2=0.0;
+
+unsigned int identify_offline=0;
+
+float I_a_filt= 0., I_b_filt= 0., I_c_filt=0.;
+float RC=0.001;//analog filter time constant of current sampling
+
+PWMGEN pwm1 = PWMGEN_DEFAULTS;
+SVGENDQ svgen_dq1 = SVGENDQ_DEFAULTS;
 
 
 //변수 통신 관련
-Uint16 Group_index= 0;
-BYTE Comm_GROUP;
-BYTE Comm_INDEX;
-Uint16 Comm_array[3000];
-Packet_Head_flg Packet_Head ;
+Uint16 Rx_index= 0;
+Uint16 Tx_index= 0;
+Uint16 Tx_count_15ms= 0;
+Uint16 Tx_count_1s= 0;
+int Dummy_comm= 0;
 CRC_flg	CRC ;
-Bit_field_	flag0;
-//-- Serial Data Stack  
+
 /* Variables for Serial Communication  */
 char scib_tx_buf[SCIB_BUF_SIZE+1];
 char scib_tx_pos=0, scib_tx_end=0;
 char scib_rx_buf[SCIB_BUF_SIZE+1];
-char scib_rx_pos=0, scib_rx_end=0;
+
 char scib_rxd=' ';
 
 char scic_tx_buf[SCIC_BUF_SIZE+1];
 char scic_tx_pos=0, scic_tx_end=0;
 char scic_rx_buf[SCIC_BUF_SIZE+1];
-char scic_rx_pos=0, scic_rx_end=0;
-char scic_rxd=' ';
 
-int  scic_tx_ibuf[SCIC_BUF_SIZE+1];
-int  scic_rx_ibuf[SCIC_BUF_SIZE+1]; 
+char scic_rxd=' '; 
 
-unsigned char RRXD_Stack[RXD_STACK_LENGTH];
-unsigned char RXD;							// 수신 데이타
-unsigned char RXD_StackWritePtr;			// Serial 데이타의 수신 스택 포인터
-unsigned char RXD_StackReadPtr;				// 수신 스택으로 부터 현재 읽혀져야 할 포인터
-unsigned char RXD_Stack[RXD_STACK_LENGTH];	// 시리얼 데이타를 저장하는 수신 스택 메모리 공간
-	
-unsigned char TXD_StackWritePtr;			// Serial 데이타의 송신 스택 포인터
-unsigned char TXD_StackReadPtr;				// 송신 스택으로 부터 현재 읽혀져야 할 포인터
-unsigned char TXD_Stack[TXD_STACK_LENGTH];	// 시리얼 데이타를 저장하는 송신 스택 메모리 공간
-unsigned char TTXD_Stack[20];
-
-unsigned char NewFrame_StackPtr;			// 스택공간상에서 새로 검출된 프레임의 주소
-unsigned char Frame_StackPtr;				// 스택공간상에서 전에 검출된 프레임의 주소
-unsigned char Packet_StackPtr;				// 스택 공간에서 해당 패킷의 주소
-	
-unsigned  char NewFrame_Detect;				// 새로운 프레임 검출
-	
-unsigned  char NewFrame_Packet_State;		// Packet의 수신 단계 
-unsigned  char NewFrame_ByteCnt;			// 수신된 바이트 수를 나타내는 인덱스
-unsigned  char Frame_ByteCnt;
-unsigned  char Packet_ByteCnt; 
+//-- Serial Data Stack  
+WORD Data_Registers[Buf_MAX];
+WORD CAN_Registers[Buf_MAX];
+WORD SCI_Registers[Buf_MAX]; 
 
 // ADC
 int	Adc_Uphase;
@@ -177,7 +208,7 @@ int	Adc_AIN_3;
 int	Adc_AIN_4;
 int	Adc_AIN_5 ;
 int	Adc_Temperature;
-int	Adc_V_Range; 
+int	Adc_Vclass; 
  
 //====================================
 // F28335 
@@ -191,39 +222,10 @@ int	DA1_val,DA2_val,DA3_val,DA4_val;
 	
 
 FAULT_INFO FaultInfo = {0,0,0,0,"2008:07:24  00:01:23"," No Trip Data       ",0};
-volatile FLAG Flag;
 
-char MonitorMsg[30]={0};
-
-// chy
-
-Uint16 bin[SIZE];
-Uint16 g2b[SIZE];
-
-Uint16 result1;
-Uint16 Number_of_turns_buf;
-Uint16 Steps_per_turn_buf;
-Uint16 abs_position;
-
-Uint16 rdata1;
-Uint16 rdata2;
-Uint16 Number_of_turns;
-
-Uint16 Steps_per_turn;
-Uint16 Steps_buf1;
-Uint16 Steps_buf2;
-Uint16 inv_rdata1;
-Uint16 inv_rdata2;
-
-Uint16 gNum;
-
-double Wrn1=0, Wrpm_det1=0;  
-double test1=0, test2=0, test3=0, test4 = 0; // chy
-Uint16 etest1=0, etest2=0, etest3=0, etest4=0;
-Uint16 rx_complete = 0;
-
-float sin_theta = 0.0, cos_theta = 0.0;
-
+FLAG Flag;
+PARAMETER P;
+OPERATION OP;
 //------------- Core Variables End -------------//
 #endif
 
