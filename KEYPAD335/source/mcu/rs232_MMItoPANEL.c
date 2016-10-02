@@ -115,7 +115,7 @@ unsigned int CRC16( UCHAR * pucFrame,unsigned int usLen )
 void UART_init(void)
 {
 	UBRR0H = 0; 								// 19200 baud for 16MHz OSC
-	UBRR0L = 51;
+	UBRR0L = 8;
 	UCSR0A = 0x00;								// asynchronous normal mode
 	UCSR0B = 0xD8;								// Rx/Tx enbale, Rx Complete interrupt enable
 	UCSR0C = 0x06;								// 8 data, 1 stop, no parity
@@ -155,7 +155,7 @@ unsigned int ReadDataMem(unsigned int addr)
 // 데이타 수신
 //-----------------------------
  unsigned char SciC_RxStep=0;
- unsigned char SciC_RxFlag=0;
+ volatile unsigned char SciC_RxFlag=0;
 
  unsigned int RxType=0;
  unsigned int RxAddr=0;
@@ -168,7 +168,7 @@ unsigned int ReadDataMem(unsigned int addr)
 __interrupt void USART0_RX_ISR(void)
 //ISR(USART0_RX_vect)	
 {
-char c;
+	char c;
 
 	RXD0 = UDR0 ;
 	if(!SciC_RxFlag)
@@ -225,82 +225,65 @@ char c;
 		else//crc_L
 		{
 			RxBuf[8] = RXD0;
+			SciC_RxFlag = 1;
 
-			//CRC.Word = 0;
-			//CRC_16(RxBuf[0]);
-			//CRC_16(RxBuf[1]);
-			//CRC_16(RxBuf[2]);
-			//CRC_16(RxBuf[3]);
-			//CRC_16(RxBuf[4]);
-			//CRC_16(RxBuf[5]);
-			//CRC_16(RxBuf[6]);
-
-			CRC.Word = CRC16(RxBuf,7);
-
-			RxType = RxBuf[2];
-			RxAddr = ((unsigned int)RxBuf[3]<<8) | RxBuf[4] ;
-			RxData = ((unsigned int)RxBuf[5]<<8) | RxBuf[6] ;
-			RxCRC   = ((unsigned int)RxBuf[7]<<8) | RxBuf[8] ;
-
-			if((RxBuf[7] == CRC.Byte.b1) && (RxBuf[8] == CRC.Byte.b0))
-			{
-				SciC_RxFlag=1;
-				SCI_Registers[RxAddr] = RxData;
-
-				if(RxType == SEND)
-				{
-					CRC.Word = 0;
-
-					RxBuf[2] = RESPONSE;
-
+			 if(SciC_RxFlag)
+		      	{
 					CRC.Word = CRC16(RxBuf,7);
 
-					for(c=0;c<7;c++)
+					if((RxBuf[7] == CRC.Byte.b1) && (RxBuf[8] == CRC.Byte.b0))
 					{
-						TX0_char(RxBuf[c]);
-					
+						RxType = RxBuf[2];
+						RxAddr = ((unsigned int)RxBuf[3]<<8) | RxBuf[4] ;
+						RxData = ((unsigned int)RxBuf[5]<<8) | RxBuf[6] ;
+						RxCRC   = ((unsigned int)RxBuf[7]<<8) | RxBuf[8] ;
+
+						if(RxType == SEND)
+						{
+							CRC.Word = 0;
+
+							RxBuf[2] = RESPONSE;
+
+							CRC.Word = CRC16(RxBuf,7);
+
+							for(c=0;c<7;c++)	TX0_char(RxBuf[c]);
+							TX0_char(CRC.Byte.b1);
+							TX0_char(CRC.Byte.b0);
+
+							DATA_Registers[RxAddr] = RxData;
+						}
+						else if(RxType == REQUEST)
+						{
+							CRC.Word = 0;
+
+							RxBuf[2] = SEND;
+							RxBuf[5] = (char)(DATA_Registers[RxAddr]>>8);
+							RxBuf[6] = (char)DATA_Registers[RxAddr];
+
+							CRC.Word = CRC16(RxBuf,7);
+
+							for(c=0;c<7;c++)	TX0_char(RxBuf[c]);
+							
+							TX0_char(CRC.Byte.b1);
+							TX0_char(CRC.Byte.b0);
+
+						}
+						else if(RxType == RESPONSE)
+						{
+							SCI_Registers[RxAddr] = RxData;
+						}
+						else if(RxType == QUERY)
+						{
+							Communication_Fault_Cnt = 15;
+							device_type = RxData;
+						}
+						
 					}
 					
-					//TX0_char(RxBuf[0]);		CRC_16(RxBuf[0]);
-					//TX0_char(RxBuf[1]);		CRC_16(RxBuf[1]);
-					//TX0_char(RESPONSE);		CRC_16(RESPONSE);
-					//TX0_char(RxBuf[3]);		CRC_16(RxBuf[3]);
-					//TX0_char(RxBuf[4]);		CRC_16(RxBuf[4]);
-					//TX0_char(RxBuf[5]);		CRC_16(RxBuf[5]);
-					//TX0_char(RxBuf[6]);		CRC_16(RxBuf[6]);
-					TX0_char(CRC.Byte.b1);
-					TX0_char(CRC.Byte.b0);
-
-					DATA_Registers[RxAddr] = RxData;
-				}
-				else if(RxType == REQUEST)
-				{
-					CRC.Word = 0;
-
-					RxBuf[2] = SEND;
-					RxBuf[5] = (char)(DATA_Registers[RxAddr]>>8);
-					RxBuf[6] = (char)DATA_Registers[RxAddr];
-
-					CRC.Word = CRC16(RxBuf,7);
-
-					for(c=0;c<7;c++)	TX0_char(RxBuf[c]);
-					
-					TX0_char(CRC.Byte.b1);
-					TX0_char(CRC.Byte.b0);
-
-				}
-				else if(RxType == QUERY)
-				{
-					Communication_Fault_Cnt = 3;
-					device_type = RxData;
-				}
-				
-			}
-			SciC_RxStep=0;
+					SciC_RxStep=0;
+		      	}
 		}
 	}
-	else SciC_RxStep=0;
-
 
 	return ;
 }
@@ -339,10 +322,8 @@ void SCI_Process(void)
 unsigned char 	c ;
 
 //Rx================================
-	 if(SciC_RxFlag)
-      	{
-		SciC_RxFlag = 0;
-      	}
+
+
 	 
 //Tx================================
 	if(!TxDelyCnt)
@@ -383,7 +364,7 @@ unsigned char 	c ;
 			TxBuf[0] = 0xAB;
 			TxBuf[1] = 0xCD;
 			TxBuf[2] = QUERY;
-			TxBuf[3] = 0;	
+			TxBuf[3] = 25;	
 			TxBuf[4]=  0;
 			TxBuf[5] = 0;
 			TxBuf[6] = 0;

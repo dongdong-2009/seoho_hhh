@@ -1,21 +1,5 @@
----- MODE_5d_rpm Matches (20 in 2 files) ----
-Display.c (source\mcu):	else if(mode == MODE_5d_rpm)
-Display.c (source\mcu):	else if(mode == MODE_5d_rpm)
-Display.c (source\mcu):			SYS_ParameterDisplay(MODE_5d_rpm);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5d_rpm);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5d_rpm);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5d_rpm);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5d_rpm);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5d_rpm);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5d_rpm);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5d_rpm);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5d_rpm);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5d_rpm);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5d_rpm);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5d_rpm);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5d_rpm);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5d_rpm);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5d_rpm);
-Display.c (source\mcu):		SYS_ParameterDisplay(MODE_5d_rpm);
-Display_def.h (source\mcu):#define MODE_5d_rpm 10
-Display_def.h (source\mcu):#define MODE_5d_rpm 68
+---- MODE_5d_mV Matches (4 in 2 files) ----
+Display.c (source\mcu):	else if(mode == MODE_5d_mV)
+Display.c (source\mcu):		if(DATA_Registers[602] == 0)SYS_ParameterDisplay(MODE_5d_mV);
+Display.c (source\mcu):		else if(DATA_Registers[602] == 1)SYS_ParameterDisplay(MODE_5d_mV);
+Display_def.h (source\mcu):#define MODE_5d_mV 70

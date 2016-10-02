@@ -18,7 +18,7 @@
 #define EDIT_MODE_1 1
 #define EDIT_MODE_2 2
 #define EDIT_MODE_UPDN 3
-#define EDIT_MODE_4 4
+#define EDIT_MODE_NORMAL 4
 #define EDIT_MODE_P8_DI_FUNC 5
 #define EDIT_MODE_P12 6
 #define EDIT_MODE_0_1 7
