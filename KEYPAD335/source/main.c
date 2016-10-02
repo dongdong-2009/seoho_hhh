@@ -264,7 +264,7 @@ __interrupt void TIMER1_ISR(void)
 
 int main(void)
 {
-	unsigned int i;
+	//unsigned int i;
 	MCU_initialize();                             // initialize MCU and kit
 
 	Delay_ms(200);                                 // wait for system stabilization
@@ -289,27 +289,24 @@ int main(void)
 
 	//wait() ;
 
-	for(i=0;i<BUF_MAX;i++)
-	{
-		//*(volatile int *)((i<<1)+DATA_REG) =0;
-		//*(volatile int *)((i<<1)+DATA_REG+1) = 0;
-		
-		//*(volatile int *)((i<<1)+TEMP_REG) = 0;
-		//*(volatile int *)((i<<1)+TEMP_REG+1) = 0;
-          
-            DATA_Registers[i]=0;
-            SCI_Registers[i]=0;
-            
-	}
+	PORTL_Bit0 = 1;
+	PORTL_Bit1 = 1;
+	PORTL_Bit2 = 1;
+	PORTL_Bit3 = 1;
+
+	SCI_RegisterRefresh();
 
 	Delay_ms(500); 
 	Delay_ms(500); 
 	Delay_ms(500); 
 	Delay_ms(500);
+	Delay_ms(500); 
+	Delay_ms(500);
 	
 	EventFlagE = 1;
 
-	 DATA_Registers[3195] = 1;
+	 MenuDisplay_Handler = MENU_RUN;
+
 	while(1)
 	{
 		if(TimeTic_10ms)
@@ -317,22 +314,22 @@ int main(void)
 			KeyProc();
 			MainSYSTEM();
 		}
+		
+		if(TimeTic_1s)
+		{
+ 			RefreshFlag=1;
+		}
 
 		if(TimeTic_500ms)
 		{
 			//PORTL = PORTL ^ 0xFF;
 			PORTG_Bit3 = PORTG_Bit3^1;
 		}
-
-		if(TimeTic_1s)
-		{
- 			RefreshFlag=1;
-		}
-
+		
 		//display
 		if(TimeTic_10ms)
 		{
-			MenuDisplay();
+			if(MenuDisplay_Handler)	MenuDisplay();
 		}
 
 		SCI_Process();

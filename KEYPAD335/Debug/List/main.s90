@@ -1,23 +1,28 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                            /
-// IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR   07/Jan/2011  17:47:50 /
+// IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR   28/Jan/2011  01:52:07 /
 // Copyright 1996-2009 IAR Systems AB.                                        /
 //                                                                            /
-//    Source file  =  Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\source\main.c     /
-//    Command line =  Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\source\main.c     /
-//                    --cpu=m2560 -ms -o Z:\work\SEOHO_VD\KEYPAD335_110107_IA /
-//                    R\Debug\Obj\ -lC Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\ /
-//                    Debug\List\ -lA Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\D /
-//                    ebug\List\ -y --initializers_in_flash -z3 --no_cse      /
-//                    --no_inline --no_code_motion --no_cross_call            /
-//                    --no_clustering --no_tbaa --debug                       /
-//                    --enable_external_bus -DENABLE_BIT_DEFINITIONS -e       /
-//                    --enable_multibytes -I "C:\Program Files\IAR            /
-//                    Systems\Embedded Workbench 5.3\avr\INC\" -I             /
+//    Source file  =  C:\Documents and Settings\idonno2000\πŸ≈¡               /
+//                    »≠∏È\KEYPAD335_110127_IAR\source\main.c                 /
+//    Command line =  "C:\Documents and Settings\idonno2000\πŸ≈¡              /
+//                    »≠∏È\KEYPAD335_110127_IAR\source\main.c" --cpu=m2560    /
+//                    -ms -o "C:\Documents and Settings\idonno2000\πŸ≈¡       /
+//                    »≠∏È\KEYPAD335_110127_IAR\Debug\Obj\" -lC               /
+//                    "C:\Documents and Settings\idonno2000\πŸ≈¡              /
+//                    »≠∏È\KEYPAD335_110127_IAR\Debug\List\" -lA              /
+//                    "C:\Documents and Settings\idonno2000\πŸ≈¡              /
+//                    »≠∏È\KEYPAD335_110127_IAR\Debug\List\" -y               /
+//                    --initializers_in_flash -z3 --no_cse --no_inline        /
+//                    --no_code_motion --no_cross_call --no_clustering        /
+//                    --no_tbaa --debug --enable_external_bus                 /
+//                    -DENABLE_BIT_DEFINITIONS -e --enable_multibytes -I      /
 //                    "C:\Program Files\IAR Systems\Embedded Workbench        /
-//                    5.3\avr\INC\CLIB\" --eeprom_size 4096                   /
-//    List file    =  Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\Debug\List\main.s /
-//                    90                                                      /
+//                    5.3\avr\INC\" -I "C:\Program Files\IAR                  /
+//                    Systems\Embedded Workbench 5.3\avr\INC\CLIB\"           /
+//                    --eeprom_size 4096                                      /
+//    List file    =  C:\Documents and Settings\idonno2000\πŸ≈¡               /
+//                    »≠∏È\KEYPAD335_110127_IAR\Debug\List\main.s90           /
 //                                                                            /
 //                                                                            /
 ///////////////////////////////////////////////////////////////////////////////
@@ -125,7 +130,6 @@
         PUBLIC main
         FUNCTION main,061a03H
         ARGFRAME CSTACK, 0, STACK
-        LOCFRAME CSTACK, 2, STACK
         LOCFRAME RSTACK, 3, STACK
         
         CFI Names cfiNames0
@@ -264,6 +268,9 @@ TIMER1_ISR          SYMBOL "TIMER1_ISR"
         EXTERN DisplayInit
         FUNCTION DisplayInit,0202H
         ARGFRAME RSTACK, 0, STACK
+        EXTERN SCI_RegisterRefresh
+        FUNCTION SCI_RegisterRefresh,0202H
+        ARGFRAME RSTACK, 0, STACK
         EXTERN KeyProc
         FUNCTION KeyProc,0202H
         ARGFRAME RSTACK, 0, STACK
@@ -273,13 +280,12 @@ TIMER1_ISR          SYMBOL "TIMER1_ISR"
         EXTERN SCI_Process
         FUNCTION SCI_Process,0202H
         ARGFRAME RSTACK, 0, STACK
-        EXTERN DATA_Registers
         EXTERN MenuDisplay
+        EXTERN MenuDisplay_Handler
         EXTERN RefreshFlag
-        EXTERN SCI_Registers
         EXTERN key_press_time
 
-// Z:\work\SEOHO_VD\KEYPAD335_110107_IAR\source\main.c
+// C:\Documents and Settings\idonno2000\πŸ≈¡ »≠∏È\KEYPAD335_110127_IAR\source\main.c
 //    1 //====================================================
 //    2 //
 //    3 // Copyright(C) 2008 HanYoung ELEC. Co., LTD.
@@ -1192,93 +1198,99 @@ main:
         CFI Function main
 //  266 {
         FUNCALL main, MCU_initialize
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, Delay_ms
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, CLCD_initialize
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, CLCD_string
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, CLCD_string
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, CLCD_BackLightOnOff
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, KeyInit
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, Timer_IntteruptSet
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, UART_init
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, DisplayInit
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, SCI_RegisterRefresh
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, Delay_ms
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, Delay_ms
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, Delay_ms
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, Delay_ms
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, Delay_ms
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, Delay_ms
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, KeyProc
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, MainSYSTEM
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, SCI_Process
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, SystemTimeTic
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
         FUNCALL main, SystemEventAutoClear
-        LOCFRAME CSTACK, 2, STACK
+        LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
-        ST      -Y, R25
-        CFI R25 Frame(CFA_Y, -1)
-        CFI CFA_Y Y+1
-        ST      -Y, R24
-        CFI R24 Frame(CFA_Y, -2)
-        CFI CFA_Y Y+2
         REQUIRE __RSTACK_in_external_ram_new_way
-//  267 	unsigned int i;
+//  267 	//unsigned int i;
 //  268 	MCU_initialize();                             // initialize MCU and kit
         RCALL   MCU_initialize
 //  269 
@@ -1323,128 +1335,115 @@ main:
 //  289 
 //  290 	//wait() ;
 //  291 
-//  292 	for(i=0;i<BUF_MAX;i++)
-        LDI     R24, 0
-        LDI     R25, 0
-        RJMP    ??main_0
-//  293 	{
-//  294 		//*(volatile int *)((i<<1)+DATA_REG) =0;
-//  295 		//*(volatile int *)((i<<1)+DATA_REG+1) = 0;
-//  296 		
-//  297 		//*(volatile int *)((i<<1)+TEMP_REG) = 0;
-//  298 		//*(volatile int *)((i<<1)+TEMP_REG+1) = 0;
-//  299           
-//  300             DATA_Registers[i]=0;
-??main_1:
-        LDI     R16, 0
-        LDI     R17, 0
-        MOVW    R19:R18, R25:R24
-        LSL     R18
-        ROL     R19
-        MOVW    R31:R30, R19:R18
-        SUBI    R30, LOW((-(DATA_Registers) & 0xFFFF))
-        SBCI    R31, (-(DATA_Registers) & 0xFFFF) >> 8
-        ST      Z, R16
-        STD     Z+1, R17
-//  301             SCI_Registers[i]=0;
-        LDI     R16, 0
-        LDI     R17, 0
-        MOVW    R19:R18, R25:R24
-        LSL     R18
-        ROL     R19
-        MOVW    R31:R30, R19:R18
-        SUBI    R30, LOW((-(SCI_Registers) & 0xFFFF))
-        SBCI    R31, (-(SCI_Registers) & 0xFFFF) >> 8
-        ST      Z, R16
-        STD     Z+1, R17
-//  302             
-//  303 	}
-        ADIW    R25:R24, 1
-??main_0:
-        CPI     R24, 72
-        LDI     R16, 13
-        CPC     R25, R16
-        BRCS    ??main_1
-//  304 
-//  305 	Delay_ms(500); 
+//  292 	PORTL_Bit0 = 1;
+        LDS     R16, 267
+        ORI     R16, 0x01
+        STS     267, R16
+//  293 	PORTL_Bit1 = 1;
+        LDS     R16, 267
+        ORI     R16, 0x02
+        STS     267, R16
+//  294 	PORTL_Bit2 = 1;
+        LDS     R16, 267
+        ORI     R16, 0x04
+        STS     267, R16
+//  295 	PORTL_Bit3 = 1;
+        LDS     R16, 267
+        ORI     R16, 0x08
+        STS     267, R16
+//  296 
+//  297 	SCI_RegisterRefresh();
+        CALL    SCI_RegisterRefresh
+//  298 
+//  299 	Delay_ms(500); 
         LDI     R16, 244
         LDI     R17, 1
         CALL    Delay_ms
-//  306 	Delay_ms(500); 
+//  300 	Delay_ms(500); 
         LDI     R16, 244
         LDI     R17, 1
         CALL    Delay_ms
-//  307 	Delay_ms(500); 
+//  301 	Delay_ms(500); 
         LDI     R16, 244
         LDI     R17, 1
         CALL    Delay_ms
-//  308 	Delay_ms(500);
+//  302 	Delay_ms(500);
         LDI     R16, 244
         LDI     R17, 1
         CALL    Delay_ms
-//  309 	
-//  310 	EventFlagE = 1;
+//  303 	Delay_ms(500); 
+        LDI     R16, 244
+        LDI     R17, 1
+        CALL    Delay_ms
+//  304 	Delay_ms(500);
+        LDI     R16, 244
+        LDI     R17, 1
+        CALL    Delay_ms
+//  305 	
+//  306 	EventFlagE = 1;
         LDI     R16, 1
         STS     EventFlagE, R16
-//  311 
-//  312 	 DATA_Registers[3195] = 1;
+//  307 
+//  308 	 MenuDisplay_Handler = MENU_RUN;
         LDI     R16, 1
-        LDI     R17, 0
-        STS     (DATA_Registers + 6390), R16
-        STS     (DATA_Registers + 6391), R17
-//  313 	while(1)
-//  314 	{
-//  315 		if(TimeTic_10ms)
-??main_2:
+        STS     MenuDisplay_Handler, R16
+//  309 
+//  310 	while(1)
+//  311 	{
+//  312 		if(TimeTic_10ms)
+??main_0:
         LDS     R16, TimeTic_10ms
         TST     R16
-        BREQ    ??main_3
-//  316 		{
-//  317 			KeyProc();
+        BREQ    ??main_1
+//  313 		{
+//  314 			KeyProc();
         CALL    KeyProc
-//  318 			MainSYSTEM();
+//  315 			MainSYSTEM();
         CALL    MainSYSTEM
-//  319 		}
-//  320 
-//  321 		if(TimeTic_500ms)
-??main_3:
+//  316 		}
+//  317 		
+//  318 		if(TimeTic_1s)
+??main_1:
+        LDS     R16, TimeTic_1s
+        TST     R16
+        BREQ    ??main_2
+//  319 		{
+//  320  			RefreshFlag=1;
+        LDI     R16, 1
+        STS     RefreshFlag, R16
+//  321 		}
+//  322 
+//  323 		if(TimeTic_500ms)
+??main_2:
         LDS     R16, TimeTic_500ms
         TST     R16
-        BREQ    ??main_4
-//  322 		{
-//  323 			//PORTL = PORTL ^ 0xFF;
-//  324 			PORTG_Bit3 = PORTG_Bit3^1;
+        BREQ    ??main_3
+//  324 		{
+//  325 			//PORTL = PORTL ^ 0xFF;
+//  326 			PORTG_Bit3 = PORTG_Bit3^1;
         LDI     R17, 0
         SBIC    0x14, 0x03
         INC     R17
-??main_5:
+??main_4:
         LDI     R16, 1
         EOR     R17, R16
         BST     R17, 0
         IN      R17, 0x14
         BLD     R17, 3
         OUT     0x14, R17
-//  325 		}
-//  326 
-//  327 		if(TimeTic_1s)
-??main_4:
-        LDS     R16, TimeTic_1s
-        TST     R16
-        BREQ    ??main_6
-//  328 		{
-//  329  			RefreshFlag=1;
-        LDI     R16, 1
-        STS     RefreshFlag, R16
-//  330 		}
-//  331 
-//  332 		//display
-//  333 		if(TimeTic_10ms)
-??main_6:
+//  327 		}
+//  328 		
+//  329 		//display
+//  330 		if(TimeTic_10ms)
+??main_3:
         LDS     R16, TimeTic_10ms
         TST     R16
-        BREQ    ??main_7
-//  334 		{
-//  335 			MenuDisplay();
+        BREQ    ??main_5
+//  331 		{
+//  332 			if(MenuDisplay_Handler)	MenuDisplay();
+        LDS     R16, MenuDisplay_Handler
+        TST     R16
+        BREQ    ??main_5
         LDI     R30, LOW(MenuDisplay)
         LDI     R31, (MenuDisplay) >> 8
         LD      R16, Z
@@ -1453,21 +1452,22 @@ main:
         MOVW    R31:R30, R17:R16
         OUT     0x3C, R18
         EICALL
-//  336 		}
-//  337 
-//  338 		SCI_Process();
-??main_7:
+//  333 		}
+//  334 
+//  335 		SCI_Process();
+??main_5:
         CALL    SCI_Process
-//  339 
-//  340 		SystemTimeTic();
+//  336 
+//  337 		SystemTimeTic();
         RCALL   SystemTimeTic
-//  341 		SystemEventAutoClear();
+//  338 		SystemEventAutoClear();
         RCALL   SystemEventAutoClear
-        RJMP    ??main_2
+        RJMP    ??main_0
         CFI EndBlock cfiBlock5
+        REQUIRE _A_PORTL
         REQUIRE _A_PORTG
-//  342 	}
-//  343 }
+//  339 	}
+//  340 }
 
         ASEGN ABSOLUTE:DATA:NOROOT,01fH
 __?EECR:
@@ -1538,14 +1538,14 @@ __?XMCRA:
         END
 // 
 //  29 bytes in segment ABSOLUTE
-// 966 bytes in segment FARCODE
+// 968 bytes in segment FARCODE
 //  14 bytes in segment INITTAB
 //   4 bytes in segment INTVEC
 //  35 bytes in segment NEAR_I
 //  35 bytes in segment NEAR_ID
 // 121 bytes in segment NEAR_Z
 // 
-// 1 001 bytes of CODE memory (+ 18 bytes shared)
+// 1 003 bytes of CODE memory (+ 18 bytes shared)
 //   156 bytes of DATA memory (+ 29 bytes shared)
 //
 //Errors: none

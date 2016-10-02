@@ -37,6 +37,20 @@
 #define LEVEL_4 4
 #define LEVEL_5 5
 
+#define EDIT_MODE_0 0
+#define EDIT_MODE_1 1
+
+#define CURSOR_MODE_0 0
+#define CURSOR_MODE_1 1
+#define CURSOR_MODE_2 2
+#define CURSOR_MODE_3 3
+#define CURSOR_MODE_4 4
+#define CURSOR_MODE_5 5
+#define CURSOR_MODE_6 6
+#define CURSOR_MODE_7 7
+#define CURSOR_MODE_8 8
+#define CURSOR_MODE_9 9
+
 #define MODE_0 0
 #define MODE_1 1
 #define MODE_2 2
@@ -117,6 +131,9 @@ char Edit_flag = 0;
 char text_buf[256];
 
 unsigned int eeprom_addr=0;
+unsigned char FaultDetectionHistory=0;
+
+unsigned char MenuDisplay_Handler=1;
 
 
 void(*MenuDisplay)(void);
@@ -166,10 +183,10 @@ __flash char  PAGE_DIR_1_X[3][17]={
 __flash char  PAGE_DIR_1_0_XX[14][17]={
 	" 0 Motor Speed  ",
 	" 1 Output Freq  ",
-	" 2 DC_Link Vtg  ",
+	" 2 DC_Link Volt ",
 	" 3 Motor Current",
-	" 4 Output Vtg   ",
-	" 5 Actual Trq   ",
+	" 4 Output Volt  ",
+	" 5 Actual Torq  ",
 	" 6 Torqu Current",
 	" 7 Flux Current ",
 	" 8 Input Power  ",
@@ -196,7 +213,7 @@ __flash char  PAGE_DIR_1_2_XX[9][17]={
 " 2 RUN/STOP Src ",
 " 3 Ref Method   ",
 " 4 Drive Power  ",
-" 5 Drive Voltag ",
+" 5 Drive Voltage",
 " 6 Option Card  ",
 " 7 Software Ver ",
 " 8 Software Opt ",
@@ -969,12 +986,13 @@ __flash char  PAGE_DIR_2_23_XX[12][17]={
 "P23.11 I_Offs_C2"
 };
 
-__flash char  PAGE_DIR_3_XX_3_4[5][17]={
+__flash char  PAGE_DIR_3_XX_3_4[6][17]={
 "0 Drive_Calibra ",
 "1 Motor Tuning  ",
 "2 Speed Tuning  ",
 " Processing...  ",
-" Completed...  "
+" Completed...  ",
+"Failed...       "
 };
 
 __flash char  PAGE_DIR_4_XX[10][17]={
@@ -1025,13 +1043,13 @@ __flash char  PAGE_DIR_6_XX_XX[8][20]={
 "New Password[L%d]"
 };
 
-#define RUN_STOP		0
-#define Local_Remote		10
-#define Direction			1
-#define Speed_ref		3191
-#define Freq_ref			3190
-#define Torque_ref		3192
-#define PID_ref			3193
+#define RUN_STOP		2306
+#define Local_Remote	2300
+#define Direction		2301
+#define Speed_ref		2302
+#define Freq_ref		2303
+#define Torque_ref		2304
+#define PID_ref			2305
 
 
 void SYS_ParameterDisplay(unsigned char mode)
@@ -1139,6 +1157,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 	}
 	else if(mode == 7)
 	{
+	#if 0
 		if(!Edit_flag)
 		{
 			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u Vrms",Temporary/10,Temporary%10));
@@ -1149,6 +1168,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u Vrms",edit_Temp/10,edit_Temp%10));
 			SYS_cursor_ON_Mode(MODE_6);
 		}
+	#endif
 	}
 	else if(mode == 8)
 	{
@@ -1167,12 +1187,12 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("          % 1u pole",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("     % 5u pole",Temporary));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("          % 1u pole",edit_Temp));
+			CLCD_string(0xC0,(char*)_TEXT("     % 5u pole",edit_Temp));
 			SYS_cursor_ON_Mode(MODE_1);
 		}
 	}
@@ -1276,12 +1296,12 @@ void SYS_ParameterDisplay(unsigned char mode)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("       % 3u.% 1u %   ",Temporary/10,Temporary%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u %   ",Temporary/10,Temporary%10));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("       % 3u.% 1u %   ",edit_Temp/10,edit_Temp%10));
+			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u %   ",edit_Temp/10,edit_Temp%10));
 			SYS_cursor_ON_Mode(MODE_6);
 		}
 	}
@@ -1317,6 +1337,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 	}
 	else if(mode == 19)
 	{
+	#if 0
 		if(!Edit_flag)
 		{
 			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u s   ",Temporary/10,Temporary%10));
@@ -1327,6 +1348,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u s   ",edit_Temp/10,edit_Temp%10));
 			SYS_cursor_ON_Mode(MODE_6);
 		}
+	#endif
 	}
 	else if(mode == 20)
 	{
@@ -1343,6 +1365,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 	}
 	else if(mode == 21)
 	{
+	#if 0
 		if(!Edit_flag)
 		{
 			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u s   ",Temporary/10,Temporary%10));
@@ -1353,6 +1376,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u s   ",edit_Temp/10,edit_Temp%10));
 			SYS_cursor_ON_Mode(MODE_6);
 		}
+	#endif
 	}
 	else if(mode == 22)
 	{
@@ -1514,6 +1538,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 	}
 	else if(mode == 32)
 	{
+	#if 0
 		if(!Edit_flag)
 		{
 			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u  V   ",Temporary/10,Temporary%10));
@@ -1524,6 +1549,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u  V   ",edit_Temp/10,edit_Temp%10));
 			SYS_cursor_ON_Mode(MODE_6);
 		}
+	#endif
 	}
 	else if(mode == 33)
 	{
@@ -1608,6 +1634,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 	}
 	else if(mode == 38)
 	{
+	#if 0
 		if(!Edit_flag)
 		{
 			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u s   ",Temporary/10,Temporary%10));
@@ -1618,6 +1645,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u s   ",edit_Temp/10,edit_Temp%10));
 			SYS_cursor_ON_Mode(MODE_6);
 		}
+	#endif
 	}
 	else if(mode == 39)
 	{
@@ -2322,7 +2350,7 @@ void SYS_0_2(void)
 	}
 	else
 	{
-		SYS_ParameterEdt(Speed_ref, edit_Temp, MODE_1);
+		SYS_ParameterEdt(Speed_ref, edit_Temp, CURSOR_MODE_1);
 	}
 
 	if(RefreshFlag)
@@ -2348,7 +2376,7 @@ void SYS_0_3(void)
 	}
 	else
 	{
-		SYS_ParameterEdt(Freq_ref, edit_Temp, MODE_1);
+		SYS_ParameterEdt(Freq_ref, edit_Temp, CURSOR_MODE_1);
 	}
 
 	if(RefreshFlag)
@@ -2374,7 +2402,7 @@ void SYS_0_4(void)
 	}
 	else
 	{
-		SYS_ParameterEdt(Torque_ref, edit_Temp, MODE_1);
+		SYS_ParameterEdt(Torque_ref, edit_Temp, CURSOR_MODE_1);
 	}
 
 	if(RefreshFlag)
@@ -2401,7 +2429,7 @@ void SYS_0_5(void)
 	}
 	else
 	{
-		SYS_ParameterEdt(PID_ref, edit_Temp, MODE_1);
+		SYS_ParameterEdt(PID_ref, edit_Temp, CURSOR_MODE_1);
 	}
 
 	if(RefreshFlag)
@@ -2464,10 +2492,16 @@ void SYS_1_0_00(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_0_13;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_0_01;
 
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2310);
+		RefreshFlag = 1;
+	}
+
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[0][0]));
-		CLCD_string(0xC0,(char*)_TEXT("% 11d rpm", ReadDataMem(2310)));
+		CLCD_string(0xC0,(char*)_TEXT("      % 5d rpm ", ReadDataMem(2310)));
 	}
 }
 void SYS_1_0_01(void)
@@ -2475,11 +2509,17 @@ void SYS_1_0_01(void)
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_1_0;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_0_00;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_0_02;
+
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2311);
+		RefreshFlag = 1;
+	}
 	
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[1][0]));
-		CLCD_string(0xC0,(char*)_TEXT("       % 3u.% 1u Hz  ",DATA_Registers[2311]/10,DATA_Registers[2311]%10));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u Hz  ",DATA_Registers[2311]/10,DATA_Registers[2311]%10));
 	}
 }
 void SYS_1_0_02(void)
@@ -2488,10 +2528,16 @@ void SYS_1_0_02(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_0_01;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_0_03;
 
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2312);
+		RefreshFlag = 1;
+	}
+
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[2][0]));
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u V   ",DATA_Registers[2312]/10,DATA_Registers[2312]%10));
+		CLCD_string(0xC0,(char*)_TEXT("      % 5u V   ",DATA_Registers[2312]));
 	}
 }
 void SYS_1_0_03(void)
@@ -2500,10 +2546,16 @@ void SYS_1_0_03(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_0_02;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_0_04;
 
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2313);
+		RefreshFlag = 1;
+	}
+
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[3][0]));
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Arms",DATA_Registers[2313]/10,DATA_Registers[2313]%10));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u Arms",DATA_Registers[2313]/10,DATA_Registers[2313]%10));
 	}
 }
 void SYS_1_0_04(void)
@@ -2511,11 +2563,17 @@ void SYS_1_0_04(void)
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_1_0;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_0_03;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_0_05;
+
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2314);
+		RefreshFlag = 1;
+	}
 	
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[4][0]));
-		CLCD_string(0xC0,(char*)_TEXT("        %02u.%01u Vrms",DATA_Registers[2314]/10,DATA_Registers[2314]%10));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u Vrms",DATA_Registers[2314]/10,DATA_Registers[2314]%10));
 	}
 }
 void SYS_1_0_05(void)
@@ -2524,10 +2582,17 @@ void SYS_1_0_05(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_0_04;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_0_06;
 
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2315);
+		RefreshFlag = 1;
+	}
+
+
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[5][0]));
-		CLCD_string(0xC0,(char*)_TEXT("     %03u.%0u %   ",DATA_Registers[2315]/100,DATA_Registers[2315]%100));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u %    ",DATA_Registers[2315]/10,DATA_Registers[2315]%10));
 	}
 }
 void SYS_1_0_06(void)
@@ -2536,10 +2601,16 @@ void SYS_1_0_06(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_0_05;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_0_07;	
 
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2316);
+		RefreshFlag = 1;
+	}
+
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[6][0]));
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u A   ",DATA_Registers[2316]/10,DATA_Registers[2316]%10));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u A   ",DATA_Registers[2316]/10,DATA_Registers[2316]%10));
 	}
 }
 void SYS_1_0_07(void)
@@ -2548,10 +2619,16 @@ void SYS_1_0_07(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_0_06;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_0_08;	
 
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2317);
+		RefreshFlag = 1;
+	}
+
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[7][0]));
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u A   ",DATA_Registers[2317]/10,DATA_Registers[2317]%10));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u A   ",DATA_Registers[2317]/10,DATA_Registers[2317]%10));
 	}
 }
 void SYS_1_0_08(void)
@@ -2560,10 +2637,16 @@ void SYS_1_0_08(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_0_07;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_0_09;	
 
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2318);
+		RefreshFlag = 1;
+	}
+
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[8][0]));
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u kW  ",DATA_Registers[2318]/10,DATA_Registers[2318]%10));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u kW  ",DATA_Registers[2318]/10,DATA_Registers[2318]%10));
 	}
 }
 void SYS_1_0_09(void)
@@ -2572,10 +2655,16 @@ void SYS_1_0_09(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_0_08;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_0_10;	
 
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2319);
+		RefreshFlag = 1;
+	}
+
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[9][0]));
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u kW  ",DATA_Registers[2319]/10,DATA_Registers[2319]%10));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u kW  ",DATA_Registers[2319]/10,DATA_Registers[2319]%10));
 	}
 }
 void SYS_1_0_10(void)
@@ -2584,10 +2673,16 @@ void SYS_1_0_10(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_0_09;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_0_11;	
 
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2320);
+		RefreshFlag = 1;
+	}
+
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[10][0]));
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2320]/10,DATA_Registers[2320]%10));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u %   ",DATA_Registers[2320]/10,DATA_Registers[2320]%10));
 	}
 }
 void SYS_1_0_11(void)
@@ -2596,10 +2691,16 @@ void SYS_1_0_11(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_0_10;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_0_12;		
 
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2321);
+		RefreshFlag = 1;
+	}
+
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[11][0]));
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2321]/10,DATA_Registers[2321]%10));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u %   ",DATA_Registers[2321]/10,DATA_Registers[2321]%10));
 	}
 }
 void SYS_1_0_12(void)
@@ -2608,10 +2709,16 @@ void SYS_1_0_12(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_0_11;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_0_13;	
 
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2322);
+		RefreshFlag = 1;
+	}
+
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[12][0]));
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2322]/10,DATA_Registers[2322]%10));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u %   ",DATA_Registers[2322]/10,DATA_Registers[2322]%10));
 	}
 }
 void SYS_1_0_13(void)
@@ -2620,10 +2727,16 @@ void SYS_1_0_13(void)
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_0_12;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_0_00;	
 
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2323);
+		RefreshFlag = 1;
+	}
+
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[13][0]));
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u deg ",DATA_Registers[2323]/10,DATA_Registers[2323]%10));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u deg ",DATA_Registers[2323]/10,DATA_Registers[2323]%10));
 	}
 }
 
@@ -2660,6 +2773,12 @@ void SYS_1_1_02(void)
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_1_1;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_1_01;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_1_03;	
+
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2342);
+		RefreshFlag = 1;
+	}
 	if(RefreshFlag){
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[2][0]));
 		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u V   ",DATA_Registers[2342]/10,DATA_Registers[2342]%10));
@@ -2670,6 +2789,12 @@ void SYS_1_1_03(void)
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_1_1;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_1_02;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_1_04;
+
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2343);
+		RefreshFlag = 1;
+	}
 	if(RefreshFlag){
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[3][0]));
 		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u mA  ",DATA_Registers[2343]/1000,DATA_Registers[2343]%1000));
@@ -2680,6 +2805,12 @@ void SYS_1_1_04(void)
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_1_1;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_1_03;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_1_00;
+
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2344);
+		RefreshFlag = 1;
+	}
 
 	if(RefreshFlag){
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[4][0]));
@@ -2699,7 +2830,7 @@ void SYS_1_2_00(void)
 
 	if(RefreshFlag){
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[0][0]));
-		CLCD_string(0xC0,(char*)_TEXT("  Motor % 1d  ", DATA_Registers[2350]+1 ));
+		CLCD_string(0xC0,(char*)_TEXT("  Motor % 1d       ", DATA_Registers[2350]+1 ));
 	}
 }
 void SYS_1_2_01(void)
@@ -2750,6 +2881,13 @@ void SYS_1_2_04(void)
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_1_2;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_2_03;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_2_05;
+
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2354);
+		RefreshFlag = 1;
+	}
+	
 	if(RefreshFlag){
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[4][0]));
 		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u kW  ",DATA_Registers[2354]/10,DATA_Registers[2354]%10));
@@ -2760,9 +2898,16 @@ void SYS_1_2_05(void)
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_1_2;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_1_2_04;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_2_06;
+
+	if(TimeTic_500ms)
+	{
+		SCI_RequestData(2355);
+		RefreshFlag = 1;
+	}
+	
 	if(RefreshFlag){
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[5][0]));
-		CLCD_string(0xC0,(char*)_TEXT("   % 4d V", ReadDataMem(2355)));
+		CLCD_string(0xC0,(char*)_TEXT("      % 5d V   ", ReadDataMem(2355)));
 	}
 }
 void SYS_1_2_06(void)
@@ -2772,7 +2917,7 @@ void SYS_1_2_06(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_2_07;
 	if(RefreshFlag){
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[6][0]));
-		CLCD_string(0xC0,(char*)_TEXT("% 13d  ", ReadDataMem(2356)));
+		CLCD_string(0xC0,(char*)_TEXT("      % 5d     ", ReadDataMem(2356)));
 	}
 }
 void SYS_1_2_07(void)
@@ -2782,7 +2927,7 @@ void SYS_1_2_07(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_1_2_08;
 	if(RefreshFlag){
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[7][0]));
-		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u    ",DATA_Registers[2357]/100,DATA_Registers[2357]%100));
+		CLCD_string(0xC0,(char*)_TEXT("      % 3u.% 1u     ",DATA_Registers[2357]/100,DATA_Registers[2357]%100));
 	}
 }
 void SYS_1_2_08(void)
@@ -2794,7 +2939,7 @@ void SYS_1_2_08(void)
 	if(RefreshFlag)
 	{
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[8][0]));
-		CLCD_string(0xC0,(char*)_TEXT("% 13d  ", ReadDataMem(2358)));
+		CLCD_string(0xC0,(char*)_TEXT("      % 5d     ", ReadDataMem(2358)));
 	}
 }
 
@@ -3123,11 +3268,11 @@ void SYS_2_00_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_00;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_15;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00_01;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
 	{
-		SYS_ParameterEdt(200,  edit_Temp, MODE_1);
+		SYS_ParameterEdt(200,  edit_Temp, CURSOR_MODE_1);
 	}
 
 	if(RefreshFlag)
@@ -3146,9 +3291,9 @@ void SYS_2_00_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_00;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
-	else		SYS_ParameterEdt(201,  edit_Temp, MODE_2);
+	else		SYS_ParameterEdt(201,  edit_Temp, CURSOR_MODE_2);
 
 	if(RefreshFlag)
 	{
@@ -3165,10 +3310,10 @@ void SYS_2_00_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_00;
 	 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(202,  edit_Temp, MODE_2);
+	SYS_ParameterEdt(202,  edit_Temp, CURSOR_MODE_2);
 
 	if(RefreshFlag)
 	{
@@ -3184,10 +3329,10 @@ void SYS_2_00_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_00;
 	 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(203,  edit_Temp, MODE_2);
+	SYS_ParameterEdt(203,  edit_Temp, CURSOR_MODE_2);
 
 	if(RefreshFlag)
 	{
@@ -3203,10 +3348,10 @@ void SYS_2_00_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_00;
 	 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(204,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(204,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3222,10 +3367,10 @@ void SYS_2_00_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_00;
 	 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(205,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(205,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3241,10 +3386,10 @@ void SYS_2_00_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_00;
 	 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(206,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(206,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3260,10 +3405,10 @@ void SYS_2_00_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_00;
 	 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(207,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(207,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3279,10 +3424,10 @@ void SYS_2_00_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_00;
 	 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(208,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(208,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3298,10 +3443,10 @@ void SYS_2_00_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_00;
 	 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(209,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(209,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3317,10 +3462,10 @@ void SYS_2_00_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_00;
 	 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(210,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(210,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3336,10 +3481,10 @@ void SYS_2_00_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_00;
 	 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00_12;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(211,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(211,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3355,10 +3500,10 @@ void SYS_2_00_12(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_00;
 	 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00_13;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(212,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(212,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3374,10 +3519,10 @@ void SYS_2_00_13(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_00;
 	 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_12;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00_14;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(213,  edit_Temp, MODE_2);
+	SYS_ParameterEdt(213,  edit_Temp, CURSOR_MODE_2);
 
 	if(RefreshFlag)
 	{
@@ -3393,10 +3538,10 @@ void SYS_2_00_14(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_00;
 	 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_13;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00_15;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(214,  edit_Temp, MODE_2);
+	SYS_ParameterEdt(214,  edit_Temp, CURSOR_MODE_2);
 
 	if(RefreshFlag)
 	{
@@ -3412,10 +3557,10 @@ void SYS_2_00_15(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_00;
 	 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_00_14;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_00_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(215,  edit_Temp, MODE_2);
+	SYS_ParameterEdt(215,  edit_Temp, CURSOR_MODE_2);
 
 	if(RefreshFlag)
 	{
@@ -3432,10 +3577,10 @@ void SYS_2_01_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_01;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_01_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(240,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(240,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3451,10 +3596,10 @@ void SYS_2_01_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_01;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_01_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(241,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(241,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3471,16 +3616,16 @@ void SYS_2_01_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_01;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_01_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(242,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(242,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(242);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_01_XX[2][0]));
-		SYS_ParameterDisplay(MODE_7);
+		SYS_ParameterDisplay(MODE_6);
 	}
 }
 void SYS_2_01_03(void)
@@ -3490,10 +3635,10 @@ void SYS_2_01_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_01;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_01_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(243,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(243,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3509,10 +3654,10 @@ void SYS_2_01_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_01;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_01_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(244,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(244,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3528,10 +3673,10 @@ void SYS_2_01_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_01;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_01_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(245,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(245,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3547,10 +3692,10 @@ void SYS_2_01_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_01;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_01_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(246,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(246,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3566,10 +3711,10 @@ void SYS_2_01_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_01;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_01_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(247,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(247,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3585,10 +3730,10 @@ void SYS_2_01_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_01;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_01_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(248,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(248,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3604,16 +3749,16 @@ void SYS_2_01_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_01;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_01_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_01_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(249,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(249,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(249);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_01_XX[9][0]));
-		SYS_ParameterDisplay(MODE_7);
+		SYS_ParameterDisplay(MODE_6);
 	}
 }
  
@@ -3627,10 +3772,10 @@ void SYS_2_02_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_02;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_02_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(260,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(260,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3646,10 +3791,10 @@ void SYS_2_02_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_02;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_02_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(261,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(261,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3665,16 +3810,16 @@ void SYS_2_02_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_02;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_02_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(262,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(262,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(262);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_02_XX[2][0]));
-		SYS_ParameterDisplay(MODE_7);
+		SYS_ParameterDisplay(MODE_6);
 	}
 }
 void SYS_2_02_03(void)
@@ -3684,10 +3829,10 @@ void SYS_2_02_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_02;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_02_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(263,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(263,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3703,10 +3848,10 @@ void SYS_2_02_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_02;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_02_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(264,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(264,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3722,10 +3867,10 @@ void SYS_2_02_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_02;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_02_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(265,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(265,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3741,10 +3886,10 @@ void SYS_2_02_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_02;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_02_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(266,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(266,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3760,10 +3905,10 @@ void SYS_2_02_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_02;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_02_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(267,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(267,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3779,10 +3924,10 @@ void SYS_2_02_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_02;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_02_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(268,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(268,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3798,16 +3943,16 @@ void SYS_2_02_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_02;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_02_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_02_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(269,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(269,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(269);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_02_XX[9][0]));
-		SYS_ParameterDisplay(MODE_7);
+		SYS_ParameterDisplay(MODE_6);
 	}
 }
  
@@ -3821,10 +3966,10 @@ void SYS_2_03_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_52;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(280,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(280,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3840,10 +3985,10 @@ void SYS_2_03_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_02;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(281,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(281,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3859,10 +4004,10 @@ void SYS_2_03_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(282,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(282,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3878,10 +4023,10 @@ void SYS_2_03_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(283,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(283,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3897,10 +4042,10 @@ void SYS_2_03_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(284,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(284,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3916,10 +4061,10 @@ void SYS_2_03_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(285,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(285,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3935,10 +4080,10 @@ void SYS_2_03_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(286,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(286,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3954,10 +4099,10 @@ void SYS_2_03_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(287,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(287,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3973,10 +4118,10 @@ void SYS_2_03_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(288,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(288,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -3992,10 +4137,10 @@ void SYS_2_03_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(289,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(289,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4012,10 +4157,10 @@ void SYS_2_03_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(290,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(290,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4031,10 +4176,10 @@ void SYS_2_03_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_12;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(291,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(291,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4050,10 +4195,10 @@ void SYS_2_03_12(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_13;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(292,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(292,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4069,10 +4214,10 @@ void SYS_2_03_13(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_12;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_14;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(293,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(293,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4088,10 +4233,10 @@ void SYS_2_03_14(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_13;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_15;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(294,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(294,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4107,10 +4252,10 @@ void SYS_2_03_15(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_14;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_16;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(295,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(295,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4126,10 +4271,10 @@ void SYS_2_03_16(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_15;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_17;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(296,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(296,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4145,10 +4290,10 @@ void SYS_2_03_17(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_16;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_18;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(297,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(297,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4164,10 +4309,10 @@ void SYS_2_03_18(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_17;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_19;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(298,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(298,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4183,10 +4328,10 @@ void SYS_2_03_19(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_18;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_20;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(299,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(299,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4204,10 +4349,10 @@ void SYS_2_03_20(void)
 		if(KeyState.KeyValue == ESC){MenuDisplay = SYS_2_03;}
 		else if(KeyState.KeyValue == DN){MenuDisplay = SYS_2_03_19;}
 		else if(KeyState.KeyValue == UP){MenuDisplay = SYS_2_03_21;}
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(300,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(300,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4223,10 +4368,10 @@ void SYS_2_03_21(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_20;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_22;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(301,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(301,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4242,10 +4387,10 @@ void SYS_2_03_22(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_21;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_23;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(302,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(302,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4261,10 +4406,10 @@ void SYS_2_03_23(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_22;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_24;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(303,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(303,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4280,10 +4425,10 @@ void SYS_2_03_24(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_23;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_25;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(304,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(304,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4299,10 +4444,10 @@ void SYS_2_03_25(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_24;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_26;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(305,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(305,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4318,10 +4463,10 @@ void SYS_2_03_26(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_25;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_27;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(306,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(306,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4337,10 +4482,10 @@ void SYS_2_03_27(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_26;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_28;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(307,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(307,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4356,10 +4501,10 @@ void SYS_2_03_28(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_27;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_29;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(308,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(308,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4375,10 +4520,10 @@ void SYS_2_03_29(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_28;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_30;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(309,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(309,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4396,10 +4541,10 @@ void SYS_2_03_30(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_29;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_31;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(310,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(310,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4415,10 +4560,10 @@ void SYS_2_03_31(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_30;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_32;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(311,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(311,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4434,10 +4579,10 @@ void SYS_2_03_32(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_31;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_33;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(312,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(312,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4453,10 +4598,10 @@ void SYS_2_03_33(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_32;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_34;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(313,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(313,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4472,10 +4617,10 @@ void SYS_2_03_34(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_33;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_35;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(314,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(314,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4491,10 +4636,10 @@ void SYS_2_03_35(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_34;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_36;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(315,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(315,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4510,10 +4655,10 @@ void SYS_2_03_36(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_35;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_37;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(316,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(316,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4529,10 +4674,10 @@ void SYS_2_03_37(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_36;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_38;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(317,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(317,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4548,10 +4693,10 @@ void SYS_2_03_38(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_37;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_39;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(318,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(318,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4567,10 +4712,10 @@ void SYS_2_03_39(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_38;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_40;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(319,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(319,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4586,10 +4731,10 @@ void SYS_2_03_40(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_39;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_41;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(320,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(320,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4605,10 +4750,10 @@ void SYS_2_03_41(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_40;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_42;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(321,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(321,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4624,10 +4769,10 @@ void SYS_2_03_42(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_41;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_43;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(322,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(322,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4643,10 +4788,10 @@ void SYS_2_03_43(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_42;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_44;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(323,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(323,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4662,10 +4807,10 @@ void SYS_2_03_44(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_43;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_45;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(324,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(324,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4681,16 +4826,16 @@ void SYS_2_03_45(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_44;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_46;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(325,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(325,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(325);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[45][0]));
-		SYS_ParameterDisplay(MODE_19);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_03_46(void)
@@ -4700,10 +4845,10 @@ void SYS_2_03_46(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_45;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_47;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(326,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(326,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4719,16 +4864,16 @@ void SYS_2_03_47(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_46;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_48;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(327,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(327,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(327);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[47][0]));
-		SYS_ParameterDisplay(MODE_19);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_03_48(void)
@@ -4738,10 +4883,10 @@ void SYS_2_03_48(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_47;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_49;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(328,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(328,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4757,10 +4902,10 @@ void SYS_2_03_49(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_48;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_40;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(329,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(329,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4776,10 +4921,10 @@ void SYS_2_03_50(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_49;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_51;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(330,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(330,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4795,10 +4940,10 @@ void SYS_2_03_51(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_50;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_52;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(331,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(331,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4814,10 +4959,10 @@ void SYS_2_03_52(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_03_51;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_03_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(332,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(332,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4836,10 +4981,10 @@ void SYS_2_04_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_52;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(390,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(390,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4855,10 +5000,10 @@ void SYS_2_04_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(391,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(391,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4874,10 +5019,10 @@ void SYS_2_04_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(392,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(392,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4893,10 +5038,10 @@ void SYS_2_04_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(393,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(393,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4912,10 +5057,10 @@ void SYS_2_04_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(394,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(394,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4931,10 +5076,10 @@ void SYS_2_04_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(395,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(395,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4950,10 +5095,10 @@ void SYS_2_04_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(396,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(396,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4969,10 +5114,10 @@ void SYS_2_04_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(397,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(397,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -4988,10 +5133,10 @@ void SYS_2_04_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(398,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(398,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5007,10 +5152,10 @@ void SYS_2_04_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(399, edit_Temp, MODE_1);
+	SYS_ParameterEdt(399, edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5027,10 +5172,10 @@ void SYS_2_04_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(400,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(400,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5046,10 +5191,10 @@ void SYS_2_04_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_12;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(401,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(401,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5065,10 +5210,10 @@ void SYS_2_04_12(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_13;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(402,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(402,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5084,10 +5229,10 @@ void SYS_2_04_13(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_12;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_14;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(403,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(403,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5103,10 +5248,10 @@ void SYS_2_04_14(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_13;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_15;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(404,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(404,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5122,10 +5267,10 @@ void SYS_2_04_15(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_14;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_16;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(405,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(405,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5141,10 +5286,10 @@ void SYS_2_04_16(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_15;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_17;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(406,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(406,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5160,10 +5305,10 @@ void SYS_2_04_17(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_16;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_18;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(407,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(407,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5179,10 +5324,10 @@ void SYS_2_04_18(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_17;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_19;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(408,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(408,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5198,10 +5343,10 @@ void SYS_2_04_19(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_18;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_20;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(409,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(409,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5219,10 +5364,10 @@ void SYS_2_04_20(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_19;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_21;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(410,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(410,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5238,10 +5383,10 @@ void SYS_2_04_21(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_20;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_22;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(411,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(411,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5257,10 +5402,10 @@ void SYS_2_04_22(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_21;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_23;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(412,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(412,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5276,10 +5421,10 @@ void SYS_2_04_23(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_22;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_24;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(413,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(413,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5295,10 +5440,10 @@ void SYS_2_04_24(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_23;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_25;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(414,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(414,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5314,10 +5459,10 @@ void SYS_2_04_25(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_24;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_26;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(415,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(415,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5333,10 +5478,10 @@ void SYS_2_04_26(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_25;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_27;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(416,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(416,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5352,10 +5497,10 @@ void SYS_2_04_27(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_26;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_28;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(417,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(417,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5371,10 +5516,10 @@ void SYS_2_04_28(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_27;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_29;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(418,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(418,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5390,10 +5535,10 @@ void SYS_2_04_29(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_28;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_30;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(419,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(419,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5411,10 +5556,10 @@ void SYS_2_04_30(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_29;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_31;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(420,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(420,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5430,10 +5575,10 @@ void SYS_2_04_31(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_30;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_32;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(421,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(421,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5449,10 +5594,10 @@ void SYS_2_04_32(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_31;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_33;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(422,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(422,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5468,10 +5613,10 @@ void SYS_2_04_33(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_32;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_34;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(423,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(423,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5487,10 +5632,10 @@ void SYS_2_04_34(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_33;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_35;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(424,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(424,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5506,10 +5651,10 @@ void SYS_2_04_35(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_34;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_36;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(425,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(425,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5525,10 +5670,10 @@ void SYS_2_04_36(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_35;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_37;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(426,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(426,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5544,10 +5689,10 @@ void SYS_2_04_37(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_36;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_38;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(427,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(427,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5563,10 +5708,10 @@ void SYS_2_04_38(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_37;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_39;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(428,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(428,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5582,10 +5727,10 @@ void SYS_2_04_39(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_38;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_40;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(429,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(429,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5601,10 +5746,10 @@ void SYS_2_04_40(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_39;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_41;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(430,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(430,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5620,10 +5765,10 @@ void SYS_2_04_41(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_40;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_42;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(431,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(431,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5639,10 +5784,10 @@ void SYS_2_04_42(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_41;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_43;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(432,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(432,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5658,10 +5803,10 @@ void SYS_2_04_43(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_42;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_44;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(433,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(433,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5677,10 +5822,10 @@ void SYS_2_04_44(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_43;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_45;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(434,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(434,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5696,16 +5841,16 @@ void SYS_2_04_45(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_44;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_46;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(435,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(435,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(435);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[45][0]));
-		SYS_ParameterDisplay(MODE_19);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_04_46(void)
@@ -5715,10 +5860,10 @@ void SYS_2_04_46(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_45;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_47;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(436,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(436,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5734,16 +5879,16 @@ void SYS_2_04_47(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_46;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_48;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(437,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(437,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(437);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[47][0]));
-		SYS_ParameterDisplay(MODE_19);
+		SYS_ParameterDisplay(MODE_14);
         }
 }
 void SYS_2_04_48(void)
@@ -5753,10 +5898,10 @@ void SYS_2_04_48(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_47;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_49;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(438,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(438,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5772,10 +5917,10 @@ void SYS_2_04_49(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_48;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_40;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(439,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(439,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5791,10 +5936,10 @@ void SYS_2_04_50(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_49;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_51;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(440,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(440,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5810,10 +5955,10 @@ void SYS_2_04_51(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_50;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_52;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(441,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(441,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5831,10 +5976,10 @@ void SYS_2_04_52(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_04;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_04_51;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_04_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(442,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(442,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5853,10 +5998,10 @@ void SYS_2_05_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_44;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(500,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(500,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5872,10 +6017,10 @@ void SYS_2_05_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(501,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(501,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5891,10 +6036,10 @@ void SYS_2_05_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(502,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(502,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5910,10 +6055,10 @@ void SYS_2_05_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(503,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(503,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5929,10 +6074,10 @@ void SYS_2_05_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(504,  edit_Temp, MODE_17);
+	SYS_ParameterEdt(504,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5948,10 +6093,10 @@ void SYS_2_05_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(505,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(505,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -5967,16 +6112,16 @@ void SYS_2_05_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(506,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(506,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(506);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[6][0]));
-		SYS_ParameterDisplay(MODE_21);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_05_07(void)
@@ -5986,10 +6131,10 @@ void SYS_2_05_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(507,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(507,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6005,10 +6150,10 @@ void SYS_2_05_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(508,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(508,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6024,10 +6169,10 @@ void SYS_2_05_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(509,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(509,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6044,10 +6189,10 @@ void SYS_2_05_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(510,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(510,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6063,10 +6208,10 @@ void SYS_2_05_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_12;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(511,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(511,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6082,10 +6227,10 @@ void SYS_2_05_12(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_13;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(512,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(512,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6101,10 +6246,10 @@ void SYS_2_05_13(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_12;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_14;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(513,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(513,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6120,10 +6265,10 @@ void SYS_2_05_14(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_13;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_15;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(514,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(514,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6139,10 +6284,10 @@ void SYS_2_05_15(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_14;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_16;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(515,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(515,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6158,10 +6303,10 @@ void SYS_2_05_16(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_15;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_17;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(516,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(516,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6177,10 +6322,10 @@ void SYS_2_05_17(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_16;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_18;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(517,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(517,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6196,10 +6341,10 @@ void SYS_2_05_18(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_17;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_19;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(518,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(518,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6215,10 +6360,10 @@ void SYS_2_05_19(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_18;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_20;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(519,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(519,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6236,10 +6381,10 @@ void SYS_2_05_20(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_19;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_21;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(520,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(520,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6255,10 +6400,10 @@ void SYS_2_05_21(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_20;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_22;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(521,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(521,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6274,10 +6419,10 @@ void SYS_2_05_22(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_21;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_23;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(522,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(522,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6293,10 +6438,10 @@ void SYS_2_05_23(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_22;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_24;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(523,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(523,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6312,10 +6457,10 @@ void SYS_2_05_24(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_23;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_25;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(524,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(524,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6331,10 +6476,10 @@ void SYS_2_05_25(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_24;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_26;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(525,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(525,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6350,10 +6495,10 @@ void SYS_2_05_26(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_25;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_27;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(526,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(526,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6369,10 +6514,10 @@ void SYS_2_05_27(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_26;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_28;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(527,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(527,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6388,10 +6533,10 @@ void SYS_2_05_28(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_27;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_29;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(528,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(528,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6407,10 +6552,10 @@ void SYS_2_05_29(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_28;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_30;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(529,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(529,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6428,10 +6573,10 @@ void SYS_2_05_30(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_29;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_31;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(530,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(530,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6447,16 +6592,16 @@ void SYS_2_05_31(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_30;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_32;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(531,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(531,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(531);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[31][0]));
-		SYS_ParameterDisplay(MODE_21);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_05_32(void)
@@ -6466,10 +6611,10 @@ void SYS_2_05_32(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_31;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_33;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(532,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(532,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6485,10 +6630,10 @@ void SYS_2_05_33(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_32;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_34;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(533,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(533,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6504,10 +6649,10 @@ void SYS_2_05_34(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_33;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_35;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(534,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(534,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6523,10 +6668,10 @@ void SYS_2_05_35(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_34;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_36;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(535,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(535,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6542,10 +6687,10 @@ void SYS_2_05_36(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_35;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_37;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(536,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(536,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6561,10 +6706,10 @@ void SYS_2_05_37(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_36;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_38;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(537,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(537,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6580,16 +6725,16 @@ void SYS_2_05_38(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_37;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_39;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(538,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(538,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(538);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[38][0]));
-		SYS_ParameterDisplay(MODE_21);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_05_39(void)
@@ -6599,10 +6744,10 @@ void SYS_2_05_39(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_38;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_40;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(539,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(539,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6618,10 +6763,10 @@ void SYS_2_05_40(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_39;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_41;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(540,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(540,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6637,10 +6782,10 @@ void SYS_2_05_41(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_40;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_42;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(541,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(541,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6656,10 +6801,10 @@ void SYS_2_05_42(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_41;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_43;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(542,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(542,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6675,10 +6820,10 @@ void SYS_2_05_43(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_42;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_44;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(543,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(543,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6694,10 +6839,10 @@ void SYS_2_05_44(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_05;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_05_43;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_05_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(544,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(544,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6717,10 +6862,10 @@ void SYS_2_06_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_70;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(600,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(600,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6736,10 +6881,10 @@ void SYS_2_06_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(601,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(601,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6755,10 +6900,10 @@ void SYS_2_06_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(602,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(602,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6774,10 +6919,10 @@ void SYS_2_06_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(603,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(603,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6793,10 +6938,10 @@ void SYS_2_06_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(604,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(604,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6812,10 +6957,10 @@ void SYS_2_06_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(605,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(605,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6831,16 +6976,16 @@ void SYS_2_06_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(606,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(606,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(606);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[6][0]));
-		SYS_ParameterDisplay(MODE_32);
+		SYS_ParameterDisplay(MODE_23);
 	}
 }
 void SYS_2_06_07(void)
@@ -6850,10 +6995,10 @@ void SYS_2_06_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(607,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(607,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6869,10 +7014,10 @@ void SYS_2_06_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(608,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(608,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6888,16 +7033,16 @@ void SYS_2_06_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(609,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(609,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(609);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[9][0]));
-		SYS_ParameterDisplay(MODE_32);
+		SYS_ParameterDisplay(MODE_23);
 	}
 }
  
@@ -6908,10 +7053,10 @@ void SYS_2_06_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(610,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(610,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6927,10 +7072,10 @@ void SYS_2_06_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_12;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(611,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(611,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6946,10 +7091,10 @@ void SYS_2_06_12(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_13;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(612,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(612,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6965,10 +7110,10 @@ void SYS_2_06_13(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_12;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_14;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(613,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(613,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -6984,10 +7129,10 @@ void SYS_2_06_14(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_13;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_15;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(614,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(614,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7003,10 +7148,10 @@ void SYS_2_06_15(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_14;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_16;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(615,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(615,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7022,10 +7167,10 @@ void SYS_2_06_16(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_15;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_17;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(616,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(616,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7041,10 +7186,10 @@ void SYS_2_06_17(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_16;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_18;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(617,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(617,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7060,10 +7205,10 @@ void SYS_2_06_18(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_17;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_19;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(618,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(618,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7079,10 +7224,10 @@ void SYS_2_06_19(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_18;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_20;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(619,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(619,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7100,16 +7245,16 @@ void SYS_2_06_20(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_19;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_21;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(620,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(620,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(620);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[20][0]));
-		SYS_ParameterDisplay(MODE_32);
+		SYS_ParameterDisplay(MODE_23);
 	}
 }
 void SYS_2_06_21(void)
@@ -7119,10 +7264,10 @@ void SYS_2_06_21(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_20;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_22;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(621,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(621,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7138,10 +7283,10 @@ void SYS_2_06_22(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_21;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_23;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(622,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(622,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7157,16 +7302,16 @@ void SYS_2_06_23(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_22;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_24;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(623,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(623,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(623);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[23][0]));
-		SYS_ParameterDisplay(MODE_32);
+		SYS_ParameterDisplay(MODE_23);
 	}
 }
 void SYS_2_06_24(void)
@@ -7176,10 +7321,10 @@ void SYS_2_06_24(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_23;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_25;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(624,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(624,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7195,10 +7340,10 @@ void SYS_2_06_25(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_24;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_26;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(625,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(625,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7214,10 +7359,10 @@ void SYS_2_06_26(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_25;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_27;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(626,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(626,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7233,10 +7378,10 @@ void SYS_2_06_27(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_26;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_28;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(627,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(627,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7252,10 +7397,10 @@ void SYS_2_06_28(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_27;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_29;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(628,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(628,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7271,10 +7416,10 @@ void SYS_2_06_29(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_28;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_30;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(629,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(629,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7292,10 +7437,10 @@ void SYS_2_06_30(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_29;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_31;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(630,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(630,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7311,10 +7456,10 @@ void SYS_2_06_31(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_30;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_32;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(631,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(631,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7330,10 +7475,10 @@ void SYS_2_06_32(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_31;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_33;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(632,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(632,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7349,10 +7494,10 @@ void SYS_2_06_33(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_03;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_32;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_34;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(633,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(633,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7368,16 +7513,16 @@ void SYS_2_06_34(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_33;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_35;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(634,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(634,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(634);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[34][0]));
-		SYS_ParameterDisplay(MODE_32);
+		SYS_ParameterDisplay(MODE_23);
 	}
 }
 void SYS_2_06_35(void)
@@ -7387,10 +7532,10 @@ void SYS_2_06_35(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_34;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_36;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(635,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(635,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7406,10 +7551,10 @@ void SYS_2_06_36(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_35;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_37;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(636,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(636,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7425,16 +7570,16 @@ void SYS_2_06_37(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_36;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_38;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(637,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(637,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(637);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[37][0]));
-		SYS_ParameterDisplay(MODE_32);
+		SYS_ParameterDisplay(MODE_23);
 	}
 }
 void SYS_2_06_38(void)
@@ -7444,10 +7589,10 @@ void SYS_2_06_38(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_37;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_39;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(638,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(638,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7463,10 +7608,10 @@ void SYS_2_06_39(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_38;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_40;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(639,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(639,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7482,10 +7627,10 @@ void SYS_2_06_40(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_39;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_41;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(640,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(640,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7502,10 +7647,10 @@ void SYS_2_06_41(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_40;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_42;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(641,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(641,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7521,10 +7666,10 @@ void SYS_2_06_42(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_41;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_43;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(642,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(642,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7540,10 +7685,10 @@ void SYS_2_06_43(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_42;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_44;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(643,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(643,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7559,10 +7704,10 @@ void SYS_2_06_44(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_43;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_45;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(644,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(644,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7578,10 +7723,10 @@ void SYS_2_06_45(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_44;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_46;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(645,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(645,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7597,10 +7742,10 @@ void SYS_2_06_46(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_45;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_47;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(646,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(646,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7616,10 +7761,10 @@ void SYS_2_06_47(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_46;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_48;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(647,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(647,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7635,16 +7780,16 @@ void SYS_2_06_48(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_47;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_49;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(648,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(648,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(648);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[48][0]));
-		SYS_ParameterDisplay(MODE_32);
+		SYS_ParameterDisplay(MODE_23);
 	}
 }
 void SYS_2_06_49(void)
@@ -7654,10 +7799,10 @@ void SYS_2_06_49(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_48;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_50;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(649,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(649,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7674,10 +7819,10 @@ void SYS_2_06_50(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_49;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_51;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(650,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(650,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7693,16 +7838,16 @@ void SYS_2_06_51(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_50;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_52;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(651,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(651,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(651);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[51][0]));
-		SYS_ParameterDisplay(MODE_32);
+		SYS_ParameterDisplay(MODE_23);
 	}
 }
 void SYS_2_06_52(void)
@@ -7712,10 +7857,10 @@ void SYS_2_06_52(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_51;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_53;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(652,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(652,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7731,10 +7876,10 @@ void SYS_2_06_53(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_52;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_54;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(653,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(653,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7750,10 +7895,10 @@ void SYS_2_06_54(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_53;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_55;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(654,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(654,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7769,10 +7914,10 @@ void SYS_2_06_55(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_54;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_56;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(655,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(655,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7788,10 +7933,10 @@ void SYS_2_06_56(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_55;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_57;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(656,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(656,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7807,10 +7952,10 @@ void SYS_2_06_57(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_56;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_58;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(657,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(657,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7826,10 +7971,10 @@ void SYS_2_06_58(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_57;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_59;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(658,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(658,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7845,10 +7990,10 @@ void SYS_2_06_59(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_58;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_60;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(659,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(659,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7866,10 +8011,10 @@ void SYS_2_06_60(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_59;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_61;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(660,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(660,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7885,10 +8030,10 @@ void SYS_2_06_61(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_60;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_62;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(661,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(661,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7904,16 +8049,16 @@ void SYS_2_06_62(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_61;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_63;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(662,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(662,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(662);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[62][0]));
-		SYS_ParameterDisplay(MODE_32);
+		SYS_ParameterDisplay(MODE_23);
 	}
 }
 void SYS_2_06_63(void)
@@ -7923,10 +8068,10 @@ void SYS_2_06_63(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_62;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_64;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(663,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(663,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7942,10 +8087,10 @@ void SYS_2_06_64(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_63;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_65;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(664,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(664,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7961,16 +8106,16 @@ void SYS_2_06_65(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_64;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_66;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(665,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(665,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(665);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[65][0]));
-		SYS_ParameterDisplay(MODE_32);
+		SYS_ParameterDisplay(MODE_23);
 	}
 }
 void SYS_2_06_66(void)
@@ -7980,10 +8125,10 @@ void SYS_2_06_66(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_65;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_67;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(666,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(666,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -7999,10 +8144,10 @@ void SYS_2_06_67(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_66;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_68;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(667,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(667,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8018,10 +8163,10 @@ void SYS_2_06_68(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_67;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_69;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(668,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(668,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8037,10 +8182,10 @@ void SYS_2_06_69(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_68;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_70;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(669,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(669,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8058,10 +8203,10 @@ void SYS_2_06_70(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_06;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_06_69;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_06_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(670,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(670,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8082,10 +8227,10 @@ void SYS_2_07_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_28;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(750,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(750,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8101,10 +8246,10 @@ void SYS_2_07_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(751,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(751,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8120,10 +8265,10 @@ void SYS_2_07_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(752,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(752,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8139,10 +8284,10 @@ void SYS_2_07_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(753,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(753,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8158,10 +8303,10 @@ void SYS_2_07_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(754,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(754,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8177,10 +8322,10 @@ void SYS_2_07_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(755,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(755,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8196,10 +8341,10 @@ void SYS_2_07_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(756,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(756,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8215,10 +8360,10 @@ void SYS_2_07_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(757,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(757,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8234,16 +8379,16 @@ void SYS_2_07_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(758,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(758,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(758);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[8][0]));
-		SYS_ParameterDisplay(MODE_38);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_07_09(void)
@@ -8253,10 +8398,10 @@ void SYS_2_07_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(759,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(759,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8273,10 +8418,10 @@ void SYS_2_07_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(760,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(760,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8292,10 +8437,10 @@ void SYS_2_07_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_12;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(761,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(761,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8311,10 +8456,10 @@ void SYS_2_07_12(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_13;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(762,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(762,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8330,16 +8475,16 @@ void SYS_2_07_13(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_12;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_14;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(763,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(763,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(763);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[13][0]));
-		SYS_ParameterDisplay(MODE_38);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_07_14(void)
@@ -8349,10 +8494,10 @@ void SYS_2_07_14(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_13;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_15;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(764,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(764,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8368,10 +8513,10 @@ void SYS_2_07_15(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_14;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_16;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(765,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(765,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8387,10 +8532,10 @@ void SYS_2_07_16(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_15;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_17;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(766,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(766,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8406,10 +8551,10 @@ void SYS_2_07_17(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_16;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_18;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(767,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(767,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8425,10 +8570,10 @@ void SYS_2_07_18(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_17;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_19;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(768,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(768,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8444,10 +8589,10 @@ void SYS_2_07_19(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_18;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_20;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(769,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(769,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8465,10 +8610,10 @@ void SYS_2_07_20(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_19;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_21;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(770,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(770,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8484,10 +8629,10 @@ void SYS_2_07_21(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_20;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_22;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(771,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(771,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8503,10 +8648,10 @@ void SYS_2_07_22(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_21;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_23;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(772,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(772,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8522,10 +8667,10 @@ void SYS_2_07_23(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_22;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_24;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(773,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(773,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8541,10 +8686,10 @@ void SYS_2_07_24(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_23;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_25;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(774,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(774,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8560,16 +8705,16 @@ void SYS_2_07_25(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_24;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_26;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(775,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(775,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(775);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[25][0]));
-		SYS_ParameterDisplay(MODE_21);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_07_26(void)
@@ -8579,10 +8724,10 @@ void SYS_2_07_26(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_25;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_27;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(776,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(776,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8598,10 +8743,10 @@ void SYS_2_07_27(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_26;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_28;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(777,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(777,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8617,10 +8762,10 @@ void SYS_2_07_28(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_07;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_07_27;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_07_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(778,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(778,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8638,10 +8783,10 @@ void SYS_2_08_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_19;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(810,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(810,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8657,10 +8802,10 @@ void SYS_2_08_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(811,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(811,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8676,10 +8821,10 @@ void SYS_2_08_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(812,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(812,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8695,10 +8840,10 @@ void SYS_2_08_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(813,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(813,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8714,10 +8859,10 @@ void SYS_2_08_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(814,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(814,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8733,10 +8878,10 @@ void SYS_2_08_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(815,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(815,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8752,10 +8897,10 @@ void SYS_2_08_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(816,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(816,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8771,10 +8916,10 @@ void SYS_2_08_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(817,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(817,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8790,10 +8935,10 @@ void SYS_2_08_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(818,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(818,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8809,10 +8954,10 @@ void SYS_2_08_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(819,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(819,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8829,10 +8974,10 @@ void SYS_2_08_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(820,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(820,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8848,10 +8993,10 @@ void SYS_2_08_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_12;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(821,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(821,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8867,10 +9012,10 @@ void SYS_2_08_12(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_13;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(822,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(822,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8886,10 +9031,10 @@ void SYS_2_08_13(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_12;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_14;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(823,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(823,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8905,10 +9050,10 @@ void SYS_2_08_14(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_13;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_15;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(824,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(824,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8924,16 +9069,16 @@ void SYS_2_08_15(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_14;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_16;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(825,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(825,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(825);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_08_XX[15][0]));
-		SYS_ParameterDisplay(MODE_38);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_08_16(void)
@@ -8943,16 +9088,16 @@ void SYS_2_08_16(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_15;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_17;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(826,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(826,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(826);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_08_XX[16][0]));
-		SYS_ParameterDisplay(MODE_38);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_08_17(void)
@@ -8962,10 +9107,10 @@ void SYS_2_08_17(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_16;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_18;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(827,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(827,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -8981,16 +9126,16 @@ void SYS_2_08_18(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_17;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_19;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(828,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(828,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(828);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_08_XX[18][0]));
-		SYS_ParameterDisplay(MODE_38);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_08_19(void)
@@ -9000,16 +9145,16 @@ void SYS_2_08_19(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_08;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_08_18;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_08_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(829,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(829,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(829);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_08_XX[19][0]));
-		SYS_ParameterDisplay(MODE_38);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 
@@ -9025,10 +9170,10 @@ void SYS_2_09_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_16;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(860,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(860,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9044,10 +9189,10 @@ void SYS_2_09_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(861,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(861,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9063,10 +9208,10 @@ void SYS_2_09_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(862,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(862,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9082,10 +9227,10 @@ void SYS_2_09_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(863,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(863,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9101,10 +9246,10 @@ void SYS_2_09_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(864,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(864,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9120,10 +9265,10 @@ void SYS_2_09_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(865,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(865,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9139,10 +9284,10 @@ void SYS_2_09_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(866,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(866,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9158,10 +9303,10 @@ void SYS_2_09_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(867,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(867,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9177,10 +9322,10 @@ void SYS_2_09_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(868,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(868,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9196,10 +9341,10 @@ void SYS_2_09_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(869,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(869,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9216,10 +9361,10 @@ void SYS_2_09_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(870,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(870,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9235,10 +9380,10 @@ void SYS_2_09_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_12;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(871,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(871,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9255,10 +9400,10 @@ void SYS_2_09_12(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_13;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(872,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(872,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9274,10 +9419,10 @@ void SYS_2_09_13(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_12;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_14;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(873,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(873,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9293,10 +9438,10 @@ void SYS_2_09_14(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_13;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_15;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(874,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(874,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9312,10 +9457,10 @@ void SYS_2_09_15(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_14;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_16;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(875,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(875,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9331,10 +9476,10 @@ void SYS_2_09_16(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_09;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_09_15;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_09_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(876,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(876,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9355,10 +9500,10 @@ void SYS_2_10_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_16;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(900,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(900,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9374,10 +9519,10 @@ void SYS_2_10_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(901,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(901,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9393,10 +9538,10 @@ void SYS_2_10_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(902,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(902,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9412,10 +9557,10 @@ void SYS_2_10_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(903,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(903,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9431,10 +9576,10 @@ void SYS_2_10_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(904,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(904,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9450,10 +9595,10 @@ void SYS_2_10_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(905,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(905,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9469,10 +9614,10 @@ void SYS_2_10_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(906,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(906,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9488,10 +9633,10 @@ void SYS_2_10_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(907,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(907,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9507,10 +9652,10 @@ void SYS_2_10_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(908,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(908,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9526,10 +9671,10 @@ void SYS_2_10_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(909,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(909,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9546,10 +9691,10 @@ void SYS_2_10_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(910,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(910,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9565,10 +9710,10 @@ void SYS_2_10_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_12;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(911,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(911,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9584,10 +9729,10 @@ void SYS_2_10_12(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_13;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(912,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(912,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9603,10 +9748,10 @@ void SYS_2_10_13(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_12;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_14;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(913,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(913,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9622,10 +9767,10 @@ void SYS_2_10_14(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_13;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_15;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(914,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(914,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9641,10 +9786,10 @@ void SYS_2_10_15(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_14;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_16;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(915,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(915,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9660,10 +9805,10 @@ void SYS_2_10_16(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_10;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_10_15;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_10_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(916,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(916,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9684,10 +9829,10 @@ void SYS_2_11_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_11;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_11_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_11_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(940,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(940,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9703,10 +9848,10 @@ void SYS_2_11_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_11;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_11_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_11_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(941,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(941,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9722,10 +9867,10 @@ void SYS_2_11_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_11;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_11_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_11_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(942,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(942,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9741,10 +9886,10 @@ void SYS_2_11_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_11;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_11_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_11_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(943,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(943,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9760,10 +9905,10 @@ void SYS_2_11_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_11;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_11_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_11_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(944,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(944,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9779,10 +9924,10 @@ void SYS_2_11_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_11;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_11_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_11_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(945,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(945,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9798,10 +9943,10 @@ void SYS_2_11_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_11;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_11_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_11_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(946,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(946,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9823,10 +9968,10 @@ void SYS_2_12_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_12;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_12_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_12_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(960,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(960,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9842,10 +9987,10 @@ void SYS_2_12_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_12;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_12_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_12_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(961,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(961,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9861,10 +10006,10 @@ void SYS_2_12_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_12;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_12_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_12_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(962,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(962,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9880,10 +10025,10 @@ void SYS_2_12_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_12;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_12_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_12_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(963,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(963,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9899,10 +10044,10 @@ void SYS_2_12_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_12;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_12_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_12_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(964,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(964,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9918,10 +10063,10 @@ void SYS_2_12_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_12;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_12_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_12_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(965,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(965,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9937,10 +10082,10 @@ void SYS_2_12_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_12;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_12_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_12_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(966,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(966,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9956,10 +10101,10 @@ void SYS_2_12_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_12;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_12_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_12_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(967,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(967,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -9981,10 +10126,10 @@ void SYS_2_13_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_13;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_13_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_13_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(980,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(980,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10000,10 +10145,10 @@ void SYS_2_13_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_13;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_13_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_13_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(981,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(981,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10019,10 +10164,10 @@ void SYS_2_13_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_13;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_13_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_13_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(982,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(982,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10038,16 +10183,16 @@ void SYS_2_13_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_13;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_13_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_13_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(983,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(983,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(983);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_13_XX[3][0]));
-		SYS_ParameterDisplay(MODE_38);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_13_04(void)
@@ -10057,10 +10202,10 @@ void SYS_2_13_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_13;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_13_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_13_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(984,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(984,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10076,10 +10221,10 @@ void SYS_2_13_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_13;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_13_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_13_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(985,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(985,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10095,10 +10240,10 @@ void SYS_2_13_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_13;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_13_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_13_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(986,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(986,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10114,10 +10259,10 @@ void SYS_2_13_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_13;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_13_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_13_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(987,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(987,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10133,10 +10278,10 @@ void SYS_2_13_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_13;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_13_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_13_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(988,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(988,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10152,16 +10297,16 @@ void SYS_2_13_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_13;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_13_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_13_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(989,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(989,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(989);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_13_XX[9][0]));
-		SYS_ParameterDisplay(MODE_38);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
  
@@ -10172,10 +10317,10 @@ void SYS_2_13_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_13;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_13_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_13_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(990,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(990,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10191,10 +10336,10 @@ void SYS_2_13_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_13;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_13_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_13_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(991,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(991,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10217,10 +10362,10 @@ void SYS_2_14_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_14;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_14_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_14_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1010, edit_Temp, MODE_1);
+	SYS_ParameterEdt(1010, edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10236,10 +10381,10 @@ void SYS_2_14_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_14;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_14_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_14_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1011,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1011,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10255,10 +10400,10 @@ void SYS_2_14_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_14;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_14_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_14_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1012,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1012,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10274,10 +10419,10 @@ void SYS_2_14_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_14;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_14_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_14_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1013,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1013,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10293,10 +10438,10 @@ void SYS_2_14_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_14;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_14_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_14_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1014,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1014,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10312,10 +10457,10 @@ void SYS_2_14_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_14;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_14_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_14_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1015,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1015,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10331,10 +10476,10 @@ void SYS_2_14_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_14;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_14_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_14_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1016,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1016,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10350,10 +10495,10 @@ void SYS_2_14_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_14;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_14_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_14_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1017,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1017,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10369,10 +10514,10 @@ void SYS_2_14_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_14;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_14_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_14_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1018,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1018,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10394,10 +10539,10 @@ void SYS_2_15_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_28;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1030, edit_Temp, MODE_1);
+	SYS_ParameterEdt(1030, edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10413,10 +10558,10 @@ void SYS_2_15_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1031,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1031,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10432,10 +10577,10 @@ void SYS_2_15_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1032,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1032,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10451,10 +10596,10 @@ void SYS_2_15_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_04;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1033,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1033,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10470,10 +10615,10 @@ void SYS_2_15_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1034,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1034,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10489,10 +10634,10 @@ void SYS_2_15_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1035,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1035,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10508,10 +10653,10 @@ void SYS_2_15_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_07;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1036,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1036,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10527,10 +10672,10 @@ void SYS_2_15_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1037,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1037,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10546,10 +10691,10 @@ void SYS_2_15_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1038,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1038,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10565,10 +10710,10 @@ void SYS_2_15_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1039,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1039,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10585,10 +10730,10 @@ void SYS_2_15_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1040,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1040,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10604,10 +10749,10 @@ void SYS_2_15_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_12;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1041,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1041,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10623,10 +10768,10 @@ void SYS_2_15_12(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_13;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1042,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1042,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10642,10 +10787,10 @@ void SYS_2_15_13(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_12;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_14;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1043,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1043,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10661,10 +10806,10 @@ void SYS_2_15_14(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_13;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_15;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1044,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1044,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10680,16 +10825,16 @@ void SYS_2_15_15(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_14;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_16;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1045,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1045,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(1045);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[15][0]));
-		SYS_ParameterDisplay(MODE_21);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_15_16(void)
@@ -10699,16 +10844,16 @@ void SYS_2_15_16(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_15;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_17;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1046,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1046,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(1046);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[16][0]));
-		SYS_ParameterDisplay(MODE_38);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_15_17(void)
@@ -10718,10 +10863,10 @@ void SYS_2_15_17(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_16;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_18;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1047,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1047,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10737,16 +10882,16 @@ void SYS_2_15_18(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_17;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_19;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1048,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1048,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(1048);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[18][0]));
-		SYS_ParameterDisplay(MODE_21);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_15_19(void)
@@ -10756,16 +10901,16 @@ void SYS_2_15_19(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_18;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_20;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1049,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1049,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(1049);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[19][0]));
-		SYS_ParameterDisplay(MODE_38);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
  
@@ -10777,10 +10922,10 @@ void SYS_2_15_20(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_19;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_21;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1050,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1050,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10796,10 +10941,10 @@ void SYS_2_15_21(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_20;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_22;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1051,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1051,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10815,10 +10960,10 @@ void SYS_2_15_22(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_21;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_23;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1052,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1052,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10834,10 +10979,10 @@ void SYS_2_15_23(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_22;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_24;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1053,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1053,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10853,10 +10998,10 @@ void SYS_2_15_24(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_23;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_25;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1054,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1054,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10872,10 +11017,10 @@ void SYS_2_15_25(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_24;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_26;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1055,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1055,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10891,10 +11036,10 @@ void SYS_2_15_26(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_25;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_27;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1056,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1056,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10910,10 +11055,10 @@ void SYS_2_15_27(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_26;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_28;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1057,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1057,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10929,10 +11074,10 @@ void SYS_2_15_28(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_15;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_15_27;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_15_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1058,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1058,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10954,10 +11099,10 @@ void SYS_2_16_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_28;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1090,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1090,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10973,10 +11118,10 @@ void SYS_2_16_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1091,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1091,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -10992,10 +11137,10 @@ void SYS_2_16_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1092,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1092,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11011,10 +11156,10 @@ void SYS_2_16_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1093,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1093,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11030,10 +11175,10 @@ void SYS_2_16_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1094,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1094,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11051,7 +11196,7 @@ void SYS_2_16_05(void)
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_06;
 	}
 	else
-	SYS_ParameterEdt(1095,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1095,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11067,10 +11212,10 @@ void SYS_2_16_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1096,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1096,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11086,10 +11231,10 @@ void SYS_2_16_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1097,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1097,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11105,10 +11250,10 @@ void SYS_2_16_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1098,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1098,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11124,10 +11269,10 @@ void SYS_2_16_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1099,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1099,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11144,10 +11289,10 @@ void SYS_2_16_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1100,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1100,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11163,10 +11308,10 @@ void SYS_2_16_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_12;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1101,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1101,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11182,10 +11327,10 @@ void SYS_2_16_12(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_13;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1102,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1102,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11201,10 +11346,10 @@ void SYS_2_16_13(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_12;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_14;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1103,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1103,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11220,10 +11365,10 @@ void SYS_2_16_14(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_13;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_15;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1104,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1104,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11239,16 +11384,16 @@ void SYS_2_16_15(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_14;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_16;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1105,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1105,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(1105);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[15][0]));
-		SYS_ParameterDisplay(MODE_21);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_16_16(void)
@@ -11258,16 +11403,16 @@ void SYS_2_16_16(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_15;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_17;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1106,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1106,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(1106);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[16][0]));
-		SYS_ParameterDisplay(MODE_38);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_16_17(void)
@@ -11277,10 +11422,10 @@ void SYS_2_16_17(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_16;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_18;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1107,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1107,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11296,16 +11441,16 @@ void SYS_2_16_18(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_17;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_19;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1108,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1108,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(1108);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[18][0]));
-		SYS_ParameterDisplay(MODE_21);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_16_19(void)
@@ -11315,16 +11460,16 @@ void SYS_2_16_19(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_18;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_20;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1109,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1109,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(1109);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[19][0]));
-		SYS_ParameterDisplay(MODE_38);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
  
@@ -11336,10 +11481,10 @@ void SYS_2_16_20(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_19;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_21;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1110,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1110,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11355,10 +11500,10 @@ void SYS_2_16_21(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_20;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_22;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1111,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1111,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11374,10 +11519,10 @@ void SYS_2_16_22(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_21;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_23;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1112,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1112,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11393,10 +11538,10 @@ void SYS_2_16_23(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_22;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_24;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1113,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1113,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11412,10 +11557,10 @@ void SYS_2_16_24(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_23;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_25;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1114,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1114,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11431,10 +11576,10 @@ void SYS_2_16_25(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_24;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_26;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1115,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1115,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11450,10 +11595,10 @@ void SYS_2_16_26(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_25;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_27;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1116,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1116,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11469,10 +11614,10 @@ void SYS_2_16_27(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_26;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_28;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1117,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1117,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11488,10 +11633,10 @@ void SYS_2_16_28(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_16;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_16_27;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_16_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1118,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1118,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11511,10 +11656,10 @@ void SYS_2_17_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_51;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1150,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1150,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11530,10 +11675,10 @@ void SYS_2_17_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1151,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1151,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11549,10 +11694,10 @@ void SYS_2_17_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1152,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1152,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11568,10 +11713,10 @@ void SYS_2_17_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1153,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1153,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11587,16 +11732,16 @@ void SYS_2_17_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1154,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1154,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(1154);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[4][0]));
-		SYS_ParameterDisplay(MODE_21);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_17_05(void)
@@ -11606,10 +11751,10 @@ void SYS_2_17_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1155,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1155,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11625,10 +11770,10 @@ void SYS_2_17_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1156,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1156,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11644,10 +11789,10 @@ void SYS_2_17_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1157,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1157,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11663,10 +11808,10 @@ void SYS_2_17_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1158,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1158,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11682,10 +11827,10 @@ void SYS_2_17_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1159,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1159,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11702,10 +11847,10 @@ void SYS_2_17_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_11;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1160,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1160,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11721,10 +11866,10 @@ void SYS_2_17_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_12;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1161,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1161,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11740,10 +11885,10 @@ void SYS_2_17_12(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_13;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1162,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1162,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11759,10 +11904,10 @@ void SYS_2_17_13(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_12;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_14;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1163,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1163,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11778,10 +11923,10 @@ void SYS_2_17_14(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_13;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_15;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1164,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1164,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11797,10 +11942,10 @@ void SYS_2_17_15(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_14;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_16;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1165,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1165,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11816,10 +11961,10 @@ void SYS_2_17_16(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_15;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_17;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1166,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1166,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11835,10 +11980,10 @@ void SYS_2_17_17(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_16;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_18;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1167,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1167,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11854,10 +11999,10 @@ void SYS_2_17_18(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_17;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_19;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1168,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1168,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11873,10 +12018,10 @@ void SYS_2_17_19(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_18;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_20;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1169,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1169,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11894,10 +12039,10 @@ void SYS_2_17_20(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_19;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_21;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1170,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1170,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11913,10 +12058,10 @@ void SYS_2_17_21(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_20;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_22;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1171,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1171,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11932,10 +12077,10 @@ void SYS_2_17_22(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_21;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_23;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1172,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1172,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11951,10 +12096,10 @@ void SYS_2_17_23(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_22;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_24;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1173,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1173,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11970,10 +12115,10 @@ void SYS_2_17_24(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_23;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_25;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1174,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1174,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -11989,10 +12134,10 @@ void SYS_2_17_25(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_24;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_26;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1175,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1175,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12008,10 +12153,10 @@ void SYS_2_17_26(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_25;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_27;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1176,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1176,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12027,10 +12172,10 @@ void SYS_2_17_27(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_26;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_28;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1177,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1177,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12046,10 +12191,10 @@ void SYS_2_17_28(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_27;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_29;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1178,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1178,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12065,10 +12210,10 @@ void SYS_2_17_29(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_28;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_30;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1179,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1179,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12086,10 +12231,10 @@ void SYS_2_17_30(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_29;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_31;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1180,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1180,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12105,10 +12250,10 @@ void SYS_2_17_31(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_30;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_32;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1181,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1181,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12124,10 +12269,10 @@ void SYS_2_17_32(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_31;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_33;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1182,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1182,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12143,10 +12288,10 @@ void SYS_2_17_33(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_32;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_34;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1183,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1183,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12162,10 +12307,10 @@ void SYS_2_17_34(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_33;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_35;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1184,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1184,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12181,10 +12326,10 @@ void SYS_2_17_35(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_34;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_36;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1185,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1185,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12200,10 +12345,10 @@ void SYS_2_17_36(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_35;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_37;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1186,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1186,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12219,10 +12364,10 @@ void SYS_2_17_37(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_36;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_38;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1187,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1187,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12238,10 +12383,10 @@ void SYS_2_17_38(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_37;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_39;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1188,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1188,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12257,10 +12402,10 @@ void SYS_2_17_39(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_38;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_40;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1189,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1189,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12276,10 +12421,10 @@ void SYS_2_17_40(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_39;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_41;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1190,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1190,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12295,10 +12440,10 @@ void SYS_2_17_41(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_40;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_42;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1191,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1191,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12314,10 +12459,10 @@ void SYS_2_17_42(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_41;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_43;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1192,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1192,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12333,10 +12478,10 @@ void SYS_2_17_43(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_42;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_44;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1193,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1193,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12352,10 +12497,10 @@ void SYS_2_17_44(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_43;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_45;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1194,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1194,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12371,10 +12516,10 @@ void SYS_2_17_45(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_44;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_46;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1195,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1195,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12390,10 +12535,10 @@ void SYS_2_17_46(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_45;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_47;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1196,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1196,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12409,10 +12554,10 @@ void SYS_2_17_47(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_46;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_48;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1197,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1197,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12428,10 +12573,10 @@ void SYS_2_17_48(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_47;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_49;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1198,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1198,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12447,10 +12592,10 @@ void SYS_2_17_49(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_48;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_40;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1199,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1199,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12466,10 +12611,10 @@ void SYS_2_17_50(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_49;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_51;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1200,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1200,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12485,10 +12630,10 @@ void SYS_2_17_51(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_17;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_17_50;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_17_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1201,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1201,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12506,10 +12651,10 @@ void SYS_2_18_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_49;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1260,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1260,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12525,10 +12670,10 @@ void SYS_2_18_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1261,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1261,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12544,10 +12689,10 @@ void SYS_2_18_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1262,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1262,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12563,10 +12708,10 @@ void SYS_2_18_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1263,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1263,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12582,10 +12727,10 @@ void SYS_2_18_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1264,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1264,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12601,10 +12746,10 @@ void SYS_2_18_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1265,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1265,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12620,10 +12765,10 @@ void SYS_2_18_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1266,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1266,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12639,10 +12784,10 @@ void SYS_2_18_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1267,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1267,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12658,10 +12803,10 @@ void SYS_2_18_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1268,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1268,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12677,10 +12822,10 @@ void SYS_2_18_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1269,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1269,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12697,10 +12842,10 @@ void SYS_2_18_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1270,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1270,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12716,10 +12861,10 @@ void SYS_2_18_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_12;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1271,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1271,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12735,10 +12880,10 @@ void SYS_2_18_12(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_13;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1272,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1272,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12754,10 +12899,10 @@ void SYS_2_18_13(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_12;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_14;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1273,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1273,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12773,10 +12918,10 @@ void SYS_2_18_14(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_13;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_15;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1274,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1274,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12792,10 +12937,10 @@ void SYS_2_18_15(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_14;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_16;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1275,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1275,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12811,10 +12956,10 @@ void SYS_2_18_16(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_15;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_17;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1276,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1276,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12830,10 +12975,10 @@ void SYS_2_18_17(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_16;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_18;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1277,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1277,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12849,10 +12994,10 @@ void SYS_2_18_18(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_17;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_19;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1278,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1278,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12868,10 +13013,10 @@ void SYS_2_18_19(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_18;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_20;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1279,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1279,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12889,10 +13034,10 @@ void SYS_2_18_20(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_19;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_21;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1280,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1280,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12908,10 +13053,10 @@ void SYS_2_18_21(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_20;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_22;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1281,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1281,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12927,10 +13072,10 @@ void SYS_2_18_22(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_21;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_23;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1282,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1282,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12946,10 +13091,10 @@ void SYS_2_18_23(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_22;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_24;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1283,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1283,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12965,10 +13110,10 @@ void SYS_2_18_24(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_23;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_25;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1284,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1284,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -12984,10 +13129,10 @@ void SYS_2_18_25(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_24;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_26;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1285,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1285,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13003,10 +13148,10 @@ void SYS_2_18_26(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_25;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_27;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1286,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1286,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13022,10 +13167,10 @@ void SYS_2_18_27(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_26;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_28;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1287,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1287,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13041,10 +13186,10 @@ void SYS_2_18_28(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_27;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_29;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1288,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1288,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13060,10 +13205,10 @@ void SYS_2_18_29(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_28;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_30;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1289,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1289,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13081,10 +13226,10 @@ void SYS_2_18_30(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_29;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_31;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1290,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1290,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13100,10 +13245,10 @@ void SYS_2_18_31(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_30;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_32;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1291,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1291,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13119,10 +13264,10 @@ void SYS_2_18_32(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_31;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_33;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1292,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1292,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13138,10 +13283,10 @@ void SYS_2_18_33(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_32;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_34;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1293,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1293,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13157,10 +13302,10 @@ void SYS_2_18_34(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_33;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_35;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1294,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1294,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13176,10 +13321,10 @@ void SYS_2_18_35(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_34;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_36;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1295,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1295,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13195,10 +13340,10 @@ void SYS_2_18_36(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_35;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_37;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1296,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1296,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13214,10 +13359,10 @@ void SYS_2_18_37(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_36;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_38;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1297,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1297,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13233,10 +13378,10 @@ void SYS_2_18_38(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_37;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_39;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1298,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1298,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13252,10 +13397,10 @@ void SYS_2_18_39(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_38;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_40;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1299,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1299,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13271,10 +13416,10 @@ void SYS_2_18_40(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_39;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_41;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1300,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1300,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13290,10 +13435,10 @@ void SYS_2_18_41(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_40;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_42;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1301,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1301,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13309,10 +13454,10 @@ void SYS_2_18_42(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_41;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_43;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1302,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1302,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13328,10 +13473,10 @@ void SYS_2_18_43(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_42;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_44;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1303,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1303,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13347,10 +13492,10 @@ void SYS_2_18_44(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_43;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_45;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1304,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1304,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13366,10 +13511,10 @@ void SYS_2_18_45(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_44;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_46;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1305,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1305,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13385,10 +13530,10 @@ void SYS_2_18_46(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_45;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_47;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1306,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1306,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13404,10 +13549,10 @@ void SYS_2_18_47(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_46;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_48;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1307,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1307,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13423,10 +13568,10 @@ void SYS_2_18_48(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_47;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_49;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1308,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1308,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13442,10 +13587,10 @@ void SYS_2_18_49(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_18;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_18_48;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_18_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1309,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1309,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13466,10 +13611,10 @@ void SYS_2_19_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1370,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1370,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13485,10 +13630,10 @@ void SYS_2_19_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1371,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1371,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13504,10 +13649,10 @@ void SYS_2_19_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1372,  edit_Temp, MODE_51);
+	SYS_ParameterEdt(1372,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13523,10 +13668,10 @@ void SYS_2_19_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1373,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1373,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13542,10 +13687,10 @@ void SYS_2_19_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1374,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1374,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13561,10 +13706,10 @@ void SYS_2_19_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_06;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1375,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1375,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13580,10 +13725,10 @@ void SYS_2_19_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1376,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1376,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13599,10 +13744,10 @@ void SYS_2_19_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1377,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1377,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13618,10 +13763,10 @@ void SYS_2_19_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1378,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1378,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13637,10 +13782,10 @@ void SYS_2_19_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1379,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1379,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13657,10 +13802,10 @@ void SYS_2_19_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1380,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1380,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13676,10 +13821,10 @@ void SYS_2_19_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_12;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1381,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1381,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13695,10 +13840,10 @@ void SYS_2_19_12(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_13;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1382,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1382,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13714,10 +13859,10 @@ void SYS_2_19_13(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_12;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_14;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1383,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1383,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13733,10 +13878,10 @@ void SYS_2_19_14(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_13;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_15;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1384,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1384,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13752,10 +13897,10 @@ void SYS_2_19_15(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_14;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_16;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1385,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1385,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13771,10 +13916,10 @@ void SYS_2_19_16(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_15;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_17;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1386,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1386,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13790,10 +13935,10 @@ void SYS_2_19_17(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_16;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_18;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1387,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1387,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13809,10 +13954,10 @@ void SYS_2_19_18(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_17;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_19;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1388,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1388,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13828,10 +13973,10 @@ void SYS_2_19_19(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_18;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_20;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1389,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1389,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13849,10 +13994,10 @@ void SYS_2_19_20(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_19;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_21;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1390,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1390,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13868,10 +14013,10 @@ void SYS_2_19_21(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_20;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_22;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1391,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1391,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13887,10 +14032,10 @@ void SYS_2_19_22(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_21;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_23;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1392,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1392,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13906,10 +14051,10 @@ void SYS_2_19_23(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_22;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_24;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1393,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1393,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13925,10 +14070,10 @@ void SYS_2_19_24(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_23;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_25;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1394,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1394,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13944,10 +14089,10 @@ void SYS_2_19_25(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_24;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_26;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1395,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1395,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13963,10 +14108,10 @@ void SYS_2_19_26(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_25;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_27;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1396,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1396,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -13982,10 +14127,10 @@ void SYS_2_19_27(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_26;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_28;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1397,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1397,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14001,10 +14146,10 @@ void SYS_2_19_28(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_27;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_29;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1398,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1398,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14020,10 +14165,10 @@ void SYS_2_19_29(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_28;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_30;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1399,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1399,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14041,10 +14186,10 @@ void SYS_2_19_30(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_29;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_31;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1400,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1400,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14060,10 +14205,10 @@ void SYS_2_19_31(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_30;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_32;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1401,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1401,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14079,10 +14224,10 @@ void SYS_2_19_32(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_31;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_33;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1402,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1402,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14098,10 +14243,10 @@ void SYS_2_19_33(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_32;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_34;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1403,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1403,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14117,10 +14262,10 @@ void SYS_2_19_34(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_33;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_35;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1404,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1404,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14136,10 +14281,10 @@ void SYS_2_19_35(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_34;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_36;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1405,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1405,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14155,10 +14300,10 @@ void SYS_2_19_36(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_35;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_37;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1406,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1406,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14174,10 +14319,10 @@ void SYS_2_19_37(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_36;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_38;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1407,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1407,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14193,10 +14338,10 @@ void SYS_2_19_38(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_37;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_39;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1408,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1408,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14212,10 +14357,10 @@ void SYS_2_19_39(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_38;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_40;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1409,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1409,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14231,10 +14376,10 @@ void SYS_2_19_40(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_39;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_41;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1410,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1410,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14250,10 +14395,10 @@ void SYS_2_19_41(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_19;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_19_40;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_19_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1411,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1411,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14272,10 +14417,10 @@ void SYS_2_20_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_41;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1460,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1460,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14291,10 +14436,10 @@ void SYS_2_20_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1461,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1461,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14310,10 +14455,10 @@ void SYS_2_20_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1462,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1462,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14329,10 +14474,10 @@ void SYS_2_20_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1463,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1463,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14348,10 +14493,10 @@ void SYS_2_20_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1464,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1464,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14367,10 +14512,10 @@ void SYS_2_20_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1465,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1465,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14386,10 +14531,10 @@ void SYS_2_20_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1466,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1466,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14405,10 +14550,10 @@ void SYS_2_20_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1467,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1467,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14424,10 +14569,10 @@ void SYS_2_20_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1468,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1468,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14443,10 +14588,10 @@ void SYS_2_20_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1469,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1469,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14463,10 +14608,10 @@ void SYS_2_20_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1470,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1470,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14482,10 +14627,10 @@ void SYS_2_20_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_12;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1471,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1471,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14501,10 +14646,10 @@ void SYS_2_20_12(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_13;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1472,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1472,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14520,10 +14665,10 @@ void SYS_2_20_13(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_12;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_14;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1473,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1473,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14539,10 +14684,10 @@ void SYS_2_20_14(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_13;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_15;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1474,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1474,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14558,10 +14703,10 @@ void SYS_2_20_15(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_14;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_16;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1475,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1475,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14577,10 +14722,10 @@ void SYS_2_20_16(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_15;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_17;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1476,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1476,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14596,10 +14741,10 @@ void SYS_2_20_17(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_16;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_18;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1477,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1477,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14615,10 +14760,10 @@ void SYS_2_20_18(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_17;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_19;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1478,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1478,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14634,10 +14779,10 @@ void SYS_2_20_19(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_18;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_20;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1479,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1479,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14655,10 +14800,10 @@ void SYS_2_20_20(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_19;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_21;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1480,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1480,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14674,10 +14819,10 @@ void SYS_2_20_21(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_20;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_22;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1481,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1481,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14693,10 +14838,10 @@ void SYS_2_20_22(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_21;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_23;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1482,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1482,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14712,10 +14857,10 @@ void SYS_2_20_23(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_22;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_24;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1483,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1483,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14731,10 +14876,10 @@ void SYS_2_20_24(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_23;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_25;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1484,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1484,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14750,10 +14895,10 @@ void SYS_2_20_25(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_24;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_26;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1485,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1485,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14769,10 +14914,10 @@ void SYS_2_20_26(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_25;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_27;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1486,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1486,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14788,10 +14933,10 @@ void SYS_2_20_27(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_26;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_28;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1487,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1487,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14807,10 +14952,10 @@ void SYS_2_20_28(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_27;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_29;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1488,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1488,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14826,10 +14971,10 @@ void SYS_2_20_29(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_28;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_30;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1489,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1489,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14847,11 +14992,11 @@ void SYS_2_20_30(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_29;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_31;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 
 	}
 	else
-	SYS_ParameterEdt(1490,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1490,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14867,10 +15012,10 @@ void SYS_2_20_31(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_30;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_32;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1491,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1491,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14886,10 +15031,10 @@ void SYS_2_20_32(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_31;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_33;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1492,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1492,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14905,10 +15050,10 @@ void SYS_2_20_33(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_32;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_34;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1493,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1493,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14924,10 +15069,10 @@ void SYS_2_20_34(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_33;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_35;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1494,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1494,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14943,10 +15088,10 @@ void SYS_2_20_35(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_34;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_36;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1495,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1495,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14962,10 +15107,10 @@ void SYS_2_20_36(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_35;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_37;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1496,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1496,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -14981,10 +15126,10 @@ void SYS_2_20_37(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_36;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_38;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1497,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1497,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15000,10 +15145,10 @@ void SYS_2_20_38(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_37;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_39;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1498,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1498,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15019,10 +15164,10 @@ void SYS_2_20_39(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_38;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_40;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1499,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1499,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15038,10 +15183,10 @@ void SYS_2_20_40(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_39;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_41;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1500,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1500,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15057,10 +15202,10 @@ void SYS_2_20_41(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_20;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_20_40;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_20_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1501,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1501,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15080,10 +15225,10 @@ void SYS_2_21_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_21;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_21_15;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_21_01;
- 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+ 		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1550,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1550,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15099,10 +15244,10 @@ void SYS_2_21_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_21;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_21_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_21_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1551,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1551,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15118,10 +15263,10 @@ void SYS_2_21_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_21;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_21_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_21_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1552,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1552,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15137,10 +15282,10 @@ void SYS_2_21_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_21;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_21_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_21_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1553,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1553,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15156,10 +15301,10 @@ void SYS_2_21_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_21;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_21_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_21_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1554,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1554,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15175,10 +15320,10 @@ void SYS_2_21_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_21;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_21_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_21_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1555,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1555,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15194,10 +15339,10 @@ void SYS_2_21_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_21;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_21_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_21_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1556,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1556,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15213,10 +15358,10 @@ void SYS_2_21_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_21;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_21_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_21_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1557,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1557,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15232,10 +15377,10 @@ void SYS_2_21_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_21;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_21_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_21_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1558,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1558,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15251,10 +15396,10 @@ void SYS_2_21_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_21;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_21_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_21_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1559,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1559,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15271,10 +15416,10 @@ void SYS_2_21_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_21;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_21_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_21_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1560,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1560,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15290,10 +15435,10 @@ void SYS_2_21_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_21;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_21_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_21_12;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1561,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1561,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15309,10 +15454,10 @@ void SYS_2_21_12(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_21;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_21_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_21_13;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1562,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1562,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15328,10 +15473,10 @@ void SYS_2_21_13(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_21;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_21_12;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_21_14;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1563,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1563,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15347,10 +15492,10 @@ void SYS_2_21_14(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_21;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_21_13;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_21_15;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1564,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1564,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15366,10 +15511,10 @@ void SYS_2_21_15(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_21;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_21_14;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_21_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1565,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1565,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15394,10 +15539,10 @@ void SYS_2_22_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_22;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_22_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_22_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1570,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1570,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15413,10 +15558,10 @@ void SYS_2_22_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_22;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_22_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_22_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1571,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1571,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15432,10 +15577,10 @@ void SYS_2_22_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_22;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_22_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_22_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1572,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1572,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15451,10 +15596,10 @@ void SYS_2_22_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_22;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_22_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_22_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1573,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1573,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15470,10 +15615,10 @@ void SYS_2_22_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_22;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_22_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_22_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1574,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1574,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15489,10 +15634,10 @@ void SYS_2_22_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_22;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_22_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_22_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1575,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1575,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15508,16 +15653,16 @@ void SYS_2_22_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_22;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_22_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_22_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1576,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1576,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
 		Temporary = ReadDataMem(1576);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[6][0]));
-		SYS_ParameterDisplay(MODE_38);
+		SYS_ParameterDisplay(MODE_14);
 	}
 }
 void SYS_2_22_07(void)
@@ -15527,10 +15672,10 @@ void SYS_2_22_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_22;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_22_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_22_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1577,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1577,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15546,10 +15691,10 @@ void SYS_2_22_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_22;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_22_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_22_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1578,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1578,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15573,10 +15718,10 @@ void SYS_2_23_00(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_23;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_23_11;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_23_01;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1590,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1590,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15592,10 +15737,10 @@ void SYS_2_23_01(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_23;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_23_00;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_23_02;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1591,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1591,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15611,10 +15756,10 @@ void SYS_2_23_02(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_23;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_23_01;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_23_03;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1592,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1592,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15630,10 +15775,10 @@ void SYS_2_23_03(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_23;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_23_02;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_23_04;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1593,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1593,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15649,10 +15794,10 @@ void SYS_2_23_04(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_23;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_23_03;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_23_05;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1594,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1594,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15668,10 +15813,10 @@ void SYS_2_23_05(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_23;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_23_04;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_23_06;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1595,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1595,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15687,10 +15832,10 @@ void SYS_2_23_06(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_23;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_23_05;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_23_07;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1596,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1596,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15706,10 +15851,10 @@ void SYS_2_23_07(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_23;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_23_06;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_23_08;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1597,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1597,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15725,10 +15870,10 @@ void SYS_2_23_08(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_23;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_23_07;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_23_09;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1598,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1598,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15744,10 +15889,10 @@ void SYS_2_23_09(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_23;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_23_08;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_23_10;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1599,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1599,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15764,10 +15909,10 @@ void SYS_2_23_10(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_23;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_23_09;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_23_11;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1600,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1600,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15783,10 +15928,10 @@ void SYS_2_23_11(void)
 		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_2_23;
 		else if(KeyState.KeyValue == DN)MenuDisplay = SYS_2_23_10;
 		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_2_23_00;
-		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(MODE_0, LEVEL_0);
+		else if(KeyState.KeyValue == ENTER)SYS_AccessLevel_Mode(LEVEL_0, LEVEL_0);
 	}
 	else
-	SYS_ParameterEdt(1601,  edit_Temp, MODE_1);
+	SYS_ParameterEdt(1601,  edit_Temp, CURSOR_MODE_1);
 
 	if(RefreshFlag)
 	{
@@ -15799,52 +15944,108 @@ void SYS_2_23_11(void)
 
 void SYS_3_00(void)
 {
-	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_3;
-	else if(KeyState.KeyValue == DN)MenuDisplay =SYS_3_02;
-	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_3_01;
-	else if(KeyState.KeyValue == ENTER)
+	if(!Edit_flag)
 	{
-		MenuDisplay = SYS_3_00_3;
-		WriteDataMem(2370,1);
-		EventFlagB=1;
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_3;
+		else if(KeyState.KeyValue == DN)MenuDisplay =SYS_3_02;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_3_01;
+		else if(KeyState.KeyValue == ENTER)
+		{	Edit_flag = 1;RefreshFlag=1;}
+
+		if(RefreshFlag){
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[4][0]));
+		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[0][0]));
+		}
 	}
-	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[4][0]));
-	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[0][0]));
+	else
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_3;
+		else if(KeyState.KeyValue == ENTER)
+		{
+			MenuDisplay = SYS_3_00_3;
+			Edit_flag=0;
+			WriteDataMem(2370,1);
+			EventFlagB=1;
+		}
+
+		if(RefreshFlag){
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[0][0]));
+		CLCD_string(0xC0,"   ENTER / ESC  ");
+		}
+		
 	}
+
 }
 void SYS_3_01(void)
 {
-	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_3;
-	else if(KeyState.KeyValue == DN)MenuDisplay =SYS_3_00;
-	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_3_02;
-	else if(KeyState.KeyValue == ENTER)
+	if(!Edit_flag)
 	{
-		MenuDisplay = SYS_3_01_3;
-		WriteDataMem(2371,1);
-		EventFlagB=1;
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_3;
+		else if(KeyState.KeyValue == DN)MenuDisplay =SYS_3_00;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_3_02;
+		else if(KeyState.KeyValue == ENTER)
+		{	Edit_flag = 1;RefreshFlag=1;}
+
+		if(RefreshFlag){
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[4][0]));
+		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[1][0]));
+		}
 	}
-	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[4][0]));
-	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[1][0]));
+	else
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_3;
+		else if(KeyState.KeyValue == ENTER)
+		{
+			MenuDisplay = SYS_3_01_3;
+			Edit_flag=0;
+			WriteDataMem(2371,1);
+			EventFlagB=1;
+		}
+
+		if(RefreshFlag){
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[1][0]));
+		CLCD_string(0xC0,"	 ENTER / ESC  ");
+		}
+		
 	}
+
 }
+
 void SYS_3_02(void)
 {
-	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_3;
-	else if(KeyState.KeyValue == DN)MenuDisplay =SYS_3_01;
-	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_3_00;
-	else if(KeyState.KeyValue == ENTER)
+	if(!Edit_flag)
 	{
-		MenuDisplay = SYS_3_02_3;
-		WriteDataMem(2372,1);
-		EventFlagB=1;
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_3;
+		else if(KeyState.KeyValue == DN)MenuDisplay =SYS_3_01;
+		else if(KeyState.KeyValue == UP)MenuDisplay = SYS_3_00;
+		else if(KeyState.KeyValue == ENTER)
+		{	Edit_flag = 1;RefreshFlag=1;}
+
+		if(RefreshFlag){
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[4][0]));
+		CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[2][0]));
+		}
 	}
-	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[4][0]));
-	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[2][0]));
+	else
+	{
+		if(KeyState.KeyValue == ESC)MenuDisplay = SYS_3;
+		else if(KeyState.KeyValue == ENTER)
+		{
+			MenuDisplay = SYS_3_02_3;
+			Edit_flag=0;
+			WriteDataMem(2372,1);
+			EventFlagB=1;
+		}
+
+		if(RefreshFlag){
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[2][0]));
+		CLCD_string(0xC0,"	 ENTER / ESC  ");
+		}
+		
 	}
+
 }
+
 
 
 
@@ -15891,25 +16092,50 @@ void SYS_3_02_3(void)
 void SYS_3_00_3_4(void)
 {
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_3_00;
-	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[0][0]));
-	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[4][0]));
+	if(RefreshFlag)
+	{
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[0][0]));
+		
+		if(DATA_Registers[2370])
+		{
+			CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[4][0]));
+		}
+		else
+		{
+			CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[5][0]));
+		}
 	}
 }
 void SYS_3_01_3_4(void)
 {
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_3_01;
-	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[1][0]));
-	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[4][0]));
+	if(RefreshFlag)
+	{
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[1][0]));
+		if(DATA_Registers[2371])
+		{
+			CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[4][0]));
+		}
+		else
+		{
+			CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[5][0]));
+		}
 	}
 }
 void SYS_3_02_3_4(void)
 {
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_3_02;
-	if(RefreshFlag){
-	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[2][0]));
-	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[4][0]));
+	if(RefreshFlag)
+	{
+		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[2][0]));
+		if(DATA_Registers[2372])
+		{
+			CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[4][0]));
+		}
+		else
+		{
+			CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_3_XX_3_4[5][0]));
+		}
 	}
 }
 
@@ -15919,17 +16145,21 @@ void SYS_4_00(void)
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_4;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_08;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_01;
+	else if(KeyState.KeyValue == ENTER)MenuDisplay = SYS_4_00_00;
  
 	if(RefreshFlag){
 	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[0][0]));
 	} 
 }
+
 void SYS_4_01(void)
 {
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_4;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_00;
-	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_02;	
+	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_02;
+	else if(KeyState.KeyValue == ENTER)MenuDisplay = SYS_4_01_00;
+	
 	if(RefreshFlag){
 	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[1][0]));
@@ -15940,6 +16170,8 @@ void SYS_4_02(void)
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_4;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_01;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_03;	
+	else if(KeyState.KeyValue == ENTER)MenuDisplay = SYS_4_02_00;
+	
 	if(RefreshFlag){
 	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[2][0]));
@@ -15950,6 +16182,8 @@ void SYS_4_03(void)
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_4;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_02;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_04;	
+	else if(KeyState.KeyValue == ENTER)MenuDisplay = SYS_4_03_00;
+	
 	if(RefreshFlag){
 	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[3][0]));
@@ -15960,6 +16194,7 @@ void SYS_4_04(void)
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_4;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_03;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_05;	
+	else if(KeyState.KeyValue == ENTER)MenuDisplay = SYS_4_04_00;
 	if(RefreshFlag){
 	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[4][0]));
@@ -15970,6 +16205,7 @@ void SYS_4_05(void)
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_4;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_04;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_06;	
+	else if(KeyState.KeyValue == ENTER)MenuDisplay = SYS_4_05_00;
 	if(RefreshFlag){
 	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[5][0]));
@@ -15980,6 +16216,7 @@ void SYS_4_06(void)
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_4;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_05;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_07;	
+	else if(KeyState.KeyValue == ENTER)MenuDisplay = SYS_4_06_00;
 	if(RefreshFlag){
 	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[6][0]));
@@ -15989,7 +16226,9 @@ void SYS_4_07(void)
 {
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_4;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_06;
-	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_08;	
+	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_08;
+	else if(KeyState.KeyValue == ENTER)MenuDisplay = SYS_4_07_00;
+	
 	if(RefreshFlag){
 	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
 	CLCD_string(0xC0,(char*)_cpy_flash2memory(&PAGE_DIR_4_XX[7][0]));
@@ -16000,6 +16239,7 @@ void SYS_4_08(void)
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_4;
 	else if(KeyState.KeyValue == DN)MenuDisplay = SYS_4_07;
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_00;	
+	else if(KeyState.KeyValue == ENTER)MenuDisplay = SYS_4_08_00;
  
 	if(RefreshFlag){
 	CLCD_string(0x80,(char*)_TEXT("Total Fault = %d",DATA_Registers[2379]));
@@ -16016,9 +16256,29 @@ void SYS_4_00_00(void)
  
 	if(RefreshFlag) {
 		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[0][0]), 1))) ;
-		CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2380]));
+		switch(DATA_Registers[2380])
+		{
+			case 1: 	CLCD_string(0xC0,"F1 Over_Load    ");
+			case 2: 	CLCD_string(0xC0,"F2 Device_chort ");
+			case 3: 	CLCD_string(0xC0,"F3 Over_Current ");
+			case 4: 	CLCD_string(0xC0,"F4 Over_Voltage ");
+			case 5: 	CLCD_string(0xC0,"F5 Under_Voltage");
+			case 6: 	CLCD_string(0xC0,"F6 Over_Speed   ");
+			case 7: 	CLCD_string(0xC0,"F7 Over_Temp    ");
+			case 8: 	CLCD_string(0xC0,"F8 DB_Fault     ");
+			case 9: 	CLCD_string(0xC0,"F9 Driver_Fault ");
+			case 10: 	CLCD_string(0xC0,"F10 Ext_Fault   ");
+			case 11: 	CLCD_string(0xC0,"F11 HW_Fault    ");
+			case 12: 	CLCD_string(0xC0,"F12 Over_Curr_A ");
+			case 13: 	CLCD_string(0xC0,"F13 Over_Curr_B ");
+			case 14: 	CLCD_string(0xC0,"F14 Over_Curr_C ");
+			case 15: 	CLCD_string(0xC0,"F15 Init_Charge ");
+			case 16: 	CLCD_string(0xC0,"F16 Speed_Detect");
+			default : 	CLCD_string(0xC0,"                ");
+		}
 	}
 }
+
 void SYS_4_00_01(void)
 {
 	if(KeyState.KeyValue == ESC)MenuDisplay = SYS_4_00;
@@ -16026,7 +16286,7 @@ void SYS_4_00_01(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_00_02;
 	if(RefreshFlag){
 		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[1][0]), 1))) ;
-		CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2381]));
+		CLCD_string(0xC0,(char*)_TEXT("      % 5u    ",DATA_Registers[2381]));
 	}
 }
 void SYS_4_00_02(void)
@@ -16036,7 +16296,7 @@ void SYS_4_00_02(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_00_03;	
 	if(RefreshFlag) {
 		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 1))) ;
-		CLCD_string(0xC0,(char*)_TEXT("      %_5urpm  ",DATA_Registers[2382]));
+		CLCD_string(0xC0,(char*)_TEXT("      % 5urpm  ",DATA_Registers[2382]));
 	}
 }
 void SYS_4_00_03(void)
@@ -16046,7 +16306,7 @@ void SYS_4_00_03(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_00_04;	
 		if(RefreshFlag){
 		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 1))) ;
-		CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2383]));
+		CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2383]));
 	}
 }
 void SYS_4_00_04(void)
@@ -16056,7 +16316,7 @@ void SYS_4_00_04(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_00_05;	
 	if(RefreshFlag){
 		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 1))) ;
-		CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2384]));
+		CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2384]));
 	}
 }
 void SYS_4_00_05(void)
@@ -16076,7 +16336,7 @@ void SYS_4_00_06(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_00_07;	
 	if(RefreshFlag){
 		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 1))) ;
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2386]/10,DATA_Registers[2386]%10));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u deg ",DATA_Registers[2386]/10,DATA_Registers[2386]%10));
 	}
 }
 void SYS_4_00_07(void)
@@ -16086,7 +16346,7 @@ void SYS_4_00_07(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_00_08;	
 	if(RefreshFlag) {
 		CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 1))) ;
-		CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2387]/100,DATA_Registers[2387]%100));
+		CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2387]/10,DATA_Registers[2387]%10));
 	}
 }
 void SYS_4_00_08(void)
@@ -16130,7 +16390,26 @@ void SYS_4_01_00(void)
 	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[0][0]), 2))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2391]));
+		switch(DATA_Registers[2391])
+		{
+			case 1: 	CLCD_string(0xC0,"F1 Over_Load    ");
+			case 2: 	CLCD_string(0xC0,"F2 Device_chort ");
+			case 3: 	CLCD_string(0xC0,"F3 Over_Current ");
+			case 4: 	CLCD_string(0xC0,"F4 Over_Voltage ");
+			case 5: 	CLCD_string(0xC0,"F5 Under_Voltage");
+			case 6: 	CLCD_string(0xC0,"F6 Over_Speed   ");
+			case 7: 	CLCD_string(0xC0,"F7 Over_Temp    ");
+			case 8: 	CLCD_string(0xC0,"F8 DB_Fault     ");
+			case 9: 	CLCD_string(0xC0,"F9 Driver_Fault ");
+			case 10: 	CLCD_string(0xC0,"F10 Ext_Fault   ");
+			case 11: 	CLCD_string(0xC0,"F11 HW_Fault    ");
+			case 12: 	CLCD_string(0xC0,"F12 Over_Curr_A ");
+			case 13: 	CLCD_string(0xC0,"F13 Over_Curr_B ");
+			case 14: 	CLCD_string(0xC0,"F14 Over_Curr_C ");
+			case 15: 	CLCD_string(0xC0,"F15 Init_Charge ");
+			case 16: 	CLCD_string(0xC0,"F16 Speed_Detect");
+			default : 	CLCD_string(0xC0,"                ");
+		}
 	}
 }
 void SYS_4_01_01(void)
@@ -16140,7 +16419,7 @@ void SYS_4_01_01(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_01_02;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[1][0]), 2))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2392]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5u    ",DATA_Registers[2392]));
 	}
 }
 void SYS_4_01_02(void)
@@ -16150,7 +16429,7 @@ void SYS_4_01_02(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_01_03;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 2))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2393]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2393]));
 	}
 }
 void SYS_4_01_03(void)
@@ -16160,7 +16439,7 @@ void SYS_4_01_03(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_01_04;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 2))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2394]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2394]));
 	}
 }
 void SYS_4_01_04(void)
@@ -16170,7 +16449,7 @@ void SYS_4_01_04(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_01_05;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 2))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2395]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2395]));
 	}
 }
 void SYS_4_01_05(void)
@@ -16190,7 +16469,7 @@ void SYS_4_01_06(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_01_07;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 2))) ;
-	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2397]/10,DATA_Registers[2397]%10));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u deg ",DATA_Registers[2397]/10,DATA_Registers[2397]%10));
 	}
 }
 void SYS_4_01_07(void)
@@ -16200,7 +16479,7 @@ void SYS_4_01_07(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_01_08;
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 2))) ;
-	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2398]/100,DATA_Registers[2398]%100));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2398]/10,DATA_Registers[2398]%10));
 	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2398]));
 	}
 }
@@ -16244,7 +16523,27 @@ void SYS_4_02_00(void)
 
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[0][0]), 3))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2403]));
+		switch(DATA_Registers[2403])
+		{
+			case 1: 	CLCD_string(0xC0,"F1 Over_Load    ");
+			case 2: 	CLCD_string(0xC0,"F2 Device_chort ");
+			case 3: 	CLCD_string(0xC0,"F3 Over_Current ");
+			case 4: 	CLCD_string(0xC0,"F4 Over_Voltage ");
+			case 5: 	CLCD_string(0xC0,"F5 Under_Voltage");
+			case 6: 	CLCD_string(0xC0,"F6 Over_Speed   ");
+			case 7: 	CLCD_string(0xC0,"F7 Over_Temp    ");
+			case 8: 	CLCD_string(0xC0,"F8 DB_Fault     ");
+			case 9: 	CLCD_string(0xC0,"F9 Driver_Fault ");
+			case 10: 	CLCD_string(0xC0,"F10 Ext_Fault   ");
+			case 11: 	CLCD_string(0xC0,"F11 HW_Fault    ");
+			case 12: 	CLCD_string(0xC0,"F12 Over_Curr_A ");
+			case 13: 	CLCD_string(0xC0,"F13 Over_Curr_B ");
+			case 14: 	CLCD_string(0xC0,"F14 Over_Curr_C ");
+			case 15: 	CLCD_string(0xC0,"F15 Init_Charge ");
+			case 16: 	CLCD_string(0xC0,"F16 Speed_Detect");
+			default : 	CLCD_string(0xC0,"                ");
+		}
+
 	}
 }
 void SYS_4_02_01(void)
@@ -16254,7 +16553,7 @@ void SYS_4_02_01(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_02_02;
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[1][0]), 3))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2404]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5u    ",DATA_Registers[2404]));
 	}
 }
 void SYS_4_02_02(void)
@@ -16264,7 +16563,7 @@ void SYS_4_02_02(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_02_03;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 3))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2405]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2405]));
 	}
 }
 void SYS_4_02_03(void)
@@ -16274,7 +16573,7 @@ void SYS_4_02_03(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_02_04;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 3))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2406]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2406]));
 	}
 }
 void SYS_4_02_04(void)
@@ -16284,7 +16583,7 @@ void SYS_4_02_04(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_02_05;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 3))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2407]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2407]));
 	}
 }
 void SYS_4_02_05(void)
@@ -16304,7 +16603,7 @@ void SYS_4_02_06(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_02_07;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 3))) ;
-	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2409]/10,DATA_Registers[2409]%10));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u deg ",DATA_Registers[2409]/10,DATA_Registers[2409]%10));
 	}
 }
 void SYS_4_02_07(void)
@@ -16314,7 +16613,7 @@ void SYS_4_02_07(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_02_08;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 3))) ;
-	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2410]/100,DATA_Registers[2410]%100));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2410]/10,DATA_Registers[2410]%10));
 	}
 }
 void SYS_4_02_08(void)
@@ -16357,6 +16656,26 @@ void SYS_4_03_00(void)
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[0][0]), 4))) ;
 	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2414]));
+		switch(DATA_Registers[2414])
+		{
+			case 1: 	CLCD_string(0xC0,"F1 Over_Load    ");
+			case 2: 	CLCD_string(0xC0,"F2 Device_chort ");
+			case 3: 	CLCD_string(0xC0,"F3 Over_Current ");
+			case 4: 	CLCD_string(0xC0,"F4 Over_Voltage ");
+			case 5: 	CLCD_string(0xC0,"F5 Under_Voltage");
+			case 6: 	CLCD_string(0xC0,"F6 Over_Speed   ");
+			case 7: 	CLCD_string(0xC0,"F7 Over_Temp    ");
+			case 8: 	CLCD_string(0xC0,"F8 DB_Fault     ");
+			case 9: 	CLCD_string(0xC0,"F9 Driver_Fault ");
+			case 10: 	CLCD_string(0xC0,"F10 Ext_Fault   ");
+			case 11: 	CLCD_string(0xC0,"F11 HW_Fault    ");
+			case 12: 	CLCD_string(0xC0,"F12 Over_Curr_A ");
+			case 13: 	CLCD_string(0xC0,"F13 Over_Curr_B ");
+			case 14: 	CLCD_string(0xC0,"F14 Over_Curr_C ");
+			case 15: 	CLCD_string(0xC0,"F15 Init_Charge ");
+			case 16: 	CLCD_string(0xC0,"F16 Speed_Detect");
+			default : 	CLCD_string(0xC0,"                ");
+		}
 	}
 }
 void SYS_4_03_01(void)
@@ -16366,7 +16685,7 @@ void SYS_4_03_01(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_03_02;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[1][0]), 4))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2415]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5u    ",DATA_Registers[2415]));
 	}
 }
 void SYS_4_03_02(void)
@@ -16376,7 +16695,7 @@ void SYS_4_03_02(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_03_03;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 4))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2416]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2416]));
 	}
 }
 void SYS_4_03_03(void)
@@ -16386,7 +16705,7 @@ void SYS_4_03_03(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_03_04;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 4))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2417]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2417]));
 	}
 }
 void SYS_4_03_04(void)
@@ -16396,7 +16715,7 @@ void SYS_4_03_04(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_03_05;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 4))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2418]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2418]));
 	}
 }
 void SYS_4_03_05(void)
@@ -16406,7 +16725,7 @@ void SYS_4_03_05(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_03_06;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[5][0]), 4))) ;
-	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Hz  ",DATA_Registers[2419]/10,DATA_Registers[2419]%10));
+	CLCD_string(0xC0,(char*)_TEXT("       %01u.%01u Hz  ",DATA_Registers[2419]/10,DATA_Registers[2419]%10));
 	}
 }
 void SYS_4_03_06(void)
@@ -16416,7 +16735,7 @@ void SYS_4_03_06(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_03_07;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 4))) ;
-	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2420]/10,DATA_Registers[2420]%10));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u deg ",DATA_Registers[2420]/10,DATA_Registers[2420]%10));
 	}
 }
 void SYS_4_03_07(void)
@@ -16426,7 +16745,7 @@ void SYS_4_03_07(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_03_08;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 4))) ;
-	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2421]/100,DATA_Registers[2421]%100));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2421]/10,DATA_Registers[2421]%10));
 	}
 }
 void SYS_4_03_08(void)
@@ -16468,7 +16787,26 @@ void SYS_4_04_00(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_04_01;
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[0][0]), 5))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2425]));
+		switch(DATA_Registers[2425])
+		{
+			case 1: 	CLCD_string(0xC0,"F1 Over_Load    ");
+			case 2: 	CLCD_string(0xC0,"F2 Device_chort ");
+			case 3: 	CLCD_string(0xC0,"F3 Over_Current ");
+			case 4: 	CLCD_string(0xC0,"F4 Over_Voltage ");
+			case 5: 	CLCD_string(0xC0,"F5 Under_Voltage");
+			case 6: 	CLCD_string(0xC0,"F6 Over_Speed   ");
+			case 7: 	CLCD_string(0xC0,"F7 Over_Temp    ");
+			case 8: 	CLCD_string(0xC0,"F8 DB_Fault     ");
+			case 9: 	CLCD_string(0xC0,"F9 Driver_Fault ");
+			case 10: 	CLCD_string(0xC0,"F10 Ext_Fault   ");
+			case 11: 	CLCD_string(0xC0,"F11 HW_Fault    ");
+			case 12: 	CLCD_string(0xC0,"F12 Over_Curr_A ");
+			case 13: 	CLCD_string(0xC0,"F13 Over_Curr_B ");
+			case 14: 	CLCD_string(0xC0,"F14 Over_Curr_C ");
+			case 15: 	CLCD_string(0xC0,"F15 Init_Charge ");
+			case 16: 	CLCD_string(0xC0,"F16 Speed_Detect");
+			default : 	CLCD_string(0xC0,"                ");
+		}
 	}
 }
 void SYS_4_04_01(void)
@@ -16478,7 +16816,7 @@ void SYS_4_04_01(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_04_02;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[1][0]), 5))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2426]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5u    ",DATA_Registers[2426]));
 	}
 }
 void SYS_4_04_02(void)
@@ -16488,7 +16826,7 @@ void SYS_4_04_02(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_04_03;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 5))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2427]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2427]));
 	}
 }
 void SYS_4_04_03(void)
@@ -16498,7 +16836,7 @@ void SYS_4_04_03(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_04_04;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 5))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2428]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2428]));
 	}
 }
 void SYS_4_04_04(void)
@@ -16508,7 +16846,7 @@ void SYS_4_04_04(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_04_05;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 5))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2429]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2429]));
 	}
 }
 void SYS_4_04_05(void)
@@ -16528,7 +16866,7 @@ void SYS_4_04_06(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_04_07;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 5))) ;
-	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2431]/10,DATA_Registers[2431]%10));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u deg ",DATA_Registers[2431]/10,DATA_Registers[2431]%10));
 	}
 }
 void SYS_4_04_07(void)
@@ -16538,7 +16876,7 @@ void SYS_4_04_07(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_04_08;	
 	if(RefreshFlag) {
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 5))) ;
-	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2432]/100,DATA_Registers[2432]%100));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2432]/10,DATA_Registers[2432]%10));
 	}
 }
 void SYS_4_04_08(void)
@@ -16581,7 +16919,26 @@ void SYS_4_05_00(void)
  
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[0][0]), 6))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2436]));
+		switch(DATA_Registers[2436])
+		{
+			case 1: 	CLCD_string(0xC0,"F1 Over_Load    ");
+			case 2: 	CLCD_string(0xC0,"F2 Device_chort ");
+			case 3: 	CLCD_string(0xC0,"F3 Over_Current ");
+			case 4: 	CLCD_string(0xC0,"F4 Over_Voltage ");
+			case 5: 	CLCD_string(0xC0,"F5 Under_Voltage");
+			case 6: 	CLCD_string(0xC0,"F6 Over_Speed   ");
+			case 7: 	CLCD_string(0xC0,"F7 Over_Temp    ");
+			case 8: 	CLCD_string(0xC0,"F8 DB_Fault     ");
+			case 9: 	CLCD_string(0xC0,"F9 Driver_Fault ");
+			case 10: 	CLCD_string(0xC0,"F10 Ext_Fault   ");
+			case 11: 	CLCD_string(0xC0,"F11 HW_Fault    ");
+			case 12: 	CLCD_string(0xC0,"F12 Over_Curr_A ");
+			case 13: 	CLCD_string(0xC0,"F13 Over_Curr_B ");
+			case 14: 	CLCD_string(0xC0,"F14 Over_Curr_C ");
+			case 15: 	CLCD_string(0xC0,"F15 Init_Charge ");
+			case 16: 	CLCD_string(0xC0,"F16 Speed_Detect");
+			default : 	CLCD_string(0xC0,"                ");
+		}
 	}
 }
 void SYS_4_05_01(void)
@@ -16591,7 +16948,7 @@ void SYS_4_05_01(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_05_02;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[1][0]), 6))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2437]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5u    ",DATA_Registers[2437]));
 	}
 }
 void SYS_4_05_02(void)
@@ -16601,7 +16958,7 @@ void SYS_4_05_02(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_05_03;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 6))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2438]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2438]));
 	}
 }
 void SYS_4_05_03(void)
@@ -16611,7 +16968,7 @@ void SYS_4_05_03(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_05_04;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 6))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2439]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2439]));
 	}
 }
 void SYS_4_05_04(void)
@@ -16621,7 +16978,7 @@ void SYS_4_05_04(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_05_05;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 6))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2440]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2440]));
 	}
 }
 void SYS_4_05_05(void)
@@ -16641,7 +16998,7 @@ void SYS_4_05_06(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_05_07;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 6))) ;
-	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2442]/10,DATA_Registers[2442]%10));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u deg ",DATA_Registers[2442]/10,DATA_Registers[2442]%10));
 	}
 }
 void SYS_4_05_07(void)
@@ -16651,7 +17008,7 @@ void SYS_4_05_07(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_05_08;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 6))) ;
-	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2443]/100,DATA_Registers[2443]%100));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2443]/10,DATA_Registers[2443]%10));
 	}
 }
 void SYS_4_05_08(void)
@@ -16694,7 +17051,26 @@ void SYS_4_06_00(void)
  
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[0][0]), 7))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2447]));
+		switch(DATA_Registers[2447])
+		{
+			case 1: 	CLCD_string(0xC0,"F1 Over_Load    ");
+			case 2: 	CLCD_string(0xC0,"F2 Device_chort ");
+			case 3: 	CLCD_string(0xC0,"F3 Over_Current ");
+			case 4: 	CLCD_string(0xC0,"F4 Over_Voltage ");
+			case 5: 	CLCD_string(0xC0,"F5 Under_Voltage");
+			case 6: 	CLCD_string(0xC0,"F6 Over_Speed   ");
+			case 7: 	CLCD_string(0xC0,"F7 Over_Temp    ");
+			case 8: 	CLCD_string(0xC0,"F8 DB_Fault     ");
+			case 9: 	CLCD_string(0xC0,"F9 Driver_Fault ");
+			case 10: 	CLCD_string(0xC0,"F10 Ext_Fault   ");
+			case 11: 	CLCD_string(0xC0,"F11 HW_Fault    ");
+			case 12: 	CLCD_string(0xC0,"F12 Over_Curr_A ");
+			case 13: 	CLCD_string(0xC0,"F13 Over_Curr_B ");
+			case 14: 	CLCD_string(0xC0,"F14 Over_Curr_C ");
+			case 15: 	CLCD_string(0xC0,"F15 Init_Charge ");
+			case 16: 	CLCD_string(0xC0,"F16 Speed_Detect");
+			default : 	CLCD_string(0xC0,"                ");
+		}
 	}
 }
 void SYS_4_06_01(void)
@@ -16704,7 +17080,7 @@ void SYS_4_06_01(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_06_02;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[1][0]), 7))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2448]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5u    ",DATA_Registers[2448]));
 	}
 }
 void SYS_4_06_02(void)
@@ -16714,7 +17090,7 @@ void SYS_4_06_02(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_06_03;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 7))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2449]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2449]));
 	}
 }
 void SYS_4_06_03(void)
@@ -16724,7 +17100,7 @@ void SYS_4_06_03(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_06_04;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 7))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2450]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2450]));
 	}
 }
 void SYS_4_06_04(void)
@@ -16734,7 +17110,7 @@ void SYS_4_06_04(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_06_05;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 7))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2451]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2451]));
 	}
 }
 void SYS_4_06_05(void)
@@ -16754,7 +17130,7 @@ void SYS_4_06_06(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_06_07;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 7))) ;
-	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2453]/10,DATA_Registers[2453]%10));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u deg ",DATA_Registers[2453]/10,DATA_Registers[2453]%10));
 	}
 }
 void SYS_4_06_07(void)
@@ -16764,7 +17140,7 @@ void SYS_4_06_07(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_06_08;		
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 7))) ;
-	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2454]/100,DATA_Registers[2454]%100));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2454]/10,DATA_Registers[2454]%10));
 	}
 }
 void SYS_4_06_08(void)
@@ -16807,7 +17183,26 @@ void SYS_4_07_00(void)
  
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[0][0]), 8))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2458]));
+	switch(DATA_Registers[2458])
+	{
+		case 1: 	CLCD_string(0xC0,"F1 Over_Load	  ");
+		case 2: 	CLCD_string(0xC0,"F2 Device_chort ");
+		case 3: 	CLCD_string(0xC0,"F3 Over_Current ");
+		case 4: 	CLCD_string(0xC0,"F4 Over_Voltage ");
+		case 5: 	CLCD_string(0xC0,"F5 Under_Voltage");
+		case 6: 	CLCD_string(0xC0,"F6 Over_Speed   ");
+		case 7: 	CLCD_string(0xC0,"F7 Over_Temp	  ");
+		case 8: 	CLCD_string(0xC0,"F8 DB_Fault	  ");
+		case 9: 	CLCD_string(0xC0,"F9 Driver_Fault ");
+		case 10:	CLCD_string(0xC0,"F10 Ext_Fault   ");
+		case 11:	CLCD_string(0xC0,"F11 HW_Fault	  ");
+		case 12:	CLCD_string(0xC0,"F12 Over_Curr_A ");
+		case 13:	CLCD_string(0xC0,"F13 Over_Curr_B ");
+		case 14:	CLCD_string(0xC0,"F14 Over_Curr_C ");
+		case 15:	CLCD_string(0xC0,"F15 Init_Charge ");
+		case 16:	CLCD_string(0xC0,"F16 Speed_Detect");
+		default :	CLCD_string(0xC0,"Empty Fault	    ");
+	}
 	}
 }
 void SYS_4_07_01(void)
@@ -16817,7 +17212,7 @@ void SYS_4_07_01(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_07_02;
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[1][0]), 8))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2459]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5u    ",DATA_Registers[2459]));
 	}
 }
 void SYS_4_07_02(void)
@@ -16827,7 +17222,7 @@ void SYS_4_07_02(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_07_03;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 8))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2460]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2460]));
 	}
 }
 void SYS_4_07_03(void)
@@ -16837,7 +17232,7 @@ void SYS_4_07_03(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_07_04;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 8))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2461]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2461]));
 	}
 }
 void SYS_4_07_04(void)
@@ -16847,7 +17242,7 @@ void SYS_4_07_04(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_07_05;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 8))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2462]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2462]));
 	}
 }
 void SYS_4_07_05(void)
@@ -16867,7 +17262,7 @@ void SYS_4_07_06(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_07_07;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[6][0]), 8))) ;
-	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u C   ",DATA_Registers[2464]/10,DATA_Registers[2464]%10));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u deg ",DATA_Registers[2464]/10,DATA_Registers[2464]%10));
 	}
 }
 void SYS_4_07_07(void)
@@ -16877,7 +17272,7 @@ void SYS_4_07_07(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_07_08;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 8))) ;
-	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2465]/100,DATA_Registers[2465]%100));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2465]/10,DATA_Registers[2465]%10));
 	}
 }
 void SYS_4_07_08(void)
@@ -16920,7 +17315,26 @@ void SYS_4_08_00(void)
  
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[0][0]), 9))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2469]));
+	switch(DATA_Registers[2469])
+	{
+		case 1: 	CLCD_string(0xC0,"F1 Over_Load	  ");
+		case 2: 	CLCD_string(0xC0,"F2 Device_chort ");
+		case 3: 	CLCD_string(0xC0,"F3 Over_Current ");
+		case 4: 	CLCD_string(0xC0,"F4 Over_Voltage ");
+		case 5: 	CLCD_string(0xC0,"F5 Under_Voltage");
+		case 6: 	CLCD_string(0xC0,"F6 Over_Speed   ");
+		case 7: 	CLCD_string(0xC0,"F7 Over_Temp	  ");
+		case 8: 	CLCD_string(0xC0,"F8 DB_Fault	  ");
+		case 9: 	CLCD_string(0xC0,"F9 Driver_Fault ");
+		case 10:	CLCD_string(0xC0,"F10 Ext_Fault   ");
+		case 11:	CLCD_string(0xC0,"F11 HW_Fault	  ");
+		case 12:	CLCD_string(0xC0,"F12 Over_Curr_A ");
+		case 13:	CLCD_string(0xC0,"F13 Over_Curr_B ");
+		case 14:	CLCD_string(0xC0,"F14 Over_Curr_C ");
+		case 15:	CLCD_string(0xC0,"F15 Init_Charge ");
+		case 16:	CLCD_string(0xC0,"F16 Speed_Detect");
+		default :	CLCD_string(0xC0,"				  ");
+	}
 	}
 }
 void SYS_4_08_01(void)
@@ -16930,7 +17344,7 @@ void SYS_4_08_01(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_08_02;
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[1][0]), 9))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5u    ",DATA_Registers[2470]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5u    ",DATA_Registers[2470]));
 	}
 }
 void SYS_4_08_02(void)
@@ -16940,7 +17354,7 @@ void SYS_4_08_02(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_08_03;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[2][0]), 9))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2471]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2471]));
 	}
 }
 void SYS_4_08_03(void)
@@ -16950,7 +17364,7 @@ void SYS_4_08_03(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_08_04;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[3][0]), 9))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2472]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2472]));
 	}
 }
 void SYS_4_08_04(void)
@@ -16960,7 +17374,7 @@ void SYS_4_08_04(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_08_05;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[4][0]), 9))) ;
-	CLCD_string(0xC0,(char*)_TEXT("      %_5urpm ",DATA_Registers[2473]));
+	CLCD_string(0xC0,(char*)_TEXT("      % 5urpm ",DATA_Registers[2473]));
 	}
 }
 void SYS_4_08_05(void)
@@ -16990,7 +17404,7 @@ void SYS_4_08_07(void)
 	else if(KeyState.KeyValue == UP)MenuDisplay = SYS_4_08_08;	
 	if(RefreshFlag){
 	CLCD_string(0x80,((char*)_TEXT((char*)_cpy_flash2memory(&PAGE_DIR_4_XX_XX[7][0]), 9))) ;
-	CLCD_string(0xC0,(char*)_TEXT("        %01u.%02u %   ",DATA_Registers[2476]/100,DATA_Registers[2476]%100));
+	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u %   ",DATA_Registers[2476]/100,DATA_Registers[2476]%100));
 	}
 }
 void SYS_4_08_08(void)
@@ -17024,6 +17438,7 @@ void SYS_4_08_10(void)
 	CLCD_string(0xC0,(char*)_TEXT("        %01u.%01u Vrms",DATA_Registers[2479]/10,DATA_Registers[2479]%10));
 	}
 }
+
 
 
 void SYS_5_00(void)
@@ -18546,19 +18961,19 @@ void MainSYSTEM(void)
 
 	if(KeyState.KeyValue == RUN)
 	{
-		DATA_Registers[RUN_STOP] =  0x00FF;
+		DATA_Registers[2306] =  0x0001;
 	}
 	else if(KeyState.KeyValue == STOP)
 	{
-		DATA_Registers[RUN_STOP] =  0x0000;
+		DATA_Registers[2306] =  0x0000;
 	}
 
 
-
-	if(DATA_Registers[Local_Remote])PORTL_Bit0 = 1;
+	//local/remote
+	if(DATA_Registers[2300])PORTL_Bit0 = 1;
 	else PORTL_Bit0 = 0;
 
-	if(DATA_Registers[2270])
+	if(DATA_Registers[2270])//run status
 	{
 		PORTL_Bit1 = 1;
 		PORTL_Bit2 = 0;
@@ -18568,14 +18983,63 @@ void MainSYSTEM(void)
 		PORTL_Bit1 = 0;
 		PORTL_Bit2 = 1;
 	}
+//communication fault
+if(Communication_Fault_Flag)
+{
+	PORTL_Bit3 = 1;
 
-	if(DATA_Registers[2379])
+	CLCD_string(0x80," * Comm Fault * ");
+	CLCD_string(0xC0,"  Tx/Rx Failed  ");
+	
+	SCI_RegisterRefresh();
+	MenuDisplay_Handler = MENU_STOP;
+}
+else
+{
+	PORTL_Bit3 = 0;
+	MenuDisplay_Handler = MENU_RUN;
+}
+
+
+//fault detection
+	if(DATA_Registers[2379] != FaultDetectionHistory)
 	{
 		PORTL_Bit3 = 1;
+		MenuDisplay_Handler = MENU_STOP;
+		CLCD_string(0x80," * Drive Fault * ");
+		if(DATA_Registers[2376] & 0x8000) 	CLCD_string(0xC0,"F1 Over_Load	  ");
+		else if(DATA_Registers[2376] & 0x4000) CLCD_string(0xC0,"F2 Device_chort ");
+		else if(DATA_Registers[2376] & 0x2000) CLCD_string(0xC0,"F3 Over_Current ");
+		else if(DATA_Registers[2376] & 0x1000) CLCD_string(0xC0,"F4 Over_Voltage ");
+		else if(DATA_Registers[2376] & 0x0800) CLCD_string(0xC0,"F5 Under_Voltage");
+		else if(DATA_Registers[2376] & 0x0400) CLCD_string(0xC0,"F6 Over_Speed   ");
+		else if(DATA_Registers[2376] & 0x0200) CLCD_string(0xC0,"F7 Over_Temp    ");
+		else if(DATA_Registers[2376] & 0x0100) CLCD_string(0xC0,"F8 DB_Fault	  ");
+		else if(DATA_Registers[2376] & 0x0080) CLCD_string(0xC0,"F9 Driver_Fault ");
+		else if(DATA_Registers[2376] & 0x0040) CLCD_string(0xC0,"F10 Ext_Fault   ");
+		else if(DATA_Registers[2376] & 0x0020) CLCD_string(0xC0,"F11 HW_Fault	  ");
+		else if(DATA_Registers[2376] & 0x0010) CLCD_string(0xC0,"F12 Over_Curr_A ");
+		else if(DATA_Registers[2376] & 0x0008) CLCD_string(0xC0,"F13 Over_Curr_B ");
+		else if(DATA_Registers[2376] & 0x0004) CLCD_string(0xC0,"F14 Over_Curr_C ");
+		else if(DATA_Registers[2376] & 0x0002) CLCD_string(0xC0,"F15 Init_Charge ");
+		else if(DATA_Registers[2376] & 0x0001) CLCD_string(0xC0,"F16 Speed_Detect");
+		else
+		{
+			FaultDetectionHistory = (unsigned char)DATA_Registers[2379]; 
+			MenuDisplay_Handler = MENU_RUN;
+		}
+		
+		if(KeyState.KeyValue == ESC)
+		{
+			FaultDetectionHistory = (unsigned char)DATA_Registers[2379]; 
+			MenuDisplay_Handler = MENU_RUN;
+			DATA_Registers[2484] = 1;
+		}
 	}
 	else
 	{
 		PORTL_Bit3 = 0;
 	}
+	
 
 }

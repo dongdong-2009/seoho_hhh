@@ -17,11 +17,16 @@
 
 #define BUF_MAX 3400
 
-//#define DATA_REG 0x8000
-//#define TEMP_REG 0xB000
 
+#define QUERY 0x01
 #define SEND		0x02
 #define RESPONSE 0x03
+#define REQUEST 0x04
+
+extern unsigned char TimeTic_1s;
+
+extern unsigned int Communication_Fault_Cnt ;
+extern unsigned char Communication_Fault_Flag;
 
 extern unsigned int SCI_Registers[BUF_MAX];
 
@@ -60,6 +65,9 @@ void TX0_char( char data);
 
 void CRC_16(unsigned char input);
 void SCI_Process(void);
+
+void SCI_RequestData(unsigned int addr);
+void SCI_RegisterRefresh(void);
 
 void InputDataReg(unsigned int addr, unsigned int dat);
 

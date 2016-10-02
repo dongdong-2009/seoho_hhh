@@ -34,6 +34,10 @@
 CRC_flg	CRC ;
 Data_flg	data_flg;
 
+unsigned int Communication_Fault_Cnt = 3;
+unsigned char Communication_Fault_Flag = 0;
+
+
 unsigned int SCI_Registers[BUF_MAX];
 //==============================================================
 // UART  initialize
@@ -183,6 +187,25 @@ __interrupt void USART0_RX_ISR(void)
 
 					DATA_Registers[RxAddr] = RxData;
 				}
+				else if(RxType == REQUEST)
+				{
+					CRC.Word = 0;
+					TX0_char(RxBuf[0]);								CRC_16(RxBuf[0]);
+					TX0_char(RxBuf[1]);								CRC_16(RxBuf[1]);
+					TX0_char(SEND);									CRC_16(SEND);
+					TX0_char(RxBuf[3]);								CRC_16(RxBuf[3]);
+					TX0_char(RxBuf[4]);								CRC_16(RxBuf[4]);
+					TX0_char((char)(DATA_Registers[RxAddr]>>8));	CRC_16((char)(DATA_Registers[RxAddr]>>8));
+					TX0_char((char)DATA_Registers[RxAddr]);		CRC_16((char)DATA_Registers[RxAddr]);
+
+					TX0_char(CRC.Byte.b1);
+					TX0_char(CRC.Byte.b0);
+
+				}
+				else if(RxType == QUERY)
+				{
+					Communication_Fault_Cnt = 3;
+				}
 				
 			}
 			SciC_RxStep=0;
@@ -246,7 +269,7 @@ void SCI_Process(void)
 			TX0_char((char)(SCI_TxOffset>>8));					CRC_16((char)(SCI_TxOffset>>8));
 			TX0_char((char)SCI_TxOffset);							CRC_16((char)SCI_TxOffset);
 	                
-	              TX0_char((char)(DATA_Registers[SCI_TxOffset]>>8));	CRC_16((char)(DATA_Registers[SCI_TxOffset]>>8));
+	            TX0_char((char)(DATA_Registers[SCI_TxOffset]>>8));	CRC_16((char)(DATA_Registers[SCI_TxOffset]>>8));
 			TX0_char((char)DATA_Registers[SCI_TxOffset]);		CRC_16((char)DATA_Registers[SCI_TxOffset]);
 
 			TX0_char(CRC.Byte.b1);
@@ -255,12 +278,71 @@ void SCI_Process(void)
 		}
 
 		SCI_TxOffset ++;
-		if(BUF_MAX <= SCI_TxOffset) SCI_TxOffset = 0;
+		if(BUF_MAX <= SCI_TxOffset) 
+		{
+			SCI_TxOffset = 0;
+		}
+
+		if(TimeTic_1s)
+		{
+			CRC.Word = 0;
+			TX0_char(0xAB);			CRC_16(0xAB);
+			TX0_char(0xCD);			CRC_16(0xCD);
+
+			TX0_char(QUERY);			CRC_16(QUERY);
+
+			TX0_char(0);				CRC_16(0);
+			TX0_char(0);				CRC_16(0);
+
+			TX0_char(0);				CRC_16(0);
+			TX0_char(0);				CRC_16(0);
+
+			TX0_char(CRC.Byte.b1);
+			TX0_char(CRC.Byte.b0);
+
+			if(!Communication_Fault_Cnt)Communication_Fault_Flag=1;
+			else 
+			{
+				Communication_Fault_Cnt--;
+				Communication_Fault_Flag=0;
+			}
+		}
 	}
 	else
 	{
 		TxDelyCnt--;
 	}
+}
+
+
+void SCI_RequestData(unsigned int addr)
+{
+	CRC.Word = 0;
+	TX0_char(0xAB); 		CRC_16(0xAB);
+	TX0_char(0xCD); 		CRC_16(0xCD);
+	
+	TX0_char(REQUEST);		CRC_16(REQUEST);
+	
+	TX0_char(0);				CRC_16(0);
+	TX0_char(0);				CRC_16(0);
+	
+	TX0_char(0);				CRC_16(0);
+	TX0_char(0);				CRC_16(0);
+	
+	TX0_char(CRC.Byte.b1);
+	TX0_char(CRC.Byte.b0);
+
+}
+
+void SCI_RegisterRefresh(void)
+{
+	int i;
+	for(i=0;i<BUF_MAX;i++)
+	{
+		DATA_Registers[i]=0;
+		SCI_Registers[i]=0;
+	}
+	DATA_Registers[3195] = 1;
 }
 
 

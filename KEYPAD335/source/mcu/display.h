@@ -18,6 +18,11 @@
 
 //#include <avr/pgmspace.h>
 
+
+#define MENU_RUN 1
+#define MENU_STOP 0
+
+
 //extern unsigned long naviMENU;
 extern unsigned char RefreshFlag;
 
@@ -34,6 +39,9 @@ extern unsigned char EventTimeD;
 extern unsigned char EventTimeE;
 
 extern unsigned char TimeTic_500ms;
+
+extern unsigned char MenuDisplay_Handler;
+
 
 extern void(*MenuDisplay)(void);
 
