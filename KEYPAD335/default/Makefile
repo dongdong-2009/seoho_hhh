@@ -37,7 +37,7 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
 
 ## Include Directories
-INCLUDES = -I"D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu" 
+INCLUDES = -I"D:\work\SEOHO_VD\KEYPAD335_101203\source\mcu" 
 
 ## Objects that must be built in order to link
 OBJECTS = main.o util.o debug_printf.o key.o display.o rs232_MMItoPANEL.o 16by2CLCD.o 

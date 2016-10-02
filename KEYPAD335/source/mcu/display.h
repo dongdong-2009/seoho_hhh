@@ -36,8 +36,7 @@ extern unsigned char EventTimeE;
 
 extern unsigned char TimeTic_500ms;
 
-void (*MenuDisplay)(void);
-void (*LCDDisplay)(void);
+extern void(*MenuDisplay)(void);
 
 void DisplayInit(void);
 void MainSYSTEM(void);
