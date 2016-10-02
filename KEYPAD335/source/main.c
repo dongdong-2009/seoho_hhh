@@ -302,6 +302,10 @@ int main(void)
 	Delay_ms(500);
 	Delay_ms(500); 
 	Delay_ms(500);
+	Delay_ms(500); 
+	Delay_ms(500);
+	Delay_ms(500); 
+	Delay_ms(500);
 	
 	EventFlagE = 1;
 

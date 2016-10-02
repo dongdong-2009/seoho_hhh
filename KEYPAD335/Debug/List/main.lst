@@ -1,18 +1,18 @@
 ###############################################################################
 #                                                                             #
-# IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR    28/Jan/2011  01:52:07 #
+# IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR    30/Jan/2011  23:25:15 #
 # Copyright 1996-2009 IAR Systems AB.                                         #
 #                                                                             #
 #    Source file  =  C:\Documents and Settings\idonno2000\πŸ≈¡                #
-#                    »≠∏È\KEYPAD335_110127_IAR\source\main.c                  #
+#                    »≠∏È\KEYPAD335_110128_IAR\source\main.c                  #
 #    Command line =  "C:\Documents and Settings\idonno2000\πŸ≈¡               #
-#                    »≠∏È\KEYPAD335_110127_IAR\source\main.c" --cpu=m2560     #
+#                    »≠∏È\KEYPAD335_110128_IAR\source\main.c" --cpu=m2560     #
 #                    -ms -o "C:\Documents and Settings\idonno2000\πŸ≈¡        #
-#                    »≠∏È\KEYPAD335_110127_IAR\Debug\Obj\" -lC "C:\Documents  #
+#                    »≠∏È\KEYPAD335_110128_IAR\Debug\Obj\" -lC "C:\Documents  #
 #                    and Settings\idonno2000\πŸ≈¡                             #
-#                    »≠∏È\KEYPAD335_110127_IAR\Debug\List\" -lA               #
+#                    »≠∏È\KEYPAD335_110128_IAR\Debug\List\" -lA               #
 #                    "C:\Documents and Settings\idonno2000\πŸ≈¡               #
-#                    »≠∏È\KEYPAD335_110127_IAR\Debug\List\" -y                #
+#                    »≠∏È\KEYPAD335_110128_IAR\Debug\List\" -y                #
 #                    --initializers_in_flash -z3 --no_cse --no_inline         #
 #                    --no_code_motion --no_cross_call --no_clustering         #
 #                    --no_tbaa --debug --enable_external_bus                  #
@@ -21,14 +21,14 @@
 #                    5.3\avr\INC\" -I "C:\Program Files\IAR Systems\Embedded  #
 #                    Workbench 5.3\avr\INC\CLIB\" --eeprom_size 4096          #
 #    List file    =  C:\Documents and Settings\idonno2000\πŸ≈¡                #
-#                    »≠∏È\KEYPAD335_110127_IAR\Debug\List\main.lst            #
+#                    »≠∏È\KEYPAD335_110128_IAR\Debug\List\main.lst            #
 #    Object file  =  C:\Documents and Settings\idonno2000\πŸ≈¡                #
-#                    »≠∏È\KEYPAD335_110127_IAR\Debug\Obj\main.r90             #
+#                    »≠∏È\KEYPAD335_110128_IAR\Debug\Obj\main.r90             #
 #                                                                             #
 #                                                                             #
 ###############################################################################
 
-C:\Documents and Settings\idonno2000\πŸ≈¡ »≠∏È\KEYPAD335_110127_IAR\source\main.c
+C:\Documents and Settings\idonno2000\πŸ≈¡ »≠∏È\KEYPAD335_110128_IAR\source\main.c
       1          //====================================================
       2          //
       3          // Copyright(C) 2008 HanYoung ELEC. Co., LTD.
@@ -985,94 +985,110 @@ C:\Documents and Settings\idonno2000\πŸ≈¡ »≠∏È\KEYPAD335_110127_IAR\source\main.
    \   0000008C   EF04               LDI     R16, 244
    \   0000008E   E011               LDI     R17, 1
    \   00000090   ........           CALL    Delay_ms
-    305          	
-    306          	EventFlagE = 1;
-   \   00000094   E001               LDI     R16, 1
-   \   00000096   9300....           STS     EventFlagE, R16
-    307          
-    308          	 MenuDisplay_Handler = MENU_RUN;
-   \   0000009A   E001               LDI     R16, 1
-   \   0000009C   9300....           STS     MenuDisplay_Handler, R16
-    309          
-    310          	while(1)
-    311          	{
-    312          		if(TimeTic_10ms)
+    305          	Delay_ms(500); 
+   \   00000094   EF04               LDI     R16, 244
+   \   00000096   E011               LDI     R17, 1
+   \   00000098   ........           CALL    Delay_ms
+    306          	Delay_ms(500);
+   \   0000009C   EF04               LDI     R16, 244
+   \   0000009E   E011               LDI     R17, 1
+   \   000000A0   ........           CALL    Delay_ms
+    307          	Delay_ms(500); 
+   \   000000A4   EF04               LDI     R16, 244
+   \   000000A6   E011               LDI     R17, 1
+   \   000000A8   ........           CALL    Delay_ms
+    308          	Delay_ms(500);
+   \   000000AC   EF04               LDI     R16, 244
+   \   000000AE   E011               LDI     R17, 1
+   \   000000B0   ........           CALL    Delay_ms
+    309          	
+    310          	EventFlagE = 1;
+   \   000000B4   E001               LDI     R16, 1
+   \   000000B6   9300....           STS     EventFlagE, R16
+    311          
+    312          	 MenuDisplay_Handler = MENU_RUN;
+   \   000000BA   E001               LDI     R16, 1
+   \   000000BC   9300....           STS     MenuDisplay_Handler, R16
+    313          
+    314          	while(1)
+    315          	{
+    316          		if(TimeTic_10ms)
    \                     ??main_0:
-   \   000000A0   9100....           LDS     R16, TimeTic_10ms
-   \   000000A4   2300               TST     R16
-   \   000000A6   F021               BREQ    ??main_1
-    313          		{
-    314          			KeyProc();
-   \   000000A8   ........           CALL    KeyProc
-    315          			MainSYSTEM();
-   \   000000AC   ........           CALL    MainSYSTEM
-    316          		}
-    317          		
-    318          		if(TimeTic_1s)
+   \   000000C0   9100....           LDS     R16, TimeTic_10ms
+   \   000000C4   2300               TST     R16
+   \   000000C6   F021               BREQ    ??main_1
+    317          		{
+    318          			KeyProc();
+   \   000000C8   ........           CALL    KeyProc
+    319          			MainSYSTEM();
+   \   000000CC   ........           CALL    MainSYSTEM
+    320          		}
+    321          		
+    322          		if(TimeTic_1s)
    \                     ??main_1:
-   \   000000B0   9100....           LDS     R16, TimeTic_1s
-   \   000000B4   2300               TST     R16
-   \   000000B6   F019               BREQ    ??main_2
-    319          		{
-    320           			RefreshFlag=1;
-   \   000000B8   E001               LDI     R16, 1
-   \   000000BA   9300....           STS     RefreshFlag, R16
-    321          		}
-    322          
-    323          		if(TimeTic_500ms)
+   \   000000D0   9100....           LDS     R16, TimeTic_1s
+   \   000000D4   2300               TST     R16
+   \   000000D6   F019               BREQ    ??main_2
+    323          		{
+    324           			RefreshFlag=1;
+   \   000000D8   E001               LDI     R16, 1
+   \   000000DA   9300....           STS     RefreshFlag, R16
+    325          		}
+    326          
+    327          		if(TimeTic_500ms)
    \                     ??main_2:
-   \   000000BE   9100....           LDS     R16, TimeTic_500ms
-   \   000000C2   2300               TST     R16
-   \   000000C4   F049               BREQ    ??main_3
-    324          		{
-    325          			//PORTL = PORTL ^ 0xFF;
-    326          			PORTG_Bit3 = PORTG_Bit3^1;
-   \   000000C6   E010               LDI     R17, 0
-   \   000000C8   99A3               SBIC    0x14, 0x03
-   \   000000CA   9513               INC     R17
+   \   000000DE   9100....           LDS     R16, TimeTic_500ms
+   \   000000E2   2300               TST     R16
+   \   000000E4   F049               BREQ    ??main_3
+    328          		{
+    329          			//PORTL = PORTL ^ 0xFF;
+    330          			PORTG_Bit3 = PORTG_Bit3^1;
+   \   000000E6   E010               LDI     R17, 0
+   \   000000E8   99A3               SBIC    0x14, 0x03
+   \   000000EA   9513               INC     R17
    \                     ??main_4:
-   \   000000CC   E001               LDI     R16, 1
-   \   000000CE   2710               EOR     R17, R16
-   \   000000D0   FB10               BST     R17, 0
-   \   000000D2   B314               IN      R17, 0x14
-   \   000000D4   F913               BLD     R17, 3
-   \   000000D6   BB14               OUT     0x14, R17
-    327          		}
-    328          		
-    329          		//display
-    330          		if(TimeTic_10ms)
+   \   000000EC   E001               LDI     R16, 1
+   \   000000EE   2710               EOR     R17, R16
+   \   000000F0   FB10               BST     R17, 0
+   \   000000F2   B314               IN      R17, 0x14
+   \   000000F4   F913               BLD     R17, 3
+   \   000000F6   BB14               OUT     0x14, R17
+    331          		}
+    332          		
+    333          		//display
+    334          		if(TimeTic_10ms)
    \                     ??main_3:
-   \   000000D8   9100....           LDS     R16, TimeTic_10ms
-   \   000000DC   2300               TST     R16
-   \   000000DE   F061               BREQ    ??main_5
-    331          		{
-    332          			if(MenuDisplay_Handler)	MenuDisplay();
-   \   000000E0   9100....           LDS     R16, MenuDisplay_Handler
-   \   000000E4   2300               TST     R16
-   \   000000E6   F041               BREQ    ??main_5
-   \   000000E8   ....               LDI     R30, LOW(MenuDisplay)
-   \   000000EA   ....               LDI     R31, (MenuDisplay) >> 8
-   \   000000EC   8100               LD      R16, Z
-   \   000000EE   8111               LDD     R17, Z+1
-   \   000000F0   8122               LDD     R18, Z+2
-   \   000000F2   01F8               MOVW    R31:R30, R17:R16
-   \   000000F4   BF2C               OUT     0x3C, R18
-   \   000000F6   9519               EICALL
-    333          		}
-    334          
-    335          		SCI_Process();
+   \   000000F8   9100....           LDS     R16, TimeTic_10ms
+   \   000000FC   2300               TST     R16
+   \   000000FE   F061               BREQ    ??main_5
+    335          		{
+    336          			if(MenuDisplay_Handler)	MenuDisplay();
+   \   00000100   9100....           LDS     R16, MenuDisplay_Handler
+   \   00000104   2300               TST     R16
+   \   00000106   F041               BREQ    ??main_5
+   \   00000108   ....               LDI     R30, LOW(MenuDisplay)
+   \   0000010A   ....               LDI     R31, (MenuDisplay) >> 8
+   \   0000010C   8100               LD      R16, Z
+   \   0000010E   8111               LDD     R17, Z+1
+   \   00000110   8122               LDD     R18, Z+2
+   \   00000112   01F8               MOVW    R31:R30, R17:R16
+   \   00000114   BF2C               OUT     0x3C, R18
+   \   00000116   9519               EICALL
+    337          		}
+    338          
+    339          		SCI_Process();
    \                     ??main_5:
-   \   000000F8   ........           CALL    SCI_Process
-    336          
-    337          		SystemTimeTic();
-   \   000000FC   ....               RCALL   SystemTimeTic
-    338          		SystemEventAutoClear();
-   \   000000FE   ....               RCALL   SystemEventAutoClear
-   \   00000100   CFCF               RJMP    ??main_0
-   \   00000102                      REQUIRE _A_PORTL
-   \   00000102                      REQUIRE _A_PORTG
-    339          	}
-    340          }
+   \   00000118   ........           CALL    SCI_Process
+    340          
+    341          		SystemTimeTic();
+   \   0000011C   ....               RCALL   SystemTimeTic
+    342          		SystemEventAutoClear();
+   \   0000011E   ....               RCALL   SystemEventAutoClear
+   \   00000120   CFCF               RJMP    ??main_0
+   \   00000122                      REQUIRE _A_PORTL
+   \   00000122                      REQUIRE _A_PORTG
+    343          	}
+    344          }
 
    \                                 In  segment INTVEC, offset 0x44, root
    \                     `??TIMER1_ISR??INTVEC 68`:
@@ -1153,6 +1169,10 @@ C:\Documents and Settings\idonno2000\πŸ≈¡ »≠∏È\KEYPAD335_110127_IAR\source\main.
        -> Delay_ms                 0      3
        -> Delay_ms                 0      3
        -> Delay_ms                 0      3
+       -> Delay_ms                 0      3
+       -> Delay_ms                 0      3
+       -> Delay_ms                 0      3
+       -> Delay_ms                 0      3
        -> KeyProc                  0      3
        -> MainSYSTEM               0      3
        ->   Indirect call          0      3
@@ -1224,7 +1244,7 @@ C:\Documents and Settings\idonno2000\πŸ≈¡ »≠∏È\KEYPAD335_110127_IAR\source\main.
      SystemTimeTic                                   316
      SystemEventAutoClear                            202
      TIMER1_ISR                                       36
-     main                                            258
+     main                                            290
      ??TIMER1_ISR??INTVEC 68                           4
      ?<Initializer for <Constant " Seoho Electric">   16
      ?<Initializer for <Constant "    AC Drive">>     13
@@ -1239,15 +1259,15 @@ C:\Documents and Settings\idonno2000\πŸ≈¡ »≠∏È\KEYPAD335_110127_IAR\source\main.
       Others                                          14
 
  
-  29 bytes in segment ABSOLUTE
- 968 bytes in segment FARCODE
-  14 bytes in segment INITTAB
-   4 bytes in segment INTVEC
-  35 bytes in segment NEAR_I
-  35 bytes in segment NEAR_ID
- 121 bytes in segment NEAR_Z
+    29 bytes in segment ABSOLUTE
+ 1 000 bytes in segment FARCODE
+    14 bytes in segment INITTAB
+     4 bytes in segment INTVEC
+    35 bytes in segment NEAR_I
+    35 bytes in segment NEAR_ID
+   121 bytes in segment NEAR_Z
  
- 1 003 bytes of CODE memory (+ 18 bytes shared)
+ 1 035 bytes of CODE memory (+ 18 bytes shared)
    156 bytes of DATA memory (+ 29 bytes shared)
 
 Errors: none

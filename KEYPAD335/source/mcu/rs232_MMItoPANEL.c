@@ -342,7 +342,22 @@ void SCI_RegisterRefresh(void)
 		DATA_Registers[i]=0;
 		SCI_Registers[i]=0;
 	}
-	DATA_Registers[3195] = 1;
+
+	CRC.Word = 0;
+	TX0_char(0xAB); 		CRC_16(0xAB);
+	TX0_char(0xCD); 		CRC_16(0xCD);
+	
+	TX0_char(SEND);		CRC_16(SEND);
+	
+	TX0_char(0x0C);				CRC_16(0x0C);
+	TX0_char(0x7B);				CRC_16(0x7B);
+	
+	TX0_char(0);				CRC_16(0);
+	TX0_char(1);				CRC_16(1);
+	
+	TX0_char(CRC.Byte.b1);
+	TX0_char(CRC.Byte.b0);
+
 }
 
 

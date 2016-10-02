@@ -1,18 +1,18 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                            /
-// IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR   28/Jan/2011  01:52:07 /
+// IAR C/C++ Compiler V5.30.0.50166/W32 for Atmel AVR   30/Jan/2011  23:25:15 /
 // Copyright 1996-2009 IAR Systems AB.                                        /
 //                                                                            /
 //    Source file  =  C:\Documents and Settings\idonno2000\바탕               /
-//                    화면\KEYPAD335_110127_IAR\source\main.c                 /
+//                    화면\KEYPAD335_110128_IAR\source\main.c                 /
 //    Command line =  "C:\Documents and Settings\idonno2000\바탕              /
-//                    화면\KEYPAD335_110127_IAR\source\main.c" --cpu=m2560    /
+//                    화면\KEYPAD335_110128_IAR\source\main.c" --cpu=m2560    /
 //                    -ms -o "C:\Documents and Settings\idonno2000\바탕       /
-//                    화면\KEYPAD335_110127_IAR\Debug\Obj\" -lC               /
+//                    화면\KEYPAD335_110128_IAR\Debug\Obj\" -lC               /
 //                    "C:\Documents and Settings\idonno2000\바탕              /
-//                    화면\KEYPAD335_110127_IAR\Debug\List\" -lA              /
+//                    화면\KEYPAD335_110128_IAR\Debug\List\" -lA              /
 //                    "C:\Documents and Settings\idonno2000\바탕              /
-//                    화면\KEYPAD335_110127_IAR\Debug\List\" -y               /
+//                    화면\KEYPAD335_110128_IAR\Debug\List\" -y               /
 //                    --initializers_in_flash -z3 --no_cse --no_inline        /
 //                    --no_code_motion --no_cross_call --no_clustering        /
 //                    --no_tbaa --debug --enable_external_bus                 /
@@ -22,7 +22,7 @@
 //                    Systems\Embedded Workbench 5.3\avr\INC\CLIB\"           /
 //                    --eeprom_size 4096                                      /
 //    List file    =  C:\Documents and Settings\idonno2000\바탕               /
-//                    화면\KEYPAD335_110127_IAR\Debug\List\main.s90           /
+//                    화면\KEYPAD335_110128_IAR\Debug\List\main.s90           /
 //                                                                            /
 //                                                                            /
 ///////////////////////////////////////////////////////////////////////////////
@@ -285,7 +285,7 @@ TIMER1_ISR          SYMBOL "TIMER1_ISR"
         EXTERN RefreshFlag
         EXTERN key_press_time
 
-// C:\Documents and Settings\idonno2000\바탕 화면\KEYPAD335_110127_IAR\source\main.c
+// C:\Documents and Settings\idonno2000\바탕 화면\KEYPAD335_110128_IAR\source\main.c
 //    1 //====================================================
 //    2 //
 //    3 // Copyright(C) 2008 HanYoung ELEC. Co., LTD.
@@ -1265,6 +1265,22 @@ main:
         LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
         ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, Delay_ms
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, Delay_ms
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, Delay_ms
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
+        FUNCALL main, Delay_ms
+        LOCFRAME CSTACK, 0, STACK
+        LOCFRAME RSTACK, 3, STACK
+        ARGFRAME RSTACK, 0, STACK
         FUNCALL main, KeyProc
         LOCFRAME CSTACK, 0, STACK
         LOCFRAME RSTACK, 3, STACK
@@ -1379,48 +1395,64 @@ main:
         LDI     R16, 244
         LDI     R17, 1
         CALL    Delay_ms
-//  305 	
-//  306 	EventFlagE = 1;
+//  305 	Delay_ms(500); 
+        LDI     R16, 244
+        LDI     R17, 1
+        CALL    Delay_ms
+//  306 	Delay_ms(500);
+        LDI     R16, 244
+        LDI     R17, 1
+        CALL    Delay_ms
+//  307 	Delay_ms(500); 
+        LDI     R16, 244
+        LDI     R17, 1
+        CALL    Delay_ms
+//  308 	Delay_ms(500);
+        LDI     R16, 244
+        LDI     R17, 1
+        CALL    Delay_ms
+//  309 	
+//  310 	EventFlagE = 1;
         LDI     R16, 1
         STS     EventFlagE, R16
-//  307 
-//  308 	 MenuDisplay_Handler = MENU_RUN;
+//  311 
+//  312 	 MenuDisplay_Handler = MENU_RUN;
         LDI     R16, 1
         STS     MenuDisplay_Handler, R16
-//  309 
-//  310 	while(1)
-//  311 	{
-//  312 		if(TimeTic_10ms)
+//  313 
+//  314 	while(1)
+//  315 	{
+//  316 		if(TimeTic_10ms)
 ??main_0:
         LDS     R16, TimeTic_10ms
         TST     R16
         BREQ    ??main_1
-//  313 		{
-//  314 			KeyProc();
+//  317 		{
+//  318 			KeyProc();
         CALL    KeyProc
-//  315 			MainSYSTEM();
+//  319 			MainSYSTEM();
         CALL    MainSYSTEM
-//  316 		}
-//  317 		
-//  318 		if(TimeTic_1s)
+//  320 		}
+//  321 		
+//  322 		if(TimeTic_1s)
 ??main_1:
         LDS     R16, TimeTic_1s
         TST     R16
         BREQ    ??main_2
-//  319 		{
-//  320  			RefreshFlag=1;
+//  323 		{
+//  324  			RefreshFlag=1;
         LDI     R16, 1
         STS     RefreshFlag, R16
-//  321 		}
-//  322 
-//  323 		if(TimeTic_500ms)
+//  325 		}
+//  326 
+//  327 		if(TimeTic_500ms)
 ??main_2:
         LDS     R16, TimeTic_500ms
         TST     R16
         BREQ    ??main_3
-//  324 		{
-//  325 			//PORTL = PORTL ^ 0xFF;
-//  326 			PORTG_Bit3 = PORTG_Bit3^1;
+//  328 		{
+//  329 			//PORTL = PORTL ^ 0xFF;
+//  330 			PORTG_Bit3 = PORTG_Bit3^1;
         LDI     R17, 0
         SBIC    0x14, 0x03
         INC     R17
@@ -1431,16 +1463,16 @@ main:
         IN      R17, 0x14
         BLD     R17, 3
         OUT     0x14, R17
-//  327 		}
-//  328 		
-//  329 		//display
-//  330 		if(TimeTic_10ms)
+//  331 		}
+//  332 		
+//  333 		//display
+//  334 		if(TimeTic_10ms)
 ??main_3:
         LDS     R16, TimeTic_10ms
         TST     R16
         BREQ    ??main_5
-//  331 		{
-//  332 			if(MenuDisplay_Handler)	MenuDisplay();
+//  335 		{
+//  336 			if(MenuDisplay_Handler)	MenuDisplay();
         LDS     R16, MenuDisplay_Handler
         TST     R16
         BREQ    ??main_5
@@ -1452,22 +1484,22 @@ main:
         MOVW    R31:R30, R17:R16
         OUT     0x3C, R18
         EICALL
-//  333 		}
-//  334 
-//  335 		SCI_Process();
+//  337 		}
+//  338 
+//  339 		SCI_Process();
 ??main_5:
         CALL    SCI_Process
-//  336 
-//  337 		SystemTimeTic();
+//  340 
+//  341 		SystemTimeTic();
         RCALL   SystemTimeTic
-//  338 		SystemEventAutoClear();
+//  342 		SystemEventAutoClear();
         RCALL   SystemEventAutoClear
         RJMP    ??main_0
         CFI EndBlock cfiBlock5
         REQUIRE _A_PORTL
         REQUIRE _A_PORTG
-//  339 	}
-//  340 }
+//  343 	}
+//  344 }
 
         ASEGN ABSOLUTE:DATA:NOROOT,01fH
 __?EECR:
@@ -1537,15 +1569,15 @@ __?XMCRA:
 
         END
 // 
-//  29 bytes in segment ABSOLUTE
-// 968 bytes in segment FARCODE
-//  14 bytes in segment INITTAB
-//   4 bytes in segment INTVEC
-//  35 bytes in segment NEAR_I
-//  35 bytes in segment NEAR_ID
-// 121 bytes in segment NEAR_Z
+//    29 bytes in segment ABSOLUTE
+// 1 000 bytes in segment FARCODE
+//    14 bytes in segment INITTAB
+//     4 bytes in segment INTVEC
+//    35 bytes in segment NEAR_I
+//    35 bytes in segment NEAR_ID
+//   121 bytes in segment NEAR_Z
 // 
-// 1 003 bytes of CODE memory (+ 18 bytes shared)
+// 1 035 bytes of CODE memory (+ 18 bytes shared)
 //   156 bytes of DATA memory (+ 29 bytes shared)
 //
 //Errors: none
