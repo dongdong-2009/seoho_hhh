@@ -85,16 +85,16 @@ void DisplayInit(void)
 
 void SYS_ParameterDisplay(unsigned char mode)
 {
-	if(mode == MODE_5u)//_ _ _ _ _
+	if(mode == MODE_5d)//_ _ _ _ _
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u     ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d     ",Temporary));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u     ",edit_Temp));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d     ",edit_Temp));
 			SYS_cursor_ON_Mode(CURSOR_MODE_1);
 		}
 	}
@@ -168,7 +168,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_4);
 		}
 	}
-	else if(mode == MODE_3d_1u_kW)//_ _ . _ Kw
+	else if(mode == MODE_3d_1d_kW)//_ _ . _ Kw
 	{
 		if(!Edit_flag)
 		{
@@ -181,7 +181,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_6);
 		}
 	}
-	else if(mode == MODE_3d_1u_Vrms)
+	else if(mode == MODE_3d_1d_Vrms)
 	{
 		if(!Edit_flag)
 		{
@@ -194,7 +194,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_6);
 		}
 	}
-	else if(mode == MODE_3d_1u_Arms)
+	else if(mode == MODE_3d_1d_Arms)
 	{
 		if(!Edit_flag)
 		{
@@ -208,7 +208,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 		}
 
 	}
-	else if(mode == MODE_3d_1u_Hz)
+	else if(mode == MODE_3d_1d_Hz)
 	{
 		if(!Edit_flag)
 		{
@@ -221,16 +221,16 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_6);
 		}
 	}
-	else if(mode == MODE_5u_pole)
+	else if(mode == MODE_5d_pole)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u pole ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d pole ",Temporary));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u pole ",edit_Temp));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d pole ",edit_Temp));
 			SYS_cursor_ON_Mode(CURSOR_MODE_1);
 		}
 	}
@@ -268,7 +268,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_4);
 		}
 	}
-	else if(mode == MODE_3d_1u_kHz)
+	else if(mode == MODE_3d_1d_kHz)
 	{
 		if(!Edit_flag)
 		{
@@ -304,7 +304,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_4);
 		}
 	}
-	else if(mode == MODE_3d_1u_s)
+	else if(mode == MODE_3d_1d_s)
 	{
 		if(!Edit_flag)
 		{
@@ -336,7 +336,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_4);
 		}
 	}
-	else if(mode == MODE_3d_1u_persent)
+	else if(mode == MODE_3d_1d_persent)
 	{
 		if(!Edit_flag)
 		{
@@ -383,43 +383,43 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_4);
 		}
 	}
-	else if(mode == MODE_5u_s)
+	else if(mode == MODE_5d_s)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u s    ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d s    ",Temporary));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u s    ",edit_Temp));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d s    ",edit_Temp));
 			SYS_cursor_ON_Mode(CURSOR_MODE_1);
 		}
 
 	}
-	else if(mode == MODE_5u_Hz)
+	else if(mode == MODE_5d_Hz)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u Hz   ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d Hz   ",Temporary));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u Hz   ",edit_Temp));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d Hz   ",edit_Temp));
 			SYS_cursor_ON_Mode(CURSOR_MODE_1);
 		} 
 	}
-	else if(mode == MODE_5u_kHz)
+	else if(mode == MODE_5d_kHz)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u kHz  ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d kHz  ",Temporary));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u kHz  ",edit_Temp));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d kHz  ",edit_Temp));
 			SYS_cursor_ON_Mode(CURSOR_MODE_1);
 		}
 
@@ -445,7 +445,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_4);
 		}
 	}
-	else if(mode == MODE_3d_1u_V)
+	else if(mode == MODE_3d_1d_V)
 	{
 		if(!Edit_flag)
 		{
@@ -498,7 +498,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_4);
 		}
 	}
-	else if(mode == MODE_3d_1u_deg)
+	else if(mode == MODE_3d_1d_deg)
 	{
 		if(!Edit_flag)
 		{
@@ -569,7 +569,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_4);
 		}
 	}
-	else if(mode == MODE_3d_1u_ms)
+	else if(mode == MODE_3d_1d_ms)
 	{
 		if(!Edit_flag)
 		{
@@ -582,7 +582,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_6);
 		}
 	}
-	else if(mode == MODE_3d_1u_mV)
+	else if(mode == MODE_3d_1d_mV)
 	{
 		if(!Edit_flag)
 		{
@@ -595,7 +595,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_6);
 		}
 	}
-	else if(mode == MODE_5u_mA)
+	else if(mode == MODE_5d_mA)
 	{
 		if(!Edit_flag)
 		{
@@ -609,7 +609,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 		}
 
 	}
-	else if(mode == MODE_3d_1u_mV)
+	else if(mode == MODE_3d_1d_mV)
 	{
 		if(!Edit_flag)
 		{
@@ -622,7 +622,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_6);
 		}
 	}
-	else if(mode == MODE_3d_1u_mA)
+	else if(mode == MODE_3d_1d_mA)
 	{
 		if(!Edit_flag)
 		{
@@ -906,7 +906,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_4);
 		}
 	}
-	else if(mode == MODE_3d_1u)
+	else if(mode == MODE_3d_1d)
 	{
 		if(!Edit_flag)
 		{
@@ -991,72 +991,72 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_4);
 		}
 	}
-	else if(mode == MODE_5u_ms)
+	else if(mode == MODE_5d_ms)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u ms   ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d ms   ",Temporary));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u ms   ",edit_Temp));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d ms   ",edit_Temp));
 			SYS_cursor_ON_Mode(CURSOR_MODE_1);
 		}
 	}
-	else if(mode == MODE_5u_persent)
+	else if(mode == MODE_5d_persent)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u %    ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d %    ",Temporary));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u %   ",edit_Temp));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d %   ",edit_Temp));
 			SYS_cursor_ON_Mode(CURSOR_MODE_1);
 		}
 	}
-	else if(mode == MODE_5u_ppr)
+	else if(mode == MODE_5d_ppr)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u ppr  ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d ppr  ",Temporary));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u ppr  ",edit_Temp));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d ppr  ",edit_Temp));
 			SYS_cursor_ON_Mode(CURSOR_MODE_1);
 		}
 	}
-	else if(mode == MODE_5u_mOhm)
+	else if(mode == MODE_5d_mOhm)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u mOhm ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d mOhm ",Temporary));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u mOhm ",edit_Temp));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d mOhm ",edit_Temp));
 			SYS_cursor_ON_Mode(CURSOR_MODE_1);
 		}
 	}
-	else if(mode == MODE_5u_mH)
+	else if(mode == MODE_5d_mH)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u mH   ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d mH   ",Temporary));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u mH   ",edit_Temp));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d mH   ",edit_Temp));
 			SYS_cursor_ON_Mode(CURSOR_MODE_1);
 		}
 	}
-	else if(mode == MODE_3d_1u_A)
+	else if(mode == MODE_3d_1d_A)
 	{
 		if(!Edit_flag)
 		{
@@ -1095,16 +1095,16 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_1);
 		}
 	}
-	else if(mode == MODE_5u_uF)
+	else if(mode == MODE_5d_uF)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u uF   ",Temporary));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d uF   ",Temporary));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u uF   ",edit_Temp));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d uF   ",edit_Temp));
 			SYS_cursor_ON_Mode(CURSOR_MODE_1);
 		}
 	}
@@ -1136,7 +1136,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 		}
 
 	}
-	else if(mode == MODE_3d_1u_mOhm)
+	else if(mode == MODE_3d_1d_mOhm)
 	{
 		if(!Edit_flag)
 		{
@@ -1149,7 +1149,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_6);
 		}
 	}
-	else if(mode == MODE_3d_1u_mH)
+	else if(mode == MODE_3d_1d_mH)
 	{
 		if(!Edit_flag)
 		{
@@ -1162,16 +1162,16 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_6);
 		}
 	}
-	else if(mode == MODE_1d_3u_pu)
+	else if(mode == MODE_1d_3d_pu)
 	{
 		if(!Edit_flag)
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 1d.%03u p.u  ",(int)Temporary/1000,(int)Temporary%1000));
+			CLCD_string(0xC0,(char*)_TEXT("      % 1d.%03d p.u  ",(int)Temporary/1000,(int)Temporary%1000));
 			CLCD_cursor_OFF();
 		}
 		else
 		{
-			CLCD_string(0xC0,(char*)_TEXT("      % 1d.%03u p.u  ",(int)edit_Temp/1000,(int)edit_Temp%1000));
+			CLCD_string(0xC0,(char*)_TEXT("      % 1d.%03d p.u  ",(int)edit_Temp/1000,(int)edit_Temp%1000));
 			SYS_cursor_ON_Mode(CURSOR_MODE_7);
 		}
 	}
@@ -1250,7 +1250,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_1);
 		}
 	}
-	else if(mode == MODE_5u_Vrms)
+	else if(mode == MODE_5d_Vrms)
 	{
 		if(!Edit_flag)
 		{
@@ -1263,7 +1263,7 @@ void SYS_ParameterDisplay(unsigned char mode)
 			SYS_cursor_ON_Mode(CURSOR_MODE_1);
 		}
 	}
-	else if(mode == MODE_5u_mV)
+	else if(mode == MODE_5d_mV)
 	{
 		if(!Edit_flag)
 		{
@@ -2255,7 +2255,7 @@ void SYS_0_3(void)
 	{
 		Temporary = ReadDataMem(Freq_ref);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_0_X[3][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_0_4(void)
@@ -2281,7 +2281,7 @@ void SYS_0_4(void)
 	{
 		Temporary = ReadDataMem(Torque_ref);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_0_X[4][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 
@@ -2308,7 +2308,7 @@ void SYS_0_5(void)
 	{
 		Temporary = ReadDataMem(PID_ref);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_0_X[5][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 
@@ -2403,7 +2403,7 @@ void SYS_1_0_01(void)
 		if(device_type == DEV_IM)
 		{
 			CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[1][0]));
-			SYS_ParameterDisplay(MODE_3d_1u_Hz);
+			SYS_ParameterDisplay(MODE_3d_1d_Hz);
 		}
 		else if(device_type == DEV_DCDC)
 		{
@@ -2458,7 +2458,7 @@ void SYS_1_0_03(void)
 		if(device_type == DEV_IM)
 		{
 			CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[3][0]));
-			SYS_ParameterDisplay(MODE_3d_1u_Arms);
+			SYS_ParameterDisplay(MODE_3d_1d_Arms);
 		}
 		else if(device_type == DEV_DCDC)
 		{
@@ -2485,7 +2485,7 @@ void SYS_1_0_04(void)
 		if(device_type == DEV_IM)
 		{
 			CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[4][0]));
-			CLCD_string(0xC0,(char*)_TEXT("      % 5u Vrms",DATA_Registers[2314]));
+			CLCD_string(0xC0,(char*)_TEXT("      % 5d Vrms",DATA_Registers[2314]));
 		}
 		else if(device_type == DEV_DCDC)
 		{
@@ -2513,7 +2513,7 @@ void SYS_1_0_05(void)
 		if(device_type == DEV_IM)
 		{
 			CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[5][0]));
-			SYS_ParameterDisplay(MODE_3d_1u_persent);
+			SYS_ParameterDisplay(MODE_3d_1d_persent);
 		}
 		else if(device_type == DEV_DCDC)
 		{
@@ -2599,7 +2599,7 @@ void SYS_1_0_08(void)
 		else if(device_type == DEV_DCDC)
 		{
 			CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX_DCDC[8][0]));
-			SYS_ParameterDisplay(MODE_3d_1u_kW);
+			SYS_ParameterDisplay(MODE_3d_1d_kW);
 		}
 	}
 }
@@ -2626,7 +2626,7 @@ void SYS_1_0_09(void)
 		else if(device_type == DEV_DCDC)
 		{
 			CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX_DCDC[9][0]));
-			SYS_ParameterDisplay(MODE_3d_1u_kW);
+			SYS_ParameterDisplay(MODE_3d_1d_kW);
 		}
 	}
 }
@@ -2648,7 +2648,7 @@ void SYS_1_0_10(void)
 		if(device_type == DEV_IM)
 		{
 			CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[10][0]));
-			SYS_ParameterDisplay(MODE_3d_1u);
+			SYS_ParameterDisplay(MODE_3d_1d);
 		}
 		else if(device_type == DEV_DCDC)
 		{
@@ -2675,7 +2675,7 @@ void SYS_1_0_11(void)
 		if(device_type == DEV_IM)
 		{
 			CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[11][0]));
-			SYS_ParameterDisplay(MODE_3d_1u);
+			SYS_ParameterDisplay(MODE_3d_1d);
 		}
 		else if(device_type == DEV_DCDC)
 		{
@@ -2702,7 +2702,7 @@ void SYS_1_0_12(void)
 		if(device_type == DEV_IM)
 		{
 			CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[12][0]));
-			SYS_ParameterDisplay(MODE_3d_1u);
+			SYS_ParameterDisplay(MODE_3d_1d);
 		}
 		else if(device_type == DEV_DCDC)
 		{
@@ -2729,12 +2729,12 @@ void SYS_1_0_13(void)
 		if(device_type == DEV_IM)
 		{
 			CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX[13][0]));
-			SYS_ParameterDisplay(MODE_3d_1u_deg);
+			SYS_ParameterDisplay(MODE_3d_1d_deg);
 		}
 		else if(device_type == DEV_DCDC)
 		{
 			CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_0_XX_DCDC[13][0]));
-			SYS_ParameterDisplay(MODE_3d_1u_deg);
+			SYS_ParameterDisplay(MODE_3d_1d_deg);
 		}
 	}
 }
@@ -2795,7 +2795,7 @@ void SYS_1_1_02(void)
 	if(RefreshFlag){
 		Temporary = ReadDataMem(2342);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_1_XX[2][0]));
-		CLCD_string(0xC0,(char*)_TEXT("      % 5u V   ",DATA_Registers[2342]/10,DATA_Registers[2342]%10));
+		CLCD_string(0xC0,(char*)_TEXT("      % 5d V   ",DATA_Registers[2342]/10,DATA_Registers[2342]%10));
 	}
 }
 void SYS_1_1_03(void)
@@ -2958,7 +2958,7 @@ void SYS_1_2_04(void)
 		if(RefreshFlag){
 			Temporary = ReadDataMem(210);
 			CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX[4][0]));
-			SYS_ParameterDisplay(MODE_3d_1u_kW);
+			SYS_ParameterDisplay(MODE_3d_1d_kW);
 		}
 	}
 	else if(device_type == DEV_DCDC)
@@ -2976,7 +2976,7 @@ void SYS_1_2_04(void)
 		if(RefreshFlag){
 			Temporary = ReadDataMem(2354);
 			CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_2_XX_DCDC[4][0]));
-			SYS_ParameterDisplay(MODE_3d_1u_kW);
+			SYS_ParameterDisplay(MODE_3d_1d_kW);
 		}
 	}
 }
@@ -3004,7 +3004,7 @@ void SYS_1_2_05(void)
 			}
 			else if(device_type == DEV_DCDC)
 			{
-				SYS_ParameterDisplay(MODE_3d_1u_V);
+				SYS_ParameterDisplay(MODE_3d_1d_V);
 			}
 			
 		}
@@ -3031,7 +3031,7 @@ void SYS_1_2_05(void)
 			}
 			else if(device_type == DEV_DCDC)
 			{
-				SYS_ParameterDisplay(MODE_3d_1u_V);
+				SYS_ParameterDisplay(MODE_3d_1d_V);
 			}
 			
 		}
@@ -3474,7 +3474,7 @@ void SYS_2_00_00(void)
 	{
 		Temporary = ReadDataMem(200);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_00_XX[0][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 		
 	}
 }
@@ -3552,7 +3552,7 @@ void SYS_2_00_04(void)
 	{
 		Temporary = ReadDataMem(204);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_00_XX[4][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_00_05(void)
@@ -3571,7 +3571,7 @@ void SYS_2_00_05(void)
 	{
 		Temporary = ReadDataMem(205);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_00_XX[5][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_00_06(void)
@@ -3590,7 +3590,7 @@ void SYS_2_00_06(void)
 	{
 		Temporary = ReadDataMem(206);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_00_XX[5][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_00_07(void)
@@ -3609,7 +3609,7 @@ void SYS_2_00_07(void)
 	{
 		Temporary = ReadDataMem(207);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_00_XX[7][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_00_08(void)
@@ -3628,7 +3628,7 @@ void SYS_2_00_08(void)
 	{
 		Temporary = ReadDataMem(208);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_00_XX[8][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_00_09(void)
@@ -3647,7 +3647,7 @@ void SYS_2_00_09(void)
 	{
 		Temporary = ReadDataMem(209);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_00_XX[9][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_00_10(void)
@@ -3666,7 +3666,7 @@ void SYS_2_00_10(void)
 	{
 		Temporary = ReadDataMem(210);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_00_XX[2][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_00_11(void)
@@ -3685,7 +3685,7 @@ void SYS_2_00_11(void)
 	{
 		Temporary = ReadDataMem(211);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_00_XX[11][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_00_12(void)
@@ -3704,7 +3704,7 @@ void SYS_2_00_12(void)
 	{
 		Temporary = ReadDataMem(212);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_00_XX[12][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_00_13(void)
@@ -3781,7 +3781,7 @@ void SYS_2_01_00(void)
 	{
 		Temporary = ReadDataMem(240);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_01_XX[0][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_kW);
+		SYS_ParameterDisplay(MODE_3d_1d_kW);
 	}
 }
 void SYS_2_01_01(void)
@@ -3800,7 +3800,7 @@ void SYS_2_01_01(void)
 	{
 		Temporary = ReadDataMem(241);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_01_XX[1][0]));
-		SYS_ParameterDisplay(MODE_5u_Vrms);
+		SYS_ParameterDisplay(MODE_5d_Vrms);
 
 	}
 }
@@ -3820,7 +3820,7 @@ void SYS_2_01_02(void)
 	{
 		Temporary = ReadDataMem(242);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_01_XX[2][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_Arms);
+		SYS_ParameterDisplay(MODE_3d_1d_Arms);
 	}
 }
 void SYS_2_01_03(void)
@@ -3839,7 +3839,7 @@ void SYS_2_01_03(void)
 	{
 		Temporary = ReadDataMem(243);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_01_XX[3][0]));
-		SYS_ParameterDisplay(MODE_5u_Hz);
+		SYS_ParameterDisplay(MODE_5d_Hz);
 	}
 }
 void SYS_2_01_04(void)
@@ -3858,7 +3858,7 @@ void SYS_2_01_04(void)
 	{
 		Temporary = ReadDataMem(244);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_01_XX[4][0]));
-		SYS_ParameterDisplay(MODE_5u_pole);
+		SYS_ParameterDisplay(MODE_5d_pole);
 	}
 }
 void SYS_2_01_05(void)
@@ -3877,7 +3877,7 @@ void SYS_2_01_05(void)
 	{
 		Temporary = ReadDataMem(245);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_01_XX[5][0]));
-		SYS_ParameterDisplay(MODE_5u_rpm);
+		SYS_ParameterDisplay(MODE_5d_rpm);
 	}
 }
 void SYS_2_01_06(void)
@@ -3915,7 +3915,7 @@ void SYS_2_01_07(void)
 	{
 		Temporary = ReadDataMem(247);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_01_XX[7][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_kHz);
+		SYS_ParameterDisplay(MODE_3d_1d_kHz);
 	}
 }
 void SYS_2_01_08(void)
@@ -3934,7 +3934,7 @@ void SYS_2_01_08(void)
 	{
 		Temporary = ReadDataMem(248);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_01_XX[8][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_01_09(void)
@@ -3953,7 +3953,7 @@ void SYS_2_01_09(void)
 	{
 		Temporary = ReadDataMem(249);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_01_XX[9][0]));
-		SYS_ParameterDisplay(MODE_5u_Vrms);
+		SYS_ParameterDisplay(MODE_5d_Vrms);
 	}
 }
  
@@ -3976,7 +3976,7 @@ void SYS_2_02_00(void)
 	{
 		Temporary = ReadDataMem(260);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_02_XX[0][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_kW);
+		SYS_ParameterDisplay(MODE_3d_1d_kW);
 	}
 }
 void SYS_2_02_01(void)
@@ -3995,7 +3995,7 @@ void SYS_2_02_01(void)
 	{
 		Temporary = ReadDataMem(261);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_02_XX[1][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_Vrms);
+		SYS_ParameterDisplay(MODE_3d_1d_Vrms);
 	}
 }
 void SYS_2_02_02(void)
@@ -4014,7 +4014,7 @@ void SYS_2_02_02(void)
 	{
 		Temporary = ReadDataMem(262);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_02_XX[2][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_Arms);
+		SYS_ParameterDisplay(MODE_3d_1d_Arms);
 	}
 }
 void SYS_2_02_03(void)
@@ -4033,7 +4033,7 @@ void SYS_2_02_03(void)
 	{
 		Temporary = ReadDataMem(263);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_02_XX[3][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_02_04(void)
@@ -4052,7 +4052,7 @@ void SYS_2_02_04(void)
 	{
 		Temporary = ReadDataMem(264);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_02_XX[4][0]));
-		SYS_ParameterDisplay(MODE_5u_pole);
+		SYS_ParameterDisplay(MODE_5d_pole);
 	}
 }
 void SYS_2_02_05(void)
@@ -4071,7 +4071,7 @@ void SYS_2_02_05(void)
 	{
 		Temporary = ReadDataMem(265);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_02_XX[5][0]));
-		SYS_ParameterDisplay(MODE_5u_rpm);
+		SYS_ParameterDisplay(MODE_5d_rpm);
 	}
 }
 void SYS_2_02_06(void)
@@ -4109,7 +4109,7 @@ void SYS_2_02_07(void)
 	{
 		Temporary = ReadDataMem(267);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_02_XX[7][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_kHz);
+		SYS_ParameterDisplay(MODE_3d_1d_kHz);
 	}
 }
 void SYS_2_02_08(void)
@@ -4128,7 +4128,7 @@ void SYS_2_02_08(void)
 	{
 		Temporary = ReadDataMem(268);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_02_XX[8][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_02_09(void)
@@ -4147,7 +4147,7 @@ void SYS_2_02_09(void)
 	{
 		Temporary = ReadDataMem(269);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_02_XX[9][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_Vrms);
+		SYS_ParameterDisplay(MODE_3d_1d_Vrms);
 	}
 }
  
@@ -4208,7 +4208,7 @@ void SYS_2_03_02(void)
 	{
 		Temporary = ReadDataMem(282);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[2][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_03_03(void)
@@ -4246,7 +4246,7 @@ void SYS_2_03_04(void)
 	{
 		Temporary = ReadDataMem(284);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[4][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_03_05(void)
@@ -4265,7 +4265,7 @@ void SYS_2_03_05(void)
 	{
 		Temporary = ReadDataMem(285);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[5][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_03_06(void)
@@ -4284,7 +4284,7 @@ void SYS_2_03_06(void)
 	{
 		Temporary = ReadDataMem(286);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[6][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_03_07(void)
@@ -4341,7 +4341,7 @@ void SYS_2_03_09(void)
 	{
 		Temporary = ReadDataMem(289);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[9][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
  
@@ -4361,7 +4361,7 @@ void SYS_2_03_10(void)
 	{
 		Temporary = ReadDataMem(290);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[10][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_03_11(void)
@@ -4380,7 +4380,7 @@ void SYS_2_03_11(void)
 	{
 		Temporary = ReadDataMem(291);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[11][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_03_12(void)
@@ -4399,7 +4399,7 @@ void SYS_2_03_12(void)
 	{
 		Temporary = ReadDataMem(292);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[12][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_03_13(void)
@@ -4418,7 +4418,7 @@ void SYS_2_03_13(void)
 	{
 		Temporary = ReadDataMem(293);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[13][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_03_14(void)
@@ -4437,7 +4437,7 @@ void SYS_2_03_14(void)
 	{
 		Temporary = ReadDataMem(294);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[14][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_03_15(void)
@@ -4456,7 +4456,7 @@ void SYS_2_03_15(void)
 	{
 		Temporary = ReadDataMem(295);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[15][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_03_16(void)
@@ -4475,7 +4475,7 @@ void SYS_2_03_16(void)
 	{
 		Temporary = ReadDataMem(296);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[16][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_03_17(void)
@@ -4494,7 +4494,7 @@ void SYS_2_03_17(void)
 	{
 		Temporary = ReadDataMem(297);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[17][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_03_18(void)
@@ -4513,7 +4513,7 @@ void SYS_2_03_18(void)
 	{
 		Temporary = ReadDataMem(298);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[18][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_03_19(void)
@@ -4532,7 +4532,7 @@ void SYS_2_03_19(void)
 	{
 		Temporary = ReadDataMem(299);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[19][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
  
@@ -4553,7 +4553,7 @@ void SYS_2_03_20(void)
 	{
 		Temporary = ReadDataMem(300);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[20][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_03_21(void)
@@ -4572,7 +4572,7 @@ void SYS_2_03_21(void)
 	{
 		Temporary = ReadDataMem(301);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[21][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_03_22(void)
@@ -4591,7 +4591,7 @@ void SYS_2_03_22(void)
 	{
 		Temporary = ReadDataMem(302);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[22][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_03_23(void)
@@ -4610,7 +4610,7 @@ void SYS_2_03_23(void)
 	{
 		Temporary = ReadDataMem(303);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[23][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_03_24(void)
@@ -4629,7 +4629,7 @@ void SYS_2_03_24(void)
 	{
 		Temporary = ReadDataMem(304);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[24][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_03_25(void)
@@ -4667,7 +4667,7 @@ void SYS_2_03_26(void)
 	{
 		Temporary = ReadDataMem(306);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[26][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_03_27(void)
@@ -4686,7 +4686,7 @@ void SYS_2_03_27(void)
 	{
 		Temporary = ReadDataMem(307);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[27][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_03_28(void)
@@ -4705,7 +4705,7 @@ void SYS_2_03_28(void)
 	{
 		Temporary = ReadDataMem(308);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[28][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_03_29(void)
@@ -4724,7 +4724,7 @@ void SYS_2_03_29(void)
 	{
 		Temporary = ReadDataMem(309);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[29][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 
@@ -4745,7 +4745,7 @@ void SYS_2_03_30(void)
 	{
 		Temporary = ReadDataMem(310);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[30][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_03_31(void)
@@ -4764,7 +4764,7 @@ void SYS_2_03_31(void)
 	{
 		Temporary = ReadDataMem(311);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[31][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_03_32(void)
@@ -4783,7 +4783,7 @@ void SYS_2_03_32(void)
 	{
 		Temporary = ReadDataMem(312);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[32][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_03_33(void)
@@ -4802,7 +4802,7 @@ void SYS_2_03_33(void)
 	{
 		Temporary = ReadDataMem(313);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[33][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_03_34(void)
@@ -4821,7 +4821,7 @@ void SYS_2_03_34(void)
 	{
 		Temporary = ReadDataMem(314);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[34][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_03_35(void)
@@ -4840,7 +4840,7 @@ void SYS_2_03_35(void)
 	{
 		Temporary = ReadDataMem(315);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[35][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_03_36(void)
@@ -4859,7 +4859,7 @@ void SYS_2_03_36(void)
 	{
 		Temporary = ReadDataMem(316);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[36][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_03_37(void)
@@ -4878,7 +4878,7 @@ void SYS_2_03_37(void)
 	{
 		Temporary = ReadDataMem(317);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[37][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_03_38(void)
@@ -4897,7 +4897,7 @@ void SYS_2_03_38(void)
 	{
 		Temporary = ReadDataMem(318);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[38][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_03_39(void)
@@ -4916,7 +4916,7 @@ void SYS_2_03_39(void)
 	{
 		Temporary = ReadDataMem(319);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[39][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_03_40(void)
@@ -4935,7 +4935,7 @@ void SYS_2_03_40(void)
 	{
 		Temporary = ReadDataMem(320);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[40][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_03_41(void)
@@ -4954,7 +4954,7 @@ void SYS_2_03_41(void)
 	{
 		Temporary = ReadDataMem(321);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[41][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_03_42(void)
@@ -4992,7 +4992,7 @@ void SYS_2_03_43(void)
 	{
 		Temporary = ReadDataMem(323);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[43][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_03_44(void)
@@ -5030,7 +5030,7 @@ void SYS_2_03_45(void)
 	{
 		Temporary = ReadDataMem(325);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[45][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_03_46(void)
@@ -5049,7 +5049,7 @@ void SYS_2_03_46(void)
 	{
 		Temporary = ReadDataMem(326);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[46][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_03_47(void)
@@ -5068,7 +5068,7 @@ void SYS_2_03_47(void)
 	{
 		Temporary = ReadDataMem(327);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[47][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_03_48(void)
@@ -5087,7 +5087,7 @@ void SYS_2_03_48(void)
 	{
 		Temporary = ReadDataMem(328);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[48][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_03_49(void)
@@ -5125,7 +5125,7 @@ void SYS_2_03_50(void)
 	{
 		Temporary = ReadDataMem(330);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_03_XX[50][0]));
-		SYS_ParameterDisplay(MODE_3d_1u);
+		SYS_ParameterDisplay(MODE_3d_1d);
 	}
 }
 void SYS_2_03_51(void)
@@ -5223,7 +5223,7 @@ void SYS_2_04_02(void)
 	{
 		Temporary = ReadDataMem(392);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[2][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_03(void)
@@ -5261,7 +5261,7 @@ void SYS_2_04_04(void)
 	{
 		Temporary = ReadDataMem(394);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[4][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_05(void)
@@ -5280,7 +5280,7 @@ void SYS_2_04_05(void)
 	{
 		Temporary = ReadDataMem(395);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[5][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_06(void)
@@ -5299,7 +5299,7 @@ void SYS_2_04_06(void)
 	{
 		Temporary = ReadDataMem(396);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[6][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_04_07(void)
@@ -5356,7 +5356,7 @@ void SYS_2_04_09(void)
 	{
 		Temporary = ReadDataMem(399);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[9][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
  
@@ -5376,7 +5376,7 @@ void SYS_2_04_10(void)
 	{
 		Temporary = ReadDataMem(400);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[10][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_04_11(void)
@@ -5395,7 +5395,7 @@ void SYS_2_04_11(void)
 	{
 		Temporary = ReadDataMem(401);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[11][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_04_12(void)
@@ -5414,7 +5414,7 @@ void SYS_2_04_12(void)
 	{
 		Temporary = ReadDataMem(402);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[12][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_04_13(void)
@@ -5433,7 +5433,7 @@ void SYS_2_04_13(void)
 	{
 		Temporary = ReadDataMem(403);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[13][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_04_14(void)
@@ -5452,7 +5452,7 @@ void SYS_2_04_14(void)
 	{
 		Temporary = ReadDataMem(404);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[14][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_04_15(void)
@@ -5471,7 +5471,7 @@ void SYS_2_04_15(void)
 	{
 		Temporary = ReadDataMem(405);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[15][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_04_16(void)
@@ -5490,7 +5490,7 @@ void SYS_2_04_16(void)
 	{
 		Temporary = ReadDataMem(406);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[16][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_17(void)
@@ -5509,7 +5509,7 @@ void SYS_2_04_17(void)
 	{
 		Temporary = ReadDataMem(407);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[17][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_18(void)
@@ -5528,7 +5528,7 @@ void SYS_2_04_18(void)
 	{
 		Temporary = ReadDataMem(408);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[18][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_04_19(void)
@@ -5547,7 +5547,7 @@ void SYS_2_04_19(void)
 	{
 		Temporary = ReadDataMem(409);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[19][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
  
@@ -5568,7 +5568,7 @@ void SYS_2_04_20(void)
 	{
 		Temporary = ReadDataMem(410);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[20][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_21(void)
@@ -5587,7 +5587,7 @@ void SYS_2_04_21(void)
 	{
 		Temporary = ReadDataMem(411);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[21][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_22(void)
@@ -5606,7 +5606,7 @@ void SYS_2_04_22(void)
 	{
 		Temporary = ReadDataMem(412);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[22][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_23(void)
@@ -5625,7 +5625,7 @@ void SYS_2_04_23(void)
 	{
 		Temporary = ReadDataMem(413);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[23][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_24(void)
@@ -5644,7 +5644,7 @@ void SYS_2_04_24(void)
 	{
 		Temporary = ReadDataMem(414);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[24][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_25(void)
@@ -5682,7 +5682,7 @@ void SYS_2_04_26(void)
 	{
 		Temporary = ReadDataMem(416);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[26][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_04_27(void)
@@ -5701,7 +5701,7 @@ void SYS_2_04_27(void)
 	{
 		Temporary = ReadDataMem(417);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[27][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_04_28(void)
@@ -5720,7 +5720,7 @@ void SYS_2_04_28(void)
 	{
 		Temporary = ReadDataMem(418);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[28][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_04_29(void)
@@ -5739,7 +5739,7 @@ void SYS_2_04_29(void)
 	{
 		Temporary = ReadDataMem(419);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[29][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 
@@ -5760,7 +5760,7 @@ void SYS_2_04_30(void)
 	{
 		Temporary = ReadDataMem(420);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[30][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_04_31(void)
@@ -5779,7 +5779,7 @@ void SYS_2_04_31(void)
 	{
 		Temporary = ReadDataMem(421);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[31][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_04_32(void)
@@ -5798,7 +5798,7 @@ void SYS_2_04_32(void)
 	{
 		Temporary = ReadDataMem(422);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[32][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_04_33(void)
@@ -5817,7 +5817,7 @@ void SYS_2_04_33(void)
 	{
 		Temporary = ReadDataMem(423);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[33][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_34(void)
@@ -5836,7 +5836,7 @@ void SYS_2_04_34(void)
 	{
 		Temporary = ReadDataMem(424);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[34][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_35(void)
@@ -5855,7 +5855,7 @@ void SYS_2_04_35(void)
 	{
 		Temporary = ReadDataMem(425);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[35][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_36(void)
@@ -5874,7 +5874,7 @@ void SYS_2_04_36(void)
 	{
 		Temporary = ReadDataMem(426);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[36][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 				}
 }
 void SYS_2_04_37(void)
@@ -5893,7 +5893,7 @@ void SYS_2_04_37(void)
 	{
 		Temporary = ReadDataMem(427);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[37][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_38(void)
@@ -5912,7 +5912,7 @@ void SYS_2_04_38(void)
 	{
 		Temporary = ReadDataMem(428);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[38][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_39(void)
@@ -5931,7 +5931,7 @@ void SYS_2_04_39(void)
 	{
 		Temporary = ReadDataMem(429);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[39][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_40(void)
@@ -5950,7 +5950,7 @@ void SYS_2_04_40(void)
 	{
 		Temporary = ReadDataMem(430);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[40][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_41(void)
@@ -5969,7 +5969,7 @@ void SYS_2_04_41(void)
 	{
 		Temporary = ReadDataMem(431);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[41][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_42(void)
@@ -6007,7 +6007,7 @@ void SYS_2_04_43(void)
 	{
 		Temporary = ReadDataMem(433);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[43][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_44(void)
@@ -6045,7 +6045,7 @@ void SYS_2_04_45(void)
 	{
 		Temporary = ReadDataMem(435);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[45][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_46(void)
@@ -6064,7 +6064,7 @@ void SYS_2_04_46(void)
 	{
 		Temporary = ReadDataMem(436);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[46][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_04_47(void)
@@ -6083,7 +6083,7 @@ void SYS_2_04_47(void)
 	{
 		Temporary = ReadDataMem(437);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[47][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 				}
 }
 void SYS_2_04_48(void)
@@ -6102,7 +6102,7 @@ void SYS_2_04_48(void)
 	{
 		Temporary = ReadDataMem(438);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[48][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_04_49(void)
@@ -6140,7 +6140,7 @@ void SYS_2_04_50(void)
 	{
 		Temporary = ReadDataMem(440);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_04_XX[50][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_04_51(void)
@@ -6202,7 +6202,7 @@ void SYS_2_05_00(void)
 	{
 		Temporary = ReadDataMem(500);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[0][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_05_01(void)
@@ -6221,7 +6221,7 @@ void SYS_2_05_01(void)
 	{
 		Temporary = ReadDataMem(501);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[1][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_05_02(void)
@@ -6240,7 +6240,7 @@ void SYS_2_05_02(void)
 	{
 		Temporary = ReadDataMem(502);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[2][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_05_03(void)
@@ -6259,7 +6259,7 @@ void SYS_2_05_03(void)
 	{
 		Temporary = ReadDataMem(503);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[3][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_05_04(void)
@@ -6278,7 +6278,7 @@ void SYS_2_05_04(void)
 	{
 		Temporary = ReadDataMem(504);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[4][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_05_05(void)
@@ -6297,7 +6297,7 @@ void SYS_2_05_05(void)
 	{
 		Temporary = ReadDataMem(505);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[5][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_05_06(void)
@@ -6316,7 +6316,7 @@ void SYS_2_05_06(void)
 	{
 		Temporary = ReadDataMem(506);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[6][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_05_07(void)
@@ -6335,7 +6335,7 @@ void SYS_2_05_07(void)
 	{
 		Temporary = ReadDataMem(507);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[7][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_05_08(void)
@@ -6354,7 +6354,7 @@ void SYS_2_05_08(void)
 	{
 		Temporary = ReadDataMem(508);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[8][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_05_09(void)
@@ -6373,7 +6373,7 @@ void SYS_2_05_09(void)
 	{
 		Temporary = ReadDataMem(509);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[9][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
  
@@ -6412,7 +6412,7 @@ void SYS_2_05_11(void)
 	{
 		Temporary = ReadDataMem(511);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[11][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_05_12(void)
@@ -6431,7 +6431,7 @@ void SYS_2_05_12(void)
 	{
 		Temporary = ReadDataMem(512);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[12][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_05_13(void)
@@ -6585,7 +6585,7 @@ void SYS_2_05_20(void)
 	{
 		Temporary = ReadDataMem(520);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[20][0]));
-		SYS_ParameterDisplay(MODE_5u_Hz);
+		SYS_ParameterDisplay(MODE_5d_Hz);
 	}
 }
 void SYS_2_05_21(void)
@@ -6623,7 +6623,7 @@ void SYS_2_05_22(void)
 	{
 		Temporary = ReadDataMem(522);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[22][0]));
-		SYS_ParameterDisplay(MODE_5u_kHz);
+		SYS_ParameterDisplay(MODE_5d_kHz);
 	}
 }
 void SYS_2_05_23(void)
@@ -6756,7 +6756,7 @@ void SYS_2_05_29(void)
 	{
 		Temporary = ReadDataMem(529);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[29][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 
@@ -6777,7 +6777,7 @@ void SYS_2_05_30(void)
 	{
 		Temporary = ReadDataMem(530);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[30][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_05_31(void)
@@ -6796,7 +6796,7 @@ void SYS_2_05_31(void)
 	{
 		Temporary = ReadDataMem(531);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[31][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_05_32(void)
@@ -6929,7 +6929,7 @@ void SYS_2_05_38(void)
 	{
 		Temporary = ReadDataMem(538);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[38][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_05_39(void)
@@ -6948,7 +6948,7 @@ void SYS_2_05_39(void)
 	{
 		Temporary = ReadDataMem(539);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[39][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_05_40(void)
@@ -6967,7 +6967,7 @@ void SYS_2_05_40(void)
 	{
 		Temporary = ReadDataMem(540);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[40][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_deg);
+		SYS_ParameterDisplay(MODE_3d_1d_deg);
 	}
 }
 void SYS_2_05_41(void)
@@ -6986,7 +6986,7 @@ void SYS_2_05_41(void)
 	{
 		Temporary = ReadDataMem(541);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[41][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_05_42(void)
@@ -7005,7 +7005,7 @@ void SYS_2_05_42(void)
 	{
 		Temporary = ReadDataMem(542);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[42][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_05_43(void)
@@ -7024,7 +7024,7 @@ void SYS_2_05_43(void)
 	{
 		Temporary = ReadDataMem(543);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[43][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_05_44(void)
@@ -7043,7 +7043,7 @@ void SYS_2_05_44(void)
 	{
 		Temporary = ReadDataMem(544);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_05_XX[44][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 
@@ -7123,7 +7123,7 @@ void SYS_2_06_03(void)
 	{
 		Temporary = ReadDataMem(603);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[3][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_06_04(void)
@@ -7146,10 +7146,10 @@ void SYS_2_06_04(void)
 	{
 		Temporary = ReadDataMem(604);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[4][0]));
-		if(DATA_Registers[602] == 0)SYS_ParameterDisplay(MODE_5u_mV);
-		else if(DATA_Registers[602] == 1)SYS_ParameterDisplay(MODE_5u_mV);
-		else if(DATA_Registers[602] == 2)SYS_ParameterDisplay(MODE_5u_mA);
-		else if(DATA_Registers[602] == 3)SYS_ParameterDisplay(MODE_5u_mA);
+		if(DATA_Registers[602] == 0)SYS_ParameterDisplay(MODE_5d_mV);
+		else if(DATA_Registers[602] == 1)SYS_ParameterDisplay(MODE_5d_mV);
+		else if(DATA_Registers[602] == 2)SYS_ParameterDisplay(MODE_5d_mA);
+		else if(DATA_Registers[602] == 3)SYS_ParameterDisplay(MODE_5d_mA);
 	}
 }
 void SYS_2_06_05(void)
@@ -7176,8 +7176,8 @@ void SYS_2_06_05(void)
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[5][0]));
 			if(DATA_Registers[602] == 0)SYS_ParameterDisplay(MODE_5d_V);
 		else if(DATA_Registers[602] == 1)SYS_ParameterDisplay(MODE_5d_V);
-		else if(DATA_Registers[602] == 2)SYS_ParameterDisplay(MODE_3d_1u_mA);
-		else if(DATA_Registers[602] == 3)SYS_ParameterDisplay(MODE_3d_1u_mA);
+		else if(DATA_Registers[602] == 2)SYS_ParameterDisplay(MODE_3d_1d_mA);
+		else if(DATA_Registers[602] == 3)SYS_ParameterDisplay(MODE_3d_1d_mA);
 	}
 }
 void SYS_2_06_06(void)
@@ -7201,10 +7201,10 @@ void SYS_2_06_06(void)
 	{
 		Temporary = ReadDataMem(606);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[6][0]));
-		if(DATA_Registers[602] == 0)SYS_ParameterDisplay(MODE_3d_1u_V);
-		else if(DATA_Registers[602] == 1)SYS_ParameterDisplay(MODE_3d_1u_V);
-		else if(DATA_Registers[602] == 2)SYS_ParameterDisplay(MODE_3d_1u_mA);
-		else if(DATA_Registers[602] == 3)SYS_ParameterDisplay(MODE_3d_1u_mA);
+		if(DATA_Registers[602] == 0)SYS_ParameterDisplay(MODE_3d_1d_V);
+		else if(DATA_Registers[602] == 1)SYS_ParameterDisplay(MODE_3d_1d_V);
+		else if(DATA_Registers[602] == 2)SYS_ParameterDisplay(MODE_3d_1d_mA);
+		else if(DATA_Registers[602] == 3)SYS_ParameterDisplay(MODE_3d_1d_mA);
 	}
 }
 void SYS_2_06_07(void)
@@ -7228,7 +7228,7 @@ void SYS_2_06_07(void)
 	{
 		Temporary = ReadDataMem(607);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[7][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_06_08(void)
@@ -7247,7 +7247,7 @@ void SYS_2_06_08(void)
 	{
 		Temporary = ReadDataMem(608);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[8][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_06_09(void)
@@ -7362,7 +7362,7 @@ void SYS_2_06_14(void)
 	{
 		Temporary = ReadDataMem(614);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[14][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_06_15(void)
@@ -7387,10 +7387,10 @@ void SYS_2_06_15(void)
 		Temporary = ReadDataMem(615);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[15][0]));
 
-			 if(DATA_Registers[611] == 0)SYS_ParameterDisplay(MODE_3d_1u_mV);
-		else if(DATA_Registers[611] == 1)SYS_ParameterDisplay(MODE_3d_1u_mV);
-		else if(DATA_Registers[611] == 2)SYS_ParameterDisplay(MODE_3d_1u_mA);
-		else if(DATA_Registers[611] == 3)SYS_ParameterDisplay(MODE_3d_1u_mA);
+			 if(DATA_Registers[611] == 0)SYS_ParameterDisplay(MODE_3d_1d_mV);
+		else if(DATA_Registers[611] == 1)SYS_ParameterDisplay(MODE_3d_1d_mV);
+		else if(DATA_Registers[611] == 2)SYS_ParameterDisplay(MODE_3d_1d_mA);
+		else if(DATA_Registers[611] == 3)SYS_ParameterDisplay(MODE_3d_1d_mA);
 	}
 }
 void SYS_2_06_16(void)
@@ -7414,10 +7414,10 @@ void SYS_2_06_16(void)
 	{
 		Temporary = ReadDataMem(616);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[16][0]));
-			 if(DATA_Registers[611] == 0)SYS_ParameterDisplay(MODE_3d_1u_V);
-		else if(DATA_Registers[611] == 1)SYS_ParameterDisplay(MODE_3d_1u_V);
-		else if(DATA_Registers[611] == 2)SYS_ParameterDisplay(MODE_3d_1u_mA);
-		else if(DATA_Registers[611] == 3)SYS_ParameterDisplay(MODE_3d_1u_mA);
+			 if(DATA_Registers[611] == 0)SYS_ParameterDisplay(MODE_3d_1d_V);
+		else if(DATA_Registers[611] == 1)SYS_ParameterDisplay(MODE_3d_1d_V);
+		else if(DATA_Registers[611] == 2)SYS_ParameterDisplay(MODE_3d_1d_mA);
+		else if(DATA_Registers[611] == 3)SYS_ParameterDisplay(MODE_3d_1d_mA);
 	}
 }
 void SYS_2_06_17(void)
@@ -7441,10 +7441,10 @@ void SYS_2_06_17(void)
 	{
 		Temporary = ReadDataMem(617);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[17][0]));
-			 if(DATA_Registers[611] == 0)SYS_ParameterDisplay(MODE_3d_1u_mV);
-		else if(DATA_Registers[611] == 1)SYS_ParameterDisplay(MODE_3d_1u_mV);
-		else if(DATA_Registers[611] == 2)SYS_ParameterDisplay(MODE_3d_1u_mA);
-		else if(DATA_Registers[611] == 3)SYS_ParameterDisplay(MODE_3d_1u_mA);
+			 if(DATA_Registers[611] == 0)SYS_ParameterDisplay(MODE_3d_1d_mV);
+		else if(DATA_Registers[611] == 1)SYS_ParameterDisplay(MODE_3d_1d_mV);
+		else if(DATA_Registers[611] == 2)SYS_ParameterDisplay(MODE_3d_1d_mA);
+		else if(DATA_Registers[611] == 3)SYS_ParameterDisplay(MODE_3d_1d_mA);
 	}
 }
 void SYS_2_06_18(void)
@@ -7463,7 +7463,7 @@ void SYS_2_06_18(void)
 	{
 		Temporary = ReadDataMem(618);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[18][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_06_19(void)
@@ -7482,7 +7482,7 @@ void SYS_2_06_19(void)
 	{
 		Temporary = ReadDataMem(619);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[19][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
  
@@ -7560,7 +7560,7 @@ void SYS_2_06_23(void)
 	{
 		Temporary = ReadDataMem(623);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[23][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_V);
+		SYS_ParameterDisplay(MODE_3d_1d_V);
 	}
 }
 void SYS_2_06_24(void)
@@ -7579,7 +7579,7 @@ void SYS_2_06_24(void)
 	{
 		Temporary = ReadDataMem(624);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[24][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_mV);
+		SYS_ParameterDisplay(MODE_3d_1d_mV);
 	}
 }
 void SYS_2_06_25(void)
@@ -7598,7 +7598,7 @@ void SYS_2_06_25(void)
 	{
 		Temporary = ReadDataMem(625);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[25][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_06_26(void)
@@ -7714,7 +7714,7 @@ void SYS_2_06_31(void)
 	{
 		Temporary = ReadDataMem(631);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[31][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_06_32(void)
@@ -7733,7 +7733,7 @@ void SYS_2_06_32(void)
 	{
 		Temporary = ReadDataMem(632);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[32][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_ms);
+		SYS_ParameterDisplay(MODE_3d_1d_ms);
 	}
 }
 void SYS_2_06_33(void)
@@ -7752,7 +7752,7 @@ void SYS_2_06_33(void)
 	{
 		Temporary = ReadDataMem(633);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[33][0]));
-		SYS_ParameterDisplay(MODE_5u_mA);
+		SYS_ParameterDisplay(MODE_5d_mA);
 	}
 }
 void SYS_2_06_34(void)
@@ -7771,7 +7771,7 @@ void SYS_2_06_34(void)
 	{
 		Temporary = ReadDataMem(634);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[34][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_V);
+		SYS_ParameterDisplay(MODE_3d_1d_V);
 	}
 }
 void SYS_2_06_35(void)
@@ -7790,7 +7790,7 @@ void SYS_2_06_35(void)
 	{
 		Temporary = ReadDataMem(635);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[35][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_mV);
+		SYS_ParameterDisplay(MODE_3d_1d_mV);
 	}
 }
 void SYS_2_06_36(void)
@@ -7809,7 +7809,7 @@ void SYS_2_06_36(void)
 	{
 		Temporary = ReadDataMem(636);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[36][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_06_37(void)
@@ -7828,7 +7828,7 @@ void SYS_2_06_37(void)
 	{
 		Temporary = ReadDataMem(637);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[37][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_V);
+		SYS_ParameterDisplay(MODE_3d_1d_V);
 	}
 }
 void SYS_2_06_38(void)
@@ -7847,7 +7847,7 @@ void SYS_2_06_38(void)
 	{
 		Temporary = ReadDataMem(638);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[38][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_mV);
+		SYS_ParameterDisplay(MODE_3d_1d_mV);
 	}
 }
 void SYS_2_06_39(void)
@@ -7866,7 +7866,7 @@ void SYS_2_06_39(void)
 	{
 		Temporary = ReadDataMem(639);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[39][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_06_40(void)
@@ -7981,7 +7981,7 @@ void SYS_2_06_45(void)
 	{
 		Temporary = ReadDataMem(645);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[45][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_06_46(void)
@@ -8000,7 +8000,7 @@ void SYS_2_06_46(void)
 	{
 		Temporary = ReadDataMem(646);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[46][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_ms);
+		SYS_ParameterDisplay(MODE_3d_1d_ms);
 	}
 }
 void SYS_2_06_47(void)
@@ -8019,7 +8019,7 @@ void SYS_2_06_47(void)
 	{
 		Temporary = ReadDataMem(647);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[47][0]));
-		SYS_ParameterDisplay(MODE_5u_mA);
+		SYS_ParameterDisplay(MODE_5d_mA);
 	}
 }
 void SYS_2_06_48(void)
@@ -8038,7 +8038,7 @@ void SYS_2_06_48(void)
 	{
 		Temporary = ReadDataMem(648);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[48][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_V);
+		SYS_ParameterDisplay(MODE_3d_1d_V);
 	}
 }
 void SYS_2_06_49(void)
@@ -8057,7 +8057,7 @@ void SYS_2_06_49(void)
 	{
 		Temporary = ReadDataMem(649);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[49][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_mA);
+		SYS_ParameterDisplay(MODE_3d_1d_mA);
 	}
 }
  
@@ -8077,7 +8077,7 @@ void SYS_2_06_50(void)
 	{
 		Temporary = ReadDataMem(650);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[50][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_06_51(void)
@@ -8096,7 +8096,7 @@ void SYS_2_06_51(void)
 	{
 		Temporary = ReadDataMem(651);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[51][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_V);
+		SYS_ParameterDisplay(MODE_3d_1d_V);
 	}
 }
 void SYS_2_06_52(void)
@@ -8115,7 +8115,7 @@ void SYS_2_06_52(void)
 	{
 		Temporary = ReadDataMem(652);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[52][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_mA);
+		SYS_ParameterDisplay(MODE_3d_1d_mA);
 	}
 }
 void SYS_2_06_53(void)
@@ -8134,7 +8134,7 @@ void SYS_2_06_53(void)
 	{
 		Temporary = ReadDataMem(653);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[53][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_06_54(void)
@@ -8248,7 +8248,7 @@ void SYS_2_06_59(void)
 	{
 		Temporary = ReadDataMem(659);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[59][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
  
@@ -8269,7 +8269,7 @@ void SYS_2_06_60(void)
 	{
 		Temporary = ReadDataMem(660);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[60][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_ms);
+		SYS_ParameterDisplay(MODE_3d_1d_ms);
 	}
 }
 void SYS_2_06_61(void)
@@ -8288,7 +8288,7 @@ void SYS_2_06_61(void)
 	{
 		Temporary = ReadDataMem(661);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[61][0]));
-		SYS_ParameterDisplay(MODE_5u_mA);
+		SYS_ParameterDisplay(MODE_5d_mA);
 	}
 }
 void SYS_2_06_62(void)
@@ -8307,7 +8307,7 @@ void SYS_2_06_62(void)
 	{
 		Temporary = ReadDataMem(662);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[62][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_V);
+		SYS_ParameterDisplay(MODE_3d_1d_V);
 	}
 }
 void SYS_2_06_63(void)
@@ -8326,7 +8326,7 @@ void SYS_2_06_63(void)
 	{
 		Temporary = ReadDataMem(663);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[63][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_mA);
+		SYS_ParameterDisplay(MODE_3d_1d_mA);
 	}
 }
 void SYS_2_06_64(void)
@@ -8345,7 +8345,7 @@ void SYS_2_06_64(void)
 	{
 		Temporary = ReadDataMem(664);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[64][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_06_65(void)
@@ -8364,7 +8364,7 @@ void SYS_2_06_65(void)
 	{
 		Temporary = ReadDataMem(665);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[65][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_V);
+		SYS_ParameterDisplay(MODE_3d_1d_V);
 	}
 }
 void SYS_2_06_66(void)
@@ -8383,7 +8383,7 @@ void SYS_2_06_66(void)
 	{
 		Temporary = ReadDataMem(666);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[66][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_mV);
+		SYS_ParameterDisplay(MODE_3d_1d_mV);
 	}
 }
 void SYS_2_06_67(void)
@@ -8402,7 +8402,7 @@ void SYS_2_06_67(void)
 	{
 		Temporary = ReadDataMem(667);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_06_XX[67][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_06_68(void)
@@ -8523,7 +8523,7 @@ void SYS_2_07_02(void)
 	{
 		Temporary = ReadDataMem(752);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[2][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_07_03(void)
@@ -8599,7 +8599,7 @@ void SYS_2_07_06(void)
 	{
 		Temporary = ReadDataMem(756);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[6][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_07_07(void)
@@ -8618,7 +8618,7 @@ void SYS_2_07_07(void)
 	{
 		Temporary = ReadDataMem(757);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[7][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_07_08(void)
@@ -8637,7 +8637,7 @@ void SYS_2_07_08(void)
 	{
 		Temporary = ReadDataMem(758);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[8][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_07_09(void)
@@ -8656,7 +8656,7 @@ void SYS_2_07_09(void)
 	{
 		Temporary = ReadDataMem(759);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[9][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
  
@@ -8676,7 +8676,7 @@ void SYS_2_07_10(void)
 	{
 		Temporary = ReadDataMem(760);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[10][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_07_11(void)
@@ -8695,7 +8695,7 @@ void SYS_2_07_11(void)
 	{
 		Temporary = ReadDataMem(761);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[11][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_07_12(void)
@@ -8714,7 +8714,7 @@ void SYS_2_07_12(void)
 	{
 		Temporary = ReadDataMem(762);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[12][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_07_13(void)
@@ -8733,7 +8733,7 @@ void SYS_2_07_13(void)
 	{
 		Temporary = ReadDataMem(763);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[13][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_07_14(void)
@@ -8752,7 +8752,7 @@ void SYS_2_07_14(void)
 	{
 		Temporary = ReadDataMem(764);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[14][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_07_15(void)
@@ -8771,7 +8771,7 @@ void SYS_2_07_15(void)
 	{
 		Temporary = ReadDataMem(765);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[15][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_07_16(void)
@@ -8790,7 +8790,7 @@ void SYS_2_07_16(void)
 	{
 		Temporary = ReadDataMem(766);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[16][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_07_17(void)
@@ -8828,7 +8828,7 @@ void SYS_2_07_18(void)
 	{
 		Temporary = ReadDataMem(768);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[18][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_07_19(void)
@@ -8847,7 +8847,7 @@ void SYS_2_07_19(void)
 	{
 		Temporary = ReadDataMem(769);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[19][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
  
@@ -8868,7 +8868,7 @@ void SYS_2_07_20(void)
 	{
 		Temporary = ReadDataMem(770);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[20][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_07_21(void)
@@ -8887,7 +8887,7 @@ void SYS_2_07_21(void)
 	{
 		Temporary = ReadDataMem(771);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[21][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_07_22(void)
@@ -8906,7 +8906,7 @@ void SYS_2_07_22(void)
 	{
 		Temporary = ReadDataMem(772);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[22][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_07_23(void)
@@ -8925,7 +8925,7 @@ void SYS_2_07_23(void)
 	{
 		Temporary = ReadDataMem(773);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[23][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_07_24(void)
@@ -8963,7 +8963,7 @@ void SYS_2_07_25(void)
 	{
 		Temporary = ReadDataMem(775);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[25][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_07_26(void)
@@ -8982,7 +8982,7 @@ void SYS_2_07_26(void)
 	{
 		Temporary = ReadDataMem(776);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[26][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_07_27(void)
@@ -9001,7 +9001,7 @@ void SYS_2_07_27(void)
 	{
 		Temporary = ReadDataMem(777);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[27][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_07_28(void)
@@ -9020,7 +9020,7 @@ void SYS_2_07_28(void)
 	{
 		Temporary = ReadDataMem(778);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_07_XX[28][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 
@@ -9251,7 +9251,7 @@ void SYS_2_08_11(void)
 	{
 		Temporary = ReadDataMem(821);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_08_XX[11][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_08_12(void)
@@ -9270,7 +9270,7 @@ void SYS_2_08_12(void)
 	{
 		Temporary = ReadDataMem(822);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_08_XX[12][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_08_13(void)
@@ -9289,7 +9289,7 @@ void SYS_2_08_13(void)
 	{
 		Temporary = ReadDataMem(823);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_08_XX[13][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_08_14(void)
@@ -9308,7 +9308,7 @@ void SYS_2_08_14(void)
 	{
 		Temporary = ReadDataMem(824);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_08_XX[14][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_08_15(void)
@@ -9327,7 +9327,7 @@ void SYS_2_08_15(void)
 	{
 		Temporary = ReadDataMem(825);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_08_XX[15][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_08_16(void)
@@ -9346,7 +9346,7 @@ void SYS_2_08_16(void)
 	{
 		Temporary = ReadDataMem(826);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_08_XX[16][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_08_17(void)
@@ -9365,7 +9365,7 @@ void SYS_2_08_17(void)
 	{
 		Temporary = ReadDataMem(827);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_08_XX[17][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_08_18(void)
@@ -9384,7 +9384,7 @@ void SYS_2_08_18(void)
 	{
 		Temporary = ReadDataMem(828);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_08_XX[18][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_08_19(void)
@@ -9403,7 +9403,7 @@ void SYS_2_08_19(void)
 	{
 		Temporary = ReadDataMem(829);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_08_XX[19][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 
@@ -9428,7 +9428,7 @@ void SYS_2_09_00(void)
 	{
 		Temporary = ReadDataMem(860);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_09_XX[0][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 
 	}
 }
@@ -9448,8 +9448,8 @@ void SYS_2_09_01(void)
 	{
 		Temporary = ReadDataMem(861);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_09_XX[1][0]));
-		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1u_persent);
-		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1d_persent);
+		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_09_02(void)
@@ -9468,8 +9468,8 @@ void SYS_2_09_02(void)
 	{
 		Temporary = ReadDataMem(862);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_09_XX[2][0]));
-		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1u_persent);
-		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1d_persent);
+		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_09_03(void)
@@ -9488,8 +9488,8 @@ void SYS_2_09_03(void)
 	{
 		Temporary = ReadDataMem(863);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_09_XX[3][0]));
-		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1u_persent);
-		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1d_persent);
+		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_09_04(void)
@@ -9508,8 +9508,8 @@ void SYS_2_09_04(void)
 	{
 		Temporary = ReadDataMem(864);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_09_XX[4][0]));
-		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1u_persent);
-		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1d_persent);
+		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_09_05(void)
@@ -9528,8 +9528,8 @@ void SYS_2_09_05(void)
 	{
 		Temporary = ReadDataMem(865);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_09_XX[5][0]));
-		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1u_persent);
-		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1d_persent);
+		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_09_06(void)
@@ -9548,8 +9548,8 @@ void SYS_2_09_06(void)
 	{
 		Temporary = ReadDataMem(866);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_09_XX[6][0]));
-		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1u_persent);
-		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1d_persent);
+		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_09_07(void)
@@ -9568,8 +9568,8 @@ void SYS_2_09_07(void)
 	{
 		Temporary = ReadDataMem(867);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_09_XX[7][0]));
-		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1u_persent);
-		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1d_persent);
+		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_09_08(void)
@@ -9588,8 +9588,8 @@ void SYS_2_09_08(void)
 	{
 		Temporary = ReadDataMem(868);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_09_XX[8][0]));
-		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1u_persent);
-		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1d_persent);
+		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_09_09(void)
@@ -9608,8 +9608,8 @@ void SYS_2_09_09(void)
 	{
 		Temporary = ReadDataMem(869);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_09_XX[9][0]));
-		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1u_persent);
-		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1d_persent);
+		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
  
@@ -9629,8 +9629,8 @@ void SYS_2_09_10(void)
 	{
 		Temporary = ReadDataMem(870);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_09_XX[10][0]));
-		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1u_persent);
-		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1d_persent);
+		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_09_11(void)
@@ -9649,8 +9649,8 @@ void SYS_2_09_11(void)
 	{
 		Temporary = ReadDataMem(871);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_09_XX[11][0]));
-		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1u_persent);
-		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1d_persent);
+		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_09_12(void)
@@ -9669,8 +9669,8 @@ void SYS_2_09_12(void)
 	{
 		Temporary = ReadDataMem(872);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_09_XX[12][0]));
-		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1u_persent);
-		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1d_persent);
+		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_09_13(void)
@@ -9689,8 +9689,8 @@ void SYS_2_09_13(void)
 	{
 		Temporary = ReadDataMem(873);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_09_XX[13][0]));
-		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1u_persent);
-		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1d_persent);
+		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_09_14(void)
@@ -9709,8 +9709,8 @@ void SYS_2_09_14(void)
 	{
 		Temporary = ReadDataMem(874);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_09_XX[14][0]));
-		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1u_persent);
-		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1d_persent);
+		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_09_15(void)
@@ -9729,8 +9729,8 @@ void SYS_2_09_15(void)
 	{
 		Temporary = ReadDataMem(875);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_09_XX[15][0]));
-		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1u_persent);
-		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		if(DATA_Registers[876] == 0)	 SYS_ParameterDisplay(MODE_3d_1d_persent);
+		else if(DATA_Registers[876] == 1)SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_09_16(void)
@@ -9774,8 +9774,8 @@ void SYS_2_10_00(void)
 		Temporary = ReadDataMem(900);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_10_XX[0][0]));
 
-		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5u_Hz);
-		else  SYS_ParameterDisplay(MODE_5u_persent);
+		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5d_Hz);
+		else  SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_10_01(void)
@@ -9794,8 +9794,8 @@ void SYS_2_10_01(void)
 	{
 		Temporary = ReadDataMem(901);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_10_XX[1][0]));
-		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5u_Hz);
-		else  SYS_ParameterDisplay(MODE_5u_persent);
+		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5d_Hz);
+		else  SYS_ParameterDisplay(MODE_5d_persent);
 
 	}
 }
@@ -9815,8 +9815,8 @@ void SYS_2_10_02(void)
 	{
 		Temporary = ReadDataMem(902);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_10_XX[2][0]));
-		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5u_Hz);
-		else  SYS_ParameterDisplay(MODE_5u_persent);
+		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5d_Hz);
+		else  SYS_ParameterDisplay(MODE_5d_persent);
 
 	}
 }
@@ -9836,8 +9836,8 @@ void SYS_2_10_03(void)
 	{
 		Temporary = ReadDataMem(903);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_10_XX[3][0]));
-		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5u_Hz);
-		else  SYS_ParameterDisplay(MODE_5u_persent);
+		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5d_Hz);
+		else  SYS_ParameterDisplay(MODE_5d_persent);
 
 	}
 }
@@ -9857,8 +9857,8 @@ void SYS_2_10_04(void)
 	{
 		Temporary = ReadDataMem(904);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_10_XX[4][0]));
-		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5u_Hz);
-		else  SYS_ParameterDisplay(MODE_5u_persent);
+		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5d_Hz);
+		else  SYS_ParameterDisplay(MODE_5d_persent);
 
 	}
 }
@@ -9878,8 +9878,8 @@ void SYS_2_10_05(void)
 	{
 		Temporary = ReadDataMem(905);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_10_XX[5][0]));
-		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5u_Hz);
-		else  SYS_ParameterDisplay(MODE_5u_persent);
+		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5d_Hz);
+		else  SYS_ParameterDisplay(MODE_5d_persent);
 
 	}
 }
@@ -9899,8 +9899,8 @@ void SYS_2_10_06(void)
 	{
 		Temporary = ReadDataMem(906);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_10_XX[6][0]));
-		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5u_Hz);
-		else  SYS_ParameterDisplay(MODE_5u_persent);
+		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5d_Hz);
+		else  SYS_ParameterDisplay(MODE_5d_persent);
 
 	}
 }
@@ -9920,8 +9920,8 @@ void SYS_2_10_07(void)
 	{
 		Temporary = ReadDataMem(907);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_10_XX[7][0]));
-		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5u_Hz);
-		else  SYS_ParameterDisplay(MODE_5u_persent);
+		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5d_Hz);
+		else  SYS_ParameterDisplay(MODE_5d_persent);
 
 	}
 }
@@ -9941,8 +9941,8 @@ void SYS_2_10_08(void)
 	{
 		Temporary = ReadDataMem(908);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_10_XX[8][0]));
-		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5u_Hz);
-		else  SYS_ParameterDisplay(MODE_5u_persent);
+		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5d_Hz);
+		else  SYS_ParameterDisplay(MODE_5d_persent);
 
 	}
 }
@@ -9962,8 +9962,8 @@ void SYS_2_10_09(void)
 	{
 		Temporary = ReadDataMem(909);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_10_XX[9][0]));
-		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5u_Hz);
-		else  SYS_ParameterDisplay(MODE_5u_persent);
+		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5d_Hz);
+		else  SYS_ParameterDisplay(MODE_5d_persent);
 
 	}
 }
@@ -9984,8 +9984,8 @@ void SYS_2_10_10(void)
 	{
 		Temporary = ReadDataMem(910);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_10_XX[10][0]));
-		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5u_Hz);
-		else  SYS_ParameterDisplay(MODE_5u_persent);
+		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5d_Hz);
+		else  SYS_ParameterDisplay(MODE_5d_persent);
 
 	}
 }
@@ -10005,8 +10005,8 @@ void SYS_2_10_11(void)
 	{
 		Temporary = ReadDataMem(911);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_10_XX[11][0]));
-		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5u_Hz);
-		else  SYS_ParameterDisplay(MODE_5u_persent);
+		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5d_Hz);
+		else  SYS_ParameterDisplay(MODE_5d_persent);
 
 	}
 }
@@ -10026,8 +10026,8 @@ void SYS_2_10_12(void)
 	{
 		Temporary = ReadDataMem(912);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_10_XX[12][0]));
-		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5u_Hz);
-		else  SYS_ParameterDisplay(MODE_5u_persent);
+		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5d_Hz);
+		else  SYS_ParameterDisplay(MODE_5d_persent);
 
 	}
 }
@@ -10047,8 +10047,8 @@ void SYS_2_10_13(void)
 	{
 		Temporary = ReadDataMem(913);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_10_XX[13][0]));
-		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5u_Hz);
-		else  SYS_ParameterDisplay(MODE_5u_persent);
+		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5d_Hz);
+		else  SYS_ParameterDisplay(MODE_5d_persent);
 
 	}
 }
@@ -10068,8 +10068,8 @@ void SYS_2_10_14(void)
 	{
 		Temporary = ReadDataMem(914);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_10_XX[14][0]));
-		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5u_Hz);
-		else  SYS_ParameterDisplay(MODE_5u_persent);
+		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5d_Hz);
+		else  SYS_ParameterDisplay(MODE_5d_persent);
 
 	}
 }
@@ -10089,8 +10089,8 @@ void SYS_2_10_15(void)
 	{
 		Temporary = ReadDataMem(915);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_10_XX[15][0]));
-		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5u_Hz);
-		else  SYS_ParameterDisplay(MODE_5u_persent);
+		if(DATA_Registers[916])SYS_ParameterDisplay(MODE_5d_Hz);
+		else  SYS_ParameterDisplay(MODE_5d_persent);
 
 	}
 }
@@ -10210,7 +10210,7 @@ void SYS_2_11_04(void)
 	{
 		Temporary = ReadDataMem(944);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_11_XX[4][0]));
-		SYS_ParameterDisplay(MODE_1d_3u_pu);
+		SYS_ParameterDisplay(MODE_1d_3d_pu);
 	}
 }
 void SYS_2_11_05(void)
@@ -10229,7 +10229,7 @@ void SYS_2_11_05(void)
 	{
 		Temporary = ReadDataMem(945);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_11_XX[5][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_11_06(void)
@@ -10431,7 +10431,7 @@ void SYS_2_13_00(void)
 	{
 		Temporary = ReadDataMem(980);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_13_XX[0][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_13_01(void)
@@ -10450,7 +10450,7 @@ void SYS_2_13_01(void)
 	{
 		Temporary = ReadDataMem(981);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_13_XX[1][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_13_02(void)
@@ -10469,7 +10469,7 @@ void SYS_2_13_02(void)
 	{
 		Temporary = ReadDataMem(982);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_13_XX[2][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_13_03(void)
@@ -10488,7 +10488,7 @@ void SYS_2_13_03(void)
 	{
 		Temporary = ReadDataMem(983);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_13_XX[3][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_13_04(void)
@@ -10507,7 +10507,7 @@ void SYS_2_13_04(void)
 	{
 		Temporary = ReadDataMem(984);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_13_XX[4][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_13_05(void)
@@ -10526,7 +10526,7 @@ void SYS_2_13_05(void)
 	{
 		Temporary = ReadDataMem(985);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_13_XX[5][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_13_06(void)
@@ -10545,7 +10545,7 @@ void SYS_2_13_06(void)
 	{
 		Temporary = ReadDataMem(986);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_13_XX[6][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_13_07(void)
@@ -10564,7 +10564,7 @@ void SYS_2_13_07(void)
 	{
 		Temporary = ReadDataMem(987);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_13_XX[7][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_13_08(void)
@@ -10583,7 +10583,7 @@ void SYS_2_13_08(void)
 	{
 		Temporary = ReadDataMem(988);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_13_XX[8][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_13_09(void)
@@ -10602,7 +10602,7 @@ void SYS_2_13_09(void)
 	{
 		Temporary = ReadDataMem(989);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_13_XX[9][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
  
@@ -10622,7 +10622,7 @@ void SYS_2_13_10(void)
 	{
 		Temporary = ReadDataMem(990);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_13_XX[10][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_13_11(void)
@@ -10641,7 +10641,7 @@ void SYS_2_13_11(void)
 	{
 		Temporary = ReadDataMem(991);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_13_XX[11][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 
@@ -10686,7 +10686,7 @@ void SYS_2_14_01(void)
 	{
 		Temporary = ReadDataMem(1011);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_14_XX[1][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_14_02(void)
@@ -10705,7 +10705,7 @@ void SYS_2_14_02(void)
 	{
 		Temporary = ReadDataMem(1012);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_14_XX[2][0]));
-		SYS_ParameterDisplay(MODE_5u_rpm);
+		SYS_ParameterDisplay(MODE_5d_rpm);
 	}
 }
 void SYS_2_14_03(void)
@@ -10724,7 +10724,7 @@ void SYS_2_14_03(void)
 	{
 		Temporary = ReadDataMem(1013);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_14_XX[3][0]));
-		SYS_ParameterDisplay(MODE_5u_rpm);
+		SYS_ParameterDisplay(MODE_5d_rpm);
 	}
 }
 void SYS_2_14_04(void)
@@ -10743,7 +10743,7 @@ void SYS_2_14_04(void)
 	{
 		Temporary = ReadDataMem(1014);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_14_XX[4][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_14_05(void)
@@ -10762,7 +10762,7 @@ void SYS_2_14_05(void)
 	{
 		Temporary = ReadDataMem(1015);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_14_XX[5][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_14_06(void)
@@ -10781,7 +10781,7 @@ void SYS_2_14_06(void)
 	{
 		Temporary = ReadDataMem(1016);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_14_XX[6][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_14_07(void)
@@ -10800,7 +10800,7 @@ void SYS_2_14_07(void)
 	{
 		Temporary = ReadDataMem(1017);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_14_XX[7][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_14_08(void)
@@ -10819,7 +10819,7 @@ void SYS_2_14_08(void)
 	{
 		Temporary = ReadDataMem(1018);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_14_XX[8][0]));
-		SYS_ParameterDisplay(MODE_5u_Hz);
+		SYS_ParameterDisplay(MODE_5d_Hz);
 	}
 }
 
@@ -10863,7 +10863,7 @@ void SYS_2_15_01(void)
 	{
 		Temporary = ReadDataMem(1031);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[1][0]));
-		SYS_ParameterDisplay(MODE_5u_Hz);
+		SYS_ParameterDisplay(MODE_5d_Hz);
 	}
 }
 void SYS_2_15_02(void)
@@ -10882,7 +10882,7 @@ void SYS_2_15_02(void)
 	{
 		Temporary = ReadDataMem(1032);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[2][0]));
-		SYS_ParameterDisplay(MODE_5u_Hz);
+		SYS_ParameterDisplay(MODE_5d_Hz);
 	}
 }
 void SYS_2_15_03(void)
@@ -10901,7 +10901,7 @@ void SYS_2_15_03(void)
 	{
 		Temporary = ReadDataMem(1033);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[3][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_15_04(void)
@@ -10920,7 +10920,7 @@ void SYS_2_15_04(void)
 	{
 		Temporary = ReadDataMem(1034);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[4][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_15_05(void)
@@ -10939,7 +10939,7 @@ void SYS_2_15_05(void)
 	{
 		Temporary = ReadDataMem(1035);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[5][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_15_06(void)
@@ -10977,7 +10977,7 @@ void SYS_2_15_07(void)
 	{
 		Temporary = ReadDataMem(1037);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[7][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_15_08(void)
@@ -10996,7 +10996,7 @@ void SYS_2_15_08(void)
 	{
 		Temporary = ReadDataMem(1038);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[8][0]));
-		SYS_ParameterDisplay(MODE_5u_Hz);
+		SYS_ParameterDisplay(MODE_5d_Hz);
 	}
 }
 void SYS_2_15_09(void)
@@ -11015,7 +11015,7 @@ void SYS_2_15_09(void)
 	{
 		Temporary = ReadDataMem(1039);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[9][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
  
@@ -11035,7 +11035,7 @@ void SYS_2_15_10(void)
 	{
 		Temporary = ReadDataMem(1040);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[10][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_15_11(void)
@@ -11054,7 +11054,7 @@ void SYS_2_15_11(void)
 	{
 		Temporary = ReadDataMem(1041);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[11][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_15_12(void)
@@ -11111,7 +11111,7 @@ void SYS_2_15_14(void)
 	{
 		Temporary = ReadDataMem(1044);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[14][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_15_15(void)
@@ -11130,7 +11130,7 @@ void SYS_2_15_15(void)
 	{
 		Temporary = ReadDataMem(1045);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[15][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_15_16(void)
@@ -11149,7 +11149,7 @@ void SYS_2_15_16(void)
 	{
 		Temporary = ReadDataMem(1046);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[16][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_15_17(void)
@@ -11168,7 +11168,7 @@ void SYS_2_15_17(void)
 	{
 		Temporary = ReadDataMem(1047);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[17][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_15_18(void)
@@ -11187,7 +11187,7 @@ void SYS_2_15_18(void)
 	{
 		Temporary = ReadDataMem(1048);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[18][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_15_19(void)
@@ -11206,7 +11206,7 @@ void SYS_2_15_19(void)
 	{
 		Temporary = ReadDataMem(1049);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[19][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
  
@@ -11227,7 +11227,7 @@ void SYS_2_15_20(void)
 	{
 		Temporary = ReadDataMem(1050);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[20][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_15_21(void)
@@ -11246,7 +11246,7 @@ void SYS_2_15_21(void)
 	{
 		Temporary = ReadDataMem(1051);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[21][0]));
-		SYS_ParameterDisplay(MODE_5u_Hz);
+		SYS_ParameterDisplay(MODE_5d_Hz);
 	}
 }
 void SYS_2_15_22(void)
@@ -11265,7 +11265,7 @@ void SYS_2_15_22(void)
 	{
 		Temporary = ReadDataMem(1052);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[22][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_15_23(void)
@@ -11284,7 +11284,7 @@ void SYS_2_15_23(void)
 	{
 		Temporary = ReadDataMem(1053);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[23][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_15_24(void)
@@ -11303,7 +11303,7 @@ void SYS_2_15_24(void)
 	{
 		Temporary = ReadDataMem(1054);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[24][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_15_25(void)
@@ -11322,7 +11322,7 @@ void SYS_2_15_25(void)
 	{
 		Temporary = ReadDataMem(1055);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[25][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_15_26(void)
@@ -11341,7 +11341,7 @@ void SYS_2_15_26(void)
 	{
 		Temporary = ReadDataMem(1056);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[26][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_15_27(void)
@@ -11360,7 +11360,7 @@ void SYS_2_15_27(void)
 	{
 		Temporary = ReadDataMem(1057);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[27][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_15_28(void)
@@ -11379,7 +11379,7 @@ void SYS_2_15_28(void)
 	{
 		Temporary = ReadDataMem(1058);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_15_XX[28][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 
@@ -11423,7 +11423,7 @@ void SYS_2_16_01(void)
 	{
 		Temporary = ReadDataMem(1091);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[1][0]));
-		SYS_ParameterDisplay(MODE_5u_Hz);
+		SYS_ParameterDisplay(MODE_5d_Hz);
 	}
 }
 void SYS_2_16_02(void)
@@ -11442,7 +11442,7 @@ void SYS_2_16_02(void)
 	{
 		Temporary = ReadDataMem(1092);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[2][0]));
-		SYS_ParameterDisplay(MODE_5u_Hz);
+		SYS_ParameterDisplay(MODE_5d_Hz);
 	}
 }
 void SYS_2_16_03(void)
@@ -11461,7 +11461,7 @@ void SYS_2_16_03(void)
 	{
 		Temporary = ReadDataMem(1093);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[3][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_16_04(void)
@@ -11480,7 +11480,7 @@ void SYS_2_16_04(void)
 	{
 		Temporary = ReadDataMem(1094);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[4][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_16_05(void)
@@ -11498,7 +11498,7 @@ void SYS_2_16_05(void)
 	{
 		Temporary = ReadDataMem(1095);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[5][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_16_06(void)
@@ -11536,7 +11536,7 @@ void SYS_2_16_07(void)
 	{
 		Temporary = ReadDataMem(1097);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[7][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_16_08(void)
@@ -11555,7 +11555,7 @@ void SYS_2_16_08(void)
 	{
 		Temporary = ReadDataMem(1098);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[8][0]));
-		SYS_ParameterDisplay(MODE_5u_Hz);
+		SYS_ParameterDisplay(MODE_5d_Hz);
 	}
 }
 void SYS_2_16_09(void)
@@ -11574,7 +11574,7 @@ void SYS_2_16_09(void)
 	{
 		Temporary = ReadDataMem(1099);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[9][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
  
@@ -11594,7 +11594,7 @@ void SYS_2_16_10(void)
 	{
 		Temporary = ReadDataMem(1100);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[10][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_16_11(void)
@@ -11613,7 +11613,7 @@ void SYS_2_16_11(void)
 	{
 		Temporary = ReadDataMem(1101);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[11][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_16_12(void)
@@ -11670,7 +11670,7 @@ void SYS_2_16_14(void)
 	{
 		Temporary = ReadDataMem(1104);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[14][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_16_15(void)
@@ -11689,7 +11689,7 @@ void SYS_2_16_15(void)
 	{
 		Temporary = ReadDataMem(1105);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[15][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_16_16(void)
@@ -11708,7 +11708,7 @@ void SYS_2_16_16(void)
 	{
 		Temporary = ReadDataMem(1106);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[16][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_16_17(void)
@@ -11727,7 +11727,7 @@ void SYS_2_16_17(void)
 	{
 		Temporary = ReadDataMem(1107);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[17][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_16_18(void)
@@ -11746,7 +11746,7 @@ void SYS_2_16_18(void)
 	{
 		Temporary = ReadDataMem(1108);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[18][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_16_19(void)
@@ -11765,7 +11765,7 @@ void SYS_2_16_19(void)
 	{
 		Temporary = ReadDataMem(1109);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[19][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
  
@@ -11786,7 +11786,7 @@ void SYS_2_16_20(void)
 	{
 		Temporary = ReadDataMem(1110);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[20][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_16_21(void)
@@ -11805,7 +11805,7 @@ void SYS_2_16_21(void)
 	{
 		Temporary = ReadDataMem(1111);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[21][0]));
-		SYS_ParameterDisplay(MODE_5u_Hz);
+		SYS_ParameterDisplay(MODE_5d_Hz);
 	}
 }
 void SYS_2_16_22(void)
@@ -11824,7 +11824,7 @@ void SYS_2_16_22(void)
 	{
 		Temporary = ReadDataMem(1112);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[22][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_16_23(void)
@@ -11843,7 +11843,7 @@ void SYS_2_16_23(void)
 	{
 		Temporary = ReadDataMem(1113);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[23][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_16_24(void)
@@ -11862,7 +11862,7 @@ void SYS_2_16_24(void)
 	{
 		Temporary = ReadDataMem(1114);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[24][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_16_25(void)
@@ -11881,7 +11881,7 @@ void SYS_2_16_25(void)
 	{
 		Temporary = ReadDataMem(1115);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[25][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_16_26(void)
@@ -11900,7 +11900,7 @@ void SYS_2_16_26(void)
 	{
 		Temporary = ReadDataMem(1116);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[26][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_16_27(void)
@@ -11919,7 +11919,7 @@ void SYS_2_16_27(void)
 	{
 		Temporary = ReadDataMem(1117);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[27][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_16_28(void)
@@ -11938,7 +11938,7 @@ void SYS_2_16_28(void)
 	{
 		Temporary = ReadDataMem(1118);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_16_XX[28][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 
@@ -11961,7 +11961,7 @@ void SYS_2_17_00(void)
 	{
 		Temporary = ReadDataMem(1150);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[0][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_17_01(void)
@@ -11980,7 +11980,7 @@ void SYS_2_17_01(void)
 	{
 		Temporary = ReadDataMem(1151);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[1][0]));
-		SYS_ParameterDisplay(MODE_5u_rpm);
+		SYS_ParameterDisplay(MODE_5d_rpm);
 	}
 }
 void SYS_2_17_02(void)
@@ -11999,7 +11999,7 @@ void SYS_2_17_02(void)
 	{
 		Temporary = ReadDataMem(1152);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[2][0]));
-		SYS_ParameterDisplay(MODE_5u_rpm);
+		SYS_ParameterDisplay(MODE_5d_rpm);
 	}
 }
 void SYS_2_17_03(void)
@@ -12018,7 +12018,7 @@ void SYS_2_17_03(void)
 	{
 		Temporary = ReadDataMem(1153);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[3][0]));
-		SYS_ParameterDisplay(MODE_5u_rpm);
+		SYS_ParameterDisplay(MODE_5d_rpm);
 	}
 }
 void SYS_2_17_04(void)
@@ -12037,7 +12037,7 @@ void SYS_2_17_04(void)
 	{
 		Temporary = ReadDataMem(1154);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[4][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_17_05(void)
@@ -12056,7 +12056,7 @@ void SYS_2_17_05(void)
 	{
 		Temporary = ReadDataMem(1155);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[5][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_17_06(void)
@@ -12075,7 +12075,7 @@ void SYS_2_17_06(void)
 	{
 		Temporary = ReadDataMem(1156);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[6][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_17_07(void)
@@ -12094,7 +12094,7 @@ void SYS_2_17_07(void)
 	{
 		Temporary = ReadDataMem(1157);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[7][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_17_08(void)
@@ -12113,7 +12113,7 @@ void SYS_2_17_08(void)
 	{
 		Temporary = ReadDataMem(1158);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[8][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_17_09(void)
@@ -12132,7 +12132,7 @@ void SYS_2_17_09(void)
 	{
 		Temporary = ReadDataMem(1159);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[9][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
  
@@ -12152,7 +12152,7 @@ void SYS_2_17_10(void)
 	{
 		Temporary = ReadDataMem(1160);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[10][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_17_11(void)
@@ -12171,7 +12171,7 @@ void SYS_2_17_11(void)
 	{
 		Temporary = ReadDataMem(1161);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[11][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_17_12(void)
@@ -12190,7 +12190,7 @@ void SYS_2_17_12(void)
 	{
 		Temporary = ReadDataMem(1162);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[12][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_17_13(void)
@@ -12209,7 +12209,7 @@ void SYS_2_17_13(void)
 	{
 		Temporary = ReadDataMem(1163);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[13][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_17_14(void)
@@ -12266,7 +12266,7 @@ void SYS_2_17_16(void)
 	{
 		Temporary = ReadDataMem(1166);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[16][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_17_17(void)
@@ -12285,7 +12285,7 @@ void SYS_2_17_17(void)
 	{
 		Temporary = ReadDataMem(1167);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[17][0]));
-		SYS_ParameterDisplay(MODE_5u_Hz);
+		SYS_ParameterDisplay(MODE_5d_Hz);
 	}
 }
 void SYS_2_17_18(void)
@@ -12304,7 +12304,7 @@ void SYS_2_17_18(void)
 	{
 		Temporary = ReadDataMem(1168);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[18][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_17_19(void)
@@ -12323,7 +12323,7 @@ void SYS_2_17_19(void)
 	{
 		Temporary = ReadDataMem(1169);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[19][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
  
@@ -12344,7 +12344,7 @@ void SYS_2_17_20(void)
 	{
 		Temporary = ReadDataMem(1170);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[20][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_17_21(void)
@@ -12363,7 +12363,7 @@ void SYS_2_17_21(void)
 	{
 		Temporary = ReadDataMem(1171);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[21][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_22(void)
@@ -12382,7 +12382,7 @@ void SYS_2_17_22(void)
 	{
 		Temporary = ReadDataMem(1172);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[22][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_23(void)
@@ -12401,7 +12401,7 @@ void SYS_2_17_23(void)
 	{
 		Temporary = ReadDataMem(1173);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[23][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_24(void)
@@ -12420,7 +12420,7 @@ void SYS_2_17_24(void)
 	{
 		Temporary = ReadDataMem(1174);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[24][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_25(void)
@@ -12439,7 +12439,7 @@ void SYS_2_17_25(void)
 	{
 		Temporary = ReadDataMem(1175);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[25][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_26(void)
@@ -12458,7 +12458,7 @@ void SYS_2_17_26(void)
 	{
 		Temporary = ReadDataMem(1176);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[26][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_27(void)
@@ -12477,7 +12477,7 @@ void SYS_2_17_27(void)
 	{
 		Temporary = ReadDataMem(1177);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[27][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_28(void)
@@ -12496,7 +12496,7 @@ void SYS_2_17_28(void)
 	{
 		Temporary = ReadDataMem(1178);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[28][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_29(void)
@@ -12515,7 +12515,7 @@ void SYS_2_17_29(void)
 	{
 		Temporary = ReadDataMem(1179);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[29][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 
@@ -12536,7 +12536,7 @@ void SYS_2_17_30(void)
 	{
 		Temporary = ReadDataMem(1180);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[30][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_17_31(void)
@@ -12555,7 +12555,7 @@ void SYS_2_17_31(void)
 	{
 		Temporary = ReadDataMem(1181);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[31][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_17_32(void)
@@ -12574,7 +12574,7 @@ void SYS_2_17_32(void)
 	{
 		Temporary = ReadDataMem(1182);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[32][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_33(void)
@@ -12593,7 +12593,7 @@ void SYS_2_17_33(void)
 	{
 		Temporary = ReadDataMem(1183);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[33][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_34(void)
@@ -12612,7 +12612,7 @@ void SYS_2_17_34(void)
 	{
 		Temporary = ReadDataMem(1184);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[34][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_35(void)
@@ -12631,7 +12631,7 @@ void SYS_2_17_35(void)
 	{
 		Temporary = ReadDataMem(1185);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[35][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_36(void)
@@ -12650,7 +12650,7 @@ void SYS_2_17_36(void)
 	{
 		Temporary = ReadDataMem(1186);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[36][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_37(void)
@@ -12669,7 +12669,7 @@ void SYS_2_17_37(void)
 	{
 		Temporary = ReadDataMem(1187);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[37][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_38(void)
@@ -12688,7 +12688,7 @@ void SYS_2_17_38(void)
 	{
 		Temporary = ReadDataMem(1188);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[38][0]));
-		SYS_ParameterDisplay(MODE_5u_rpm);
+		SYS_ParameterDisplay(MODE_5d_rpm);
 	}
 }
 void SYS_2_17_39(void)
@@ -12707,7 +12707,7 @@ void SYS_2_17_39(void)
 	{
 		Temporary = ReadDataMem(1189);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[39][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_17_40(void)
@@ -12745,7 +12745,7 @@ void SYS_2_17_41(void)
 	{
 		Temporary = ReadDataMem(1191);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[41][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_42(void)
@@ -12764,7 +12764,7 @@ void SYS_2_17_42(void)
 	{
 		Temporary = ReadDataMem(1192);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[42][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_17_43(void)
@@ -12783,7 +12783,7 @@ void SYS_2_17_43(void)
 	{
 		Temporary = ReadDataMem(1193);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[43][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_17_44(void)
@@ -12802,7 +12802,7 @@ void SYS_2_17_44(void)
 	{
 		Temporary = ReadDataMem(1194);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[44][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_17_45(void)
@@ -12821,7 +12821,7 @@ void SYS_2_17_45(void)
 	{
 		Temporary = ReadDataMem(1195);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[45][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_46(void)
@@ -12840,7 +12840,7 @@ void SYS_2_17_46(void)
 	{
 		Temporary = ReadDataMem(1196);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[46][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_47(void)
@@ -12859,7 +12859,7 @@ void SYS_2_17_47(void)
 	{
 		Temporary = ReadDataMem(1197);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[47][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_48(void)
@@ -12878,7 +12878,7 @@ void SYS_2_17_48(void)
 	{
 		Temporary = ReadDataMem(1198);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[48][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_49(void)
@@ -12897,7 +12897,7 @@ void SYS_2_17_49(void)
 	{
 		Temporary = ReadDataMem(1199);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[49][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_50(void)
@@ -12916,7 +12916,7 @@ void SYS_2_17_50(void)
 	{
 		Temporary = ReadDataMem(1200);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_17_XX[50][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_17_51(void)
@@ -12956,7 +12956,7 @@ void SYS_2_18_00(void)
 	{
 		Temporary = ReadDataMem(1260);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[0][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_18_01(void)
@@ -12975,7 +12975,7 @@ void SYS_2_18_01(void)
 	{
 		Temporary = ReadDataMem(1261);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[1][0]));
-		SYS_ParameterDisplay(MODE_5u_rpm);
+		SYS_ParameterDisplay(MODE_5d_rpm);
 	}
 }
 void SYS_2_18_02(void)
@@ -12994,7 +12994,7 @@ void SYS_2_18_02(void)
 	{
 		Temporary = ReadDataMem(1262);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[2][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_18_03(void)
@@ -13013,7 +13013,7 @@ void SYS_2_18_03(void)
 	{
 		Temporary = ReadDataMem(1263);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[3][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_18_04(void)
@@ -13032,7 +13032,7 @@ void SYS_2_18_04(void)
 	{
 		Temporary = ReadDataMem(1264);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[4][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_05(void)
@@ -13051,7 +13051,7 @@ void SYS_2_18_05(void)
 	{
 		Temporary = ReadDataMem(1265);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[5][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_18_06(void)
@@ -13070,7 +13070,7 @@ void SYS_2_18_06(void)
 	{
 		Temporary = ReadDataMem(1266);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[6][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_18_07(void)
@@ -13089,7 +13089,7 @@ void SYS_2_18_07(void)
 	{
 		Temporary = ReadDataMem(1267);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[7][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_18_08(void)
@@ -13108,7 +13108,7 @@ void SYS_2_18_08(void)
 	{
 		Temporary = ReadDataMem(1268);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[8][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_18_09(void)
@@ -13127,7 +13127,7 @@ void SYS_2_18_09(void)
 	{
 		Temporary = ReadDataMem(1269);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[9][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
  
@@ -13147,7 +13147,7 @@ void SYS_2_18_10(void)
 	{
 		Temporary = ReadDataMem(1270);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[10][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_18_11(void)
@@ -13166,7 +13166,7 @@ void SYS_2_18_11(void)
 	{
 		Temporary = ReadDataMem(1271);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[11][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_18_12(void)
@@ -13185,7 +13185,7 @@ void SYS_2_18_12(void)
 	{
 		Temporary = ReadDataMem(1272);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[12][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_18_13(void)
@@ -13204,7 +13204,7 @@ void SYS_2_18_13(void)
 	{
 		Temporary = ReadDataMem(1273);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[13][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_14(void)
@@ -13223,7 +13223,7 @@ void SYS_2_18_14(void)
 	{
 		Temporary = ReadDataMem(1274);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[14][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_15(void)
@@ -13242,7 +13242,7 @@ void SYS_2_18_15(void)
 	{
 		Temporary = ReadDataMem(1275);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[15][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_16(void)
@@ -13261,7 +13261,7 @@ void SYS_2_18_16(void)
 	{
 		Temporary = ReadDataMem(1276);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[16][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_18_17(void)
@@ -13280,7 +13280,7 @@ void SYS_2_18_17(void)
 	{
 		Temporary = ReadDataMem(1277);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[17][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_18_18(void)
@@ -13299,7 +13299,7 @@ void SYS_2_18_18(void)
 	{
 		Temporary = ReadDataMem(1278);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[18][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_18_19(void)
@@ -13318,7 +13318,7 @@ void SYS_2_18_19(void)
 	{
 		Temporary = ReadDataMem(1279);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[19][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
  
@@ -13339,7 +13339,7 @@ void SYS_2_18_20(void)
 	{
 		Temporary = ReadDataMem(1280);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[20][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_21(void)
@@ -13358,7 +13358,7 @@ void SYS_2_18_21(void)
 	{
 		Temporary = ReadDataMem(1281);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[21][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_22(void)
@@ -13377,7 +13377,7 @@ void SYS_2_18_22(void)
 	{
 		Temporary = ReadDataMem(1282);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[22][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_23(void)
@@ -13396,7 +13396,7 @@ void SYS_2_18_23(void)
 	{
 		Temporary = ReadDataMem(1283);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[23][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_24(void)
@@ -13415,7 +13415,7 @@ void SYS_2_18_24(void)
 	{
 		Temporary = ReadDataMem(1284);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[24][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_25(void)
@@ -13434,7 +13434,7 @@ void SYS_2_18_25(void)
 	{
 		Temporary = ReadDataMem(1285);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[25][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_26(void)
@@ -13453,7 +13453,7 @@ void SYS_2_18_26(void)
 	{
 		Temporary = ReadDataMem(1286);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[26][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_27(void)
@@ -13472,7 +13472,7 @@ void SYS_2_18_27(void)
 	{
 		Temporary = ReadDataMem(1287);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[27][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_28(void)
@@ -13491,7 +13491,7 @@ void SYS_2_18_28(void)
 	{
 		Temporary = ReadDataMem(1288);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[28][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_29(void)
@@ -13510,7 +13510,7 @@ void SYS_2_18_29(void)
 	{
 		Temporary = ReadDataMem(1289);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[29][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 
@@ -13531,7 +13531,7 @@ void SYS_2_18_30(void)
 	{
 		Temporary = ReadDataMem(1290);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[30][0]));
-		SYS_ParameterDisplay(MODE_5u_Hz);
+		SYS_ParameterDisplay(MODE_5d_Hz);
 	}
 }
 void SYS_2_18_31(void)
@@ -13550,7 +13550,7 @@ void SYS_2_18_31(void)
 	{
 		Temporary = ReadDataMem(1291);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[31][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_18_32(void)
@@ -13569,7 +13569,7 @@ void SYS_2_18_32(void)
 	{
 		Temporary = ReadDataMem(1292);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[32][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_33(void)
@@ -13588,7 +13588,7 @@ void SYS_2_18_33(void)
 	{
 		Temporary = ReadDataMem(1293);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[33][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_34(void)
@@ -13607,7 +13607,7 @@ void SYS_2_18_34(void)
 	{
 		Temporary = ReadDataMem(1294);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[34][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_35(void)
@@ -13626,7 +13626,7 @@ void SYS_2_18_35(void)
 	{
 		Temporary = ReadDataMem(1295);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[35][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_36(void)
@@ -13645,7 +13645,7 @@ void SYS_2_18_36(void)
 	{
 		Temporary = ReadDataMem(1296);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[36][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_37(void)
@@ -13664,7 +13664,7 @@ void SYS_2_18_37(void)
 	{
 		Temporary = ReadDataMem(1297);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[37][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_38(void)
@@ -13683,7 +13683,7 @@ void SYS_2_18_38(void)
 	{
 		Temporary = ReadDataMem(1298);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[38][0]));
-		SYS_ParameterDisplay(MODE_5u_rpm);
+		SYS_ParameterDisplay(MODE_5d_rpm);
 	}
 }
 void SYS_2_18_39(void)
@@ -13702,7 +13702,7 @@ void SYS_2_18_39(void)
 	{
 		Temporary = ReadDataMem(1299);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[39][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_18_40(void)
@@ -13721,7 +13721,7 @@ void SYS_2_18_40(void)
 	{
 		Temporary = ReadDataMem(1300);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[40][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_41(void)
@@ -13740,7 +13740,7 @@ void SYS_2_18_41(void)
 	{
 		Temporary = ReadDataMem(1301);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[41][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_42(void)
@@ -13759,7 +13759,7 @@ void SYS_2_18_42(void)
 	{
 		Temporary = ReadDataMem(1302);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[42][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_18_43(void)
@@ -13778,7 +13778,7 @@ void SYS_2_18_43(void)
 	{
 		Temporary = ReadDataMem(1303);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[43][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_18_44(void)
@@ -13797,7 +13797,7 @@ void SYS_2_18_44(void)
 	{
 		Temporary = ReadDataMem(1304);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[44][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_18_45(void)
@@ -13816,7 +13816,7 @@ void SYS_2_18_45(void)
 	{
 		Temporary = ReadDataMem(1305);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[45][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_46(void)
@@ -13835,7 +13835,7 @@ void SYS_2_18_46(void)
 	{
 		Temporary = ReadDataMem(1306);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[46][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_47(void)
@@ -13854,7 +13854,7 @@ void SYS_2_18_47(void)
 	{
 		Temporary = ReadDataMem(1307);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[47][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_48(void)
@@ -13873,7 +13873,7 @@ void SYS_2_18_48(void)
 	{
 		Temporary = ReadDataMem(1308);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[48][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_18_49(void)
@@ -13892,7 +13892,7 @@ void SYS_2_18_49(void)
 	{
 		Temporary = ReadDataMem(1309);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_18_XX[49][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 
@@ -13916,7 +13916,7 @@ void SYS_2_19_00(void)
 	{
 		Temporary = ReadDataMem(1370);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[0][0]));
-		SYS_ParameterDisplay(MODE_5u_ppr);
+		SYS_ParameterDisplay(MODE_5d_ppr);
 	}
 }
 void SYS_2_19_01(void)
@@ -13954,7 +13954,7 @@ void SYS_2_19_02(void)
 	{
 		Temporary = ReadDataMem(1372);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[2][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_19_03(void)
@@ -13973,7 +13973,7 @@ void SYS_2_19_03(void)
 	{
 		Temporary = ReadDataMem(1373);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[3][0]));
-		SYS_ParameterDisplay(MODE_5u_rpm);
+		SYS_ParameterDisplay(MODE_5d_rpm);
 	}
 }
 void SYS_2_19_04(void)
@@ -13992,7 +13992,7 @@ void SYS_2_19_04(void)
 	{
 		Temporary = ReadDataMem(1374);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[4][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_19_05(void)
@@ -14011,7 +14011,7 @@ void SYS_2_19_05(void)
 	{
 		Temporary = ReadDataMem(1375);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[5][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_19_06(void)
@@ -14030,7 +14030,7 @@ void SYS_2_19_06(void)
 	{
 		Temporary = ReadDataMem(1376);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[6][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_07(void)
@@ -14049,7 +14049,7 @@ void SYS_2_19_07(void)
 	{
 		Temporary = ReadDataMem(1377);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[7][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_08(void)
@@ -14068,7 +14068,7 @@ void SYS_2_19_08(void)
 	{
 		Temporary = ReadDataMem(1378);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[8][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_09(void)
@@ -14087,7 +14087,7 @@ void SYS_2_19_09(void)
 	{
 		Temporary = ReadDataMem(1379);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[9][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
  
@@ -14107,7 +14107,7 @@ void SYS_2_19_10(void)
 	{
 		Temporary = ReadDataMem(1380);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[10][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_11(void)
@@ -14126,7 +14126,7 @@ void SYS_2_19_11(void)
 	{
 		Temporary = ReadDataMem(1381);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[11][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_12(void)
@@ -14145,7 +14145,7 @@ void SYS_2_19_12(void)
 	{
 		Temporary = ReadDataMem(1382);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[12][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_19_13(void)
@@ -14164,7 +14164,7 @@ void SYS_2_19_13(void)
 	{
 		Temporary = ReadDataMem(1383);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[13][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_14(void)
@@ -14183,7 +14183,7 @@ void SYS_2_19_14(void)
 	{
 		Temporary = ReadDataMem(1384);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[14][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_15(void)
@@ -14202,7 +14202,7 @@ void SYS_2_19_15(void)
 	{
 		Temporary = ReadDataMem(1385);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[15][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_16(void)
@@ -14221,7 +14221,7 @@ void SYS_2_19_16(void)
 	{
 		Temporary = ReadDataMem(1386);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[16][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_17(void)
@@ -14240,7 +14240,7 @@ void SYS_2_19_17(void)
 	{
 		Temporary = ReadDataMem(1387);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[17][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_18(void)
@@ -14259,7 +14259,7 @@ void SYS_2_19_18(void)
 	{
 		Temporary = ReadDataMem(1388);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[18][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_19(void)
@@ -14278,7 +14278,7 @@ void SYS_2_19_19(void)
 	{
 		Temporary = ReadDataMem(1389);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[19][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
  
@@ -14299,7 +14299,7 @@ void SYS_2_19_20(void)
 	{
 		Temporary = ReadDataMem(1390);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[20][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_21(void)
@@ -14318,7 +14318,7 @@ void SYS_2_19_21(void)
 	{
 		Temporary = ReadDataMem(1391);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[21][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_19_22(void)
@@ -14337,7 +14337,7 @@ void SYS_2_19_22(void)
 	{
 		Temporary = ReadDataMem(1392);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[22][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_23(void)
@@ -14356,7 +14356,7 @@ void SYS_2_19_23(void)
 	{
 		Temporary = ReadDataMem(1393);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[23][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_24(void)
@@ -14375,7 +14375,7 @@ void SYS_2_19_24(void)
 	{
 		Temporary = ReadDataMem(1394);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[24][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_25(void)
@@ -14394,7 +14394,7 @@ void SYS_2_19_25(void)
 	{
 		Temporary = ReadDataMem(1395);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[25][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_19_26(void)
@@ -14413,7 +14413,7 @@ void SYS_2_19_26(void)
 	{
 		Temporary = ReadDataMem(1396);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[26][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_19_27(void)
@@ -14432,7 +14432,7 @@ void SYS_2_19_27(void)
 	{
 		Temporary = ReadDataMem(1397);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[27][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_19_28(void)
@@ -14451,7 +14451,7 @@ void SYS_2_19_28(void)
 	{
 		Temporary = ReadDataMem(1398);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[28][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_19_29(void)
@@ -14470,7 +14470,7 @@ void SYS_2_19_29(void)
 	{
 		Temporary = ReadDataMem(1399);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[29][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 
@@ -14491,7 +14491,7 @@ void SYS_2_19_30(void)
 	{
 		Temporary = ReadDataMem(1400);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[30][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_31(void)
@@ -14510,7 +14510,7 @@ void SYS_2_19_31(void)
 	{
 		Temporary = ReadDataMem(1401);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[31][0]));
-		SYS_ParameterDisplay(MODE_5u_rpm);
+		SYS_ParameterDisplay(MODE_5d_rpm);
 	}
 }
 void SYS_2_19_32(void)
@@ -14529,7 +14529,7 @@ void SYS_2_19_32(void)
 	{
 		Temporary = ReadDataMem(1402);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[32][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_33(void)
@@ -14548,7 +14548,7 @@ void SYS_2_19_33(void)
 	{
 		Temporary = ReadDataMem(1403);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[33][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_19_34(void)
@@ -14567,7 +14567,7 @@ void SYS_2_19_34(void)
 	{
 		Temporary = ReadDataMem(1404);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[34][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_19_35(void)
@@ -14586,7 +14586,7 @@ void SYS_2_19_35(void)
 	{
 		Temporary = ReadDataMem(1405);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[35][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_36(void)
@@ -14605,7 +14605,7 @@ void SYS_2_19_36(void)
 	{
 		Temporary = ReadDataMem(1406);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[36][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_19_37(void)
@@ -14624,7 +14624,7 @@ void SYS_2_19_37(void)
 	{
 		Temporary = ReadDataMem(1407);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[37][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_19_38(void)
@@ -14643,7 +14643,7 @@ void SYS_2_19_38(void)
 	{
 		Temporary = ReadDataMem(1408);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[38][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_19_39(void)
@@ -14662,7 +14662,7 @@ void SYS_2_19_39(void)
 	{
 		Temporary = ReadDataMem(1409);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[39][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_19_40(void)
@@ -14681,7 +14681,7 @@ void SYS_2_19_40(void)
 	{
 		Temporary = ReadDataMem(1410);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[40][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_19_41(void)
@@ -14700,7 +14700,7 @@ void SYS_2_19_41(void)
 	{
 		Temporary = ReadDataMem(1411);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_19_XX[41][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 
@@ -14722,7 +14722,7 @@ void SYS_2_20_00(void)
 	{
 		Temporary = ReadDataMem(1460);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[0][0]));
-		SYS_ParameterDisplay(MODE_5u_ppr);
+		SYS_ParameterDisplay(MODE_5d_ppr);
 	}
 }
 void SYS_2_20_01(void)
@@ -14741,7 +14741,7 @@ void SYS_2_20_01(void)
 	{
 		Temporary = ReadDataMem(1461);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[1][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_20_02(void)
@@ -14760,7 +14760,7 @@ void SYS_2_20_02(void)
 	{
 		Temporary = ReadDataMem(1462);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[2][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_20_03(void)
@@ -14779,7 +14779,7 @@ void SYS_2_20_03(void)
 	{
 		Temporary = ReadDataMem(1463);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[3][0]));
-		SYS_ParameterDisplay(MODE_5u_rpm);
+		SYS_ParameterDisplay(MODE_5d_rpm);
 	}
 }
 void SYS_2_20_04(void)
@@ -14798,7 +14798,7 @@ void SYS_2_20_04(void)
 	{
 		Temporary = ReadDataMem(1464);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[4][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_20_05(void)
@@ -14817,7 +14817,7 @@ void SYS_2_20_05(void)
 	{
 		Temporary = ReadDataMem(1465);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[5][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_20_06(void)
@@ -14836,7 +14836,7 @@ void SYS_2_20_06(void)
 	{
 		Temporary = ReadDataMem(1466);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[6][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_20_07(void)
@@ -14855,7 +14855,7 @@ void SYS_2_20_07(void)
 	{
 		Temporary = ReadDataMem(1467);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[7][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_20_08(void)
@@ -14874,7 +14874,7 @@ void SYS_2_20_08(void)
 	{
 		Temporary = ReadDataMem(1468);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[8][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_20_09(void)
@@ -14893,7 +14893,7 @@ void SYS_2_20_09(void)
 	{
 		Temporary = ReadDataMem(1469);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[9][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
  
@@ -14913,7 +14913,7 @@ void SYS_2_20_10(void)
 	{
 		Temporary = ReadDataMem(1470);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[10][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_20_11(void)
@@ -14932,7 +14932,7 @@ void SYS_2_20_11(void)
 	{
 		Temporary = ReadDataMem(1471);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[11][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_20_12(void)
@@ -14951,7 +14951,7 @@ void SYS_2_20_12(void)
 	{
 		Temporary = ReadDataMem(1472);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[12][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_20_13(void)
@@ -14970,7 +14970,7 @@ void SYS_2_20_13(void)
 	{
 		Temporary = ReadDataMem(1473);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[13][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_20_14(void)
@@ -14989,7 +14989,7 @@ void SYS_2_20_14(void)
 	{
 		Temporary = ReadDataMem(1474);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[14][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_20_15(void)
@@ -15008,7 +15008,7 @@ void SYS_2_20_15(void)
 	{
 		Temporary = ReadDataMem(1475);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[15][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_20_16(void)
@@ -15027,7 +15027,7 @@ void SYS_2_20_16(void)
 	{
 		Temporary = ReadDataMem(1476);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[16][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_20_17(void)
@@ -15046,7 +15046,7 @@ void SYS_2_20_17(void)
 	{
 		Temporary = ReadDataMem(1477);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[17][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_20_18(void)
@@ -15065,7 +15065,7 @@ void SYS_2_20_18(void)
 	{
 		Temporary = ReadDataMem(1478);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[18][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_20_19(void)
@@ -15084,7 +15084,7 @@ void SYS_2_20_19(void)
 	{
 		Temporary = ReadDataMem(1479);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[19][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
  
@@ -15105,7 +15105,7 @@ void SYS_2_20_20(void)
 	{
 		Temporary = ReadDataMem(1480);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[20][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_20_21(void)
@@ -15124,7 +15124,7 @@ void SYS_2_20_21(void)
 	{
 		Temporary = ReadDataMem(1481);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[21][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_20_22(void)
@@ -15143,7 +15143,7 @@ void SYS_2_20_22(void)
 	{
 		Temporary = ReadDataMem(1482);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[22][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_20_23(void)
@@ -15162,7 +15162,7 @@ void SYS_2_20_23(void)
 	{
 		Temporary = ReadDataMem(1483);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[23][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_20_24(void)
@@ -15181,7 +15181,7 @@ void SYS_2_20_24(void)
 	{
 		Temporary = ReadDataMem(1484);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[24][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_20_25(void)
@@ -15200,7 +15200,7 @@ void SYS_2_20_25(void)
 	{
 		Temporary = ReadDataMem(1485);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[25][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_20_26(void)
@@ -15219,7 +15219,7 @@ void SYS_2_20_26(void)
 	{
 		Temporary = ReadDataMem(1486);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[26][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_20_27(void)
@@ -15238,7 +15238,7 @@ void SYS_2_20_27(void)
 	{
 		Temporary = ReadDataMem(1487);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[27][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_20_28(void)
@@ -15257,7 +15257,7 @@ void SYS_2_20_28(void)
 	{
 		Temporary = ReadDataMem(1488);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[28][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_20_29(void)
@@ -15276,7 +15276,7 @@ void SYS_2_20_29(void)
 	{
 		Temporary = ReadDataMem(1489);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[29][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 
@@ -15298,7 +15298,7 @@ void SYS_2_20_30(void)
 	{
 		Temporary = ReadDataMem(1490);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[30][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_20_31(void)
@@ -15317,7 +15317,7 @@ void SYS_2_20_31(void)
 	{
 		Temporary = ReadDataMem(1491);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[31][0]));
-		SYS_ParameterDisplay(MODE_5u_rpm);
+		SYS_ParameterDisplay(MODE_5d_rpm);
 	}
 }
 void SYS_2_20_32(void)
@@ -15336,7 +15336,7 @@ void SYS_2_20_32(void)
 	{
 		Temporary = ReadDataMem(1492);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[32][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_20_33(void)
@@ -15355,7 +15355,7 @@ void SYS_2_20_33(void)
 	{
 		Temporary = ReadDataMem(1493);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[33][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_20_34(void)
@@ -15374,7 +15374,7 @@ void SYS_2_20_34(void)
 	{
 		Temporary = ReadDataMem(1494);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[34][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_20_35(void)
@@ -15393,7 +15393,7 @@ void SYS_2_20_35(void)
 	{
 		Temporary = ReadDataMem(1495);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[35][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_20_36(void)
@@ -15412,7 +15412,7 @@ void SYS_2_20_36(void)
 	{
 		Temporary = ReadDataMem(1496);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[36][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_20_37(void)
@@ -15431,7 +15431,7 @@ void SYS_2_20_37(void)
 	{
 		Temporary = ReadDataMem(1497);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[37][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_20_38(void)
@@ -15450,7 +15450,7 @@ void SYS_2_20_38(void)
 	{
 		Temporary = ReadDataMem(1498);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[38][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_20_39(void)
@@ -15469,7 +15469,7 @@ void SYS_2_20_39(void)
 	{
 		Temporary = ReadDataMem(1499);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[39][0]));
-		SYS_ParameterDisplay(MODE_5u_ms);
+		SYS_ParameterDisplay(MODE_5d_ms);
 	}
 }
 void SYS_2_20_40(void)
@@ -15488,7 +15488,7 @@ void SYS_2_20_40(void)
 	{
 		Temporary = ReadDataMem(1500);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[40][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_20_41(void)
@@ -15507,7 +15507,7 @@ void SYS_2_20_41(void)
 	{
 		Temporary = ReadDataMem(1501);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_20_XX[41][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 
@@ -15530,7 +15530,7 @@ void SYS_2_21_00(void)
 	{
 		Temporary = ReadDataMem(1550);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_21_XX[0][0]));
-		SYS_ParameterDisplay(MODE_5u_mOhm);
+		SYS_ParameterDisplay(MODE_5d_mOhm);
 	}
 }
 void SYS_2_21_01(void)
@@ -15549,7 +15549,7 @@ void SYS_2_21_01(void)
 	{
 		Temporary = ReadDataMem(1551);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_21_XX[1][0]));
-		SYS_ParameterDisplay(MODE_5u_mOhm);
+		SYS_ParameterDisplay(MODE_5d_mOhm);
 	}
 }
 void SYS_2_21_02(void)
@@ -15568,7 +15568,7 @@ void SYS_2_21_02(void)
 	{
 		Temporary = ReadDataMem(1552);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_21_XX[2][0]));
-		SYS_ParameterDisplay(MODE_5u_mOhm);
+		SYS_ParameterDisplay(MODE_5d_mOhm);
 	}
 }
 void SYS_2_21_03(void)
@@ -15587,7 +15587,7 @@ void SYS_2_21_03(void)
 	{
 		Temporary = ReadDataMem(1553);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_21_XX[3][0]));
-		SYS_ParameterDisplay(MODE_5u_mH);
+		SYS_ParameterDisplay(MODE_5d_mH);
 	}
 }
 void SYS_2_21_04(void)
@@ -15606,7 +15606,7 @@ void SYS_2_21_04(void)
 	{
 		Temporary = ReadDataMem(1554);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_21_XX[4][0]));
-		SYS_ParameterDisplay(MODE_5u_mH);
+		SYS_ParameterDisplay(MODE_5d_mH);
 	}
 }
 void SYS_2_21_05(void)
@@ -15625,7 +15625,7 @@ void SYS_2_21_05(void)
 	{
 		Temporary = ReadDataMem(1555);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_21_XX[5][0]));
-		SYS_ParameterDisplay(MODE_5u_mH);
+		SYS_ParameterDisplay(MODE_5d_mH);
 	}
 }
 void SYS_2_21_06(void)
@@ -15644,7 +15644,7 @@ void SYS_2_21_06(void)
 	{
 		Temporary = ReadDataMem(1556);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_21_XX[6][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_21_07(void)
@@ -15663,7 +15663,7 @@ void SYS_2_21_07(void)
 	{
 		Temporary = ReadDataMem(1557);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_21_XX[7][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_21_08(void)
@@ -15682,7 +15682,7 @@ void SYS_2_21_08(void)
 	{
 		Temporary = ReadDataMem(1558);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_21_XX[8][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_21_09(void)
@@ -15701,7 +15701,7 @@ void SYS_2_21_09(void)
 	{
 		Temporary = ReadDataMem(1559);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_21_XX[9][0]));
-		SYS_ParameterDisplay(MODE_5u_mOhm);
+		SYS_ParameterDisplay(MODE_5d_mOhm);
 	}
 }
  
@@ -15721,7 +15721,7 @@ void SYS_2_21_10(void)
 	{
 		Temporary = ReadDataMem(1560);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_21_XX[10][0]));
-		SYS_ParameterDisplay(MODE_5u_mH);
+		SYS_ParameterDisplay(MODE_5d_mH);
 	}
 }
 void SYS_2_21_11(void)
@@ -15740,7 +15740,7 @@ void SYS_2_21_11(void)
 	{
 		Temporary = ReadDataMem(1561);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_21_XX[11][0]));
-		SYS_ParameterDisplay(MODE_5u_mH);
+		SYS_ParameterDisplay(MODE_5d_mH);
 	}
 }
 void SYS_2_21_12(void)
@@ -15759,7 +15759,7 @@ void SYS_2_21_12(void)
 	{
 		Temporary = ReadDataMem(1562);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_21_XX[12][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_21_13(void)
@@ -15778,7 +15778,7 @@ void SYS_2_21_13(void)
 	{
 		Temporary = ReadDataMem(1563);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_21_XX[13][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_21_14(void)
@@ -15797,7 +15797,7 @@ void SYS_2_21_14(void)
 	{
 		Temporary = ReadDataMem(1564);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_21_XX[14][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_21_15(void)
@@ -15816,7 +15816,7 @@ void SYS_2_21_15(void)
 	{
 		Temporary = ReadDataMem(1565);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_21_XX[15][0]));
-		SYS_ParameterDisplay(MODE_5u_rpm);
+		SYS_ParameterDisplay(MODE_5d_rpm);
 	}
 }
 
@@ -15844,7 +15844,7 @@ void SYS_2_22_00(void)
 	{
 		Temporary = ReadDataMem(1570);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[0][0]));
-		SYS_ParameterDisplay(MODE_5u_mOhm);
+		SYS_ParameterDisplay(MODE_5d_mOhm);
 	}
 }
 void SYS_2_22_01(void)
@@ -15863,7 +15863,7 @@ void SYS_2_22_01(void)
 	{
 		Temporary = ReadDataMem(1571);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[1][0]));
-		SYS_ParameterDisplay(MODE_5u_mOhm);
+		SYS_ParameterDisplay(MODE_5d_mOhm);
 	}
 }
 void SYS_2_22_02(void)
@@ -15882,7 +15882,7 @@ void SYS_2_22_02(void)
 	{
 		Temporary = ReadDataMem(1572);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[2][0]));
-		SYS_ParameterDisplay(MODE_5u_mOhm);
+		SYS_ParameterDisplay(MODE_5d_mOhm);
 	}
 }
 void SYS_2_22_03(void)
@@ -15901,7 +15901,7 @@ void SYS_2_22_03(void)
 	{
 		Temporary = ReadDataMem(1573);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[3][0]));
-		SYS_ParameterDisplay(MODE_5u_mH);
+		SYS_ParameterDisplay(MODE_5d_mH);
 	}
 }
 void SYS_2_22_04(void)
@@ -15920,7 +15920,7 @@ void SYS_2_22_04(void)
 	{
 		Temporary = ReadDataMem(1574);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[4][0]));
-		SYS_ParameterDisplay(MODE_5u_mH);
+		SYS_ParameterDisplay(MODE_5d_mH);
 	}
 }
 void SYS_2_22_05(void)
@@ -15939,7 +15939,7 @@ void SYS_2_22_05(void)
 	{
 		Temporary = ReadDataMem(1575);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[5][0]));
-		SYS_ParameterDisplay(MODE_5u_mH);
+		SYS_ParameterDisplay(MODE_5d_mH);
 	}
 }
 void SYS_2_22_06(void)
@@ -15958,7 +15958,7 @@ void SYS_2_22_06(void)
 	{
 		Temporary = ReadDataMem(1576);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[6][0]));
-		SYS_ParameterDisplay(MODE_5u_s);
+		SYS_ParameterDisplay(MODE_5d_s);
 	}
 }
 void SYS_2_22_07(void)
@@ -15977,7 +15977,7 @@ void SYS_2_22_07(void)
 	{
 		Temporary = ReadDataMem(1577);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[7][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 void SYS_2_22_08(void)
@@ -15996,7 +15996,7 @@ void SYS_2_22_08(void)
 	{
 		Temporary = ReadDataMem(1578);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_22_XX[8][0]));
-		SYS_ParameterDisplay(MODE_5u_persent);
+		SYS_ParameterDisplay(MODE_5d_persent);
 	}
 }
 
@@ -16023,7 +16023,7 @@ void SYS_2_23_00(void)
 	{
 		Temporary = ReadDataMem(1590);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_23_XX[0][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_23_01(void)
@@ -16137,7 +16137,7 @@ void SYS_2_23_06(void)
 	{
 		Temporary = ReadDataMem(1596);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_23_XX[6][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_A);
+		SYS_ParameterDisplay(MODE_3d_1d_A);
 	}
 }
 void SYS_2_23_07(void)
@@ -16156,7 +16156,7 @@ void SYS_2_23_07(void)
 	{
 		Temporary = ReadDataMem(1597);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_23_XX[7][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_A);
+		SYS_ParameterDisplay(MODE_3d_1d_A);
 	}
 }
 void SYS_2_23_08(void)
@@ -16175,7 +16175,7 @@ void SYS_2_23_08(void)
 	{
 		Temporary = ReadDataMem(1598);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_23_XX[8][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_A);
+		SYS_ParameterDisplay(MODE_3d_1d_A);
 	}
 }
 void SYS_2_23_09(void)
@@ -16194,7 +16194,7 @@ void SYS_2_23_09(void)
 	{
 		Temporary = ReadDataMem(1599);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_23_XX[9][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_A);
+		SYS_ParameterDisplay(MODE_3d_1d_A);
 	}
 }
  
@@ -16214,7 +16214,7 @@ void SYS_2_23_10(void)
 	{
 		Temporary = ReadDataMem(1600);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_23_XX[10][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_A);
+		SYS_ParameterDisplay(MODE_3d_1d_A);
 	}
 }
 void SYS_2_23_11(void)
@@ -16233,7 +16233,7 @@ void SYS_2_23_11(void)
 	{
 		Temporary = ReadDataMem(1601);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_23_XX[11][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_A);
+		SYS_ParameterDisplay(MODE_3d_1d_A);
 	}
 }
 
@@ -16254,7 +16254,7 @@ void SYS_2_29_00(void)
 	{
 		Temporary = ReadDataMem(1870);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[0][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_kHz);
+		SYS_ParameterDisplay(MODE_3d_1d_kHz);
 	}
 }
 void SYS_2_29_01(void)
@@ -16311,7 +16311,7 @@ void SYS_2_29_03(void)
 	{
 		Temporary = ReadDataMem(1873);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[3][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_kW);
+		SYS_ParameterDisplay(MODE_3d_1d_kW);
 	}
 }
 
@@ -16331,7 +16331,7 @@ void SYS_2_29_04(void)
 	{
 		Temporary = ReadDataMem(1874);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[4][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_mOhm);
+		SYS_ParameterDisplay(MODE_3d_1d_mOhm);
 	}
 }
 void SYS_2_29_05(void)
@@ -16350,7 +16350,7 @@ void SYS_2_29_05(void)
 	{
 		Temporary = ReadDataMem(1875);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[5][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_mH);
+		SYS_ParameterDisplay(MODE_3d_1d_mH);
 	}
 }
 void SYS_2_29_06(void)
@@ -16369,7 +16369,7 @@ void SYS_2_29_06(void)
 	{
 		Temporary = ReadDataMem(1876);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[6][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_ms);
+		SYS_ParameterDisplay(MODE_3d_1d_ms);
 	}
 }
 void SYS_2_29_07(void)
@@ -16388,7 +16388,7 @@ void SYS_2_29_07(void)
 	{
 		Temporary = ReadDataMem(1877);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[7][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_29_08(void)
@@ -16407,7 +16407,7 @@ void SYS_2_29_08(void)
 	{
 		Temporary = ReadDataMem(1878);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[8][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_29_09(void)
@@ -16426,7 +16426,7 @@ void SYS_2_29_09(void)
 	{
 		Temporary = ReadDataMem(1879);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[9][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
  
@@ -16446,7 +16446,7 @@ void SYS_2_29_10(void)
 	{
 		Temporary = ReadDataMem(1880);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[10][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_29_11(void)
@@ -16465,7 +16465,7 @@ void SYS_2_29_11(void)
 	{
 		Temporary = ReadDataMem(1881);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[11][0]));
-		SYS_ParameterDisplay(MODE_5u);
+		SYS_ParameterDisplay(MODE_5d);
 	}
 }
 void SYS_2_29_12(void)
@@ -16484,7 +16484,7 @@ void SYS_2_29_12(void)
 	{
 		Temporary = ReadDataMem(1882);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[12][0]));
-		SYS_ParameterDisplay(MODE_5u_uF);
+		SYS_ParameterDisplay(MODE_5d_uF);
 	}
 }
 void SYS_2_29_13(void)
@@ -16503,7 +16503,7 @@ void SYS_2_29_13(void)
 	{
 		Temporary = ReadDataMem(1883);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[13][0]));
-		SYS_ParameterDisplay(MODE_5u_uF);
+		SYS_ParameterDisplay(MODE_5d_uF);
 	}
 }
 void SYS_2_29_14(void)
@@ -16522,7 +16522,7 @@ void SYS_2_29_14(void)
 	{
 		Temporary = ReadDataMem(1884);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[14][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_29_15(void)
@@ -16541,7 +16541,7 @@ void SYS_2_29_15(void)
 	{
 		Temporary = ReadDataMem(1885);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[15][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_Hz);
+		SYS_ParameterDisplay(MODE_3d_1d_Hz);
 	}
 }
 void SYS_2_29_16(void)
@@ -16657,7 +16657,7 @@ void SYS_2_29_21(void)
 	{
 		Temporary = ReadDataMem(1891);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[21][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_29_22(void)
@@ -16676,7 +16676,7 @@ void SYS_2_29_22(void)
 	{
 		Temporary = ReadDataMem(1892);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[22][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_29_23(void)
@@ -16695,7 +16695,7 @@ void SYS_2_29_23(void)
 	{
 		Temporary = ReadDataMem(1893);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[23][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_persent);
+		SYS_ParameterDisplay(MODE_3d_1d_persent);
 	}
 }
 void SYS_2_29_24(void)
@@ -16714,7 +16714,7 @@ void SYS_2_29_24(void)
 	{
 		Temporary = ReadDataMem(1894);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[24][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_29_25(void)
@@ -16733,7 +16733,7 @@ void SYS_2_29_25(void)
 	{
 		Temporary = ReadDataMem(1895);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[25][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_s);
+		SYS_ParameterDisplay(MODE_3d_1d_s);
 	}
 }
 void SYS_2_29_26(void)
@@ -16752,7 +16752,7 @@ void SYS_2_29_26(void)
 	{
 		Temporary = ReadDataMem(1896);
 		CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_2_29_XX[26][0]));
-		SYS_ParameterDisplay(MODE_3d_1u_deg);
+		SYS_ParameterDisplay(MODE_3d_1d_deg);
 	}
 }
  

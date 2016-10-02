@@ -2,31 +2,31 @@
 #                                                                              #
 #      IAR Universal Linker V4.61L/W32                                         #
 #                                                                              #
-#           Link time     =  01/Aug/2011  13:59:28                             #
+#           Link time     =  09/Aug/2011  16:32:51                             #
 #           Target CPU    =  A90                                               #
-#           List file     =  D:\work\SEOHO_VD\SEOHO_HHH\KEYPAD335_110731_SEOHO #
-#                            _crc\Debug\List\Keypad_ISP.map                    #
-#           Output file 1 =  D:\work\SEOHO_VD\SEOHO_HHH\KEYPAD335_110731_SEOHO #
-#                            _crc\Debug\Exe\Keypad_ISP.hex                     #
+#           List file     =  D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110809_SE #
+#                            OHO\Debug\List\Keypad_ISP.map                     #
+#           Output file 1 =  D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110809_SE #
+#                            OHO\Debug\Exe\Keypad_ISP.hex                      #
 #                            Format: intel-extended                            #
-#           Command line  =  D:\work\SEOHO_VD\SEOHO_HHH\KEYPAD335_110731_SEOHO #
-#                            _crc\Debug\Obj\16by2CLCD.r90                      #
-#                            D:\work\SEOHO_VD\SEOHO_HHH\KEYPAD335_110731_SEOHO #
-#                            _crc\Debug\Obj\display.r90                        #
-#                            D:\work\SEOHO_VD\SEOHO_HHH\KEYPAD335_110731_SEOHO #
-#                            _crc\Debug\Obj\key.r90                            #
-#                            D:\work\SEOHO_VD\SEOHO_HHH\KEYPAD335_110731_SEOHO #
-#                            _crc\Debug\Obj\main.r90                           #
-#                            D:\work\SEOHO_VD\SEOHO_HHH\KEYPAD335_110731_SEOHO #
-#                            _crc\Debug\Obj\rs232_MMItoPANEL.r90               #
-#                            D:\work\SEOHO_VD\SEOHO_HHH\KEYPAD335_110731_SEOHO #
-#                            _crc\Debug\Obj\util.r90                           #
+#           Command line  =  D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110809_SE #
+#                            OHO\Debug\Obj\16by2CLCD.r90                       #
+#                            D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110809_SE #
+#                            OHO\Debug\Obj\display.r90                         #
+#                            D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110809_SE #
+#                            OHO\Debug\Obj\key.r90                             #
+#                            D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110809_SE #
+#                            OHO\Debug\Obj\main.r90                            #
+#                            D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110809_SE #
+#                            OHO\Debug\Obj\rs232_MMItoPANEL.r90                #
+#                            D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110809_SE #
+#                            OHO\Debug\Obj\util.r90                            #
 #                            -o                                                #
-#                            D:\work\SEOHO_VD\SEOHO_HHH\KEYPAD335_110731_SEOHO #
-#                            _crc\Debug\Exe\Keypad_ISP.hex                     #
+#                            D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110809_SE #
+#                            OHO\Debug\Exe\Keypad_ISP.hex                      #
 #                            -Fintel-extended -l                               #
-#                            D:\work\SEOHO_VD\SEOHO_HHH\KEYPAD335_110731_SEOHO #
-#                            _crc\Debug\List\Keypad_ISP.map                    #
+#                            D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110809_SE #
+#                            OHO\Debug\List\Keypad_ISP.map                     #
 #                            -xmsnio                                           #
 #                            "-IC:\Program Files\IAR Systems\Embedded Workbenc #
 #                            h 5.3\avr\LIB\"                                   #
@@ -185,7 +185,7 @@ Absolute parts
            _..X_INTVEC_SIZE        000000E4 
     *************************************************************************
 
-  FILE NAME : D:\work\SEOHO_VD\SEOHO_HHH\KEYPAD335_110731_SEOHO_crc\Debug\Obj\16by2CLCD.r90
+  FILE NAME : D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110809_SEOHO\Debug\Obj\16by2CLCD.r90
   PROGRAM MODULE, NAME : 16by2CLCD
 
   SEGMENTS IN THE MODULE
@@ -642,7 +642,7 @@ INITTAB
 
     *************************************************************************
 
-  FILE NAME : D:\work\SEOHO_VD\SEOHO_HHH\KEYPAD335_110731_SEOHO_crc\Debug\Obj\display.r90
+  FILE NAME : D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110809_SEOHO\Debug\Obj\display.r90
   PROGRAM MODULE, NAME : display
 
   SEGMENTS IN THE MODULE
@@ -2219,8 +2219,7 @@ NEAR_I
     -------------------------------------------------------------------------
 NEAR_I
   Relative segment, address: DATA 0000098E - 0000099E (0x11 bytes), align: 0
-  Segment part 50.            Intra module refs:   SYS_4_00_00
-                                                   SYS_ParameterDisplay
+  Segment part 50.            Intra module refs:   SYS_ParameterDisplay
     -------------------------------------------------------------------------
 NEAR_I
   Relative segment, address: DATA 0000099F - 000009AD (0xf bytes), align: 0
@@ -2749,7 +2748,8 @@ NEAR_I
     -------------------------------------------------------------------------
 NEAR_I
   Relative segment, address: DATA 00001280 - 00001290 (0x11 bytes), align: 0
-  Segment part 314.           Intra module refs:   SYS_ParameterDisplay
+  Segment part 314.           Intra module refs:   SYS_4_00_00
+                                                   SYS_ParameterDisplay
     -------------------------------------------------------------------------
 NEAR_I
   Relative segment, address: DATA 00001291 - 000012A1 (0x11 bytes), align: 0
@@ -3055,83 +3055,83 @@ NEAR_I
   Segment part 462.           Intra module refs:   SYS_4_00_00
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 0000179E - 000017AE (0x11 bytes), align: 0
+  Relative segment, address: DATA 0000179E - 000017AF (0x12 bytes), align: 0
   Segment part 464.           Intra module refs:   SYS_4_00_00
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 000017AF - 000017BF (0x11 bytes), align: 0
+  Relative segment, address: DATA 000017B0 - 000017C0 (0x11 bytes), align: 0
   Segment part 466.           Intra module refs:   SYS_4_00_00
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 000017C0 - 000017D0 (0x11 bytes), align: 0
+  Relative segment, address: DATA 000017C1 - 000017D1 (0x11 bytes), align: 0
   Segment part 468.           Intra module refs:   SYS_4_00_00
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 000017D1 - 000017E1 (0x11 bytes), align: 0
+  Relative segment, address: DATA 000017D2 - 000017E2 (0x11 bytes), align: 0
   Segment part 470.           Intra module refs:   SYS_4_00_00
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 000017E2 - 000017F7 (0x16 bytes), align: 0
+  Relative segment, address: DATA 000017E3 - 000017F8 (0x16 bytes), align: 0
   Segment part 472.           Intra module refs:   SYS_4_00_00
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 000017F8 - 00001808 (0x11 bytes), align: 0
+  Relative segment, address: DATA 000017F9 - 00001809 (0x11 bytes), align: 0
   Segment part 474.           Intra module refs:   SYS_4_00_00
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 00001809 - 00001819 (0x11 bytes), align: 0
+  Relative segment, address: DATA 0000180A - 0000181A (0x11 bytes), align: 0
   Segment part 476.           Intra module refs:   SYS_4_00_00
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 0000181A - 0000182A (0x11 bytes), align: 0
+  Relative segment, address: DATA 0000181B - 0000182B (0x11 bytes), align: 0
   Segment part 478.           Intra module refs:   SYS_4_00_00
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 0000182B - 0000183F (0x15 bytes), align: 0
+  Relative segment, address: DATA 0000182C - 00001840 (0x15 bytes), align: 0
   Segment part 480.           Intra module refs:   SYS_4_00_00
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 00001840 - 00001850 (0x11 bytes), align: 0
+  Relative segment, address: DATA 00001841 - 00001851 (0x11 bytes), align: 0
   Segment part 482.           Intra module refs:   SYS_4_00_00
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 00001851 - 00001866 (0x16 bytes), align: 0
+  Relative segment, address: DATA 00001852 - 00001867 (0x16 bytes), align: 0
   Segment part 484.           Intra module refs:   SYS_4_00_00
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 00001867 - 00001877 (0x11 bytes), align: 0
+  Relative segment, address: DATA 00001868 - 00001878 (0x11 bytes), align: 0
   Segment part 486.           Intra module refs:   SYS_4_00_00
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 00001878 - 00001888 (0x11 bytes), align: 0
+  Relative segment, address: DATA 00001879 - 00001889 (0x11 bytes), align: 0
   Segment part 488.           Intra module refs:   SYS_4_00_00
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 00001889 - 00001899 (0x11 bytes), align: 0
+  Relative segment, address: DATA 0000188A - 0000189A (0x11 bytes), align: 0
   Segment part 490.           Intra module refs:   SYS_0xFFFFFFFF
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 0000189A - 000018AA (0x11 bytes), align: 0
+  Relative segment, address: DATA 0000189B - 000018AB (0x11 bytes), align: 0
   Segment part 492.           Intra module refs:   SYS_0xFFFFFFFF
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 000018AB - 000018BB (0x11 bytes), align: 0
+  Relative segment, address: DATA 000018AC - 000018BC (0x11 bytes), align: 0
   Segment part 494.           Intra module refs:   MainSYSTEM
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 000018BC - 000018CC (0x11 bytes), align: 0
+  Relative segment, address: DATA 000018BD - 000018CD (0x11 bytes), align: 0
   Segment part 496.           Intra module refs:   MainSYSTEM
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 000018CD - 000018DE (0x12 bytes), align: 0
+  Relative segment, address: DATA 000018CE - 000018DF (0x12 bytes), align: 0
   Segment part 498.           Intra module refs:   MainSYSTEM
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 000018DF - 000018DF (0x1 bytes), align: 0
+  Relative segment, address: DATA 000018E0 - 000018E0 (0x1 bytes), align: 0
   Segment part 554.           Intra module refs:   MainSYSTEM
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           MenuDisplay_Handler     000018DF        main (main)
+           MenuDisplay_Handler     000018E0        main (main)
     -------------------------------------------------------------------------
 NEAR_Z
   Relative segment, address: DATA 00009B9D - 00009B9F (0x3 bytes), align: 0
@@ -12920,75 +12920,75 @@ NEAR_ID
   Segment part 463.           Intra module refs:   Segment part 462
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015BBE - 00015BCE (0x11 bytes), align: 0
+  Relative segment, address: CODE 00015BBE - 00015BCF (0x12 bytes), align: 0
   Segment part 465.           Intra module refs:   Segment part 464
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015BCF - 00015BDF (0x11 bytes), align: 0
+  Relative segment, address: CODE 00015BD0 - 00015BE0 (0x11 bytes), align: 0
   Segment part 467.           Intra module refs:   Segment part 466
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015BE0 - 00015BF0 (0x11 bytes), align: 0
+  Relative segment, address: CODE 00015BE1 - 00015BF1 (0x11 bytes), align: 0
   Segment part 469.           Intra module refs:   Segment part 468
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015BF1 - 00015C01 (0x11 bytes), align: 0
+  Relative segment, address: CODE 00015BF2 - 00015C02 (0x11 bytes), align: 0
   Segment part 471.           Intra module refs:   Segment part 470
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015C02 - 00015C17 (0x16 bytes), align: 0
+  Relative segment, address: CODE 00015C03 - 00015C18 (0x16 bytes), align: 0
   Segment part 473.           Intra module refs:   Segment part 472
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015C18 - 00015C28 (0x11 bytes), align: 0
+  Relative segment, address: CODE 00015C19 - 00015C29 (0x11 bytes), align: 0
   Segment part 475.           Intra module refs:   Segment part 474
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015C29 - 00015C39 (0x11 bytes), align: 0
+  Relative segment, address: CODE 00015C2A - 00015C3A (0x11 bytes), align: 0
   Segment part 477.           Intra module refs:   Segment part 476
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015C3A - 00015C4A (0x11 bytes), align: 0
+  Relative segment, address: CODE 00015C3B - 00015C4B (0x11 bytes), align: 0
   Segment part 479.           Intra module refs:   Segment part 478
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015C4B - 00015C5F (0x15 bytes), align: 0
+  Relative segment, address: CODE 00015C4C - 00015C60 (0x15 bytes), align: 0
   Segment part 481.           Intra module refs:   Segment part 480
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015C60 - 00015C70 (0x11 bytes), align: 0
+  Relative segment, address: CODE 00015C61 - 00015C71 (0x11 bytes), align: 0
   Segment part 483.           Intra module refs:   Segment part 482
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015C71 - 00015C86 (0x16 bytes), align: 0
+  Relative segment, address: CODE 00015C72 - 00015C87 (0x16 bytes), align: 0
   Segment part 485.           Intra module refs:   Segment part 484
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015C87 - 00015C97 (0x11 bytes), align: 0
+  Relative segment, address: CODE 00015C88 - 00015C98 (0x11 bytes), align: 0
   Segment part 487.           Intra module refs:   Segment part 486
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015C98 - 00015CA8 (0x11 bytes), align: 0
+  Relative segment, address: CODE 00015C99 - 00015CA9 (0x11 bytes), align: 0
   Segment part 489.           Intra module refs:   Segment part 488
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015CA9 - 00015CB9 (0x11 bytes), align: 0
+  Relative segment, address: CODE 00015CAA - 00015CBA (0x11 bytes), align: 0
   Segment part 491.           Intra module refs:   Segment part 490
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015CBA - 00015CCA (0x11 bytes), align: 0
+  Relative segment, address: CODE 00015CBB - 00015CCB (0x11 bytes), align: 0
   Segment part 493.           Intra module refs:   Segment part 492
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015CCB - 00015CDB (0x11 bytes), align: 0
+  Relative segment, address: CODE 00015CCC - 00015CDC (0x11 bytes), align: 0
   Segment part 495.           Intra module refs:   Segment part 494
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015CDC - 00015CEC (0x11 bytes), align: 0
+  Relative segment, address: CODE 00015CDD - 00015CED (0x11 bytes), align: 0
   Segment part 497.           Intra module refs:   Segment part 496
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015CED - 00015CFE (0x12 bytes), align: 0
+  Relative segment, address: CODE 00015CEE - 00015CFF (0x12 bytes), align: 0
   Segment part 499.           Intra module refs:   Segment part 498
     -------------------------------------------------------------------------
 INITTAB
@@ -12999,12 +12999,12 @@ INITTAB
                                    
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015CFF - 00015CFF (0x1 bytes), align: 0
+  Relative segment, address: CODE 00015D00 - 00015D00 (0x1 bytes), align: 0
   Segment part 555.           Intra module refs:   MenuDisplay_Handler
 
     *************************************************************************
 
-  FILE NAME : D:\work\SEOHO_VD\SEOHO_HHH\KEYPAD335_110731_SEOHO_crc\Debug\Obj\key.r90
+  FILE NAME : D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110809_SEOHO\Debug\Obj\key.r90
   PROGRAM MODULE, NAME : key
 
   SEGMENTS IN THE MODULE
@@ -13024,25 +13024,25 @@ ABSOLUTE
            _A_PINJ                 00000103 
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 000018E0 - 000018E0 (0x1 bytes), align: 0
+  Relative segment, address: DATA 000018E1 - 000018E1 (0x1 bytes), align: 0
   Segment part 10.            Intra module refs:   KeyScan
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           key_signal_A            000018E0 
+           key_signal_A            000018E1 
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 000018E1 - 000018E1 (0x1 bytes), align: 0
+  Relative segment, address: DATA 000018E2 - 000018E2 (0x1 bytes), align: 0
   Segment part 13.            Intra module refs:   KeyScan
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           key_signal_B            000018E1 
+           key_signal_B            000018E2 
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 000018E2 - 000018E3 (0x2 bytes), align: 0
+  Relative segment, address: DATA 000018E3 - 000018E4 (0x2 bytes), align: 0
   Segment part 15.            Intra module refs:   KeyScan
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           key_data                000018E2 
+           key_data                000018E3 
     -------------------------------------------------------------------------
 NEAR_Z
   Relative segment, address: DATA 00009BA7 - 00009BA8 (0x2 bytes), align: 0
@@ -13367,7 +13367,7 @@ RSTACK
   Segment part 9. NOT NEEDED.
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015D00 - 00015D00 (0x1 bytes), align: 0
+  Relative segment, address: CODE 00015D01 - 00015D01 (0x1 bytes), align: 0
   Segment part 11.            Intra module refs:   key_signal_A
     -------------------------------------------------------------------------
 INITTAB
@@ -13378,11 +13378,11 @@ INITTAB
                                    
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015D01 - 00015D01 (0x1 bytes), align: 0
+  Relative segment, address: CODE 00015D02 - 00015D02 (0x1 bytes), align: 0
   Segment part 14.            Intra module refs:   key_signal_B
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015D02 - 00015D03 (0x2 bytes), align: 0
+  Relative segment, address: CODE 00015D03 - 00015D04 (0x2 bytes), align: 0
   Segment part 16.            Intra module refs:   key_data
     -------------------------------------------------------------------------
 INITTAB
@@ -13398,7 +13398,7 @@ SWITCH
 
     *************************************************************************
 
-  FILE NAME : D:\work\SEOHO_VD\SEOHO_HHH\KEYPAD335_110731_SEOHO_crc\Debug\Obj\main.r90
+  FILE NAME : D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110809_SEOHO\Debug\Obj\main.r90
   PROGRAM MODULE, NAME : main
 
   SEGMENTS IN THE MODULE
@@ -13597,11 +13597,11 @@ NEAR_Z
            PacketBuf               
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 000018E4 - 000018F3 (0x10 bytes), align: 0
+  Relative segment, address: DATA 000018E5 - 000018F4 (0x10 bytes), align: 0
   Segment part 36.            Intra module refs:   main
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 000018F4 - 00001900 (0xd bytes), align: 0
+  Relative segment, address: DATA 000018F5 - 00001901 (0xd bytes), align: 0
   Segment part 39.            Intra module refs:   main
     -------------------------------------------------------------------------
 NEAR_I
@@ -13691,39 +13691,39 @@ NEAR_Z
                                                    SYS_4_00_00 (display)
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 00001901 - 00001901 (0x1 bytes), align: 0
+  Relative segment, address: DATA 00001902 - 00001902 (0x1 bytes), align: 0
   Segment part 53.            Intra module refs:   SystemTimeTic
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _10ms_Cnt               00001901 
-    -------------------------------------------------------------------------
-NEAR_I
-  Relative segment, address: DATA 00001902 - 00001902 (0x1 bytes), align: 0
-  Segment part 55.            Intra module refs:   SystemTimeTic
-           ENTRY                   ADDRESS         REF BY
-           =====                   =======         ======
-           _100ms_Cnt              00001902 
+           _10ms_Cnt               00001902 
     -------------------------------------------------------------------------
 NEAR_I
   Relative segment, address: DATA 00001903 - 00001903 (0x1 bytes), align: 0
-  Segment part 57.            Intra module refs:   SystemTimeTic
+  Segment part 55.            Intra module refs:   SystemTimeTic
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _200ms_Cnt              00001903 
+           _100ms_Cnt              00001903 
     -------------------------------------------------------------------------
 NEAR_I
   Relative segment, address: DATA 00001904 - 00001904 (0x1 bytes), align: 0
-  Segment part 59.            Intra module refs:   SystemTimeTic
+  Segment part 57.            Intra module refs:   SystemTimeTic
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _500ms_Cnt              00001904 
+           _200ms_Cnt              00001904 
     -------------------------------------------------------------------------
 NEAR_I
   Relative segment, address: DATA 00001905 - 00001905 (0x1 bytes), align: 0
+  Segment part 59.            Intra module refs:   SystemTimeTic
+           ENTRY                   ADDRESS         REF BY
+           =====                   =======         ======
+           _500ms_Cnt              00001905 
+    -------------------------------------------------------------------------
+NEAR_I
+  Relative segment, address: DATA 00001906 - 00001906 (0x1 bytes), align: 0
   Segment part 61.            Intra module refs:   SystemTimeTic
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
-           _1s_Cnt                 00001905 
+           _1s_Cnt                 00001906 
     -------------------------------------------------------------------------
 NEAR_Z
   Relative segment, address: DATA 00009BB4 - 00009BB4 (0x1 bytes), align: 0
@@ -13916,7 +13916,7 @@ RSTACK
   Segment part 35. NOT NEEDED.
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015D04 - 00015D13 (0x10 bytes), align: 0
+  Relative segment, address: CODE 00015D05 - 00015D14 (0x10 bytes), align: 0
   Segment part 37.            Intra module refs:   Segment part 36
     -------------------------------------------------------------------------
 INITTAB
@@ -13927,7 +13927,7 @@ INITTAB
                                    
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015D14 - 00015D20 (0xd bytes), align: 0
+  Relative segment, address: CODE 00015D15 - 00015D21 (0xd bytes), align: 0
   Segment part 40.            Intra module refs:   Segment part 39
     -------------------------------------------------------------------------
 INITTAB
@@ -13941,28 +13941,28 @@ NEAR_ID
   Segment part 44. NOT NEEDED.
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015D21 - 00015D21 (0x1 bytes), align: 0
+  Relative segment, address: CODE 00015D22 - 00015D22 (0x1 bytes), align: 0
   Segment part 54.            Intra module refs:   _10ms_Cnt
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015D22 - 00015D22 (0x1 bytes), align: 0
+  Relative segment, address: CODE 00015D23 - 00015D23 (0x1 bytes), align: 0
   Segment part 56.            Intra module refs:   _100ms_Cnt
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015D23 - 00015D23 (0x1 bytes), align: 0
+  Relative segment, address: CODE 00015D24 - 00015D24 (0x1 bytes), align: 0
   Segment part 58.            Intra module refs:   _200ms_Cnt
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015D24 - 00015D24 (0x1 bytes), align: 0
+  Relative segment, address: CODE 00015D25 - 00015D25 (0x1 bytes), align: 0
   Segment part 60.            Intra module refs:   _500ms_Cnt
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015D25 - 00015D25 (0x1 bytes), align: 0
+  Relative segment, address: CODE 00015D26 - 00015D26 (0x1 bytes), align: 0
   Segment part 62.            Intra module refs:   _1s_Cnt
 
     *************************************************************************
 
-  FILE NAME : D:\work\SEOHO_VD\SEOHO_HHH\KEYPAD335_110731_SEOHO_crc\Debug\Obj\rs232_MMItoPANEL.r90
+  FILE NAME : D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110809_SEOHO\Debug\Obj\rs232_MMItoPANEL.r90
   PROGRAM MODULE, NAME : rs232_MMItoPANEL
 
   SEGMENTS IN THE MODULE
@@ -14024,13 +14024,13 @@ NEAR_Z
            data_flg                
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 00001906 - 00001907 (0x2 bytes), align: 0
+  Relative segment, address: DATA 00001907 - 00001908 (0x2 bytes), align: 0
   Segment part 18.            Intra module refs:   SCI_Process
                                                    USART0_RX_ISR
            ENTRY                   ADDRESS         REF BY
            =====                   =======         ======
            Communication_Fault_Cnt
-                                   00001906 
+                                   00001907 
     -------------------------------------------------------------------------
 NEAR_Z
   Relative segment, address: DATA 00009BC2 - 00009BC2 (0x1 bytes), align: 0
@@ -14056,18 +14056,18 @@ NEAR_Z
            packet                  
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 00001908 - 00001A07 (0x100 bytes), align: 0
+  Relative segment, address: DATA 00001909 - 00001A08 (0x100 bytes), align: 0
   Segment part 24.            Intra module refs:   CRC16
            LOCAL                   ADDRESS         
            =====                   =======         
-           aucCRCHi                00001908 
+           aucCRCHi                00001909 
     -------------------------------------------------------------------------
 NEAR_I
-  Relative segment, address: DATA 00001A08 - 00001B07 (0x100 bytes), align: 0
+  Relative segment, address: DATA 00001A09 - 00001B08 (0x100 bytes), align: 0
   Segment part 26.            Intra module refs:   CRC16
            LOCAL                   ADDRESS         
            =====                   =======         
-           aucCRCLo                00001A08 
+           aucCRCLo                00001A09 
     -------------------------------------------------------------------------
 FARCODE
   Relative segment, address: CODE 000143AA - 000143F5 (0x4c bytes), align: 1
@@ -14539,7 +14539,7 @@ INITTAB
                                    
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015D26 - 00015D27 (0x2 bytes), align: 0
+  Relative segment, address: CODE 00015D27 - 00015D28 (0x2 bytes), align: 0
   Segment part 19.            Intra module refs:   Communication_Fault_Cnt
     -------------------------------------------------------------------------
 INITTAB
@@ -14550,16 +14550,16 @@ INITTAB
                                    
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015D28 - 00015E27 (0x100 bytes), align: 0
+  Relative segment, address: CODE 00015D29 - 00015E28 (0x100 bytes), align: 0
   Segment part 25.            Intra module refs:   aucCRCHi
     -------------------------------------------------------------------------
 NEAR_ID
-  Relative segment, address: CODE 00015E28 - 00015F27 (0x100 bytes), align: 0
+  Relative segment, address: CODE 00015E29 - 00015F28 (0x100 bytes), align: 0
   Segment part 27.            Intra module refs:   aucCRCLo
 
     *************************************************************************
 
-  FILE NAME : D:\work\SEOHO_VD\SEOHO_HHH\KEYPAD335_110731_SEOHO_crc\Debug\Obj\util.r90
+  FILE NAME : D:\work\SEOHO_VD\SEOHO_Keypad\KEYPAD335_110809_SEOHO\Debug\Obj\util.r90
   PROGRAM MODULE, NAME : util
 
   SEGMENTS IN THE MODULE
@@ -15612,7 +15612,7 @@ Module                CODE      DATA
 ?low_level_init          4
 ?segment_init          128
 ?xV_SWITCH_L06         192
-display             84 900  11 354
+display             84 901  11 355
   + shared               7              1
 key                    340      10      2
 main                 1 034      53     26
@@ -15623,7 +15623,7 @@ util                    66
 N/A (command line)           1 580
 N/A (alignment)
 ----------          ------  ------     --
-Total:              89 784  20 348     37
+Total:              89 785  20 349     37
   + common             112
 
 
@@ -26074,7 +26074,7 @@ SWITCH               CODE          0000239C - 000023C5          2A   rel    1
 CODE                 CODE          000023C6 - 000025BF         1FA   rel    1
 FARCODE              CODE          000025C0 - 00014C3D       1267E   rel    1
 INITTAB              CODE          00014C3E - 00014C4B           E   rel    0
-NEAR_ID              CODE          00014C4C - 00015F27        12DC   rel    0
+NEAR_ID              CODE          00014C4C - 00015F28        12DD   rel    0
 ABSOLUTE             DATA               0000001F                     rel    0
                      DATA               00000020                   
                      DATA               00000021                   
@@ -26096,7 +26096,7 @@ ABSOLUTE             DATA               0000001F                     rel    0
                      DATA          0000010A - 0000010B           2 
 CSTACK               DATA          00000200 - 000006FF         500   dse    0
 RSTACK               DATA          00000700 - 0000082B         12C   dse    0
-NEAR_I               DATA          0000082C - 00001B07        12DC   rel    0
+NEAR_I               DATA          0000082C - 00001B08        12DD   rel    0
 NEAR_Z               DATA          00008000 - 0000B673        3674   rel    0
 
                 ****************************************
@@ -26105,8 +26105,8 @@ NEAR_Z               DATA          00008000 - 0000B673        3674   rel    0
                 *                                      *
                 ****************************************
 
- 89 780 bytes of CODE memory (+             116 range fill )
- 20 348 bytes of DATA memory (+ 37 absolute )
+ 89 781 bytes of CODE memory (+             116 range fill )
+ 20 349 bytes of DATA memory (+ 37 absolute )
 
 Errors: none
 Warnings: none

@@ -38,41 +38,42 @@
 
 
 #define MODE_5u 0
-#define MODE_3d_1u 46
+#define MODE_3d_1d 46
 
-#define MODE_5u_ppr 53
+#define MODE_5d_ppr 53
 
-#define MODE_5u_mH 55
-#define MODE_3d_1u_kW 5
-#define MODE_3d_1u_Vrms 6
-#define MODE_3d_1u_Arms 7
+#define MODE_5d_mH 55
+#define MODE_3d_1d_kW 5
+#define MODE_3d_1d_Vrms 6
+#define MODE_3d_1d_Arms 7
 
-#define MODE_5u_pole 9
+#define MODE_5d_pole 9
 #define MODE_5u_rpm 10
+#define MODE_5d_rpm 68
 
-#define MODE_5u_ms 51
-#define MODE_3d_1u_ms 30
-#define MODE_3d_1u_s 14
+#define MODE_5d_ms 51
+#define MODE_3d_1d_ms 30
+#define MODE_3d_1d_s 14
 
-#define MODE_3d_1u_kHz 12
-#define MODE_3d_1u_Hz 8
-#define MODE_5u_Hz 20
+#define MODE_3d_1d_kHz 12
+#define MODE_3d_1d_Hz 8
+#define MODE_5d_Hz 20
 
-#define MODE_3d_1u_mV 33
-#define MODE_3d_1u_V 23
-//#define MODE_5u_V 38
+#define MODE_3d_1d_mV 33
+#define MODE_3d_1d_V 23
+//#define MODE_5d_V 38
 
-#define MODE_3d_1u_mA 34
-//#define MODE_3d_1u_mV 31
+#define MODE_3d_1d_mA 34
+//#define MODE_3d_1d_mV 31
 
-#define MODE_3d_1u_deg 26
+#define MODE_3d_1d_deg 26
 
-#define MODE_5u_mOhm 54
+#define MODE_5d_mOhm 54
 
 #define MODE_1d_4u_pu 44
 
-#define MODE_3d_1u_persent 16
-#define MODE_5u_persent 52
+#define MODE_3d_1d_persent 16
+#define MODE_5d_persent 52
 
 
 #define MODE_1 1
@@ -88,9 +89,9 @@
 
 #define MODE_En_Dis 17
 #define MODE_18 18
-#define MODE_5u_s 19
+#define MODE_5d_s 19
 
-#define MODE_5u_kHz 21
+#define MODE_5d_kHz 21
 #define MODE_22 22
 
 #define MODE_24 24
@@ -100,7 +101,7 @@
 #define MODE_P6_1 28
 #define MODE_P6_AI_Type 29
 
-#define MODE_5u_mA 32
+#define MODE_5d_mA 32
 
 
 #define MODE_35 35
@@ -120,22 +121,22 @@
 #define MODE_49 49
 #define MODE_50 50
 
-#define MODE_3d_1u_A 56
+#define MODE_3d_1d_A 56
 #define MODE_5d 57
 #define MODE_5d_rms 58
-#define MODE_5u_uF 59
+#define MODE_5d_uF 59
 #define MODE_5d_A 60
 #define MODE_5d_V 61
-#define MODE_3d_1u_mOhm 62
-#define MODE_3d_1u_mH 63
-#define MODE_1d_3u_pu 64
+#define MODE_3d_1d_mOhm 62
+#define MODE_3d_1d_mH 63
+#define MODE_1d_3d_pu 64
 #define MODE_P6_AI_D_Step 65
 
 #define MODE_P6_AI_U_Sel 66
 #define MODE_P6_AI_Func 67
 
-#define MODE_5d_rpm 68
-#define MODE_5u_Vrms 69
-#define MODE_5u_mV 70
+
+#define MODE_5d_Vrms 69
+#define MODE_5d_mV 70
 
 #endif
