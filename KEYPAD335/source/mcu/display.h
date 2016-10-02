@@ -54,6 +54,7 @@ extern unsigned char EventTimeC;
 extern unsigned char EventTimeD;
 extern unsigned char EventTimeE;
 
+
 void DisplayInit(void);
 void MainSYSTEM(void);
 void Menu(void);

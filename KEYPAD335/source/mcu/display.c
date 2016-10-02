@@ -73,7 +73,6 @@ void DisplayInit(void)
 
 
 
-
 void irregularPAGE_handler(void)
 {
 	naviMENU = old_naveMENU;
@@ -95,155 +94,200 @@ void cpy_flash2memory(char* target, char* source)
 	}
 }
 
+prog_uchar  PAGE_ROOT[8][17]=
+{
+	"Main Menu Page  ",
+	"M0 Operation    ",
+	"M1 Drive Monitor",
+	"M2 Parameter Edt",
+	"M3 Auto Tuning  ",	
+	"M4 Fault Record ",
+	"M5 Initialize   ",
+	"M6 Password     "
+};
+
+prog_uchar  PAGE_DIR1_X[6][17]=
+{
+	"[0]Local/Remote ",
+	"[1]Dir. Charge  ",
+	"[2]Speed Ref    ",
+	"[3]Frequency Ref",
+	"[4]Torque Ref   ",	
+	"[5]PID Ref      "
+};
 
 void PAGE_1(void)
 {
-	CLCD_string(0x80,"Main Menu Page  ");
-	CLCD_string(0xC0,"M0 Operation    ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[0][0]);		CLCD_string(0x80,text_buf);
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[1][0]);		CLCD_string(0xC0,text_buf);
 }
 
 void PAGE_1_0(void)
 {
-	CLCD_string(0x80,"[0]Local/Remote ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_DIR1_X[0][0]);		CLCD_string(0x80,text_buf);
 	CLCD_string(0xC0,"     [LOCAL]    ");
 }
 
 void PAGE_1_0_0(void)
 {
-	CLCD_string(0x80,"[0]Local/Remote ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_DIR1_X[0][0]);		CLCD_string(0x80,text_buf);
 	CLCD_string(0xC0,"    [REMOTE]    ");
 }
 
 void PAGE_1_1(void)
 {
-	CLCD_string(0x80,"[1]Dir. Charge  ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_DIR1_X[1][0]);		CLCD_string(0x80,text_buf);
 	CLCD_string(0xC0,"    [FORWARD]   ");
 }
 
 void PAGE_1_1_0(void)
 {
-	CLCD_string(0x80,"[1]Dir. Charge  ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_DIR1_X[1][0]);		CLCD_string(0x80,text_buf);
 	CLCD_string(0xC0,"    [REVERSE]   ");
 }
 
 void PAGE_1_2(void)
 {
-	CLCD_string(0x80,"[2]Speed Ref    ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_DIR1_X[2][0]);		CLCD_string(0x80,text_buf);
 	CLCD_string(0xC0,"             rpm");
 }
 
 
 void PAGE_1_3(void)
 {
-	CLCD_string(0x80,"[3]Frequency Ref");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_DIR1_X[3][0]);		CLCD_string(0x80,text_buf);
 	CLCD_string(0xC0,"              Hz");
 }
 
 
 void PAGE_1_4(void)
 {
-	CLCD_string(0x80,"[4]Torque Ref   ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_DIR1_X[4][0]);		CLCD_string(0x80,text_buf);
 	CLCD_string(0xC0,"              Nm");
 }
 
 
 void PAGE_1_5(void)
 {
-	CLCD_string(0x80,"[5]PID Ref      ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_DIR1_X[5][0]);		CLCD_string(0x80,text_buf);
 	CLCD_string(0xC0,"               %");
 }
 
 
 
+prog_uchar  PAGE_DIR2_X[3][17]=
+{
+	"[0]OP Status    ",
+	"[1]Terminal I/O ",
+	"[2]Drive Info   "
+};
+
+prog_uchar  PAGE_DIR2_1_XX[14][17]=
+{
+	"[0]MOTOR Speed  ",
+	"[1]Output Freq  ",
+	"[2]DC Link      ",
+	"[3]Motor Current",
+	"[4]Output Volt  ",
+	"[5]Actual Torque",
+	"[6]Torque Curr  ",
+	"[7]Flux Current ",
+	"[8]Input Power  ",
+	"[9]Output Power ",
+	"[10]PID Ref     ",
+	"[11]PID Feedback",
+	"[12]PID Error   ",
+	"[13]Temperaure  "
+};
 
 void PAGE_2(void)
 {
-	CLCD_string(0x80,"Main Menu Page  ");
-	CLCD_string(0xC0,"M1 Drive Monitor");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[0][0]);		CLCD_string(0x80,text_buf);
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[2][0]);		CLCD_string(0xC0,text_buf);
 }
 
 
 void PAGE_2_0(void)
 {
-	CLCD_string(0x80,"M1 Drive Monitor");
-	CLCD_string(0xC0,"[0]OP Status    ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[2][0]);		CLCD_string(0x80,text_buf);
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_DIR2_X[0][0]);		CLCD_string(0xC0,text_buf);
 }
 
 void PAGE_2_0_00(void)
 {
-	CLCD_string(0x80,"[0]MOTOR Speed  ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_DIR2_1_XX[0][0]);		CLCD_string(0x80,text_buf);
 	CLCD_string(0xC0,"             rpm");
 }
 void PAGE_2_0_01(void)
 {
-	CLCD_string(0x80,"[1]Output Freq  ");
+	CLCD_string(0x80,);
 	CLCD_string(0xC0,"              Hz");
 }
 void PAGE_2_0_02(void)
 {
-	CLCD_string(0x80,"[2]DC Link      ");
+	CLCD_string(0x80,
 	CLCD_string(0xC0,"             Vdc");
 }
 void PAGE_2_0_03(void)
 {
-	CLCD_string(0x80,"[3]Motor Current");
+	CLCD_string(0x80
 	CLCD_string(0xC0,"            Arms");
 }
 void PAGE_2_0_04(void)
 {
-	CLCD_string(0x80,"[4]Output Volt  ");
+	CLCD_string(0x80,
 	CLCD_string(0xC0,"            Arms");
 }
 void PAGE_2_0_05(void)
 {
-	CLCD_string(0x80,"[5]Actual Torque");
+	CLCD_string(0x80
 	CLCD_string(0xC0,"              Nm");
 }
 void PAGE_2_0_06(void)
 {
-	CLCD_string(0x80,"[6]Torque Curr  ");
+	CLCD_string(0x80,
 	CLCD_string(0xC0,"               A");
 }
 void PAGE_2_0_07(void)
 {
-	CLCD_string(0x80,"[7]Flux Current ");
+	CLCD_string(0x80,
 	CLCD_string(0xC0,"               A");
 }
 void PAGE_2_0_08(void)
 {
-	CLCD_string(0x80,"[8]Input Power  ");
+	CLCD_string(0x80,
 	CLCD_string(0xC0,"              kW");
 }
 void PAGE_2_0_09(void)
 {
-	CLCD_string(0x80,"[9]Output Power ");
+	CLCD_string(0x80,
 	CLCD_string(0xC0,"              kW");
 }
 void PAGE_2_0_10(void)
 {
-	CLCD_string(0x80,"[10]PID Ref     ");
+	CLCD_string(0x80,
 	CLCD_string(0xC0,"                ");
 }
 void PAGE_2_0_11(void)
 {
-	CLCD_string(0x80,"[11]PID Feedback");
+	CLCD_string(0x80,
 	CLCD_string(0xC0,"                ");
 }
 void PAGE_2_0_12(void)
 {
-	CLCD_string(0x80,"[12]PID Error   ");
+	CLCD_string(0x80,
 	CLCD_string(0xC0,"                ");
 }
 void PAGE_2_0_13(void)
 {
-	CLCD_string(0x80,"[13]Temperaure  ");
+	CLCD_string(0x80,
 	CLCD_string(0xC0,"              'C");
 }
 
 void PAGE_2_1(void)
 {
-	CLCD_string(0x80,"M1 Drive Monitor");
-	CLCD_string(0xC0,"[1]Terminal I/O ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[2][0]);		CLCD_string(0x80,text_buf);
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_DIR2_X[1][0]);		CLCD_string(0xC0,text_buf);
 }
 void PAGE_2_1_00(void)
 {
@@ -274,8 +318,8 @@ void PAGE_2_1_04(void)
 
 void PAGE_2_2(void)
 {
-	CLCD_string(0x80,"M1 Drive Monitor");
-	CLCD_string(0xC0,"[2]Drive Info   ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[2][0]);		CLCD_string(0x80,text_buf);
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_DIR2_X[2][0]);		CLCD_string(0xC0,text_buf);
 }
 void PAGE_2_2_00(void)
 {
@@ -329,33 +373,40 @@ void PAGE_2_2_08(void)
 
 void PAGE_3(void)
 {
-	CLCD_string(0x80,"Main Menu Page  ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[0][0]);		CLCD_string(0x80,text_buf);
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[3][0]);		CLCD_string(0xC0,text_buf);
+}
+
+
+void PAGE_3_0(void)
+{
+	CLCD_string(0x80,"M2 Parameter Edt");
 	CLCD_string(0xC0,"M2 Parameter Edt");
 }
 
 
 void PAGE_4(void)
 {
-	CLCD_string(0x80,"Main Menu Page  ");
-	CLCD_string(0xC0,"M3 Auto Tuning  ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[0][0]);		CLCD_string(0x80,text_buf);
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[4][0]);		CLCD_string(0xC0,text_buf);
 }
 
 void PAGE_5(void)
 {
-	CLCD_string(0x80,"Main Menu Page  ");
-	CLCD_string(0xC0,"M4 Fault Record ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[0][0]);		CLCD_string(0x80,text_buf);
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[5][0]);		CLCD_string(0xC0,text_buf);
 }
 
 void PAGE_6(void)
 {
-	CLCD_string(0x80,"Main Menu Page  ");
-	CLCD_string(0xC0,"M5 Initialize   ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[0][0]);		CLCD_string(0x80,text_buf);
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[6][0]);		CLCD_string(0xC0,text_buf);
 }
 
 void PAGE_7(void)
 {
-	CLCD_string(0x80,"Main Menu Page  ");
-	CLCD_string(0xC0,"M6 Password     ");
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[0][0]);		CLCD_string(0x80,text_buf);
+	cpy_flash2memory(&text_buf[0], (char*)&PAGE_ROOT[7][0]);		CLCD_string(0xC0,text_buf);
 }
 
 
@@ -1103,6 +1154,8 @@ void Menu(void)
 			case  2208		 	:				PAGE_2_2_08					();	     		break;
 			
 			case  3			 	:				PAGE_3					();     		break;   
+
+			
 			case  4			 	:				PAGE_4					();     		break;   
 			case  5			 	:				PAGE_5					();     		break;   
 			case  6			 	:				PAGE_6					();     		break;   

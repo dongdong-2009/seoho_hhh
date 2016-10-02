@@ -351,7 +351,7 @@ int main(void)
 
 		if(TimeTic_500ms)
 		{
-			PORTL = PORTL ^ 0x0F; 
+			PORTL = PORTL + 0x01; 
 			//All_Value_Refresh();
 
 			communication_fault_cnt++;

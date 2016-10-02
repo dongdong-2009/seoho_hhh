@@ -1,0 +1,671 @@
+Archive member included because of file (symbol)
+
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_divmodhi4.o)
+                              util.o (__divmodhi4)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodsi4.o)
+                              debug_printf.o (__udivmodsi4)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_clear_bss.o)
+                              main.o (__do_clear_bss)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodhi4.o)
+                              c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_divmodhi4.o) (__udivmodhi4)
+
+Allocating common symbols
+Common symbol       size              file
+
+main_data_array_old
+                    0x1f4             display.o
+text_buf            0x100             display.o
+PacketBuf           0x64              main.o
+Packet              0x2               main.o
+old_naveMENU        0x4               display.o
+KeyState            0x4               main.o
+naviMENU            0x4               display.o
+setTime             0x7               display.o
+history_paper       0x12c             display.o
+main_data_array     0x1f4             display.o
+
+Discarded input sections
+
+ .stabstr       0x00000000        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x00000000         0x00100000         xr
+data             0x00800060         0x0000ffa0         rw !x
+eeprom           0x00810000         0x00010000         rw !x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+Address of section .data set to 0x800200
+LOAD c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+LOAD main.o
+LOAD util.o
+LOAD debug_printf.o
+LOAD key.o
+LOAD display.o
+LOAD rs232_MMItoPANEL.o
+LOAD 16by2CLCD.o
+LOAD c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a
+LOAD c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6\libc.a
+LOAD c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x00000000     0x4be0
+ *(.vectors)
+ .vectors       0x00000000       0xe4 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+                0x00000000                __vectors
+                0x00000000                __vector_default
+ *(.vectors)
+ *(.progmem.gcc*)
+ *(.progmem*)
+ .progmem.data  0x000000e4       0xee display.o
+                0x0000016c                PAGE_DIR1
+                0x000000e4                PAGE_ROOT
+                0x000001d2                . = ALIGN (0x2)
+                0x000001d2                __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x000001d2        0x0 linker stubs
+ *(.trampolines*)
+                0x000001d2                __trampolines_end = .
+ *(.jumptables)
+ *(.jumptables*)
+ *(.lowtext)
+ *(.lowtext*)
+                0x000001d2                __ctors_start = .
+ *(.ctors)
+                0x000001d2                __ctors_end = .
+                0x000001d2                __dtors_start = .
+ *(.dtors)
+                0x000001d2                __dtors_end = .
+ SORT(*)(.ctors)
+ SORT(*)(.dtors)
+ *(.init0)
+ .init0         0x000001d2        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+                0x000001d2                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x000001d2        0xc c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x000001de       0x1a c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+                0x000001de                __do_copy_data
+ .init4         0x000001f8       0x10 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_clear_bss.o)
+                0x000001f8                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x00000208        0x4 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+ *(.init9)
+ *(.text)
+ .text          0x0000020c        0x4 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+                0x0000020c                __vector_22
+                0x0000020c                __vector_28
+                0x0000020c                __vector_1
+                0x0000020c                __vector_32
+                0x0000020c                __vector_34
+                0x0000020c                __vector_24
+                0x0000020c                __vector_12
+                0x0000020c                __vector_55
+                0x0000020c                __vector_46
+                0x0000020c                __bad_interrupt
+                0x0000020c                __vector_6
+                0x0000020c                __vector_31
+                0x0000020c                __vector_35
+                0x0000020c                __vector_39
+                0x0000020c                __vector_3
+                0x0000020c                __vector_23
+                0x0000020c                __vector_30
+                0x0000020c                __vector_45
+                0x0000020c                __vector_25
+                0x0000020c                __vector_11
+                0x0000020c                __vector_54
+                0x0000020c                __vector_13
+                0x0000020c                __vector_19
+                0x0000020c                __vector_56
+                0x0000020c                __vector_7
+                0x0000020c                __vector_49
+                0x0000020c                __vector_41
+                0x0000020c                __vector_43
+                0x0000020c                __vector_27
+                0x0000020c                __vector_5
+                0x0000020c                __vector_33
+                0x0000020c                __vector_47
+                0x0000020c                __vector_52
+                0x0000020c                __vector_37
+                0x0000020c                __vector_4
+                0x0000020c                __vector_44
+                0x0000020c                __vector_51
+                0x0000020c                __vector_9
+                0x0000020c                __vector_2
+                0x0000020c                __vector_21
+                0x0000020c                __vector_15
+                0x0000020c                __vector_29
+                0x0000020c                __vector_40
+                0x0000020c                __vector_8
+                0x0000020c                __vector_26
+                0x0000020c                __vector_48
+                0x0000020c                __vector_14
+                0x0000020c                __vector_53
+                0x0000020c                __vector_10
+                0x0000020c                __vector_50
+                0x0000020c                __vector_16
+                0x0000020c                __vector_18
+                0x0000020c                __vector_20
+                0x0000020c                __vector_42
+ .text          0x00000210      0x39c main.o
+                0x00000298                Timer_IntteruptSet
+                0x00000210                MCU_initialize
+                0x00000406                SystemEventAutoClear
+                0x000004c8                __vector_17
+                0x000002e0                SystemTimeTic
+                0x000004f2                main
+ .text          0x000005ac      0x32e util.o
+                0x000005f2                Delay_ms
+                0x00000654                inttoa
+                0x000005ac                Delay_us
+ .text          0x000008da      0x458 debug_printf.o
+                0x000008da                debug_devopen
+                0x00000956                debug_printf
+ .text          0x00000d32      0x196 key.o
+                0x00000d32                KeyInit
+                0x00000d72                KeyScan
+                0x00000d50                KeyProc
+ .text          0x00000ec8     0x37fc display.o
+                0x0000133c                PAGE_2_0_08
+                0x000016c6                PAGE_3_0
+                0x00000f06                irregularPAGE_handler
+                0x00001388                PAGE_2_0_10
+                0x00002fbe                SYS_3
+                0x00002d96                SYS_2_2_05
+                0x00002a30                SYS_2_2
+                0x00002892                SYS_2_1_02
+                0x000012ca                PAGE_2_0_05
+                0x0000160e                PAGE_2_2_06
+                0x00001576                PAGE_2_2_02
+                0x000031da                SYS_6
+                0x00001afa                SYS_1_1_0
+                0x00001778                PAGE_6
+                0x00002418                SYS_2_0_09
+                0x00002166                SYS_2_0_04
+                0x000011e6                PAGE_2_0
+                0x0000127e                PAGE_2_0_03
+                0x0000146c                PAGE_2_1_01
+                0x000016ec                PAGE_4
+                0x0000159c                PAGE_2_2_03
+                0x00001446                PAGE_2_1_00
+                0x00002eaa                SYS_2_2_07
+                0x00001bae                SYS_1_2
+                0x000024a2                SYS_2_0_10
+                0x00003342                SYS_0xFFFFFFFF
+                0x00002304                SYS_2_0_07
+                0x0000105c                PAGE_1_1
+                0x0000120c                PAGE_2_0_00
+                0x00002b6e                SYS_2_2_01
+                0x000012a4                PAGE_2_0_04
+                0x00002052                SYS_2_0_02
+                0x000013ae                PAGE_2_0_11
+                0x00003126                SYS_5
+                0x00000ff0                PAGE_1_0
+                0x00003072                SYS_4
+                0x0000291c                SYS_2_1_03
+                0x00001cc2                SYS_1_4
+                0x000025b6                SYS_2_0_12
+                0x00002808                SYS_2_1_01
+                0x00002bf8                SYS_2_2_02
+                0x00001232                PAGE_2_0_01
+                0x00002d0c                SYS_2_2_04
+                0x0000152a                PAGE_2_2_00
+                0x000014b8                PAGE_2_1_03
+                0x00001026                PAGE_1_0_0
+                0x00001c38                SYS_1_3
+                0x000018de                SYS_1_0
+                0x0000328e                SYS_7
+                0x000017be                PAGE_7
+                0x000021f0                SYS_2_0_05
+                0x000010fe                PAGE_1_3
+                0x00003378                _TEXT
+                0x000015e8                PAGE_2_2_05
+                0x00001362                PAGE_2_0_09
+                0x00001f3e                SYS_2_0_00
+                0x000026ca                SYS_2_1
+                0x00000f34                cpy_flash2memory
+                0x0000165a                PAGE_2_2_08
+                0x00001420                PAGE_2_1
+                0x00001d4c                SYS_1_5
+                0x000011a0                PAGE_2
+                0x00001316                PAGE_2_0_07
+                0x000012f0                PAGE_2_0_06
+                0x00000faa                PAGE_1
+                0x0000227a                SYS_2_0_06
+                0x0000182a                SYS_1
+                0x000010c8                PAGE_1_2
+                0x00001a46                SYS_1_1
+                0x00002ae4                SYS_2_2_00
+                0x00002640                SYS_2_0_13
+                0x00002c82                SYS_2_2_03
+                0x000029a6                SYS_2_1_04
+                0x00001634                PAGE_2_2_07
+                0x0000252c                SYS_2_0_11
+                0x000013fa                PAGE_2_0_13
+                0x00001258                PAGE_2_0_02
+                0x00001550                PAGE_2_2_01
+                0x000013d4                PAGE_2_0_12
+                0x0000238e                SYS_2_0_08
+                0x00001dd6                SYS_2
+                0x0000116a                PAGE_1_5
+                0x00001732                PAGE_5
+                0x000037ce                MainSYSTEM
+                0x00001fc8                SYS_2_0_01
+                0x00001134                PAGE_1_4
+                0x00000ec8                DisplayInit
+                0x000014de                PAGE_2_1_04
+                0x00001504                PAGE_2_2
+                0x00002e20                SYS_2_2_06
+                0x00001804                PAGE_0xFFFFFFFF
+                0x00001e8a                SYS_2_0
+                0x0000277e                SYS_2_1_00
+                0x00001092                PAGE_1_1_0
+                0x00001680                PAGE_3
+                0x000015c2                PAGE_2_2_04
+                0x00002f34                SYS_2_2_08
+                0x00001992                SYS_1_0_0
+                0x00003f78                Menu
+                0x000020dc                SYS_2_0_03
+                0x00001492                PAGE_2_1_02
+ .text          0x000046c4      0x2e8 rs232_MMItoPANEL.o
+                0x000047e0                __vector_38
+                0x000046f6                TX1_char
+                0x00004736                mmiSetData
+                0x00004822                __vector_36
+                0x000046c4                UART_init
+ .text          0x000049ac      0x1a2 16by2CLCD.o
+                0x00004a80                CLCD_string
+                0x000049ac                CLCD_command
+                0x00004ad2                CLCD_initialize
+                0x00004b00                CLCD_BackLightOnOff
+                0x00004a14                CLCD_data
+ .text          0x00004b4e        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_divmodhi4.o)
+ .text          0x00004b4e        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodsi4.o)
+ .text          0x00004b4e        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_clear_bss.o)
+ .text          0x00004b4e        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodhi4.o)
+                0x00004b4e                . = ALIGN (0x2)
+ *(.text.*)
+ .text.libgcc   0x00004b4e       0x26 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_divmodhi4.o)
+                0x00004b4e                __divmodhi4
+                0x00004b4e                _div
+ .text.libgcc   0x00004b74       0x44 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodsi4.o)
+                0x00004b74                __udivmodsi4
+ .text.libgcc   0x00004bb8        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00004bb8       0x28 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodhi4.o)
+                0x00004bb8                __udivmodhi4
+                0x00004be0                . = ALIGN (0x2)
+ *(.fini9)
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ *(.fini0)
+                0x00004be0                _etext = .
+
+.data           0x00800200      0x3a0 load address 0x00004be0
+                0x00800200                PROVIDE (__data_start, .)
+ *(.data)
+ .data          0x00800200        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+ .data          0x00800200       0x23 main.o
+                0x00800205                _1s_Cnt
+                0x00800200                PacketCMD
+                0x00800203                _200ms_Cnt
+                0x00800204                _500ms_Cnt
+                0x00800202                _100ms_Cnt
+                0x00800201                _10ms_Cnt
+ .data          0x00800223        0x0 util.o
+ .data          0x00800223        0x0 debug_printf.o
+ .data          0x00800223        0x4 key.o
+                0x00800224                key_signal_B
+                0x00800225                key_data
+                0x00800223                key_signal_A
+ .data          0x00800227      0x379 display.o
+                0x0080022a                diagram_condition
+                0x00800229                history_initFlag
+                0x00800228                history_Xoffset
+                0x00800227                posInpage
+ .data          0x008005a0        0x0 rs232_MMItoPANEL.o
+ .data          0x008005a0        0x0 16by2CLCD.o
+ .data          0x008005a0        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_divmodhi4.o)
+ .data          0x008005a0        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodsi4.o)
+ .data          0x008005a0        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_clear_bss.o)
+ .data          0x008005a0        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodhi4.o)
+ *(.data*)
+ *(.rodata)
+ *(.rodata*)
+ *(.gnu.linkonce.d*)
+                0x008005a0                . = ALIGN (0x2)
+                0x008005a0                _edata = .
+                0x008005a0                PROVIDE (__data_end, .)
+
+.bss            0x008005a0      0x6c2
+                0x008005a0                PROVIDE (__bss_start, .)
+ *(.bss)
+ .bss           0x008005a0        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+ .bss           0x008005a0       0x13 main.o
+                0x008005a1                TimeTic_1ms
+                0x008005a8                Toggle500ms
+                0x008005a6                TimeTic_1s
+                0x008005af                EventTimeB
+                0x008005a3                TimeTic_100ms
+                0x008005a2                TimeTic_10ms
+                0x008005b0                EventTimeC
+                0x008005a5                TimeTic_500ms
+                0x008005ab                EventFlagC
+                0x008005ac                EventFlagD
+                0x008005a0                TimerTicFlag
+                0x008005a9                EventFlagA
+                0x008005ae                EventTimeA
+                0x008005b2                EventTimeE
+                0x008005a4                TimeTic_200ms
+                0x008005b1                EventTimeD
+                0x008005aa                EventFlagB
+                0x008005a7                Toggle10ms
+                0x008005ad                EventFlagE
+ .bss           0x008005b3        0x0 util.o
+ .bss           0x008005b3        0x2 debug_printf.o
+ .bss           0x008005b5        0x3 key.o
+                0x008005b7                LongKeyFlag
+                0x008005b5                key_press_time
+ .bss           0x008005b8       0x14 display.o
+                0x008005b9                password
+                0x008005c4                history_Yoffset
+                0x008005c1                pass_pos
+                0x008005c8                Temporary
+                0x008005c5                history_paper_line
+                0x008005c3                Tset_pos
+                0x008005c2                confirm
+                0x008005bd                _password
+                0x008005b8                RefreshFlag
+                0x008005c6                eeprom_addr
+ .bss           0x008005cc        0x9 rs232_MMItoPANEL.o
+                0x008005d2                buf_offset
+                0x008005cf                data_cnt
+                0x008005d1                RxStep
+                0x008005cc                _communication_fault
+                0x008005d4                crc
+                0x008005cd                communication_fault
+                0x008005ce                communication_fault_cnt
+                0x008005d0                RxBuf
+ .bss           0x008005d5        0x0 16by2CLCD.o
+ .bss           0x008005d5        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_divmodhi4.o)
+ .bss           0x008005d5        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodsi4.o)
+ .bss           0x008005d5        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_clear_bss.o)
+ .bss           0x008005d5        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodhi4.o)
+ *(.bss*)
+ *(COMMON)
+ COMMON         0x008005d5       0x6a main.o
+                0x008005d5                PacketBuf
+                0x00800639                Packet
+                0x0080063b                KeyState
+ COMMON         0x0080063f      0x623 display.o
+                0x0080063f                main_data_array_old
+                0x00800833                text_buf
+                0x00800933                old_naveMENU
+                0x00800937                naviMENU
+                0x0080093b                setTime
+                0x00800942                history_paper
+                0x00800a6e                main_data_array
+                0x00800c62                PROVIDE (__bss_end, .)
+                0x00004be0                __data_load_start = LOADADDR (.data)
+                0x00004f80                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x00800c62        0x0
+                0x00800c62                PROVIDE (__noinit_start, .)
+ *(.noinit*)
+                0x00800c62                PROVIDE (__noinit_end, .)
+                0x00800c62                _end = .
+                0x00800c62                PROVIDE (__heap_start, .)
+
+.eeprom         0x00810000        0x0
+ *(.eeprom*)
+                0x00810000                __eeprom_end = .
+
+.stab           0x00000000      0x408
+ *(.stab)
+ .stab          0x00000000      0x408 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+
+.stabstr        0x00000000       0x84
+ *(.stabstr)
+ .stabstr       0x00000000       0x84 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment
+ *(.comment)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000       0xe0
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x20 main.o
+ .debug_aranges
+                0x00000020       0x20 util.o
+ .debug_aranges
+                0x00000040       0x20 debug_printf.o
+ .debug_aranges
+                0x00000060       0x20 key.o
+ .debug_aranges
+                0x00000080       0x20 display.o
+ .debug_aranges
+                0x000000a0       0x20 rs232_MMItoPANEL.o
+ .debug_aranges
+                0x000000c0       0x20 16by2CLCD.o
+
+.debug_pubnames
+                0x00000000      0xbb5
+ *(.debug_pubnames)
+ .debug_pubnames
+                0x00000000      0x227 main.o
+ .debug_pubnames
+                0x00000227       0x37 util.o
+ .debug_pubnames
+                0x0000025e       0x35 debug_printf.o
+ .debug_pubnames
+                0x00000293       0x95 key.o
+ .debug_pubnames
+                0x00000328      0x73e display.o
+ .debug_pubnames
+                0x00000a66       0xe2 rs232_MMItoPANEL.o
+ .debug_pubnames
+                0x00000b48       0x6d 16by2CLCD.o
+
+.debug_info     0x00000000     0x23ab
+ *(.debug_info)
+ .debug_info    0x00000000      0x56e main.o
+ .debug_info    0x0000056e      0x17a util.o
+ .debug_info    0x000006e8      0x2c2 debug_printf.o
+ .debug_info    0x000009aa      0x249 key.o
+ .debug_info    0x00000bf3     0x11f0 display.o
+ .debug_info    0x00001de3      0x378 rs232_MMItoPANEL.o
+ .debug_info    0x0000215b      0x250 16by2CLCD.o
+ *(.gnu.linkonce.wi.*)
+
+.debug_abbrev   0x00000000      0x57d
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000       0xd8 main.o
+ .debug_abbrev  0x000000d8       0x5d util.o
+ .debug_abbrev  0x00000135       0xd5 debug_printf.o
+ .debug_abbrev  0x0000020a       0xb6 key.o
+ .debug_abbrev  0x000002c0      0x18b display.o
+ .debug_abbrev  0x0000044b       0xaf rs232_MMItoPANEL.o
+ .debug_abbrev  0x000004fa       0x83 16by2CLCD.o
+
+.debug_line     0x00000000     0x23c3
+ *(.debug_line)
+ .debug_line    0x00000000      0x503 main.o
+ .debug_line    0x00000503      0x1d9 util.o
+ .debug_line    0x000006dc      0x2a6 debug_printf.o
+ .debug_line    0x00000982      0x19a key.o
+ .debug_line    0x00000b1c     0x1424 display.o
+ .debug_line    0x00001f40      0x28c rs232_MMItoPANEL.o
+ .debug_line    0x000021cc      0x1f7 16by2CLCD.o
+
+.debug_frame    0x00000000      0x850
+ *(.debug_frame)
+ .debug_frame   0x00000000       0x70 main.o
+ .debug_frame   0x00000070       0x40 util.o
+ .debug_frame   0x000000b0       0x40 debug_printf.o
+ .debug_frame   0x000000f0       0x40 key.o
+ .debug_frame   0x00000130      0x660 display.o
+ .debug_frame   0x00000790       0x60 rs232_MMItoPANEL.o
+ .debug_frame   0x000007f0       0x60 16by2CLCD.o
+
+.debug_str      0x00000000       0xac
+ *(.debug_str)
+ .debug_str     0x00000000       0x28 main.o
+ .debug_str     0x00000028        0xd debug_printf.o
+ .debug_str     0x00000035        0xc key.o
+ .debug_str     0x00000041       0x28 display.o
+ .debug_str     0x00000069       0x28 rs232_MMItoPANEL.o
+ .debug_str     0x00000091       0x1b 16by2CLCD.o
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+OUTPUT(OK2560_BD.elf elf32-avr)
+LOAD linker stubs
