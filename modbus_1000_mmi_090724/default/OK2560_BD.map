@@ -1,0 +1,1130 @@
+Archive member included because of file (symbol)
+
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_mulsi3.o)
+                              display.o (__mulsi3)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodqi4.o)
+                              display.o (__udivmodqi4)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodhi4.o)
+                              display.o (__udivmodhi4)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_divmodhi4.o)
+                              util.o (__divmodhi4)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodsi4.o)
+                              debug_printf.o (__udivmodsi4)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_clear_bss.o)
+                              main.o (__do_clear_bss)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_fixunssfsi.o)
+                              128by64GLCD.o (__fixunssfsi)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_addsub_sf.o)
+                              c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_fixunssfsi.o) (__subsf3)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_mul_sf.o)
+                              128by64GLCD.o (__mulsf3)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_gt_sf.o)
+                              128by64GLCD.o (__gtsf2)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_ge_sf.o)
+                              c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_fixunssfsi.o) (__gesf2)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_lt_sf.o)
+                              128by64GLCD.o (__ltsf2)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_sf_to_si.o)
+                              c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_fixunssfsi.o) (__fixsfsi)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_thenan_sf.o)
+                              c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_addsub_sf.o) (__thenan_sf)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_prologue.o)
+                              c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_addsub_sf.o) (__prologue_saves__)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_epilogue.o)
+                              c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_addsub_sf.o) (__epilogue_restores__)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_pack_sf.o)
+                              c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_addsub_sf.o) (__pack_f)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_unpack_sf.o)
+                              c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_addsub_sf.o) (__unpack_f)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_fpcmp_parts_sf.o)
+                              c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_gt_sf.o) (__fpcmp_parts_f)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6\libc.a(memcpy.o)
+                              serial.o (memcpy)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6\libc.a(ee_rb.1F2021.o)
+                              display.o (__eeprom_read_byte_1F2021)
+c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6\libc.a(ee_wb.1F2021.o)
+                              display.o (__eeprom_write_byte_1F2021)
+
+Allocating common symbols
+Common symbol       size              file
+
+pTxDataEnd          0x2               serial.o
+text_buf            0x100             display.o
+pScrollDataOffset   0x2               128by64GLCD.o
+PacketBuf           0x64              main.o
+pRxRingBufStart     0x2               serial.o
+week                0x1               ds1307.o
+QUERY_buf           0x8               modbus_server.o
+LCD_buffer          0x400             128by64GLCD.o
+Packet              0x2               main.o
+month               0x1               ds1307.o
+old_naveMENU        0x4               display.o
+second              0x1               ds1307.o
+KeyState            0x3               main.o
+data_array          0x28              display.o
+naviMENU            0x4               display.o
+setTime             0x7               display.o
+pTxDataStart        0x2               serial.o
+pRxDataStart        0x2               serial.o
+pScrollDataEnd      0x2               128by64GLCD.o
+ReadinReg           0x2               modbus_server.o
+QUERY_buf1          0x8               modbus_server.o
+history_paper       0x12c             display.o
+hour                0x1               ds1307.o
+pScrollDataStart    0x2               128by64GLCD.o
+current_node_ref    0x1               modbus_server.o
+RxBuffer            0x64              serial.o
+pTxRingBufStart     0x2               serial.o
+ampm                0x1               ds1307.o
+main_data_array     0xc8              modbus_server.o
+TxBuffer            0x64              serial.o
+min                 0x1               ds1307.o
+pRxRingBufEnd       0x2               serial.o
+year                0x1               ds1307.o
+UART_TX_Buffer      0x100             modbus_server.o
+ScrollBuffer        0x14              128by64GLCD.o
+pRxDataEnd          0x2               serial.o
+date                0x1               ds1307.o
+pTxRingBufEnd       0x2               serial.o
+Korean_buffer       0x20              128by64GLCD.o
+QUERY_buf2          0x8               modbus_server.o
+UART_RX_buf         0x100             modbus_server.o
+
+Discarded input sections
+
+ .stabstr       0x00000000        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x00000000         0x00100000         xr
+data             0x00800060         0x0000ffa0         rw !x
+eeprom           0x00810000         0x00010000         rw !x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+Address of section .data set to 0x800200
+LOAD c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+LOAD main.o
+LOAD serial.o
+LOAD util.o
+LOAD modbus_application.o
+LOAD modbus_server.o
+LOAD 128by64GLCD.o
+LOAD debug_printf.o
+LOAD key.o
+LOAD display.o
+LOAD ds1307.o
+LOAD c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a
+LOAD c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6\libc.a
+LOAD c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x00000000    0x21d2a
+ *(.vectors)
+ .vectors       0x00000000       0xe4 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+                0x00000000                __vectors
+                0x00000000                __vector_default
+ *(.vectors)
+ *(.progmem.gcc*)
+ *(.progmem*)
+ .progmem.data  0x000000e4     0x4c4f 128by64GLCD.o
+                0x00003aab                bul_cho2
+                0x00003a44                table_cho
+                0x00003ac1                bul_jong
+                0x000035e4                Font1632
+                0x00003864                Font0508
+                0x00002de4                Font0816
+                0x000000e4                K_font
+                0x00003ad7                KSTable
+                0x00003a59                table_joong
+                0x00003a95                bul_cho1
+                0x00003a77                table_jong
+ .progmem.data  0x00004d33      0xea7 display.o
+                0x00004d33                diagram
+                0x0000519c                PAGE_SYSTEM_OPERATION
+                0x0000521a                PAGE_PARAMETER_SETTING
+                0x00005133                PAGE_ROOT
+                0x000052ad                PAGE_VOUT_VALUE
+                0x000052ec                PAGE_BATT_VALUE
+                0x0000536a                system_event_inform
+                0x00005bda                . = ALIGN (0x2)
+                0x00005bda                __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x00005bda       0x20 linker stubs
+ *(.trampolines*)
+                0x00005bfa                __trampolines_end = .
+ *(.jumptables)
+ *(.jumptables*)
+ *(.lowtext)
+ *(.lowtext*)
+                0x00005bfa                __ctors_start = .
+ *(.ctors)
+                0x00005bfa                __ctors_end = .
+                0x00005bfa                __dtors_start = .
+ *(.dtors)
+                0x00005bfa                __dtors_end = .
+ SORT(*)(.ctors)
+ SORT(*)(.dtors)
+ *(.init0)
+ .init0         0x00005bfe        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+                0x00005bfe                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x00005bfe        0xc c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x00005c0a       0x1a c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+                0x00005c0a                __do_copy_data
+ .init4         0x00005c24       0x10 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_clear_bss.o)
+                0x00005c24                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x00005c34        0x4 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+ *(.init9)
+ *(.text)
+ .text          0x00005c38        0x4 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+                0x00005c38                __vector_38
+                0x00005c38                __vector_22
+                0x00005c38                __vector_28
+                0x00005c38                __vector_1
+                0x00005c38                __vector_32
+                0x00005c38                __vector_34
+                0x00005c38                __vector_24
+                0x00005c38                __vector_12
+                0x00005c38                __vector_55
+                0x00005c38                __vector_46
+                0x00005c38                __bad_interrupt
+                0x00005c38                __vector_6
+                0x00005c38                __vector_31
+                0x00005c38                __vector_35
+                0x00005c38                __vector_39
+                0x00005c38                __vector_3
+                0x00005c38                __vector_23
+                0x00005c38                __vector_30
+                0x00005c38                __vector_45
+                0x00005c38                __vector_11
+                0x00005c38                __vector_54
+                0x00005c38                __vector_13
+                0x00005c38                __vector_19
+                0x00005c38                __vector_56
+                0x00005c38                __vector_7
+                0x00005c38                __vector_49
+                0x00005c38                __vector_41
+                0x00005c38                __vector_43
+                0x00005c38                __vector_5
+                0x00005c38                __vector_33
+                0x00005c38                __vector_47
+                0x00005c38                __vector_52
+                0x00005c38                __vector_37
+                0x00005c38                __vector_4
+                0x00005c38                __vector_44
+                0x00005c38                __vector_51
+                0x00005c38                __vector_9
+                0x00005c38                __vector_2
+                0x00005c38                __vector_21
+                0x00005c38                __vector_15
+                0x00005c38                __vector_36
+                0x00005c38                __vector_29
+                0x00005c38                __vector_40
+                0x00005c38                __vector_8
+                0x00005c38                __vector_26
+                0x00005c38                __vector_48
+                0x00005c38                __vector_14
+                0x00005c38                __vector_53
+                0x00005c38                __vector_10
+                0x00005c38                __vector_50
+                0x00005c38                __vector_16
+                0x00005c38                __vector_18
+                0x00005c38                __vector_20
+                0x00005c38                __vector_42
+ .text          0x00005c3c      0x420 main.o
+                0x00005cc6                Timer_IntteruptSet
+                0x00005c3c                MCU_initialize
+                0x00005e34                SystemEventAutoClear
+                0x00005ef6                __vector_17
+                0x00005d0e                SystemTimeTic
+                0x00005f20                main
+ .text          0x0000605c      0x854 serial.o
+                0x000061ea                TX2_char
+                0x0000681e                __vector_25
+                0x000062b6                ReadRxBuf_Size
+                0x0000626a                RX3_char
+                0x000061aa                TX1_char
+                0x0000674a                __vector_27
+                0x0000616a                TX0_char
+                0x0000663c                TxSendLOOP
+                0x0000622a                TX3_char
+                0x0000605c                UART_init
+                0x00006492                WriteTxBuf_Size
+ .text          0x000068b0      0x32e util.o
+                0x000068f6                Delay_ms
+                0x00006958                inttoa
+                0x000068b0                Delay_us
+ .text          0x00006bde      0x26c modbus_application.o
+                0x00006dbc                get_milliseconds
+                0x00006bde                idle_modbus
+                0x00006dde                MODBUS_handler
+ .text          0x00006e4a      0xb12 modbus_server.o
+                0x00007702                build_modbus_poll
+                0x000070ca                modbusParseMessage
+                0x00006eaa                makeQuery2
+                0x000071e0                modbusStoreData
+                0x00007424                modbusReturnException
+                0x00007238                modbusRespond
+                0x000073f6                Get_Modbus_Node_ID
+                0x00007590                check_for_next_modbus_message
+                0x0000779e                modbusPacketResponseComplete
+                0x000074de                clr_rx
+                0x0000735c                modrtuChecksum
+                0x00007534                get_UART_data
+                0x00007508                modbus_init
+                0x00006f0a                modbusPollReceiveComplete
+                0x000078b6                parse_reponse_and_store_data
+                0x00007468                modbusGiveUpCharacter
+                0x00006e4a                makeQuery1
+                0x00007188                modbusFetchData
+                0x00007654                poll_modbus_packet
+                0x00007082                modbusCheckAddress
+ .text          0x0000795c     0x1912 128by64GLCD.o
+                0x000087c0                GLCD_PutStringScrollBuf
+                0x00008de0                GLCD_inversion
+                0x00008a26                GLCD_putchar0816
+                0x00008c90                GLCD_print0816
+                0x00008c08                GLCD_print0508
+                0x00008ad4                GLCD_putchar0508
+                0x0000795c                GLCD_command
+                0x00008774                GLCD_BuzzerOnOff
+                0x0000918a                kssm_convert
+                0x00008b76                GLCD_putchar1616
+                0x00008974                GLCD_putchar1632
+                0x00007a58                GLCD_data
+                0x00007bd6                GLCD_BufClear
+                0x00008ec8                GLCD_Korean
+                0x00007ce0                GLCD_LCDScrollUpdate
+                0x00007b58                GLCD_clear
+                0x00008726                GLCD_BackLightOnOff
+                0x00007c24                GLCD_FullUpdate
+                0x00008474                GLCD_LCDUpdate
+                0x00008d16                GLCD_print1616
+ .text          0x0000926e      0x458 debug_printf.o
+                0x0000926e                debug_devopen
+                0x000092ea                debug_printf
+ .text          0x000096c6      0x158 key.o
+                0x000096c6                KeyInit
+                0x000096fc                KeyScan
+                0x000096de                KeyProc
+ .text          0x0000981e    0x17220 display.o
+                0x00013852                SYS_440000
+                0x00009c50                irregularPAGE_handler
+                0x0000c9a2                PAGE_440200
+                0x00010442                SYS_401
+                0x0000ec00                SYS_20
+                0x0001c554                SYS_3
+                0x0000dfdc                PAGE_45100
+                0x00010840                SYS_4100
+                0x00010b6c                SYS_411
+                0x00013a40                SYS_44010
+                0x000125c8                SYS_4400
+                0x0000cea0                PAGE_44040
+                0x0001dc08                history_veriable_init
+                0x0000cd8e                PAGE_440300
+                0x0000b31a                PAGE_4110
+                0x0000a490                PAGE_2000
+                0x0000bf66                PAGE_4400
+                0x000170d6                SYS_4404
+                0x0000b380                PAGE_41100
+                0x0000b2a4                PAGE_411
+                0x000116e0                SYS_4220
+                0x0001ca32                Check_event
+                0x0000da78                PAGE_44071
+                0x0000a964                PAGE_231
+                0x0000bbf0                PAGE_43
+                0x0000b55e                PAGE_4200
+                0x0000cae2                PAGE_44030
+                0x0001c0f8                SYS_4510
+                0x0001bbe4                SYS_45
+                0x0000be12                PAGE_4300
+                0x0000f58c                SYS_221
+                0x0000c752                PAGE_44020
+                0x0000b824                PAGE_422
+                0x00011536                SYS_42100
+                0x0000a840                PAGE_23
+                0x00011b88                SYS_4240
+                0x0000a4d0                PAGE_21
+                0x000115f8                SYS_422
+                0x0000c394                PAGE_44010
+                0x00015dc2                SYS_440200
+                0x0000f6a4                SYS_2200
+                0x000123de                SYS_440
+                0x0000a9d8                PAGE_2310
+                0x00011d54                SYS_43
+                0x00009870                Point_inversion
+                0x0000abb0                PAGE_4
+                0x0000a3e8                PAGE_200
+                0x0000ca16                PAGE_4403
+                0x0000c254                PAGE_440000
+                0x0000e5d4                SYS_10
+                0x0001e1a0                _readPGM_TEXT
+                0x000117b2                SYS_42200
+                0x0001bcd0                SYS_450
+                0x0001b368                SYS_44071
+                0x0000b74a                PAGE_4211
+                0x0001c826                SYS_0xFFFFFFFF
+                0x0000fddc                SYS_2400
+                0x0000c4ea                PAGE_44011
+                0x0000efc8                SYS_21
+                0x0000faf4                SYS_24
+                0x0000c2c8                PAGE_4401
+                0x0000a5a0                PAGE_210
+                0x00011cba                SYS_42400
+                0x0001bb88                SYS_440700
+                0x0000d716                PAGE_44061
+                0x00010758                SYS_410
+                0x0000afcc                PAGE_41
+                0x0000bcde                PAGE_430
+                0x00019806                SYS_44060
+                0x0001bf4e                SYS_45000
+                0x0000d230                PAGE_44050
+                0x00019674                SYS_4406
+                0x0000b5c0                PAGE_42000
+                0x0001854e                SYS_44050
+                0x00013004                SYS_44001
+                0x00015e1e                SYS_4403
+                0x0000fe90                SYS_4
+                0x0000b48e                PAGE_420
+                0x0000b6b0                PAGE_4210
+                0x0000dd68                PAGE_450
+                0x0000f6fe                SYS_2210
+                0x0001275a                SYS_44000
+                0x0001027e                SYS_400
+                0x0000dba0                PAGE_440700
+                0x0001057a                SYS_4000
+                0x000183bc                SYS_4405
+                0x0000c004                PAGE_44000
+                0x0000aac8                PAGE_240
+                0x00019618                SYS_440500
+                0x0000c6b4                PAGE_4402
+                0x000111e4                SYS_421
+                0x0000f840                SYS_230
+                0x0000dc7a                PAGE_45
+                0x0000ddf4                PAGE_4500
+                0x0000ce02                PAGE_4404
+                0x0000f336                SYS_2110
+                0x00010f30                SYS_420
+                0x00010de2                SYS_42
+                0x0000bf20                PAGE_440
+                0x0000af12                PAGE_401
+                0x0001685a                SYS_44031
+                0x00011e60                SYS_430
+                0x0000b968                PAGE_423
+                0x0000fcc4                SYS_241
+                0x0000ece8                SYS_200
+                0x00017268                SYS_44040
+                0x0000bbd0                PAGE_42400
+                0x0001aabe                SYS_44070
+                0x000113fe                SYS_4211
+                0x0000ab90                PAGE_2410
+                0x0000b8f4                PAGE_4220
+                0x0001e224                _TEXT
+                0x00011018                SYS_4200
+                0x0000f928                SYS_231
+                0x0001f818                MENU
+                0x0000be32                PAGE_44
+                0x00011a06                SYS_42300
+                0x0000f0b0                SYS_210
+                0x0000d4dc                PAGE_440500
+                0x0000afac                PAGE_4000
+                0x0000a43c                PAGE_201
+                0x00015fb0                SYS_44030
+                0x00012256                SYS_441
+                0x0000bd78                PAGE_431
+                0x0000b948                PAGE_42200
+                0x0001184c                SYS_423
+                0x0000edfc                SYS_201
+                0x00009c7e                cpy_flash2memory
+                0x0001216a                SYS_44
+                0x000120ca                SYS_4300
+                0x0000dfbc                PAGE_45000
+                0x0000a668                PAGE_2110
+                0x0000b3a0                PAGE_42
+                0x0000a256                PAGE_2
+                0x0000e870                SYS_11
+                0x0000f758                SYS_23
+                0x0000a5f4                PAGE_211
+                0x0000fe36                SYS_2410
+                0x0000ef14                SYS_2000
+                0x00010972                SYS_4101
+                0x0001bfda                SYS_451
+                0x0001114a                SYS_42000
+                0x00009b3a                LoadDiagram
+                0x0001707a                SYS_440300
+                0x0000d386                PAGE_44051
+                0x0000a318                PAGE_20
+                0x00018360                SYS_440400
+                0x0000a800                PAGE_2200
+                0x0001a92c                SYS_4407
+                0x0000f1c4                SYS_211
+                0x0000ae1e                PAGE_400
+                0x00009cf4                PAGE_1
+                0x000138ae                SYS_4401
+                0x0000d5ee                PAGE_44060
+                0x0001c6fc                SYS_30
+                0x0000e468                SYS_1
+                0x0000a758                PAGE_220
+                0x0000f2dc                SYS_2100
+                0x0000b284                PAGE_41010
+                0x0000a9b8                PAGE_2300
+                0x0000dc5a                PAGE_4410
+                0x0000d550                PAGE_4406
+                0x0000fa9a                SYS_2310
+                0x0000b5e0                PAGE_421
+                0x0000d950                PAGE_44070
+                0x00014b66                SYS_4402
+                0x0000deb8                PAGE_4510
+                0x0000a648                PAGE_2100
+                0x0000cc38                PAGE_44031
+                0x00018df8                SYS_44051
+                0x00017b40                SYS_44041
+                0x0000e0be                PAGE_30
+                0x0000c12c                PAGE_44001
+                0x0000b0ba                PAGE_410
+                0x0000ab1c                PAGE_241
+                0x0000fffc                SYS_40
+                0x00011f92                SYS_431
+                0x00012348                SYS_4410
+                0x00010d86                SYS_41100
+                0x00009a9c                Point_ONOFF
+                0x0000d83e                PAGE_440600
+                0x0000a910                PAGE_230
+                0x00014b0a                SYS_440100
+                0x0000a9f8                PAGE_24
+                0x0001063c                SYS_41
+                0x0000cfc8                PAGE_44041
+                0x0000ba8c                PAGE_42300
+                0x0000dc14                PAGE_441
+                0x0000fa40                SYS_2300
+                0x0001c854                All_Value_Refresh
+                0x0000ac72                PAGE_40
+                0x0001dd6c                history_update
+                0x0000ddae                PAGE_451
+                0x0001a8d0                SYS_440600
+                0x0000c640                PAGE_440100
+                0x0000ea94                SYS_2
+                0x000155a2                SYS_44021
+                0x0000a820                PAGE_2210
+                0x00011aa0                SYS_424
+                0x0000a036                PAGE_11
+                0x0000b7e4                PAGE_42100
+                0x0000ef6e                SYS_2010
+                0x0001e67a                MainSYSTEM
+                0x0000b1ca                PAGE_41000
+                0x0000f478                SYS_220
+                0x00014cf8                SYS_44020
+                0x0000ab70                PAGE_2400
+                0x000112cc                SYS_4210
+                0x0000981e                DisplayInit
+                0x0001a0b0                SYS_44061
+                0x0000baac                PAGE_424
+                0x0000d164                PAGE_4405
+                0x0000e448                PAGE_0xFFFFFFFF
+                0x0001df98                PAGE_LineScroll
+                0x0000c87a                PAGE_44021
+                0x0000a7ac                PAGE_221
+                0x00011934                SYS_4230
+                0x0000bb7c                PAGE_4240
+                0x0000b130                PAGE_4100
+                0x0000fbdc                SYS_240
+                0x0000dffc                PAGE_3
+                0x0000a4b0                PAGE_2010
+                0x0000b804                PAGE_42110
+                0x0000f390                SYS_22
+                0x0000b1ea                PAGE_4101
+                0x00010c54                SYS_4110
+                0x0001bdc8                SYS_4500
+                0x0001c4b0                SYS_45100
+                0x00009db6                PAGE_10
+                0x0000d0f0                PAGE_440400
+                0x0000d8b2                PAGE_4407
+                0x000142ea                SYS_44011
+                0x0000a688                PAGE_22
+                0x0000ba38                PAGE_4230
+                0x00010aaa                SYS_41000
+ .text          0x00020a3e      0x586 ds1307.o
+                0x00020d9a                ds1307_write
+                0x00020a3e                ds1307_init
+                0x00020c30                ds1307_readTime
+                0x00020a5a                ds1307_setTime
+                0x00020e84                ds1307_read
+ .text          0x00020fc4        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_mulsi3.o)
+ .text          0x00020fc4        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodqi4.o)
+ .text          0x00020fc4        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodhi4.o)
+ .text          0x00020fc4        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_divmodhi4.o)
+ .text          0x00020fc4        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodsi4.o)
+ .text          0x00020fc4        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_clear_bss.o)
+ .text          0x00020fc4       0x4c c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_fixunssfsi.o)
+                0x00020fc4                __fixunssfsi
+ .text          0x00021010      0x316 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_addsub_sf.o)
+                0x0002126a                __subsf3
+                0x000212cc                __addsf3
+ .text          0x00021326      0x23c c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_mul_sf.o)
+                0x00021326                __mulsf3
+ .text          0x00021562       0x6c c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_gt_sf.o)
+                0x00021562                __gtsf2
+ .text          0x000215ce       0x6c c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_ge_sf.o)
+                0x000215ce                __gesf2
+ .text          0x0002163a       0x6c c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_lt_sf.o)
+                0x0002163a                __ltsf2
+ .text          0x000216a6       0xa0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_sf_to_si.o)
+                0x000216a6                __fixsfsi
+ .text          0x00021746        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_thenan_sf.o)
+ .text          0x00021746        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_prologue.o)
+ .text          0x00021746        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_epilogue.o)
+ .text          0x00021746      0x244 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_pack_sf.o)
+                0x00021746                __pack_f
+ .text          0x0002198a      0x13e c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_unpack_sf.o)
+                0x0002198a                __unpack_f
+ .text          0x00021ac8       0xd2 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_fpcmp_parts_sf.o)
+                0x00021ac8                __fpcmp_parts_f
+ .text          0x00021b9a       0x12 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6\libc.a(memcpy.o)
+                0x00021b9a                memcpy
+ .text          0x00021bac        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6\libc.a(ee_rb.1F2021.o)
+ .text          0x00021bac        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6\libc.a(ee_wb.1F2021.o)
+                0x00021bac                . = ALIGN (0x2)
+ *(.text.*)
+ .text.libgcc   0x00021bac       0x3e c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_mulsi3.o)
+                0x00021bac                __mulsi3
+ .text.libgcc   0x00021bea       0x18 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodqi4.o)
+                0x00021bea                __udivmodqi4
+ .text.libgcc   0x00021c02       0x28 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodhi4.o)
+                0x00021c02                __udivmodhi4
+ .text.libgcc   0x00021c2a       0x26 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_divmodhi4.o)
+                0x00021c2a                __divmodhi4
+                0x00021c2a                _div
+ .text.libgcc   0x00021c50       0x44 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodsi4.o)
+                0x00021c50                __udivmodsi4
+ .text.libgcc   0x00021c94        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00021c94       0x38 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_prologue.o)
+                0x00021c94                __prologue_saves__
+ .text.libgcc   0x00021ccc       0x36 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_epilogue.o)
+                0x00021ccc                __epilogue_restores__
+ .text.eeprom   0x00021d02       0x10 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6\libc.a(ee_rb.1F2021.o)
+                0x00021d02                __eeprom_read_byte_1F2021
+ .text.eeprom   0x00021d12       0x18 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6\libc.a(ee_wb.1F2021.o)
+                0x00021d12                __eeprom_write_byte_1F2021
+                0x00021d2a                . = ALIGN (0x2)
+ *(.fini9)
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ *(.fini0)
+                0x00021d2a                _etext = .
+
+.data           0x00800200      0x7d4 load address 0x00021d2a
+                0x00800200                PROVIDE (__data_start, .)
+ *(.data)
+ .data          0x00800200        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+ .data          0x00800200       0x26 main.o
+                0x00800205                _1s_Cnt
+                0x00800200                PacketCMD
+                0x00800203                _200ms_Cnt
+                0x00800204                _500ms_Cnt
+                0x00800202                _100ms_Cnt
+                0x00800201                _10ms_Cnt
+ .data          0x00800226        0x0 serial.o
+ .data          0x00800226        0x0 util.o
+ .data          0x00800226        0x0 modbus_application.o
+ .data          0x00800226      0x200 modbus_server.o
+                0x00800326                auchCRCLo_exp
+                0x00800226                auchCRCHi_exp
+ .data          0x00800426        0x0 128by64GLCD.o
+ .data          0x00800426        0x0 debug_printf.o
+ .data          0x00800426        0x3 key.o
+                0x00800427                key_signal_B
+                0x00800428                key_data
+                0x00800426                key_signal_A
+ .data          0x00800429      0x5a3 display.o
+                0x0080042c                diagram_condition
+                0x00800650                Vin_lower_limit
+                0x00800776                Async_Lower_Limit
+                0x0080042b                history_initFlag
+                0x0080072e                Bat_Equal_volt
+                0x00800774                Async_Upper_Limit
+                0x008006a6                Vout_upper_limit
+                0x00800700                Vbat_lower_limit
+                0x00800746                Bat_Float_Volt
+                0x008006bd                Vinv_ref
+                0x0080064e                Vin_upper_limit
+                0x008006a8                Vout_lower_limit
+                0x0080075a                Bat_Equal_Curr
+                0x008006fe                Vbat_upper_limit
+                0x0080042a                history_Xoffset
+                0x00800429                posInpage
+                0x008006e8                Abat_limit
+ .data          0x008009cc        0x0 ds1307.o
+ .data          0x008009cc        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_mulsi3.o)
+ .data          0x008009cc        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodqi4.o)
+ .data          0x008009cc        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodhi4.o)
+ .data          0x008009cc        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_divmodhi4.o)
+ .data          0x008009cc        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodsi4.o)
+ .data          0x008009cc        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_clear_bss.o)
+ .data          0x008009cc        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_fixunssfsi.o)
+ .data          0x008009cc        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_addsub_sf.o)
+ .data          0x008009cc        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_mul_sf.o)
+ .data          0x008009cc        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_gt_sf.o)
+ .data          0x008009cc        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_ge_sf.o)
+ .data          0x008009cc        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_lt_sf.o)
+ .data          0x008009cc        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_sf_to_si.o)
+ .data          0x008009cc        0x8 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_thenan_sf.o)
+                0x008009cc                __thenan_sf
+ .data          0x008009d4        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_prologue.o)
+ .data          0x008009d4        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_epilogue.o)
+ .data          0x008009d4        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_pack_sf.o)
+ .data          0x008009d4        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_unpack_sf.o)
+ .data          0x008009d4        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_fpcmp_parts_sf.o)
+ .data          0x008009d4        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6\libc.a(memcpy.o)
+ .data          0x008009d4        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6\libc.a(ee_rb.1F2021.o)
+ .data          0x008009d4        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6\libc.a(ee_wb.1F2021.o)
+ *(.data*)
+ *(.rodata)
+ *(.rodata*)
+ *(.gnu.linkonce.d*)
+                0x008009d4                . = ALIGN (0x2)
+                0x008009d4                _edata = .
+                0x008009d4                PROVIDE (__data_end, .)
+
+.bss            0x008009d4      0xb5e
+                0x008009d4                PROVIDE (__bss_start, .)
+ *(.bss)
+ .bss           0x008009d4        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+ .bss           0x008009d4       0x13 main.o
+                0x008009d5                TimeTic_1ms
+                0x008009dc                Toggle500ms
+                0x008009da                TimeTic_1s
+                0x008009e3                EventTimeB
+                0x008009d7                TimeTic_100ms
+                0x008009d6                TimeTic_10ms
+                0x008009e4                EventTimeC
+                0x008009d9                TimeTic_500ms
+                0x008009df                EventFlagC
+                0x008009e0                EventFlagD
+                0x008009d4                TimerTicFlag
+                0x008009dd                EventFlagA
+                0x008009e2                EventTimeA
+                0x008009e6                EventTimeE
+                0x008009d8                TimeTic_200ms
+                0x008009e5                EventTimeD
+                0x008009de                EventFlagB
+                0x008009db                Toggle10ms
+                0x008009e1                EventFlagE
+ .bss           0x008009e7        0x0 serial.o
+ .bss           0x008009e7        0x0 util.o
+ .bss           0x008009e7       0x10 modbus_application.o
+                0x008009e9                Poll_flag
+                0x008009e7                modbus_addr
+                0x008009ec                _communication_fault
+                0x008009f2                start_time
+                0x008009eb                communication_fault
+                0x008009ee                mseconds
+                0x008009ed                communication_fault_cnt
+                0x008009ea                packet_handler
+ .bss           0x008009f7        0x7 modbus_server.o
+                0x008009fd                poll_control
+                0x008009f8                coil_write
+                0x008009fc                register_read
+                0x008009fb                coil_read
+                0x008009f7                UART_rcv_count
+                0x008009fa                register_write
+                0x008009f9                discrete_input_read
+ .bss           0x008009fe        0x8 128by64GLCD.o
+                0x008009ff                LCDUpdateFlag
+                0x008009fe                LCDSemaphore
+                0x00800a00                LCDScrollOnOff
+ .bss           0x00800a06        0x2 debug_printf.o
+ .bss           0x00800a08        0x3 key.o
+                0x00800a0a                LongKeyFlag
+                0x00800a08                key_press_time
+ .bss           0x00800a0b       0x5e display.o
+                0x00800a14                password
+                0x00800a1f                history_Yoffset
+                0x00800a27                Ain_gain
+                0x00800a3b                Vbyp_gain
+                0x00800a33                Vbat_gain
+                0x00800a37                Abat_gain
+                0x00800a1c                pass_pos
+                0x00800a31                Aout_offset
+                0x00800a25                Vin_offset
+                0x00800a41                Vdc_offset
+                0x00800a3d                Vbyp_offset
+                0x00800a2f                Aout_gain
+                0x00800a29                Ain_offset
+                0x00800a20                history_paper_line
+                0x00800a1e                Tset_pos
+                0x00800a2d                Vout_offset
+                0x00800a35                Vbat_offset
+                0x00800a3f                Vdc_gain
+                0x00800a0c                event_array
+                0x00800a39                Abat_offset
+                0x00800a1d                confirm
+                0x00800a23                Vin_gain
+                0x00800a18                _password
+                0x00800a2b                Vout_gain
+                0x00800a0b                RefreshFlag
+                0x00800a21                eeprom_addr
+ .bss           0x00800a69        0x0 ds1307.o
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_mulsi3.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodqi4.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodhi4.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_divmodhi4.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_udivmodsi4.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_clear_bss.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_fixunssfsi.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_addsub_sf.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_mul_sf.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_gt_sf.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_ge_sf.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_lt_sf.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_sf_to_si.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_thenan_sf.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_prologue.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_epilogue.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_pack_sf.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_unpack_sf.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/avr6\libgcc.a(_fpcmp_parts_sf.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6\libc.a(memcpy.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6\libc.a(ee_rb.1F2021.o)
+ .bss           0x00800a69        0x0 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6\libc.a(ee_wb.1F2021.o)
+ *(.bss*)
+ *(COMMON)
+ COMMON         0x00800a69       0x69 main.o
+                0x00800a69                PacketBuf
+                0x00800acd                Packet
+                0x00800acf                KeyState
+ COMMON         0x00800ad2       0xd8 serial.o
+                0x00800ad2                pTxDataEnd
+                0x00800ad4                pRxRingBufStart
+                0x00800ad6                pTxDataStart
+                0x00800ad8                pRxDataStart
+                0x00800ada                RxBuffer
+                0x00800b3e                pTxRingBufStart
+                0x00800b40                TxBuffer
+                0x00800ba4                pRxRingBufEnd
+                0x00800ba6                pRxDataEnd
+                0x00800ba8                pTxRingBufEnd
+ COMMON         0x00800baa      0x2e3 modbus_server.o
+                0x00800baa                QUERY_buf
+                0x00800bb2                ReadinReg
+                0x00800bb4                QUERY_buf1
+                0x00800bbc                current_node_ref
+                0x00800bbd                main_data_array
+                0x00800c85                UART_TX_Buffer
+                0x00800d85                QUERY_buf2
+                0x00800d8d                UART_RX_buf
+ COMMON         0x00800e8d      0x43a 128by64GLCD.o
+                0x00800e8d                pScrollDataOffset
+                0x00800e8f                LCD_buffer
+                0x0080128f                pScrollDataEnd
+                0x00801291                pScrollDataStart
+                0x00801293                ScrollBuffer
+                0x008012a7                Korean_buffer
+ COMMON         0x008012c7      0x263 display.o
+                0x008012c7                text_buf
+                0x008013c7                old_naveMENU
+                0x008013cb                data_array
+                0x008013f3                naviMENU
+                0x008013f7                setTime
+                0x008013fe                history_paper
+ COMMON         0x0080152a        0x8 ds1307.o
+                0x0080152a                week
+                0x0080152b                month
+                0x0080152c                second
+                0x0080152d                hour
+                0x0080152e                ampm
+                0x0080152f                min
+                0x00801530                year
+                0x00801531                date
+                0x00801532                PROVIDE (__bss_end, .)
+                0x00021d2a                __data_load_start = LOADADDR (.data)
+                0x000224fe                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x00801532        0x0
+                0x00801532                PROVIDE (__noinit_start, .)
+ *(.noinit*)
+                0x00801532                PROVIDE (__noinit_end, .)
+                0x00801532                _end = .
+                0x00801532                PROVIDE (__heap_start, .)
+
+.eeprom         0x00810000        0x0
+ *(.eeprom*)
+                0x00810000                __eeprom_end = .
+
+.stab           0x00000000      0x408
+ *(.stab)
+ .stab          0x00000000      0x408 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+
+.stabstr        0x00000000       0x84
+ *(.stabstr)
+ .stabstr       0x00000000       0x84 c:/winavr/bin/../lib/gcc/avr/4.1.1/../../../../avr/lib/avr6/crtm2560.o
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment
+ *(.comment)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000      0x140
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x20 main.o
+ .debug_aranges
+                0x00000020       0x20 serial.o
+ .debug_aranges
+                0x00000040       0x20 util.o
+ .debug_aranges
+                0x00000060       0x20 modbus_application.o
+ .debug_aranges
+                0x00000080       0x20 modbus_server.o
+ .debug_aranges
+                0x000000a0       0x20 128by64GLCD.o
+ .debug_aranges
+                0x000000c0       0x20 debug_printf.o
+ .debug_aranges
+                0x000000e0       0x20 key.o
+ .debug_aranges
+                0x00000100       0x20 display.o
+ .debug_aranges
+                0x00000120       0x20 ds1307.o
+
+.debug_pubnames
+                0x00000000     0x1c48
+ *(.debug_pubnames)
+ .debug_pubnames
+                0x00000000      0x227 main.o
+ .debug_pubnames
+                0x00000227      0x15d serial.o
+ .debug_pubnames
+                0x00000384       0x37 util.o
+ .debug_pubnames
+                0x000003bb       0xe4 modbus_application.o
+ .debug_pubnames
+                0x0000049f      0x2fa modbus_server.o
+ .debug_pubnames
+                0x00000799      0x2d4 128by64GLCD.o
+ .debug_pubnames
+                0x00000a6d       0x35 debug_printf.o
+ .debug_pubnames
+                0x00000aa2       0x95 key.o
+ .debug_pubnames
+                0x00000b37     0x105d display.o
+ .debug_pubnames
+                0x00001b94       0xb4 ds1307.o
+
+.debug_info     0x00000000     0x614b
+ *(.debug_info)
+ .debug_info    0x00000000      0x550 main.o
+ .debug_info    0x00000550      0x4b6 serial.o
+ .debug_info    0x00000a06      0x177 util.o
+ .debug_info    0x00000b7d      0x3b3 modbus_application.o
+ .debug_info    0x00000f30      0xa3a modbus_server.o
+ .debug_info    0x0000196a     0x11e3 128by64GLCD.o
+ .debug_info    0x00002b4d      0x2bf debug_printf.o
+ .debug_info    0x00002e0c      0x246 key.o
+ .debug_info    0x00003052     0x2e21 display.o
+ .debug_info    0x00005e73      0x2d8 ds1307.o
+ *(.gnu.linkonce.wi.*)
+
+.debug_abbrev   0x00000000      0xa9a
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000       0xc3 main.o
+ .debug_abbrev  0x000000c3      0x10c serial.o
+ .debug_abbrev  0x000001cf       0x5d util.o
+ .debug_abbrev  0x0000022c       0xd9 modbus_application.o
+ .debug_abbrev  0x00000305      0x175 modbus_server.o
+ .debug_abbrev  0x0000047a      0x1c9 128by64GLCD.o
+ .debug_abbrev  0x00000643       0xd5 debug_printf.o
+ .debug_abbrev  0x00000718       0xb6 key.o
+ .debug_abbrev  0x000007ce      0x239 display.o
+ .debug_abbrev  0x00000a07       0x93 ds1307.o
+
+.debug_line     0x00000000     0xbb92
+ *(.debug_line)
+ .debug_line    0x00000000      0x5b6 main.o
+ .debug_line    0x000005b6      0x3db serial.o
+ .debug_line    0x00000991      0x1d9 util.o
+ .debug_line    0x00000b6a      0x2e7 modbus_application.o
+ .debug_line    0x00000e51      0x73b modbus_server.o
+ .debug_line    0x0000158c      0xcc1 128by64GLCD.o
+ .debug_line    0x0000224d      0x2a6 debug_printf.o
+ .debug_line    0x000024f3      0x19a key.o
+ .debug_line    0x0000268d     0x921b display.o
+ .debug_line    0x0000b8a8      0x2ea ds1307.o
+
+.debug_frame    0x00000000     0x13f0
+ *(.debug_frame)
+ .debug_frame   0x00000000       0x70 main.o
+ .debug_frame   0x00000070       0xc0 serial.o
+ .debug_frame   0x00000130       0x40 util.o
+ .debug_frame   0x00000170       0x40 modbus_application.o
+ .debug_frame   0x000001b0      0x150 modbus_server.o
+ .debug_frame   0x00000300      0x150 128by64GLCD.o
+ .debug_frame   0x00000450       0x40 debug_printf.o
+ .debug_frame   0x00000490       0x40 key.o
+ .debug_frame   0x000004d0      0xec0 display.o
+ .debug_frame   0x00001390       0x60 ds1307.o
+
+.debug_str      0x00000000      0x17a
+ *(.debug_str)
+ .debug_str     0x00000000       0x28 main.o
+ .debug_str     0x00000028       0x19 serial.o
+ .debug_str     0x00000041       0x28 modbus_application.o
+ .debug_str     0x00000069       0x4e modbus_server.o
+ .debug_str     0x000000b7       0x6b 128by64GLCD.o
+ .debug_str     0x00000122        0xd debug_printf.o
+ .debug_str     0x0000012f        0xc key.o
+ .debug_str     0x0000013b       0x3f display.o
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+OUTPUT(OK2560_BD.elf elf32-avr)
+LOAD linker stubs

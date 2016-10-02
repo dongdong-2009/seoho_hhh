@@ -1,0 +1,105 @@
+---------------------------  Seoho_PMSM.pjt - Debug  ---------------------------
+[DSP2833x_ADC_cal.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_ADC_cal.asm"
+
+[DSP2833x_CodeStartBranch.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_CodeStartBranch.asm"
+
+[DSP2833x_CpuTimers.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_CpuTimers.c"
+
+[DSP2833x_CSMPasswords.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_CSMPasswords.asm"
+
+[DSP2833x_DBGIER.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_DBGIER.asm"
+
+[DSP2833x_DefaultIsr.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_DefaultIsr.c"
+
+[DSP2833x_DisInt.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_DisInt.asm"
+
+[DSP2833x_DMA.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_DMA.c"
+
+[DSP2833x_ECan.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_ECan.c"
+
+[DSP2833x_EPwm.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_EPwm.c"
+
+[DSP2833x_GlobalVariableDefs.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_GlobalVariableDefs.c"
+
+[DSP2833x_I2C.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_I2C.c"
+
+[DSP2833x_MemCopy.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_MemCopy.c"
+
+[DSP2833x_PieCtrl.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_PieCtrl.c"
+
+[DSP2833x_PieVect.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_PieVect.c"
+
+[DSP2833x_SysCtrl.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_SysCtrl.c"
+
+[DSP2833x_usDelay.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_usDelay.asm"
+
+[DSP2833x_Xintf.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_Xintf.c"
+
+[cc.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "cc.c"
+
+[dac.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "dac.c"
+
+[debug_2833x.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "debug_2833x.c"
+
+[default_var.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "default_var.c"
+
+[digital_inout.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "digital_inout.c"
+"digital_inout.c", line 201: warning: variable "i" was set but never used
+
+[eCAN.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "eCAN.c"
+"eCAN.h", line 30: error: identifier "LONG" is undefined
+"eCAN.h", line 30: error: identifier "LONG" is undefined
+"eCAN.h", line 30: error: identifier "LONG" is undefined
+"eCAN.c", line 38: error: identifier "BOOL" is undefined
+"eCAN.c", line 38: error: identifier "FALSE" is undefined
+"eCAN.c", line 39: error: identifier "LONG" is undefined
+"eCAN.c", line 41: error: identifier "LONG" is undefined
+"eCAN.c", line 42: error: identifier "LONG" is undefined
+"eCAN.c", line 44: error: identifier "BOOL" is undefined
+"eCAN.c", line 45: error: identifier "LONG" is undefined
+"eCAN.c", line 47: error: identifier "LONG" is undefined
+"eCAN.c", line 48: error: identifier "LONG" is undefined
+"eCAN.c", line 67: error: identifier "LONG" is undefined
+"eCAN.c", line 67: error: expected a ")"
+"eCAN.c", line 67: error: expected a ")"
+"eCAN.c", line 94: error: identifier "P_rate" is undefined
+"eCAN.c", line 94: error: identifier "Comm_array" is undefined
+"eCAN.c", line 105: error: identifier "LONG" is undefined
+"eCAN.c", line 105: error: identifier "LONG" is undefined
+"eCAN.c", line 105: error: identifier "LONG" is undefined
+"eCAN.c", line 121: error: identifier "LONG" is undefined
+"eCAN.c", line 121: error: identifier "LONG" is undefined
+"eCAN.c", line 121: error: identifier "LONG" is undefined
+"eCAN.c", line 203: error: identifier "i" is undefined
+"eCAN.c", line 222: error: identifier "TRUE" is undefined
+"eCAN.c", line 262: error: identifier "TRUE" is undefined
+26 errors detected in the compilation of "eCAN.c".
+
+>> Compilation failure
+
+[fault.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "fault.c"
+
+[get_cmd.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "get_cmd.c"
+"get_cmd.c", line 10: error: identifier "Data_Registers" is undefined
+1 error detected in the compilation of "get_cmd.c".
+
+>> Compilation failure
+
+[I2C_eeprom.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "I2C_eeprom.c"
+
+[Main.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "Main.c"
+"Main.c", line 30: warning: variable "i" was declared but never referenced
+"Main.c", line 143: warning: variable "a" was set but never used
+
+[pwm_change.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "pwm_change.c"
+
+[sc.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "sc.c"
+
+[SCI_BC.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "SCI_BC.c"
+
+[seoho_gpio_set.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "seoho_gpio_set.c"
+
+[system.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_28335COMM_101210/Debug" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_28335COMM_101210/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "system.c"
+
+Build Complete,
+  27 Errors, 3 Warnings, 0 Remarks.

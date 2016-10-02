@@ -1,0 +1,38 @@
+Keypad 
+
+1.     Parameter Group 29 생성 및 세부 Parameter 작성
+
+A.     바이사 대리와 협의 부탁드립니다.
+
+2.     Keypad 만의 고유 Menu 작성
+
+A.     Parameter Upload/Download
+
+3.     Keypad Software Version Number 결정
+
+A.     Version Number를 결정한 후 부여기준에 대한 첨부 설명 부탁드립니다.
+
+4.     Interleaved DC/DC Converter 개발 이후 통신 개발 일정 협의
+
+A.     현재 Fieldbus(Modbus, Profibus) 통신을 4월 중순까지 개발하도록 일정이 계획되어 있습니다.
+
+B.      박병훈씨가 위 A의 일정대로 가능하도록 세부 일정 계획을 결정해주시고 전달부탁드립니다.
+
+ 
+
+Manager Program
+
+1.     Parameter Group 29 생성 및 세부 Parameter 작성
+
+A.     바이사 대리와 협의 부탁드립니다.
+
+2.     Parameter Upload/Download 기능 구성
+
+A.     기존의 Manager Program과 동일한 수준으로 구성해주세요
+
+3.     Manager Program Software Version Number 결정
+
+A.     Version Number를 결정한 후 부여기준에 대한 첨부 설명 부탁드립니다.
+
+ 
+

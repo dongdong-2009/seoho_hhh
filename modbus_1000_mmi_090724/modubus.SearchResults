@@ -1,0 +1,5 @@
+---- EventFlagA Matches (4 in 2 files) ----
+Display.h (source\mcu):extern unsigned char EventFlagA;
+Main.c (source):unsigned char EventFlagA = 0;
+Main.c (source):		if(EventFlagA)//using DpMenu5
+Main.c (source):				EventFlagA = 0;
