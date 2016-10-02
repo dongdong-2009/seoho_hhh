@@ -22,11 +22,14 @@
 #include "16by2CLCD.h"
 #include "util.h"
 
+char posInpage=6;
+
 void CLCD_command(unsigned char command)		/* write a command(instruction) to text LCD */
 {
   PORTD = PORTD & 0x40;					// E = 0, Rs = 0, R/-W = 0
   PORTH = command;				// output command
   PORTD =  PORTD & 0x40 | 0x20;					// E = 1
+
   asm volatile(" PUSH  R0 ");			// delay for about 250 ns
   asm volatile(" POP   R0 ");
   PORTD = PORTD & 0x40;					// E = 0
@@ -35,12 +38,15 @@ void CLCD_command(unsigned char command)		/* write a command(instruction) to tex
 
 void CLCD_data(unsigned char data)		/* display a character on text LCD */
 {
-  PORTD = PORTD & 0x40 | 0x10;					// E = 0, Rs = 1, R/-W = 0
+ PORTD = PORTD & 0x40 | 0x10;					// E = 0, Rs = 1, R/-W = 0
+
   PORTH = data;					// output data
   PORTD = PORTD & 0x40 | 0x30;					// E = 1
+
   asm volatile(" PUSH  R0 ");			// delay for about 250 ns
   asm volatile(" POP   R0 ");
   PORTD = PORTD & 0x40 | 0x10;					// E = 0
+
   Delay_us(50);
 }
 
@@ -53,6 +59,7 @@ void CLCD_cursor_ON(unsigned char pos, unsigned char offset)		/* write a command
 void CLCD_cursor_OFF(void)		/* write a command(instruction) to text LCD */
 {
   	CLCD_command(0x0C);
+	posInpage = 0xFF;
 }
 
 void CLCD_string(unsigned char command, char *string) /* display a string on LCD */

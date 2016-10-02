@@ -37,7 +37,7 @@ void KeyInit(void)
 	//_delay_ms(100); 
 	
 
-	KeyState.KeyValue = 0xFFFF;
+	KeyState.KeyValue = 0xFF;
 	KeyState.LongKeyFlag = 0;
 
 }
@@ -52,7 +52,7 @@ void KeyProc(void)
 
 unsigned int KeyScan(void)
 {
-	unsigned int key_output=0xFFFF;
+	unsigned char key_output=0xFF;
 	unsigned int key = 0xFFFF;
 
 	key = PINJ | ((PINK | 0xFE)<<8);
@@ -67,7 +67,21 @@ unsigned int KeyScan(void)
 		else
 		{
 			key_press_time = 9;
-			key_output = key_data;
+
+			switch(key_data){
+				case 0xFFFD:		key_output = UP;		break;
+				case 0xFF7F:		key_output = DN;		break;
+				case 0xFFDF:		key_output = RIGHT;	break;
+				case 0xFFF7:		key_output = LEFT;	break;
+				case 0xFFFE:		key_output = ESC;		break;
+				case 0xFFFB:		key_output = ENTER;	break;
+				case 0xFFEF:		key_output = MENU;	break;
+				case 0xFFBF:		key_output = RUN;		break;
+				case 0xFEFF:		key_output = STOP;	break;
+				case 0xFEBA:		key_output = 0xFE;	break;
+				default:			key_output = 0xFF;	break;
+				}
+			
 			LongKeyFlag=1;
 			return key_output;
 		}
@@ -82,7 +96,18 @@ unsigned int KeyScan(void)
 
 		if(!LongKeyFlag)
 		{
-			key_output = key_data;
+			switch(key_data){
+				case 0xFFFD:		key_output = UP;		break;
+				case 0xFF7F:		key_output = DN;		break;
+				case 0xFFDF:		key_output = RIGHT;	break;
+				case 0xFFF7:		key_output = LEFT;	break;
+				case 0xFFFE:		key_output = ESC;		break;
+				case 0xFFFB:		key_output = ENTER;	break;
+				case 0xFFEF:		key_output = MENU;	break;
+				case 0xFFBF:		key_output = RUN;		break;
+				case 0xFEFF:		key_output = STOP;	break;
+				default:			key_output = 0xFF;	break;
+				}
 			key_press_time=0;
 		}
 	//debug_printf("\x1B[2J");

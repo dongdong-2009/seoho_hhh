@@ -7,6 +7,8 @@
 #define	ROW1_ADDR			0	// LCD Row1 Base Address : 0 ~ 15
 #define	ROW2_ADDR			16	// LCD Row2 Base Address : 16 ~ 31
 
+extern char posInpage;
+
 void CLCD_command(unsigned char command);	
 void CLCD_data(unsigned char data);
 void CLCD_string(unsigned char command, char *string);

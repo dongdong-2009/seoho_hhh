@@ -15,10 +15,10 @@
 #define _SERIAL_H_
 
 
-#define BUF_MAX 0x600
+#define BUF_MAX 3400
 
 #define DATA_REG 0x8000
-#define TEMP_REG 0x9000
+#define TEMP_REG 0xB000
 
 #define	GEN_POLYNOMAL	0x8821		// CRC Á¬¼ö
 
@@ -46,13 +46,17 @@ typedef	union
 }Data_flg;
 Data_flg	data_flg;
 
+void WriteDataMem(unsigned int addr, unsigned int dat);
+unsigned int ReadDataMem(unsigned int addr);
 
 void UART_init(void);
 
 void TX0_char( char data);
 
-
+void CRC_16(unsigned char input);
 void SCIC_Tx_process(void);
 void SCIC_Rx_process(void);
+
+void InputDataReg(unsigned int addr, unsigned int dat);
 
 #endif

@@ -12,7 +12,7 @@
 //====================================================
 
 #define F_CPU 16000000UL // 사용하는 CPU 클럭을 설정
-#define __OPTIMIZE__ 
+//#define __OPTIMIZE__ 
 
 
 #include <avr/io.h>
@@ -294,7 +294,6 @@ int main(void)
 		
 		*(volatile int *)((i<<1)+TEMP_REG) = 0;
 		*(volatile int *)((i<<1)+TEMP_REG+1) = 0;
-		
 	}
 
 	Delay_ms(500); 
@@ -306,39 +305,22 @@ int main(void)
 	
 	while(1)
 	{
-		if(TimeTic_1ms)
-		{
-			//mseconds++;
-			
-		}
-
 		if(TimeTic_10ms)
 		{
 			KeyProc();
 			MainSYSTEM();
-			MenuDisplay();
-		}
-
-		if(TimeTic_100ms)
-		{
-			
-		}
-		
-		if(TimeTic_200ms)
-		{
-		}
-
-		if(TimeTic_500ms)
-		{
 		}
 
 		if(TimeTic_1s)
 		{
-			//*(volatile int *)0x8000 = 0xAB;
-			//*(volatile int *)0x9000 = 0xCD;
-			//GLCD_print0508(7, 7,_TEXT("20%02d/%02d/%02d %02d:%02d:%02d",year,month,date,hour,min,second));
+ 			RefreshFlag=1;
 		}
 
+		//display
+		if(TimeTic_10ms)
+		{
+			MenuDisplay();
+		}
 		SCIC_Tx_process();
 		SCIC_Rx_process();
 

@@ -59,7 +59,17 @@ void UART_init(void)
 }
 
 
-
+void WriteDataMem(unsigned int addr, unsigned int dat)
+{
+	*(volatile int *)(DATA_REG + (addr<<1)+0) = (char)(dat>>8);
+	*(volatile int *)(DATA_REG + (addr<<1)+1) = (char)dat;
+}
+unsigned int ReadDataMem(unsigned int addr)
+{
+	unsigned int data_word;
+	data_word =  MAKEWORD( (*(volatile int *)(DATA_REG + (addr<<1)+0 )),(*(volatile int *)(DATA_REG + (addr<<1)+1)) );
+ 	return data_word;
+}
 //-----------------------------
 // 데이타 수신
 //-----------------------------

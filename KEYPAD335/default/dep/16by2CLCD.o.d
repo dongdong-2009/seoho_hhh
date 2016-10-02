@@ -1,4 +1,4 @@
-main.o: ../source/main.c \
+16by2CLCD.o: ../source/mcu/16by2CLCD.c \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/io.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/sfr_defs.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/inttypes.h \
@@ -10,18 +10,14 @@ main.o: ../source/main.c \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/version.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/fuse.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/lock.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/avr/interrupt.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/avr/eeprom.h \
+  c:/winavr-20100110/lib/gcc/../../avr/include/stdio.h \
+  c:\winavr-20100110\bin\../lib/gcc/avr/4.3.3/include/stdarg.h \
   c:\winavr-20100110\bin\../lib/gcc/avr/4.3.3/include/stddef.h \
-  D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/16by2clcd.h \
-  D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/key.h \
-  D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/rs232_MMItoPANEL.h \
-  D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/display.h \
+  c:/winavr-20100110/lib/gcc/../../avr/include/avr/interrupt.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/pgmspace.h \
-  D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/util.h \
-  D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/debug_printf.h
+  ../source/mcu/16by2CLCD.h ../source/mcu/util.h
 
 c:/winavr-20100110/lib/gcc/../../avr/include/avr/io.h:
 
@@ -45,26 +41,20 @@ c:/winavr-20100110/lib/gcc/../../avr/include/avr/fuse.h:
 
 c:/winavr-20100110/lib/gcc/../../avr/include/avr/lock.h:
 
-c:/winavr-20100110/lib/gcc/../../avr/include/avr/interrupt.h:
-
 c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:
 
 c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h:
 
-c:/winavr-20100110/lib/gcc/../../avr/include/avr/eeprom.h:
+c:/winavr-20100110/lib/gcc/../../avr/include/stdio.h:
+
+c:\winavr-20100110\bin\../lib/gcc/avr/4.3.3/include/stdarg.h:
 
 c:\winavr-20100110\bin\../lib/gcc/avr/4.3.3/include/stddef.h:
 
-D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/16by2clcd.h:
-
-D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/key.h:
-
-D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/rs232_MMItoPANEL.h:
-
-D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/display.h:
+c:/winavr-20100110/lib/gcc/../../avr/include/avr/interrupt.h:
 
 c:/winavr-20100110/lib/gcc/../../avr/include/avr/pgmspace.h:
 
-D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/util.h:
+../source/mcu/16by2CLCD.h:
 
-D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/debug_printf.h:
+../source/mcu/util.h:

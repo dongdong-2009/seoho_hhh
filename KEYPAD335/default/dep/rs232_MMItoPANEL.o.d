@@ -1,4 +1,4 @@
-main.o: ../source/main.c \
+rs232_MMItoPANEL.o: ../source/mcu/rs232_MMItoPANEL.c \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/io.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/sfr_defs.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/inttypes.h \
@@ -13,15 +13,11 @@ main.o: ../source/main.c \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/interrupt.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/avr/eeprom.h \
+  c:/winavr-20100110/lib/gcc/../../avr/include/string.h \
   c:\winavr-20100110\bin\../lib/gcc/avr/4.3.3/include/stddef.h \
-  D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/16by2clcd.h \
-  D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/key.h \
-  D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/rs232_MMItoPANEL.h \
-  D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/display.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/avr/pgmspace.h \
-  D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/util.h \
-  D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/debug_printf.h
+  ../source/mcu/type.h ../source/mcu/util.h \
+  ../source/mcu/rs232_MMItoPANEL.h ../source/mcu/display.h \
+  c:/winavr-20100110/lib/gcc/../../avr/include/avr/pgmspace.h
 
 c:/winavr-20100110/lib/gcc/../../avr/include/avr/io.h:
 
@@ -51,20 +47,16 @@ c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:
 
 c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h:
 
-c:/winavr-20100110/lib/gcc/../../avr/include/avr/eeprom.h:
+c:/winavr-20100110/lib/gcc/../../avr/include/string.h:
 
 c:\winavr-20100110\bin\../lib/gcc/avr/4.3.3/include/stddef.h:
 
-D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/16by2clcd.h:
+../source/mcu/type.h:
 
-D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/key.h:
+../source/mcu/util.h:
 
-D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/rs232_MMItoPANEL.h:
+../source/mcu/rs232_MMItoPANEL.h:
 
-D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/display.h:
+../source/mcu/display.h:
 
 c:/winavr-20100110/lib/gcc/../../avr/include/avr/pgmspace.h:
-
-D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/util.h:
-
-D:\work\SEOHO_VD\KEYPAD335_101130\source\mcu/debug_printf.h:

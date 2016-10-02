@@ -16,9 +16,19 @@
 #ifndef _KEY_H_
 #define _KEY_H_
 
+#define UP		0x01
+#define DN		0x02
+#define RIGHT	0x03
+#define LEFT		0x04
+#define ESC		0x05
+#define ENTER	0x06
+#define MENU	0x07
+#define RUN		0x08
+#define STOP		0x09
+
 typedef struct{
 
-	unsigned int	KeyValue;
+	unsigned char	KeyValue;
 	unsigned char	LongKeyFlag;
 
 	unsigned char	KeyHandle;
