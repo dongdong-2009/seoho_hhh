@@ -34,10 +34,23 @@ typedef	union
 } CRC_flg ;
 CRC_flg	CRC ;
 
+extern unsigned int	ms_cnt ;
+extern unsigned int	s_reg ;
+
+extern unsigned char Auto_BR_Detection_Mode;
+extern unsigned char Auto_BR_Detection_Cnt;
 
 
 void UART_init(void);
 
-void TX1_char( char data);
+void TX0_char( char data);
+
+void Initialize_SCI_Stack(void);
+
+void WRITE_Packet_PARAMETER_ACCESS(void);
+void WRITE_Packet_PARAMETER_BLOCK_ACCESS(void); 
+
+void Serial_Comm_Service(void); 
+void Read_DATA_from_ControlBoard(unsigned char GROUP, unsigned char INDEX);
 
 #endif

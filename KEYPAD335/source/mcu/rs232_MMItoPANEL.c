@@ -108,6 +108,8 @@
 
 
 
+#define	EXTERNAL_MEMORY_BASE		0x8000
+
 
 unsigned char Auto_BR_Detection_Mode;
 unsigned char Auto_BR_Detection_Cnt;
@@ -194,11 +196,11 @@ void wait(void)
 // UART  initialize
 void UART_init(void)
 {
-	UBRR1H = 0; 								// 19200 baud for 16MHz OSC
-	UBRR1L = 51;
-	UCSR1A = 0x00;								// asynchronous normal mode
-	UCSR1B = 0xD8;								// Rx/Tx enbale, Rx Complete interrupt enable
-	UCSR1C = 0x06;								// 8 data, 1 stop, no parity
+	UBRR0H = 0; 								// 19200 baud for 16MHz OSC
+	UBRR0L = 51;
+	UCSR0A = 0x00;								// asynchronous normal mode
+	UCSR0B = 0xD8;								// Rx/Tx enbale, Rx Complete interrupt enable
+	UCSR0C = 0x06;								// 8 data, 1 stop, no parity
 
 	//timer 3 인터럽트
 	TCCR3A = 0x10;
@@ -262,14 +264,15 @@ ISR(TIMER3_COMPA_vect)
 	// Transmitte_Serial_Stack에 데이타를 쓸때 마다 TXD_StackWritePtr에 1을 더한다.
 	// TXD_Stack[TXD_StackWritePtr++] = TXD
 
+
 	if (TXD_StackReadPtr != TXD_StackWritePtr)
 	{
-		if((UCSR1A & 0x20) == 0x00);// 송신버퍼가 비어 있음
+		if((UCSR0A & 0x20) != 0x00)// 송신버퍼가 비어 있음
 		{
 			if (Xmitt_Delay_Cnt > 1)
 			{
 				//while((UCSR1A & 0x20) == 0x00);		// data register empty ?
-				UDR1 =  TXD_Stack[TXD_StackReadPtr++];
+				UDR0 =  TXD_Stack[TXD_StackReadPtr++];
 
 				if (TXD_StackReadPtr >= TXD_STACK_LENGTH)	// > 20	
 				{
@@ -291,53 +294,12 @@ ISR(TIMER3_COMPA_vect)
 //----------------------------------------
 /* UART0 interrupt function */
 
-ISR(USART1_RX_vect)	
+ISR(USART0_RX_vect)	
 {
-	//int iU1STA_Value = 0 ;
+	RXD = UDR0 ;
 
-	//iU1STA_Value = U1STA ;
-	//IFS0bits.U1RXIF = 0 ;                   	//Clear interrupt flag
+	Serial_Comm_Protocol();
 
-	// 수신 완료 => 수신 프로토콜
-	// 새로운 데이타 수신
-
-	if(PAR_UP_DN_flg == 1) 		//파라미터 UP/Down 로딩때에만 사용 한다.
-	{
-		RXD = UDR1 ;
-                
-		if(Para_count < RXD_STACK_LENGTH)
-		{
-			RRXD_Stack[Para_count++] = RXD ;
-		}
-		else 
-		{
-			return ;
-		}
-
-		// 받은 데이타(RXD)를 검사한다.
-		//Serial_Comm_Protocol() ;
-	}
-	else 				//정상모드에서 사용 한다.
-	{
-		RXD = UDR1 ;
-
-		//실험 후 지울 것
-		if(Para_count < RXD_STACK_LENGTH)
-		{
-			RRXD_Stack[Para_count++] = RXD ;
-		}
-		else 
-		{
-			return ;
-		}
-/*
-		if (!AUTO_BR._bit.DETECTION_MODE)	//B/R 체크 모드가 아니면...
-		{
-			// 받은 데이타(RXD)를 검사한다.
-			Serial_Comm_Protocol() ;
-		}
-*/
-	}
 	return ;
 }
 
@@ -365,7 +327,7 @@ void Initialize_SCI_Stack(void)
 
 	COMM_Watchdog_Timer = 0 ;	// 통신감시 타이머
 
-	RXD_Stack[0] = UDR1 ;
+	RXD_Stack[0] = UDR0 ;
 }
 
 //--------------------------------------------
@@ -641,89 +603,11 @@ void Serial_Comm_Protocol()
 //----------------------------------------
 // main()루프에서 call한다.
 //----------------------------------------
-void Serial_Comm_Service() 
+void Serial_Comm_Service(void) 
 {	
 	unsigned char  Err_Status;
 	int 	Stack_Index;
 	int 	RXD_StackReadPtr;
-
-	// "ENQ" 전송 -> "CR" 수신 
-	// 초기 시 AUTO_BR._bit.DETECTION_MODE = 1임
-	// 정상 연결되면 AUTO_BR._bit.DETECTION_MODE = 0이 되어 아래 부분은 실행하지 않는다.
-
-	// B/R 체크 .....	
-
-	// 자동 B/R 검출 모드인 경우
-
-	if (Auto_BR_Detection_Mode)
-	{
-		Xmitt_Delay_Cnt++ ;
-
-		//아래 루프는 확인해본 결과 실행되지 않는다. 즉, Xmitt_Delay_Cnt가 10을 넘지 않는다.
-		if (Xmitt_Delay_Cnt > 10)
-		{
-			Xmitt_Delay_Cnt = 0 ;
-			//asm("reset") ;				//자동 reset을 한다.
-		}
-
-		RXD = NULL ;
-		Write_TransmitSerialStack(ENQ) ;		// ENQ : 0x05, 상태 문의(Enquiry)
-
-		s_reg = ms_cnt + 1 ;				// 슬래이브 응답 대기 시간
-		wait() ;
-
-		if (RXD == CR)					// CR :0x0D, Carriage Return
-		{
-
-			Auto_BR_Detection_Cnt++ ;
-		}
-		else if(Auto_BR_Detection_Cnt> 0)
-		{
-			Auto_BR_Detection_Cnt-- ;
-		}
-
-		// 5 회이상 "ENQ" -> "CR"면 통신이 연결된 것으로 판단
-		if (Auto_BR_Detection_Cnt > 5)
-		{
-			Auto_BR_Detection_Mode= 0 ;
-			Auto_BR_Detection_Cnt = 0 ;
-			Initialize_SCI_Stack() ;
-		}
-
-		NewFrame_Detect = 0;		// 자동 B/R 검출 모드에서는 전 단계의 모든 패킷은 무시된다.
-						// 0이면 정상 통신 모드를 실행하지 못한다.
-		COMM_Watchdog_Timer = 0;	// 통신감시 타이머
-						// Timer4에서 1씩 증가 한다.
-	}
-
-	// 자동 B/R 검출 모드가 아닌 경우 = 정상 모드이면
-	else 
-	{
-		// 연속하여 5번 이상의 잘못된 데이타가 수신되는 경우
-		// 통신감시 시간초과 : 특정시간 (시도 횟수 : 5) 이상 동안 아무런 응답이 없을 없을 경우 
-		// -> 자동 B/R 검출 모드
-
-		if (Auto_BR_Detection_Cnt > 5)
-		{
-
-			Auto_BR_Detection_Mode = 1 ;
-			Auto_BR_Detection_Cnt = 0 ;
-			NewFrame_Packet_State = 0 ;
-		}
-
-		// 통신 오류 : 시간 초과 -> 통신 오류 -> 보오-레이트 재설정
-		// TimeOut_Cnt : 5000
-		// COMM_Watchdog_Timer는 200us마다 증가 -> 2000us x 5000 = 10sec
-		// 즉 10sec가 넘어가면 AUTO_BR._bit.DETECTION_MODE를 1로 하여 Baud rate를 다시 체크 한다.
-		// 따라서 10초가 넘어가지 전에 0으로 해주어야 한다.
-	
-		if (COMM_Watchdog_Timer > TimeOut_Cnt)	
-		{
-			Auto_BR_Detection_Mode= 1 ;
-			Auto_BR_Detection_Cnt = 0 ;
-			NewFrame_Packet_State = 0 ;
-		}
-	}
 
 	//-------------------------------------
 	// 정상 통신 모드
@@ -782,8 +666,7 @@ void Serial_Comm_Service()
 		// Packet_ByteCnt는 수신된 데이타의 숫자(?)를 가리킨다.
 
 		// 현재 포인터의 데이타를 읽는다.
-		if ((CRC.Byte.b1 == Read_ReceiveSerialStack(Packet_ByteCnt - 2))
-			&& (CRC.Byte.b0 == Read_ReceiveSerialStack(Packet_ByteCnt - 1)))
+		if ((CRC.Byte.b1 == Read_ReceiveSerialStack(Packet_ByteCnt - 2))&& (CRC.Byte.b0 == Read_ReceiveSerialStack(Packet_ByteCnt - 1)))
 		{
 			// 코멘드 읽기
 			//	Bit[7:6]
@@ -793,21 +676,19 @@ void Serial_Comm_Service()
 			Packet_Head.OP=Read_ReceiveSerialStack(0);	// operator
 			Packet_Head.OBJ=Read_ReceiveSerialStack(1);	// object
 
-			if (Packet_Head.OP==OP_WRITE)
+			if (Packet_Head.OP==OP_ANSWER)
 			{
 				// OP_ANSWER의 패킷이 수신 되면 => 감시 타이머 ->  0
 				// Packet_Head.OBJ의 값은 OBJ_PARAMETER_BLOCK_ACCESS(0x25)임
 				COMM_Watchdog_Timer=0;
 				switch (Packet_Head.OBJ)
 				{
-					case OBJ_PARAMETER_ACCESS :		// 0x24
-						WRITE_Packet_PARAMETER_ACCESS();
-					     break;
-					case OBJ_PARAMETER_BLOCK_ACCESS	:	// 0x25
-						WRITE_Packet_PARAMETER_BLOCK_ACCESS();
-					     break;	
+					case OBJ_PARAMETER_ACCESS :			WRITE_Packet_PARAMETER_ACCESS();	 		break;// 0x24
+					//case OBJ_PARAMETER_BLOCK_ACCESS	:	WRITE_Packet_PARAMETER_BLOCK_ACCESS();	break;// 0x25
+						
+					    	
 				}
-			} 
+			}
 		}
 
 		// 수신된 프레임이 처리됨.
@@ -817,82 +698,7 @@ void Serial_Comm_Service()
 	}					//end of if(NewFrame_Detect)	
 }	
 
-#if 0
-//---------------------------------------------
-// 파라미터 업데이트
-// GROUP <- _code.b.b1
-// INDEX <- _code.b.b0
-// _data <- _data
-//---------------------------------------------
-void Parameter_Update(unsigned char GROUP,unsigned char INDEX,unsigned char _data) 
-{
-	if (GROUP == GROUP_CODE_PANEL_DATA)	// GROUP_CODE_PANEL_DATA = 107
-	{
-		if (INDEX < 32) 
-		{
-			string[INDEX] = _data;
-		}
-		else 
-		{
-			switch (INDEX)
-			{
-				// LCD 글자 선명도 조정 
-				// PANEL_INDEX_LCD_CONTRAST_DUTY = 32
 
-				case PANEL_INDEX_LCD_CONTRAST_DUTY :
-						if (_data <= 10) {
-							Contrast_Cnt_Duty = _data ;
-						}
-						else {
-							Contrast_Cnt_Duty = 10 ;
-						}
-				     		break ;	
-
-				// 백라이트 콘트롤 : 백라이트가 연속으로 켜져 있는 시간
-				// PANEL_INDEX_LIGHT_TIME = 33
-
-				case PANEL_INDEX_LIGHT_TIME :
-						LIGHT_HOLD_TIME_minute = _data ;
-						break;
-
-				// 키 연속 입력 반응 시간 (x100) : 0.25 ~ 2.0초 -> 25 ~ 200
-				// PANEL_INDEX_KEY_REPEAT_TIME = 34
-
-				case PANEL_INDEX_KEY_REPEAT_TIME :
-						if (_data < 25) {
-							_data = 25 ;
-						}
-						else if (_data > 200) {
-							_data = 200 ;
-						}
-						New_Key_Enable_Delay_Cnt_Period=(unsigned)(_data*inv_Ts_f_x100);
-						break;
-				// LED 출력
-				// PANEL_INDEX_LED_DATA = 35
-				case PANEL_INDEX_LED_DATA :
-						LED.byte = _data;
-						break;
-				// 커서위치
-				// PANEL_INDEX_LCD_CURSOR = 36
-				case PANEL_INDEX_LCD_CURSOR :
-						// 커서의 위치 설정
-						if (_data < 16) {
-							Cursor(0, _data);
-						}
-						else if (_data < 32) {
-							Cursor(1, (_data - 16));
-						}		
-						break;
-				// LCD 출력 코멘드
-				// PANEL_INDEX_LCD_CMD = 37
-				case PANEL_INDEX_LCD_CMD :
-						LCD_Cmd(_data);
-						break;
-			}
-		}
-	}
-}
-#endif
 
 // 파라미터 쓰고/읽기
 //----------------------------------------------------------------------------------------
@@ -919,7 +725,7 @@ void Parameter_Update(unsigned char GROUP,unsigned char INDEX,unsigned char _dat
 //(3 x N) + 4	CRC[MSB]		<----	CRC
 //(3 x N) + 5 	CRC[LSB]	
 //----------------------------------------------------------------------------------------
-void WRITE_Packet_PARAMETER_ACCESS()
+void WRITE_Packet_PARAMETER_ACCESS(void)
 {
 	unsigned char StackIndex;
 	unsigned char _data;
@@ -936,7 +742,7 @@ void WRITE_Packet_PARAMETER_ACCESS()
 
 	// 데이타 타입은 바이트 형
 	// 데이타의 수가 일치하는지 확인
-	if (Packet_ByteCnt == (3*Read_ReceiveSerialStack(2)+6))
+	if (Packet_ByteCnt == (4*Read_ReceiveSerialStack(2)+6))
 	{
 		// 파라미터 쓰기	: 2 바이트형 정수	
 		for (StackIndex=4;StackIndex<(Packet_ByteCnt-2);)	// <ADDR.1[MSB]> ~ <DATA.N>
@@ -944,12 +750,15 @@ void WRITE_Packet_PARAMETER_ACCESS()
 			// 어드레스
 			_code.b.b1 = Read_ReceiveSerialStack(StackIndex++);	// 파라미터 그룹
 			_code.b.b0 = Read_ReceiveSerialStack(StackIndex++);	// 파라미터 인덱스		
-			_data = Read_ReceiveSerialStack(StackIndex++);		// 파라미터 값
+			_code.b.b1 = Read_ReceiveSerialStack(StackIndex++);		// 파라미터 값
+			_code.b.b1 = Read_ReceiveSerialStack(StackIndex++);		// 파라미터 값
 
 			// 파라미터 업데이트
 			// _code.b.b0 < 32일 경우 _data을 string[]에 저장한다.
 			// _code.b.b1 -> GROUP, _code.b.b0 -> INDEX, _data -> DATA
 			//Parameter_Update(_code.b.b1,_code.b.b0,_data) ;
+
+			Temporary = _code.w;
 		}
 	}
 }
@@ -976,7 +785,7 @@ void WRITE_Packet_PARAMETER_ACCESS()
 //	N + 6		CRC[MSB]		<----	CRC
 //	N + 7 		CRC[LSB]	
 //--------------------------------------------------------------------------------------
-void WRITE_Packet_PARAMETER_BLOCK_ACCESS() 
+void WRITE_Packet_PARAMETER_BLOCK_ACCESS(void) 
 {
 	unsigned char StackIndex;
 	unsigned char _data;
@@ -1097,18 +906,8 @@ void Send_Parameter(unsigned char GROUP,unsigned char INDEX,unsigned DATA)
 	// <DLE><ETX><CRC[MSB><CRC[LSB]>
 	Xmitt_Packet_End() ;
 
-	s_reg = ms_cnt + 100 ;
+	s_reg = ms_cnt + 200 ;
 	wait() ;
-
-	if((RRXD_Stack[4] == Comm_STATUS_Ok) && (RRXD_Stack[5] == tmp_Group) && (RRXD_Stack[6] == tmp_Index))
-	{
-
-	}
-	else
-	{
-		// Control Board에 Write가 되지 않을때 반복한다
-		Send_Parameter(tmp_Group,tmp_Index,tmp_Data);
-	}
 
 	//DATA_Sending_flg = 0;
 }
@@ -1151,84 +950,31 @@ void Read_DATA_from_ControlBoard(unsigned char GROUP, unsigned char INDEX)
 		}Byte;
 	} _data;
 
+	 _data.Word = 0xFFFF;
+
 	tmp_Group = GROUP;
 	tmp_Index = INDEX;
 	i = INDEX ;
 
 	Read_Parameter(GROUP, INDEX) ;
 	Para_count = 0 ;
-	s_reg = ms_cnt + 100 ;
+	s_reg = ms_cnt + 200 ;
 	wait() ;
 
-	if(GROUP != 16) 		// Group 16이 아니면
-	{
-		if((RRXD_Stack[2] == OP_ANSWER) && (RRXD_Stack[3] == OBJ_PARAMETER_ACCESS) && (RRXD_Stack[6] == GROUP) && (RRXD_Stack[7] == INDEX))
-		{
-			err_cnt = 0 ;					//에러 카운트 reset
-
-			if(i != 16) {
-				_data.Byte.b0 = RRXD_Stack[9] ;	//하위 바이트
-				_data.Byte.b1 = RRXD_Stack[8] ;	//상위바이트
-			}
-			else {
-				_data.Byte.b0 = RRXD_Stack[10] ;	//하위 바이트
-				_data.Byte.b1 = RRXD_Stack[9] ;	//상위바이트
-			}
-
-			//Para_Addr_Mem_[i*2] = _PAR_data.b.b0 ;
-			//Para_Addr_Mem_[(i*2)+1] = _PAR_data.b.b1 ;
-                     //   Comm_array[Comm_arry_ptr] = _data.word;
-			*(volatile int *)((Comm_arry_ptr<<1)) = _data.Byte.b0;
-			*(volatile int *)((Comm_arry_ptr<<1)+1) = _data.Byte.b1;
-			//LED_FAULT = 0 ;
-		}
-		else
-		{
-			//LED_FAULT = 1 ;
-			Read_DATA_from_ControlBoard(tmp_Group, tmp_Index) ;
-		}
-	}
-	else 				// Group 16이면
-	{
-		if((RRXD_Stack[2] == OP_ANSWER) && (RRXD_Stack[3] == OBJ_PARAMETER_ACCESS) && (RRXD_Stack[6] == GROUP) && (RRXD_Stack[7] == INDEX))
-		{
-			err_cnt = 0 ;					//에러 카운트 reset
-			if(i != 16) {
-				_data.Byte.b0 = RRXD_Stack[10] ;	//하위 바이트
-				_data.Byte.b1 = RRXD_Stack[9] ;	//상위바이트
-			}
-			else {
-				_data.Byte.b0 = RRXD_Stack[11] ;	//하위 바이트
-				_data.Byte.b1 = RRXD_Stack[10] ;	//상위바이트
-			}
-
-			//Para_Addr_Mem_[i*2] = _PAR_data.b.b0 ;
-			//Para_Addr_Mem_[(i*2)+1] = _PAR_data.b.b1 ;
-			*(volatile int *)((Comm_arry_ptr<<1)) = _data.Byte.b0;
-			*(volatile int *)((Comm_arry_ptr<<1)+1) = _data.Byte.b1;
-			//LED_FAULT = 0 ;
-		}
-		else
-		{
-			//LED_FAULT = 1 ;
-			Read_DATA_from_ControlBoard(tmp_Group, tmp_Index) ;
-		}
-	}
-	Para_count = 0 ;
 }
 
 //==============================================================
 // base function
 
-void TX1_char( char data)		/* transmit a character by USART0 */
+void TX0_char( char data)		/* transmit a character by USART0 */
 {
-	while((UCSR1A & 0x20) == 0x00);		// data register empty ?
-	UDR1 = data;
+	while((UCSR0A & 0x20) == 0x00);		// data register empty ?
+	UDR0 = data;
 }
 
 
 
-ISR(USART1_TX_vect)             // USART2 Tx Complete interrupt
+ISR(USART0_TX_vect)             // USART2 Tx Complete interrupt
 {
 	UCSR0B = UCSR0B | 0x10;
 }

@@ -128,13 +128,14 @@ prog_char  PAGE_DIR_1_X[6][17]={
 void PAGE_1_0(void)
 {
 	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_X[0][0]));
-	CLCD_string(0xC0,"  0  Local     ");
+	CLCD_string(0xC0,"   [0] Local    ");
+	//CLCD_string(0xC0,(char*)_TEXT("%d",Temporary)); 
 }
 
 void PAGE_1_0_0(void)
 {
 	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_1_X[0][0]));
-	CLCD_string(0xC0,"  1  Remote    ");
+	CLCD_string(0xC0,"   [1] Remote   ");
 }
 
 void PAGE_1_1(void)
@@ -5587,12 +5588,18 @@ void PAGE_0xFFFFFFFF(void)
 
 
 
-int Temporary=0;
+unsigned int Temporary=0;
 void SYS_1(void)
 {
 	if(KeyState.KeyValue == UP)naviMENU = 7;
 	else if(KeyState.KeyValue == DN)naviMENU = 2;
-	else if(KeyState.KeyValue == ENTER)naviMENU = 10;
+	else if(KeyState.KeyValue == ENTER)
+	{
+		Read_DATA_from_ControlBoard(50, 0);
+		if(Temporary)naviMENU = 100;
+		//else if(Temporary==0)naviMENU = 10;
+		else naviMENU = 10;
+	}
 	else if(KeyState.KeyValue == (ESC  & RUN & STOP & ENTER) )	naviMENU = 0xFFFFFFFF;
 
 }
@@ -5645,14 +5652,26 @@ void SYS_7(void)
 
 void SYS_1_0(void)
 {
-	if(KeyState.KeyValue == ENTER)naviMENU = 100;
+	unsigned char c;
+	if(KeyState.KeyValue == ENTER)
+	{
+		Send_Parameter(50,0,1); 
+		Read_DATA_from_ControlBoard(50, 0);
+		if(Temporary)naviMENU = 100;
+	}
 	else if(KeyState.KeyValue == ESC)naviMENU = 1;
 	else if(KeyState.KeyValue == UP)naviMENU = 15;
 	else if(KeyState.KeyValue == DN)naviMENU = 11;
 }
 void SYS_1_0_0(void)
 {
-	if(KeyState.KeyValue == ENTER)naviMENU = 10;
+	unsigned char c;
+	if(KeyState.KeyValue == ENTER)
+	{
+		Send_Parameter(50,0,0); 
+		Read_DATA_from_ControlBoard(50, 0);
+		if(!Temporary)naviMENU = 10;
+	}
 	else if(KeyState.KeyValue == ESC)naviMENU = 1;
 	else if(KeyState.KeyValue == UP)naviMENU = 15;
 	else if(KeyState.KeyValue == DN)naviMENU = 11;

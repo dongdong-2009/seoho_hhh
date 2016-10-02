@@ -30,6 +30,7 @@
 #include "rs232_MMItoPANEL.h"
 //#include "ProtoMod.h"
 #include "display.h"
+#include "util.h"
 
 
 //#include "ds1307.h"
@@ -264,64 +265,41 @@ ISR(TIMER1_COMPA_vect)
 int main(void)
 {
 	MCU_initialize();                             // initialize MCU and kit
-	
+
 	Delay_ms(200);                                 // wait for system stabilization
 
-  CLCD_initialize();                             // initialize text LCD module
+	CLCD_initialize();                             // initialize text LCD module
 
-  		CLCD_string(0x80," Seoho Electric");          // display title
-		CLCD_string(0xC0,"    AC Drive");
+	CLCD_string(0x80," Seoho Electric");          // display title
+	CLCD_string(0xC0,"    AC Drive");
 
 	CLCD_BackLightOnOff(1);
-
-	//GLCD_BuzzerOnOff(1);Delay_ms(50); 
-	//GLCD_BuzzerOnOff(0);Delay_ms(50); 
-	//GLCD_BuzzerOnOff(1);Delay_ms(50); 
-	//GLCD_BuzzerOnOff(0);
-
-	//GLCD_clear();
-	//GLCD_print0508(0,0,"");
-	//GLCD_print0508(0,1,"   HanYoung MODUS-1000");	// display screen 1
-	//GLCD_print0508(0,2,"     AVR_MMI VER1.0  ");
-	//GLCD_print0508(0,3," ");
-	//GLCD_print0508(0,4,"     Date. 2009/03/31");
-	//GLCD_print0508(0,5,"");
-	//GLCD_print0508(0,6,"      Programed by");
-	//GLCD_print0508(0,7,"  Paul Byung-Hun Park");
-
-	//GLCD_print1616(0, 1, "한영전기공업(주)");
-	//GLCD_print1616(0, 3, "   HMI-5000P");
-	//GLCD_PutStringScrollBuf("LCD TE.STING NOW...");
-	//LoadDiagram();
-	//CD_print0508(0,1,_readPGM_TEXT(&system_event_inform[0][0]));
-	//GLCD_FullUpdate();
 
 	KeyInit();
 	Timer_IntteruptSet();
 	UART_init();
 	DisplayInit();
-//	ds1307_init();
+	
+	// 송수신 스택 초기화
+	Initialize_SCI_Stack() ;					//Serial_Comm.c
 
+	s_reg = ms_cnt + 2000 ;
+	
 //	debug_devopen(TX2_char);
 
 //	RS485_RX_EN0;
 	sei();	
+	wait() ;
 
-	Delay_ms(500); 
-	Delay_ms(500); 
-	Delay_ms(500); 
-	Delay_ms(500);
+	//Delay_ms(500); 
+	//Delay_ms(500); 
+	//Delay_ms(500); 
+	//Delay_ms(500);
 	
-//	ds1307_readTime();
-
-	//CLCD_BackLightOnOff(1);
 	EventFlagE = 1;
 	
 	while(1)
 	{
-		//idle_modbus( );
-
-
 		if(TimeTic_1ms)
 		{
 			//mseconds++;
@@ -332,43 +310,36 @@ int main(void)
 			KeyProc();
 			MainSYSTEM();
 			Menu();
-
-			//Check_event();
 		}
 
 		if(TimeTic_100ms)
 		{
-			
-			//PAGE_LineScroll(6);
-			
 		}
 		
 		if(TimeTic_200ms)
 		{
-			//Data_Transfer();
-			
 		}
 
 		if(TimeTic_500ms)
 		{
-			PORTL = PORTL ^ 0x0F; 
+			//PORTL = PORTL ^ 0x0F; 
 			//All_Value_Refresh();
 
 			//communication_fault_cnt++;
 			//if(5 < communication_fault_cnt)	communication_fault = 1;
+
+			//TX0_char(0x55);
+			// Write_TransmitSerialStack(0x55);
 			
 		}
 
 		if(TimeTic_1s)
 		{
-	//		ds1307_readTime();
 			//GLCD_print0508(7, 7,_TEXT("20%02d/%02d/%02d %02d:%02d:%02d",year,month,date,hour,min,second));
 
 		}
-		
-		//GLCD_LCDUpdate();
-		//GLCD_LCDScrollUpdate(6);
 
+		Serial_Comm_Service(); 
 		
 		SystemTimeTic();
 		SystemEventAutoClear();
