@@ -1,15 +1,15 @@
 #ifndef _MAIN_DEF_
 #define _MAIN_DEF_
- 
-	#include "DSP2833x_Device.h"   
-	#include "DSP2833x_Examples.h"   
-	#include "digital_inout.h"
-	#include "system.h"
-	#include "pwm.h"
-	#include "cc.h"
-	#include "sc.h"
-	#include "Fault.h"
-	#include "DEV_EasydspDac28335.h"
+
+#include "DSP2833x_Device.h"   
+#include "DSP2833x_Examples.h"   
+#include "digital_inout.h"
+#include "system.h"
+#include "pwm.h"
+#include "cc.h"
+#include "sc.h"
+#include "Fault.h"
+#include "variables.h"
 
 	#define BOOL			char
 	#define BYTE			unsigned char
@@ -80,7 +80,75 @@
 	#define BIT14_MASK   	0x4000
 	#define BIT15_MASK   	0x8000
 
+//통신 데이터 어레이
+extern WORD Data_Registers[1024];
+extern WORD Temp_Registers[1024];
+extern WORD reg_TxOffset;
+
+
+/* micro-seconds delay function */
+// TI SDK 1.10의 소스 DSP2833x_usDelay.asm에서 제공하는 DELAY_US 함수를 사용
+#define delay_us(us)		DELAY_US(us)	 
+
+/* milli-seconds delay function */
+// TI SDK 1.10의 소스 DSP2833x_usDelay.asm에서 제공하는 DELAY_US 함수를 사용
+#define delay_ms(ms)		DELAY_US(ms*1000)
+
+//---------------------------------------------------------------------------------
+//-- 송수신 스택 길이
+#define	RXD_STACK_LENGTH	55		// 수신단 스택의 버퍼 길이
+#define	TXD_STACK_LENGTH	20		// 송신단 스택의 버퍼 길이
+
+typedef	struct
+{
+	unsigned	OP	:8;	//MSB
+	unsigned	OBJ	:8;	//LSB
+} Packet_Head_flg ;
+
+//-----
+typedef	union
+{
+	unsigned word;
+	struct
+	{
+		unsigned b0	:8;	// CRC16 하위 바이트
+		unsigned b1	:8;	// CRC16 상위 바이트
+	} byte;
+} CRC_flg ;
+
+typedef union {
+	unsigned char	tmp_byte ;
+	struct {
+		unsigned bit0:1;		// LSB
+		unsigned bit1:1;
+		unsigned bit2:1;
+		unsigned bit3:1;
+		unsigned bit4:1;
+		unsigned bit5:1;
+		unsigned bit6:1;
+		unsigned bit7:1;		// MSB
+	} _bit ;
+} Bit_field_ ;
+
+typedef	union {
+	unsigned int	w0;
+	struct
+	{
+		unsigned char b0	:8;
+		unsigned char b1	:8;
+	} b;	
+} _par_code ;
+
+extern _par_code _PAR_data ;
+extern Bit_field_ flag0 ;
+
+#define Read_request_flg	flag0._bit.bit0
+#define Write_request_flg	flag0._bit.bit1
+#define Data_rcv_Succ_flg	flag0._bit.bit2
+#define Data_rcv_fail_flg	flag0._bit.bit3
+#define Data_receive_flg	flag0._bit.bit4
+
+extern unsigned int Comm_array[3000];
 
 
 #endif
-

@@ -1,113 +1,75 @@
 ---------------------------  Seoho_PMSM.pjt - Debug  ---------------------------
-[DSP2833x_ADC_cal.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_ADC_cal.asm"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_ADC_cal.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_ADC_cal.asm"
 
-[DSP2833x_CodeStartBranch.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_CodeStartBranch.asm"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_CodeStartBranch.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_CodeStartBranch.asm"
 
-[DSP2833x_CpuTimers.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_CpuTimers.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_CpuTimers.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_CpuTimers.c"
 
-[DSP2833x_CSMPasswords.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_CSMPasswords.asm"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_CSMPasswords.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_CSMPasswords.asm"
 
-[DSP2833x_DBGIER.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_DBGIER.asm"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_DBGIER.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_DBGIER.asm"
 
-[DSP2833x_DefaultIsr.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_DefaultIsr.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_DefaultIsr.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_DefaultIsr.c"
 
-[DSP2833x_DisInt.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_DisInt.asm"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_DisInt.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_DisInt.asm"
 
-[DSP2833x_DMA.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_DMA.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_DMA.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_DMA.c"
 
-[DSP2833x_ECan.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_ECan.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_ECan.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_ECan.c"
 
-[DSP2833x_ECap.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_ECap.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_EPwm.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_EPwm.c"
 
-[DSP2833x_EPwm.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_EPwm.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_GlobalVariableDefs.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_GlobalVariableDefs.c"
 
-[DSP2833x_EQep.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_EQep.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_I2C.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_I2C.c"
 
-[DSP2833x_GlobalVariableDefs.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_GlobalVariableDefs.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_MemCopy.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_MemCopy.c"
 
-[DSP2833x_I2C.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_I2C.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_PieCtrl.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_PieCtrl.c"
 
-[DSP2833x_Mcbsp.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_Mcbsp.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_PieVect.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_PieVect.c"
 
-[DSP2833x_MemCopy.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_MemCopy.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_SysCtrl.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_SysCtrl.c"
 
-[DSP2833x_PieCtrl.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_PieCtrl.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_usDelay.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_usDelay.asm"
 
-[DSP2833x_PieVect.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_PieVect.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[DSP2833x_Xintf.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_Xintf.c"
 
-[DSP2833x_Sci.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_Sci.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[cc.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "cc.c"
 
-[DSP2833x_Spi.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_Spi.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[dac.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "dac.c"
 
-[DSP2833x_SysCtrl.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_SysCtrl.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[debug_2833x.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "debug_2833x.c"
 
-[DSP2833x_usDelay.asm] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_usDelay.asm"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[default_var.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "default_var.c"
 
-[DSP2833x_Xintf.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DSP2833x_Xintf.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
-
-[cc.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "cc.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
-
-[debug_2833x.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "debug_2833x.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
-
-[DEV_EasydspDac28335.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "DEV_EasydspDac28335.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
-
-[digital_inout.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "digital_inout.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[digital_inout.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "digital_inout.c"
 "digital_inout.c", line 201: warning: variable "i" was set but never used
 
-[eCAN.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "eCAN.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[eCAN.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "eCAN.c"
 
-[fault.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "fault.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[fault.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "fault.c"
 
-[Main.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "Main.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[get_cmd.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "get_cmd.c"
 
-[pwm_change.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "pwm_change.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[I2C_eeprom.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "I2C_eeprom.c"
 
-[sc.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "sc.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[Main.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "Main.c"
+"Main.c", line 169: warning: variable "a" was set but never used
 
-[seoho_gpio_set.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "seoho_gpio_set.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[pwm_change.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "pwm_change.c"
 
-[system.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_d/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "system.c"
->> WARNING: invalid compiler option --float_support=fpu32 (ignored)
+[sc.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "sc.c"
+
+[SCI_BC.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "SCI_BC.c"
+
+[seoho_gpio_set.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "seoho_gpio_set.c"
+
+[system.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -fr"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/Debug" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/DSP2833x_include" -i"D:/work/SEOHO_VD/Seoho_PMSM_100903_p/PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32 -@"../Debug.lkf" "system.c"
 
 [Linking...] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -@"Debug.lkf"
 <Linking>
->> C:\Users\IDONNO~1\AppData\Local\Temp\TI5843, line 24:   error: 
-               can't find input file 'rts2800_fpu32.lib'
-
->> Compilation failure
+warning: entry-point symbol other than "_c_int00" specified:  "code_start"
 
 Build Complete,
-  2 Errors, 35 Warnings, 0 Remarks.
+  0 Errors, 3 Warnings, 0 Remarks.

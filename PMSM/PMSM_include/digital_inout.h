@@ -15,9 +15,9 @@
 #define test_led1_off		(GpioDataRegs.GPACLEAR.bit.GPIO11 	= 1)	// D01
 #define test_led1_toggle	(GpioDataRegs.GPATOGGLE.bit.GPIO11 	= 1)	// D01
 
-#define test_led2_on		(GpioDataRegs.GPBSET.bit.GPIO37 	= 1)	// D01
-#define test_led2_off		(GpioDataRegs.GPBCLEAR.bit.GPIO37 	= 1)	// D01
-#define test_led2_toggle	(GpioDataRegs.GPBTOGGLE.bit.GPIO37 	= 1)	// D01
+#define test_led2_on		(GpioDataRegs.GPASET.bit.GPIO19 	= 1)	// D01
+#define test_led2_off		(GpioDataRegs.GPACLEAR.bit.GPIO19 	= 1)	// D01
+#define test_led2_toggle	(GpioDataRegs.GPATOGGLE.bit.GPIO19 	= 1)	// D01
 
 #define digital_out0_on()	(GpioDataRegs.GPBSET.bit.GPIO58 = 1)	// D01
 #define digital_out0_off()	(GpioDataRegs.GPBCLEAR.bit.GPIO58 = 1)	// D01

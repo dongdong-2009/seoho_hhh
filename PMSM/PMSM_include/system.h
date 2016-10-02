@@ -1,19 +1,7 @@
 // step 1. Set the system parameters
 #define SYS_CLK					(float)150000000
-#define Fsw						(float)20000
+//#define Fsw						(float)20000
 #define Deadtime				(float)0.000001		// 0.000003
-
-// step 2. Set the motor parameters
-//#define ENC_PPR					1152
-//#define ENC_PPR					2000
-//#define POLE_PAIR				8
-
-//#define ENC_PPR				8000
-//#define POLE_PAIR				4
-
-#define nFLT2_ON				GpioDataRegs.GPASET.bit.GPIO13 = 1;
-#define nFLT2_OFF				GpioDataRegs.GPACLEAR.bit.GPIO13 = 1;
-
 
  	typedef struct {
 		float scale[16];

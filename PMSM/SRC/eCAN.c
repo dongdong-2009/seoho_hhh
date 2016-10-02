@@ -80,6 +80,23 @@ void cana_Tx_process(void)
 
 
 
+void cana_Rx_process(void)
+{
+      if(cana_rx_flag)
+      	{
+      	       Data_Registers[cana_rx_low_data & 0x0000FFFF] = (WORD)(cana_rx_high_data & 0x0000FFFF);
+		Temp_Registers[cana_rx_low_data & 0x0000FFFF] = (WORD)(cana_rx_high_data & 0x0000FFFF);
+    		switch(cana_rx_low_data & 0x0000FFFF)
+		{
+			case 0 : P_rate = 100 * (float)( Comm_array[40] = Data_Registers[0]); break;
+    		}
+
+		cana_rx_flag = 0;
+      	}
+
+}
+
+
 
 // CAN-A MBOX1을 사용하여 메시지를 전송함
 void SendDataToECanA(LONG id, BYTE length,  LONG high_data,LONG low_data){
@@ -189,10 +206,10 @@ interrupt void ecan0_inta_isr(void){
 			cana_rx_low_data = ECanaMboxes.MBOX0.MDL.all;
 			cana_rx_high_data = ECanaMboxes.MBOX0.MDH.all;
 
-			if(Data_Registers[cana_rx_low_data & 0x0000FFFF] != (WORD)(cana_rx_high_data & 0x0000FFFF))
-			{
-				Data_Registers[cana_rx_low_data & 0x0000FFFF] = (WORD)(cana_rx_high_data & 0x0000FFFF);
-			}
+			//if(Data_Registers[cana_rx_low_data & 0x0000FFFF] != (WORD)(cana_rx_high_data & 0x0000FFFF))
+			//{
+			//	Data_Registers[cana_rx_low_data & 0x0000FFFF] = (WORD)(cana_rx_high_data & 0x0000FFFF);
+			//}
 			
 			cana_rx_flag = TRUE;
 

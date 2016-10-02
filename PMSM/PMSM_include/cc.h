@@ -1,3 +1,4 @@
+
 #define		PI				3.141592654
 #define		SQRT2			1.414213562
 #define		SQRT3			1.732050808
@@ -8,7 +9,6 @@
  	typedef struct {
 		int PWM;
 		int OVM;
-
 		int speed_control;
 	}	MODE;
 
@@ -30,26 +30,8 @@
 		int FT_SWPROT_Vdc_OV;
 		int FT_SWPROT_Vdc_UV;
 		int FT_OVER_HEAT;
-		int EVENT;
 	}	FAULT;
 
-/* 	typedef struct {
-		float OC_set;
-		float OV_set;
-		float UV_set;
-	
-		float Ias_OC;
-		float Ibs_OC;
-		float Ics_OC;
-
-		int FT_SWPROT_Ias;
-		int FT_SWPROT_Ibs;
-		int FT_SWPROT_Ics;
-		int FT_SWPROT_Vdc_OV;
-		int FT_SWPROT_Vdc_UV;
-		int EVENT;
-	}	FAULT;
-*/
 	typedef struct {
 		int GT1_ENA;
 		int GT2_ENA;
@@ -67,10 +49,10 @@
 
 #ifdef _CC_
 
-	float Rs = 0.024;
-	float Ls = 0.000135;
+//	float Rs = 0.024;
+//	float Ls = 0.000135;
 	float Wc_cc = 0.0;
-	float fc_cc = 500.;
+//	float fc_cc = 500.;		// 2010.06.10 bayasa
 	float Tsamp = 0.0;
 	float ref_sec = 0.0;
 	float Kp_cc = 0.0, Ki_ccT = 0.0, Ka_cc = 0.0;
@@ -79,7 +61,7 @@
 	int cc_smp = 0;	
 
 // sensed values
-	float Vdc_measured = 0.0, AICMD  = 0.0;
+	float Vdc_measured = 0.0, AICMD  = 0.0, Voltage_Range = 0.0;
 	float AINI1 = 0.0, AINV1 = 0.0, AINI2 = 0.0, AINV2 = 0.0;
 	float Ias = 0.0, Ibs = 0.0, Ics = 0.0, Izs = 0.0;
 	float Idss = 0.0, Iqss = 0.0, Is_mag = 0.0;
@@ -87,11 +69,12 @@
 	float Idse_ref = 0.0, Iqse_ref = 0.0;
 	float Err_Idse = 0.0, Err_Iqse = 0.0;
 
+	int   Drive_Voltage = 0;
 	float Is_max = 15.0;
 	float sin_thetar = 0.0, cos_thetar = 0.0;
 	float INV_Vdc = 0.005;
 
-	float Vdss_ref = 0.0, Vqss_ref = 0.0;
+	float Vdss_ref = 0.0, Vqss_ref = 0.0, Vs_mag = 0.0;
 	float Vdse_ref = 0.0, Vqse_ref = 0.0;
 	float Vdse_ref_integ = 0.0, Vqse_ref_integ = 0.0;
 	float Vdse_ref_fb = 0.0, Vqse_ref_fb = 0.0;
@@ -102,6 +85,8 @@
 	float Vdse_anti = 0.0, Vqse_anti = 0.0;
 	float Vdss_sat = 0.0, Vqss_sat = 0.0;
 	float Vdse_sat = 0.0, Vqse_sat = 0.0;
+	float Vmag_delta4 = 0.0, Vmag_delta3 = 0.0, Vmag_delta2 = 0.0, Vmag_delta1 = 0.0;
+	float Vmag_delta_avg = 0.0, Vmag_delta_est = 0.0;
 
 	float Vas_ref = 0.0, Vbs_ref = 0.0, Vcs_ref = 0.0;
 	float Van_ref = 0.0, Vbn_ref = 0.0, Vcn_ref = 0.0, integ = 0.0;
@@ -116,7 +101,7 @@
 	int sc_cnt = 0;
 	int offset = 0;
 	float scale = 1.0;
-	unsigned int	Ias_offset = 0, Ibs_offset = 0, Vdc_offset = 0;
+	unsigned int	Ias_offset = 0, Ibs_offset = 0, AI_offset = 0;
 
 //  for RealDSP monitoring 
 	int faultFT_SWPROT_Vdc_UV = 0;
@@ -139,11 +124,8 @@
 	float	DA3,DA3_rng,DA3_mid;
 	float	DA4,DA4_rng,DA4_mid; 
 	int		DA1_val,DA2_val,DA3_val,DA4_val, DacFlag = 0;
-// V_F variables 
-	int 	PMSM_CNTRL = 0;
-	float	Freq_out= 0., Freq_limit = 60., we = 0.;
-	float	theta = 0., SinTheta = 0., CosTheta = 1.;
-	float 	Vs_ref= 0., inv_motor_rate_hz = 0.01666667, Vs_rat = 127.;
+
+	
 
 	MODE	mode;
 	FAULT	fault;
@@ -151,14 +133,13 @@
 
 /* Varialbes for Sensorless */
 	long int tmp_cnt = 0;
-	float LAMpm = 0.0139;
 	int run_Sensorless = 0, ref_control_mode = 0, sensorless_mode = 99, PP = 1;
 	int flag_speed_cmd = 0;
 	float Wrpm_ref_user = 0.0; // 0.13
-	float Wrpm_base_speed =7000.;
 	float Wrpm_set_user = 7000.;
 	float Wrm_ref = 0.0, Wr_ref = 0.0;
-	float Ktr = 0.0, gain_tr = 0.00005, Kwr = 0.0, gain_wr = 0.04;
+	float Ktr = 0.0, Kwr = 0.0;
+	float gain_tr = 0.00005, gain_wr = 0.04;
 	float thetar_openloop = 0.0, thetar_hat = 0.0, Err_thetar = 0.0;
 	float Wrm_hat = 0.0, Wr_hat = 0.0, Wrpm_hat = 0.0;
 	float cos_theta = 1.0, sin_theta = 0.0;
@@ -167,7 +148,7 @@
 	float Idse_ref_fake = 0.2;
 	float Idse_ref_max = 32.0;
 	float Idse_ref_start = 20.0;
-	float Idse_ref_sensorless = 5.0;//32.0; // 5.0
+	float Idse_ref_sensorless = 6.0;//32.0; // 5.0
 
 	union DIGITAL_FUNCTION func_flag;
 	union DIGITAL_OUT_FUNC relay_flag; 
@@ -176,13 +157,23 @@
 	int fault_chk();
 	void calculateOffset();
 
+	unsigned int ms_cnt=0;
+
+	#define	TXD_STACK_LENGTH	20		// 송신단 스택의 버퍼 길이
+
+extern	unsigned char TXD_StackWritePtr;			// Serial 데이타의 송신 스택 포인터
+extern	unsigned char TXD_StackReadPtr;				// 송신 스택으로 부터 현재 읽혀져야 할 포인터
+extern	unsigned char TXD_Stack[TXD_STACK_LENGTH];	// 시리얼 데이타를 저장하는 송신 스택 메모리 공간
+
 #else
 
 	extern int cc_cnt, cntl_cnt;
 	extern int sc_cnt;
+	extern unsigned int ms_cnt;
+
 
 // Sensed values
-	extern float Ias,Ibs,Ics, Izs, Vdc_measured, AICMD;
+	extern float Ias,Ibs,Ics, Izs, Vdc_measured, AICMD, Voltage_Range;
 	extern float AINI1, AINV1, AINI2, AINV2;
 	extern float Iasf,Ibsf,Icsf;
 	extern float Idss, Iqss, Is_mag;
@@ -191,7 +182,7 @@
 	extern float Err_Idse, Err_Iqse;
 
 	extern float INV_Vdc;
-	extern float Vdss_ref, Vqss_ref;
+	extern float Vdss_ref, Vqss_ref, Vs_mag;
 	extern float Vdse_ref, Vqse_ref;
 	extern float Vdse_ref_integ, Vqse_ref_integ;
 	extern float Vdse_ref_fb, Vqse_ref_fb;
@@ -202,17 +193,16 @@
 	extern float Vdse_anti, Vqse_anti;
 	extern float Vdss_sat, Vqss_sat;
 	extern float Vdse_sat, Vqse_sat;
+	extern float Vmag_delta4, Vmag_delta3, Vmag_delta2, Vmag_delta1;
+	extern float Vmag_delta_avg, Vmag_delta_est;
 
 	extern float Vas_ref, Vbs_ref, Vcs_ref;
 	extern float Van_ref, Vbn_ref, Vcn_ref, integ;
 	extern float Vsn, Vsn_max, Vsn_min;
 	extern float Vmax, Vmin;
 
-	extern float Rs;
-	extern float Ls;
 	extern float Wc_cc;
-	extern float fc_cc;
-
+//	extern float fc_cc;
 
 	extern float Tsamp;
 	extern float ref_sec;
@@ -225,9 +215,10 @@
 	extern FAULT fault;
 	extern FLAG	flag;
 
+	extern int   Drive_Voltage;
 	extern float Is_max;
 	extern float scale;
-	extern unsigned int	Ias_offset, Ibs_offset, Vdc_offset;
+	extern unsigned int	Ias_offset, Ibs_offset, AI_offset;
 
 //  for RealDSP monitoring 
 	extern int faultFT_SWPROT_Vdc_UV;
@@ -244,14 +235,13 @@
 	extern int FAULT_RESET;
 	extern int JOG;
 
-// ADD
-	extern float 	Wrpm_base_speed;
 //DAC Variables
 	extern double	DA1,DA1_rng,DA1_mid;
 	extern double	DA2,DA2_rng,DA2_mid;
 	extern double	DA3,DA3_rng,DA3_mid;
 	extern double	DA4,DA4_rng,DA4_mid;
 	extern int		DA1_val,DA2_val,DA3_val,DA4_val, DacFlag;
+
 	extern volatile unsigned int ZONE0_BUF[2048];
 // V_F variables 
 	extern int 		PMSM_CNTRL;
@@ -261,7 +251,6 @@
 
 /* Varialbes for Sensorless */
 	extern long int tmp_cnt;
-	extern float LAMpm;
 	extern int 	 run_Sensorless, ref_control_mode, sensorless_mode;
 	extern int 	 flag_speed_cmd;
 	extern float Wrpm_ref_user;
@@ -286,9 +275,15 @@
 // for fault check
 //	extern void	fault_chk();
 //	extern void digital_input_proc();
- 
+	extern int	CheckOverCurrent( );
+	extern int	CheckOverVolt( );
+	extern int 	CheckUnderVolt( );
+	extern int 	CheckOverHeat( );
+	extern int 	CheckFaultIGBT( );
+	extern int 	CheckFaultDriver( );
+	extern int 	CheckExtTrip( ); 
 	extern int	CheckSpeedDetection();
-	
+	extern int	CheckVmagDelta();
 	extern void GetAnaMonitCount(unsigned int * piChA, unsigned * piChB);
 
 	extern union DIGITAL_FUNCTION func_flag;	// 디지털 입력의 기능을 설정한다.

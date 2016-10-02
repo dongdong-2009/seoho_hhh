@@ -126,10 +126,10 @@ void InitGpio(void)
    GpioCtrlRegs.GPADIR.bit.GPIO18 	= 1;  // GPIO13 = OUT
 
    // GPIO19 OUT TEST_LED2
-//   GpioCtrlRegs.GPAPUD.bit.GPIO19 	= 1;  // Enable pullup on GPIO18     
-//   GpioDataRegs.GPASET.bit.GPIO19 	= 1;  // Set Output High
-//   GpioCtrlRegs.GPAMUX2.bit.GPIO19 	= 0;  // GPIO18 = GPIO
-//   GpioCtrlRegs.GPADIR.bit.GPIO19 	= 1;  // GPIO13 = OUT
+   GpioCtrlRegs.GPAPUD.bit.GPIO19 	= 1;  // Enable pullup on GPIO18     
+   GpioDataRegs.GPASET.bit.GPIO19 	= 1;  // Set Output High
+   GpioCtrlRegs.GPAMUX2.bit.GPIO19 	= 0;  // GPIO18 = GPIO
+   GpioCtrlRegs.GPADIR.bit.GPIO19 	= 1;  // GPIO13 = OUT
 
    
    //GPIO20 QEP1A 
@@ -226,15 +226,9 @@ void InitGpio(void)
    GpioCtrlRegs.GPBMUX1.bit.GPIO36 	= 2;  // GPIO36 = /XZCS0
    GpioCtrlRegs.GPBDIR.bit.GPIO36 	= 1;  // GPIO36 = output
 
-
-   // GPIO37 OUT TEST_LED2
-   GpioCtrlRegs.GPBPUD.bit.GPIO37 	= 1;  // Enable pullup on GPIO37     
-   GpioDataRegs.GPBSET.bit.GPIO37 	= 1;  // Set Output High
-   GpioCtrlRegs.GPBMUX1.bit.GPIO37 	= 0;  // GPIO18 = GPIO
-   GpioCtrlRegs.GPBDIR.bit.GPIO37 	= 1;  // GPIO13 = OUT
    // GPIO37 /XZCS7
-//   GpioCtrlRegs.GPBMUX1.bit.GPIO37 	= 3;  // GPIO37 = GPIO   // dbsgln
-//   GpioCtrlRegs.GPBDIR.bit.GPIO37 	= 1;  // GPIO37 = Output
+   GpioCtrlRegs.GPBMUX1.bit.GPIO37 	= 3;  // GPIO37 = GPIO
+   GpioCtrlRegs.GPBDIR.bit.GPIO37 	= 1;  // GPIO37 = Output
 
    // GPIO38 XWE0
    GpioCtrlRegs.GPBMUX1.bit.GPIO38 	= 3;  // GPIO38 = /XWE0

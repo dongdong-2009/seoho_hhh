@@ -7,26 +7,51 @@
 #include "main_def.h"
 #include "math.h"
 
+
+extern Packet_Head_flg	Packet_Head ;
+extern CRC_flg	CRC ;
+
+//-- Serial Data Stack  
+extern	unsigned char RRXD_Stack[RXD_STACK_LENGTH];
+extern	unsigned char RXD;							// 수신 데이타
+extern	unsigned char RXD_StackWritePtr;			// Serial 데이타의 수신 스택 포인터
+extern	unsigned char RXD_StackReadPtr;				// 수신 스택으로 부터 현재 읽혀져야 할 포인터
+extern	unsigned char RXD_Stack[RXD_STACK_LENGTH];	// 시리얼 데이타를 저장하는 수신 스택 메모리 공간
+	
+extern	unsigned char TXD_StackWritePtr;			// Serial 데이타의 송신 스택 포인터
+extern	unsigned char TXD_StackReadPtr;				// 송신 스택으로 부터 현재 읽혀져야 할 포인터
+extern	unsigned char TXD_Stack[TXD_STACK_LENGTH];	// 시리얼 데이타를 저장하는 송신 스택 메모리 공간
+extern  unsigned char TTXD_Stack[20];
+
+extern	unsigned char NewFrame_StackPtr;			// 스택공간상에서 새로 검출된 프레임의 주소
+extern	unsigned char Frame_StackPtr;				// 스택공간상에서 전에 검출된 프레임의 주소
+extern	unsigned char Packet_StackPtr;				// 스택 공간에서 해당 패킷의 주소
+	
+extern	unsigned  char NewFrame_Detect;				// 새로운 프레임 검출
+	
+extern	unsigned  char NewFrame_Packet_State;		// Packet의 수신 단계 
+extern	unsigned  char NewFrame_ByteCnt;			// 수신된 바이트 수를 나타내는 인덱스
+extern	unsigned  char Frame_ByteCnt;
+extern	unsigned  char Packet_ByteCnt;
+float F_ref = 0.;
 #pragma DATA_SECTION(ZONE0_BUF,"ZONE0DATA");
 
 volatile unsigned int ZONE0_BUF[2048];
 
 int main_loop_cnt = 0;
 
-extern WORD Data_Registers[1024];
-extern WORD Temp_Registers[1024];
-extern WORD reg_TxOffset;
-
-
 extern void Relay_setup();
 
 void GetAnaMonitCount(unsigned int * piChA, unsigned * piChB);
 
 int flag_relay = 0;
+Uint16 data1=0;
+Uint16 EEPROM_WRITE_CHECK = 0;
+Uint16 addr_ch = 0;
 
 void main(void)
 {
-	unsigned int ChACount,ChBCount;
+	int itmp_cnt;
 	unsigned int i;
 
     InitSysCtrl();
@@ -41,86 +66,103 @@ void main(void)
     InitPieVectTable();
 	Relay_setup();
   	Init_dsc();
-	dev_DacSetup ();
-	dev_InitDACVariable(); 
-	DacFlag = 0;
 
 	MemCopy(&RamfuncsLoadStart, &RamfuncsLoadEnd, &RamfuncsRunStart);
 
-	nRESET_DRIVER_SET;	//316J PWM on
-
-	nBOOT_MODE_SET;		////	nPWM_ENABLE_SET;	//
-	nDC_CONTACT_SET;
 	// Call Flash Initialization to setup flash waitstates
 	// This function must reside in RAM
 	InitFlash();
 
+	nRESET_DRIVER_SET;	//316J PWM on
+
+//	nBOOT_MODE_SET;		////	nPWM_ENABLE_SET;	//
+	nDC_CONTACT_SET;
+
 	// Initialize SCI-A for data monitoring 
 	sci_debug_init();
-		
+
+
 	// Initialize CAN-A/B
 	init_can();
 
 	for(i=0;i<1024;i++)
 	{
-		Data_Registers[i]=0x3344;
-		Temp_Registers[i]=0xffff;
+		Data_Registers[i]=0x0000;
+		Temp_Registers[i]=0x0000;
 	}
-		
+
+	// Initialize SCI-B, SCI-C
+	scib_init();
+	scic_init();
+
+	ZONE0_BUF[0x0060] = 0x0006; //h DAC_reset on
+	asm ("      nop");
+	ZONE0_BUF[0x0060] = 0x0007; // DAC_reset off
+	asm ("      nop");			
+
 	calculateOffset();
-	EINT;   // Enable Global interrupt INTM
-	ERTM;   // Enable Global realtime interrupt DBGM
-//	delay_long(1000000);
+
 	nDC_CONTACT_CLEAR;
 //	delay(1000000); //delay_msecs(100);		// Delay for Setting Time
 
 	func_flag.all = 0;
 
+//======================================================
+	for(itmp_cnt=0 ; itmp_cnt<3000 ; itmp_cnt++) 
+	{
+		Comm_array[itmp_cnt] = 0 ;
+	}
+//======================================================
 
+    Init_I2C_eeprom();
+    delay_ms(1);
 
-    for ( ; ; ) {
-		Is_mag = sqrt(Idss * Idss + Iqss * Iqss);
-		digital_input_proc ();
-		digital_out_proc ();
+// test eeprom
+//	Word_Write_data(100, 15000);
+//	Word_Read_data (100, &data1); 
 
-		GetAnaMonitCount(&ChACount,&ChBCount);
-		EPwm5Regs.CMPA.half.CMPA 	= 3750 - (int)( Wrpm_set_user/61.5);// ChACount;
-		EPwm5Regs.CMPB  			= 3750 - (int)( Wrpm_hat/61.5);//ChBCount;
-		if(flag.control == 1)
-		{
-		    if((fault_chk() != 0)|| fault.EVENT ==1) TripProc();
-		}
+	Word_Read_data(0, &EEPROM_WRITE_CHECK);
+	if(EEPROM_WRITE_CHECK != EEPROM_WRITED) {EEPROM_DATA_INIT();}//
+
+	EINT;   // Enable Global interrupt INTM
+	ERTM;   // Enable Global realtime interrupt DBGM 
+	Word_Write_data(2106, 0);	// 초기 시 Run_stop 를 항상 stop로 만든다. 2010.06.16
+	eeprom2sys();
+	
+	while(1) {
+	//==========================
+	Word_Read_data(addr_ch, &data1);
+	Serial_Comm_Service();
+	Update_state();
+	digital_input_proc ();
+	digital_out_proc (); 
+	Get_Monitor();
+	Is_mag = sqrt(Idss * Idss + Iqss * Iqss);
+	F_ref = (Base_spd + AICMD)/60.;
+	if(F_ref < 400.) F_ref = 400.;
+
+	if(flag.control == 1)
+	{
+		if(fault_chk() != 0) TripProc();
+	}
+
+//	GetAnaMonitCount(&ChACount,&ChBCount);
+
+//		EPwm5Regs.CMPA.half.CMPA 	= 3750 - (int)( Wrpm_set_user/61.5);// ChACount;
+//		EPwm5Regs.CMPB  			= 3750 - (int)( Wrpm_hat/61.5);//ChBCount;
 		Vmag_ref = Vdse_ref * Vdse_ref + Vqse_ref * Vqse_ref;
+		Vs_mag = sqrt(Vmag_ref);
 		Vmag_ffa = Vdse_ref_ffa * Vdse_ref_ffa + Vqse_ref_ffa * Vqse_ref_ffa;
-		if(Vmag_ref > Vmag_ffa) flag_Vmag = 0;
-		else					flag_Vmag = 1;
 		Vmag_delta = Vmag_ref - Vmag_ffa;
-	    Update_var();
-		// DAC Out
-		DacFlag = 1;
+		Vmag_delta_est = Wrpm_hat/(35.02-Wrpm_hat*3.67/10000);
+		Update_var();
 
-	test_led2_on;
-	dev_BackgroundDAC();
-	test_led2_off;
-/*		if(DacFlag) 
-		{
-			
-			DacFlag = 0;
-		}
-		*/
-	    rst_chk();
-	    op_master();
-	    //relay_control(flag_relay);
-   	    main_loop_cnt++;
 
-		cana_Tx_process();
-
+	cana_Tx_process();
+	cana_Rx_process();
+		
    }
-
 }
-
-
-
 
 void Update_var()
 {
@@ -139,33 +181,10 @@ void Update_var()
 	}
 
 
-		fault.I_Lmt 		= 65. * 1.45;
-		fault.MaxCon_Curr 	= 65. * 0.95;
-		fault.Over_Load 	= 65. * 1.35;
-		fault.OC_set		= 65.;
-
-	// Update slew_rate of speed estimation
-//	ref_slew = 3000. * Tsamp;
-//	ref_slew_dn = 3000. * Tsamp;
-	if(flag_speed_cmd == 1)
+	if(Machine_state == RUNN)
 	{
-//		Wrpm_set_user = Wrpm_base_speed + AICMD;
-		if(Wrpm_set_user >= 60000.) Wrpm_set_user = 60000.;
-		if(Wrpm_set_user <= Wrpm_base_speed ) Wrpm_set_user = Wrpm_base_speed;
-	}
-	// Update Tsamp
-	if(pwm_g1.sampling_mode == SAMPLING_BOTH)
-	{
-		Tsamp = 0.5/Fsw;
-	} 
-	else 
-	{
-		Tsamp = 1.0/Fsw;
-	}
-
-//	if(func_flag.bit.DRIVE_ENABLE == 1)
-	if(DRIVE_ENABLE == 1)
-	{
+		flag.GT1_ENA = 1;
+//	Speed_ref = (float)(Comm_array[2102]);
 		if(sensorless_mode == 4) flag_speed_cmd = 1;
 		else flag_speed_cmd = 0;
 
@@ -178,61 +197,43 @@ void Update_var()
 				flag.start = 0;
 				run_Sensorless = 1;
 			}
-			
 		}
 	}
-//	if ((func_flag.bit.JOG == 1)||(func_flag.bit.DRIVE_ENABLE==0))
-	if (DRIVE_ENABLE==0)
+	if (Machine_state == STOP)
 	{
 		Init_var();
-		thetar_openloop = 0.;
-		Wrpm_set_user = 0.;
-		Vdse_ref_integ = 0.;
-		Vqse_ref_integ = 0.;
-		IqcM = 0.;
-		IdcM = 0.;
-		thetar_hat = 0.;
-		run_Sensorless = 0;
-		Wr_hat = 0.;
-		Wr_ref = 0.;
-		Wrm_err = 0.;
-		Wrm_err_integ = 0.;
-		Wrm_hat = 0.;
-		Wrm_ref = 0.;
-		Wrpm_hat = 0.;
-		Wrpm_ref = 0.;
-		thetar_hat = 0.;
-		Vdse_ref_fb = 0.;
-		Vqse_ref_fb = 0.;
-		IdcM = 0.;
-		IqcM = 0.;
-		flag.control = 0;
-		sensorless_mode = 99;
-		run_Sensorless = 0;
-		flag.start = 1;
-		flag.FOC = 0;
-		flag_speed_cmd = 0;
-		tmp_cnt = 0;
+//		if(Wrpm_hat > 3000.) Wrpm_set_user = 0.0;
+//		else 
+//		{
+//			Init_var();
+//			tmp_cnt = 0;
+//		}
+	}
+	else
+	{
+		Speed_ref = (float)(Comm_array[2102]);		
 	}
 	// Update control variables
-	Wc_cc = 6.283184 * fc_cc;		// CC BW : 2*PI*fc = 200[Hz]
-	Kp_cc = Wc_cc * Ls;
-	Ki_ccT = Wc_cc * Rs * Tsamp;
+	Wc_cc = 6.283184 * Cur_Ctrl_B;		// CC BW : 2*PI*fc = 200[Hz]
+	Kp_cc = Wc_cc * Lds * (float)(Cur_Ctrl_Kp)/100.;
+	Ki_ccT = Wc_cc * Rstator * Tsamp * (float)(Cur_Ctrl_Ki)/100.;
 
 	a = 2*PI*Wrm_L.fc;
 	Wrm_L.Tsamp = 0.002;
-	Wrm_L.La = (2. - a*Wrm_L.Tsamp)/(2. + a*Wrm_L.Tsamp);
-	Wrm_L.Lb = a*Wrm_L.Tsamp / (2. + a*Wrm_L.Tsamp);
+//	Wrm_L.La = (2. - a*Wrm_L.Tsamp)/(2. + a*Wrm_L.Tsamp);		// 무사용 2010.06.24
+//	Wrm_L.Lb = a*Wrm_L.Tsamp / (2. + a*Wrm_L.Tsamp);			// 무사용 2010.06.24
 
-	faultEVENT = fault.EVENT;
-	faultFT_SWPROT_Ias = fault.FT_SWPROT_Ias;
 	faultIas_OC = fault.Ias_OC;
 	faultIbs_OC = fault.Ibs_OC;
 	faultIcs_OC = fault.Ics_OC;
 	faultFT_SWPROT_Vdc_UV = fault.FT_SWPROT_Vdc_UV;
 
+	if(op_cnt == 100) { op_cnt = 0;	}
+	else { op_cnt++; flag.control = 0.; }
 
-//	DRIVE_ENABLE = func_flag.bit.DRIVE_ENABLE;
+
+	flagGT1_ENA = flag.GT1_ENA;
+	DRIVE_ENABLE = func_flag.bit.DRIVE_ENABLE;
 	MULTI_STEP_BIT0 = func_flag.bit.MULTI_STEP_BIT0;
 	MULTI_STEP_BIT1 = func_flag.bit.MULTI_STEP_BIT1;
 	MULTI_STEP_BIT2 = func_flag.bit.MULTI_STEP_BIT2;
@@ -241,15 +242,54 @@ void Update_var()
 	JOG = func_flag.bit.JOG;
 }
 
-void GetAnaMonitCount(unsigned int * piChA, unsigned * piChB)
+
+void Update_state()
 {
+	switch(Run_Stop_meth)
+	{
+		case 0	: 
+		{
+			if((func_flag.bit.DRIVE_ENABLE == 1) && (func_flag.bit.MULTI_STEP_BIT0 == 0))	Machine_state = RUNN;
+			else if((func_flag.bit.DRIVE_ENABLE==0)||(func_flag.bit.MULTI_STEP_BIT0 == 1))	Machine_state = STOP;
+		}
+			break ;
 
-	static int i;
+		case 1	:
+		{
+			if(Run_Stop == 255)	Machine_state = RUNN;
+			else				Machine_state = STOP ;
+		}
+			break ;
+	}
+	if (Local_Remote == 1)	// 속도 지령을 AI로 조절 
+	{
+		if((flag_speed_cmd == 1)&&(Machine_state == RUNN))
+		{
+			Wrpm_set_user = Base_spd + AICMD;
+			if(Wrpm_set_user >= 60000.) Wrpm_set_user = 60000.;
+//			if(Wrpm_set_user <= Base_spd ) Wrpm_set_user = Base_spd;
+			if(Wrpm_set_user <= 24000. ) Wrpm_set_user = 24000.;	// Aentl
+		}
 
-	i += 8;
-	
-	if (i >3749) i = 0;
-			
-	* piChA = i;
-	* piChB = i;
+	}
+	else					// 속도 지령을 KeyPad로 조절
+	{
+		if((flag_speed_cmd == 1)&&(Machine_state == RUNN))
+		{
+			Wrpm_set_user = Speed_ref;
+			if(Wrpm_set_user >= 60000.) Wrpm_set_user = 60000.;
+			if(Wrpm_set_user <= Base_spd) Wrpm_set_user = Base_spd;
+		}
+	}
 }
+
+void Get_Monitor()
+{
+	Comm_array[2110] = (unsigned int)(Wrpm_hat);
+	Comm_array[2111] = (unsigned int)(F_ref * 10);
+	Comm_array[2112] = (unsigned int)(Vdc_measured*10.);
+	Comm_array[2113] = (unsigned int)(Is_mag/0.1414);
+	Comm_array[2114] = (unsigned int)(Vs_mag/0.1414);
+}
+
+

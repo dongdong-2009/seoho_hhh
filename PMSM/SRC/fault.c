@@ -10,7 +10,7 @@ int fault_chk( )
 	//	#if Fault_Check_Enable
 	#if Fault_Check_Enable
 		if ( ( TripCode = CheckOverCurrent()	) != 0) return TripCode	;
-//		if ( ( TripCode = CheckOverVolt() 		) != 0) return TripCode	;
+		if ( ( TripCode = CheckOverVolt() 		) != 0) return TripCode	;
 		if ( ( TripCode = CheckUnderVolt()		) != 0) return TripCode	;
 		if ( ( TripCode = CheckOverHeat()		) != 0) return TripCode	;
 //		if ( ( TripCode = CheckFaultIGBT()		) != 0) return TripCode	;
@@ -18,6 +18,7 @@ int fault_chk( )
 //		if ( ( TripCode = CheckExtTrip()		) != 0) return TripCode	;
 		if ( ( TripCode = CheckSpeedDetection()	) != 0) return TripCode ; 
 //		if ( ( TripCode = CheckFaultZC()		) != 0) return TripCode ;
+//		if ( ( TripCode = CheckVmagDelta()		) != 0) return TripCode ;
 	#endif
 	return TripCode;
 }
@@ -28,41 +29,39 @@ int CheckOverCurrent( )
 	static int OL_TimeOver_Count = 0;		// Over load timer
 	static int first = 0;
 
-//		fault.MaxCon_Curr 	= 95%
-//		fault.Over_Load 	= 135%
-//		fault.OC_Trip		= 220% 
 
 // Current Limit
 	if(first > 20)
 	{
-		if (fabs(Ias) > fault.OC_set) {
-			fault.FT_SWPROT_Ias = 1;	fault.EVENT = 1;   fault.Ias_OC = Ias; FaultInfo = ERR_OVER_CURRENT_U_PHASE;
-			return ERR_OVER_CURRENT_U_PHASE; }
-		if (fabs(Ibs) > fault.OC_set){
-			fault.FT_SWPROT_Ibs = 1;	fault.EVENT = 1;   fault.Ibs_OC = Ibs; FaultInfo = ERR_OVER_CURRENT_V_PHASE;
-			return ERR_OVER_CURRENT_V_PHASE; }
-		if (fabs(Ics) > fault.OC_set){
-			fault.FT_SWPROT_Ics = 1;	fault.EVENT = 1;   fault.Ics_OC = Ics; FaultInfo = ERR_OVER_CURRENT_W_PHASE;
-			return ERR_OVER_CURRENT_W_PHASE; } 
 		first = 21;
+		
+		if (fabs(Ias) > I_rate * (float)(OC_Trip/100)) {
+			fault.Ias_OC = Ias; FaultInfo = ERR_OVER_CURRENT_U_PHASE;
+			return ERR_OVER_CURRENT_U_PHASE; }
+		if (fabs(Ibs) > I_rate * (float)(OC_Trip/100)){
+			fault.Ibs_OC = Ibs; FaultInfo = ERR_OVER_CURRENT_V_PHASE;
+			return ERR_OVER_CURRENT_V_PHASE; }
+		if (fabs(Ics) > I_rate * (float)(OC_Trip/100)){
+			fault.Ics_OC = Ics; FaultInfo = ERR_OVER_CURRENT_W_PHASE;
+			return ERR_OVER_CURRENT_W_PHASE; } 
+		
+		if (Is_mag > I_rate * (float)(OC_Trip/100)) {				// 220%
+			FaultInfo = TRIP_OVER_CURRENT;
+			return TRIP_OVER_CURRENT; }
+
+		if (Is_mag > I_rate * (float)(Over_Load/100)) OL_TimeOver_Count++; //135%
+		else { if(OL_TimeOver_Count>0) OL_TimeOver_Count--;}
+
+		if (Is_mag > I_rate * (float)(Max_Con_cur/100)) MaxCon_Curr_Count++; //95%
+		else { if(MaxCon_Curr_Count>0) MaxCon_Curr_Count--;}
+
+		if (MaxCon_Curr_Count > 10000)	// maximum continues current 시간함수로써 조절해야함
+		{
+			MaxCon_Curr_Count = 10001; FaultInfo = TRIP_OVER_LOAD_TIME;
+			return TRIP_OVER_LOAD_TIME;
+		} 
 	}
 	else first ++; 
-
-		 if (Is_mag > fault.OC_set) {
-			FaultInfo = TRIP_OVER_CURRENT; fault.EVENT = 1;
-			return TRIP_OVER_CURRENT; }
-	else if (Is_mag > fault.Over_Load) OL_TimeOver_Count++;
-	else if (Is_mag > fault.MaxCon_Curr) 
-		 { 	if(OL_TimeOver_Count > 0) OL_TimeOver_Count --;
-									  MaxCon_Curr_Count ++; }
-	else {	if(OL_TimeOver_Count > 0) OL_TimeOver_Count --;
-			if(MaxCon_Curr_Count > 0) MaxCon_Curr_Count --; }
-	 	if (MaxCon_Curr_Count > 10000)	// maximum continues current 시간함수로써 조절해야함
-		{
-			MaxCon_Curr_Count = 10001; FaultInfo = TRIP_OVER_LOAD_TIME;  fault.EVENT = 1;
-			return TRIP_OVER_LOAD_TIME;
-		}
-	
 	return 0;
 }
 
@@ -71,13 +70,18 @@ int CheckOverVolt()
 {
 	static int OverVoltCount = 0;
 
-	if(Vdc_measured > faultOV_set) OverVoltCount++;//||(GpioDataRegs.GPADAT.bit.GPIO15==0)) OverVoltCount++;
+//	OV_Trip 값을 무시 하여 기본 허용 Drive 전압의 기본허용 level을 사용했다.
+// 	2010_09_01  dbsgln
+//	if(Vdc_measured > OV_Trip) OverVoltCount++;//||(GpioDataRegs.GPADAT.bit.GPIO15==0)) OverVoltCount++;
+
+	if(Vdc_measured > fault.OV_set) OverVoltCount++;//||(GpioDataRegs.GPADAT.bit.GPIO15==0)) OverVoltCount++;
+
 	else if( OverVoltCount > 0) OverVoltCount --;
 	if (OverVoltCount > 5)
 	{
 		OverVoltCount = 6;
-		fault.FT_SWPROT_Vdc_OV = 1; fault.EVENT = 1; FaultInfo = CODE_OVER_VOLTAGE_LEVEL;
-		return CODE_OVER_VOLTAGE_LEVEL;
+		FaultInfo = CODE_OVER_VOLTAGE_LEVEL;
+		return  CODE_OVER_VOLTAGE_LEVEL;
 	}
 	return 0;
 }
@@ -86,13 +90,16 @@ int CheckUnderVolt( )
 {
 	static int UnderVoltCount = 0;
 
-	if (Vdc_measured < faultUV_set)			UnderVoltCount++;
-	else if( UnderVoltCount > 0)	UnderVoltCount--;
+//	if (Vdc_measured < UV_Trip)		UnderVoltCount++;
+//	OV_Trip 값을 무시 하여 기본 허용 Drive 전압의 기본허용 level을 사용했다.
+// 	2010_09_01  dbsgln 
+	if 	   (Vdc_measured < fault.UV_set)	UnderVoltCount++;
+	else if( UnderVoltCount > 0)			UnderVoltCount--;
 
 	if (UnderVoltCount > 20 )
 	{
 		UnderVoltCount = 21;
-		fault.FT_SWPROT_Vdc_UV = 1; fault.EVENT = 1; FaultInfo = TRIP_UNDER_VOLT;
+		FaultInfo = TRIP_UNDER_VOLT;
 		return TRIP_UNDER_VOLT;
 	}
 	return 0;
@@ -105,7 +112,7 @@ int CheckOverHeat( )
 	if( OverHeatCount > 10 )
 	{
 		OverHeatCount = 11;
-		fault.FT_OVER_HEAT = 1, fault.EVENT = 1; FaultInfo = ERR_OVER_HEAT;
+		FaultInfo = ERR_OVER_HEAT;
 		return ERR_OVER_HEAT;
 	}
 	return 0 ;
@@ -120,8 +127,7 @@ int CheckFaultDriver( )
 
 	if (FaultDriverCount > 10 )
 	{
-		FaultDriverCount = 11; fault.EVENT = 1; FaultInfo = FAULT_DRIVER;
-//		trip_recording( FAULT_DRIVER,FaultDriverCount,"Driver Fault");
+		FaultDriverCount = 11; FaultInfo = FAULT_DRIVER;
 		return FAULT_DRIVER;
 	}
 	return 0;
@@ -140,10 +146,10 @@ int CheckSpeedDetection( )
 	if (OverSpeedCount > 5 )
 	{
 		OverSpeedCount = 6;
-		fault.EVENT = 1; FaultInfo = CODE_OVER_SPEED_RATIO;
+		FaultInfo = OVER_SPEED_FAULT;
 //		trip_recording( CODE_OVER_SPEED_RATIO,Wrpm_MT,"Trip Over Speed");
 
-		return CODE_OVER_SPEED_RATIO;
+		return OVER_SPEED_FAULT;
 	}
 
 	if (Speed_detect_fault)	Speed_detec_fault_count++;
@@ -152,7 +158,7 @@ int CheckSpeedDetection( )
 	if (Speed_detec_fault_count > 5)
 	{
 		Speed_detec_fault_count = 6;
-		fault.EVENT = 1; FaultInfo = CODE_SPEED_DETECTION_ERROR;
+		FaultInfo = CODE_SPEED_DETECTION_ERROR;
 //		trip_recording( CODE_SPEED_DETECTION_ERROR,Wrpm_MT,"Trip Speed Detect");
 
 		return CODE_SPEED_DETECTION_ERROR;
@@ -173,7 +179,7 @@ int CheckFaultZC( )
 	if (FaultZCCount > 3 )
 	{
 		FaultZCCount = 4;
-		fault.EVENT = 1; FaultInfo = FAULT_ZC;
+		FaultInfo = FAULT_ZC;
 //		trip_recording( FAULT_ZC,FaultZCCount,"ZC Fault");
 
 		return FAULT_ZC;
@@ -181,6 +187,35 @@ int CheckFaultZC( )
 	
 	return 0;
 }
+
+int CheckVmagDelta( )
+{
+//	if (Machine_state == STOP) first1 =0;
+	Err_Vmag_delta = Vmag_delta_est-Vmag_delta;
+	if(sensorless_mode == 4)
+	{
+		if(first1 > 50)
+		{
+			first1 = 51;
+			if((Err_Vmag_delta > Vmag_delta_est * 0.5)||(Err_Vmag_delta < -Vmag_delta_est * 0.5))
+			{
+				cnt_Err_Vmag_delta ++;
+			}
+			else if(cnt_Err_Vmag_delta > 0)	cnt_Err_Vmag_delta--;
+
+			if (cnt_Err_Vmag_delta > 3 )
+			{
+				cnt_Err_Vmag_delta = 4;
+				FaultInfo = ERR_SENSORLESS;
+
+				return 0;//ERR_SENSORLESS;
+			}
+		}
+		first1 ++;
+	}
+	return 0;
+}
+
 
 void TripProc( )
 {

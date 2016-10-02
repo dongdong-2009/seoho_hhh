@@ -33,7 +33,7 @@ interrupt void scia_tx_isr(void);
 interrupt void scia_rx_isr(void);
 
 #define	CPUCLK		150000000L				// CPU Main Clock
-#define	LSPCLK		(CPUCLK/2)				// Peripheral Low Speed Clock
+#define	LSPCLK		(CPUCLK/4)				// Peripheral Low Speed Clock
 #define	BAUDRATE	115200L					// 모니터링 속도
 #define	BRR_VAL		(LSPCLK/(8*BAUDRATE)-1)	// BaudRate 설정 Register 값
 

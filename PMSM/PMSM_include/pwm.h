@@ -28,10 +28,10 @@ typedef struct {
 	PWM	 pwm_g1;
 	PWM	 pwm_g2;
 	void pwm_buffer_setup();
-	void pwm_g1_setup(int buf_dir,int pwm_dir, double sys_clk, double pwm_freq, double dead_time);
+	void pwm_g1_setup(int buf_dir,int pwm_dir, double sys_clk, double dead_time);
 #else
 	extern int carrier_mode;
 	extern PWM pwm_g1;
 	extern void pwm_buffer_setup();
-	extern void pwm_g1_setup(int buf_dir,int pwm_dir, double sys_clk, double pwm_freq, double dead_time);
+	extern void pwm_g1_setup(int buf_dir,int pwm_dir, double sys_clk, double dead_time);
 #endif

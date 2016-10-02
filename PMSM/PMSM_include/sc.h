@@ -12,7 +12,7 @@ typedef struct{
 	float Kp_sc = 0.84; //0.7;
 	float Ki_scT = 6e-4;//5e-005;
 	float Wrpm_ref = 0.0;
-	float  ref_slew = 0.0, ref_slew_dn = 0.0;
+	float  ref_slew_up = 0.0, ref_slew_dn = 0.0;
 	float thetarm_pre = 0.0, dthetarm = 0.0;
 	float Wrpm = 0.0, Wrm = 0.0;
 	float Wrpm_err = 0.0, Wrpm_err_integ = 0.0;
@@ -26,7 +26,7 @@ typedef struct{
 	extern int tmp_sc_cnt;
 //	extern float Wr;
 	extern float Wrpm_ref;
-	extern float ref_slew, ref_slew_dn;
+	extern float ref_slew_up, ref_slew_dn;
 	extern float thetarm_pre, dthetarm;
 	extern float Wrpm, Wrm;
 	extern float Kp_sc, Ki_scT;

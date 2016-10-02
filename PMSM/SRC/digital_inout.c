@@ -15,9 +15,9 @@ int input_state(int port)
 	while( j ){	i *= 2; j--; }
 	asm ("      nop");
 
-	xbus_in = ( ZONE0_BUF[0x0050] & i ); 
+	xbus_in = ( ZONE0_BUF[0x0050] & i );
 	if( xbus_in ) 	return 0;
-	else 			return 1;  
+	else 			return 1;
 }
 
 
@@ -27,7 +27,7 @@ void set_digit_input_funtion( int input_state, int function_option )
 
 	case 0:	// None
 		break;
-	case 1:	// drive enable 
+	case 1:	// drive enable
 		if( input_state ) func_flag.bit.DRIVE_ENABLE = 1;
 		else  func_flag.bit.DRIVE_ENABLE = 0;
 		break;

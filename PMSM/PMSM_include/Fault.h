@@ -10,7 +10,7 @@
 
 #define CODE_OVER_VOLTAGE_LEVEL		302	// 12 DC link Voltage OV1은 자동으로 계산 할 것   
 #define TRIP_UNDER_VOLT				303	// 13 수정 
-#define CODE_OVER_SPEED_RATIO		304	// 14 수정 
+#define OVER_SPEED_FAULT			304	// 14 수정 
 #define CODE_ETHERMAL_LEVEL			305	// 15 New 수정 
 #define CODE_PRE_CHARGE_TIME		306	// 초기충전 시간 
 #define CODE_I_MAX_COEFF			307	// 
@@ -46,6 +46,8 @@
 #define ERR_OVER_CURRENT_U_PHASE			834 
 #define ERR_OVER_CURRENT_V_PHASE			835 
 #define ERR_OVER_CURRENT_W_PHASE			836
+#define ERR_SPEED_DETECT					837	// bayasaa 2010/06/18
+#define ERR_SENSORLESS						838 // bayasaa 2010/06/18
 
 #define	ERR_NAME_PLATE_PAR_MISMATCH			841
 #define	ERR_NAME_PLATE_PAR_MISMATCH0		842
@@ -108,27 +110,8 @@
 
 #define Fault_Check_Enable	1													// 2010.05.12
 
-/* 	typedef struct {
-		float I_Lmt;
-		float MaxCon_Curr;
-		float Over_Load;
-		float OC_Trip;
-		float OV_set;
-		float UV_set;
-
-		float Ias_OC;
-		float Ibs_OC;
-		float Ics_OC;
-		
-		int FT_SWPROT_Ias;
-		int FT_SWPROT_Ibs;
-		int FT_SWPROT_Ics;
-		int FT_SWPROT_Vdc_OV;
-		int FT_SWPROT_Vdc_UV;
-		int FT_OVER_HEAT;
-		int EVENT;
-	}	FAULT;
-*/
+#define nFLT2_ON				GpioDataRegs.GPASET.bit.GPIO13 = 1;
+#define nFLT2_OFF				GpioDataRegs.GPACLEAR.bit.GPIO13 = 1; 
 
 struct TRIP_INFO_DEFINE {
 	int		CODE;				// 1
@@ -148,7 +131,7 @@ typedef struct TRIP_INFO_DEFINE TRIP_INFO;
 int flagcontroll = 0;
 int flagFOCC = 0;  
 int flagcontrol = 0;
-int faultOC_set = 65;
+
 int flagFOC = 0;
 int flagGT1_ENA = 0;
 int flagGT2_ENA = 0;
@@ -162,11 +145,11 @@ int flagccseq = 0;
 int gPWMTripCode = 0; 
 int Speed_detect_fault = 0;
 int FaultInfo = 0;
-float faultOV_set = 360.0;
-float faultUV_set = 200.0;
 float over_speed_ratio = 1.05;
 float motor_rate_rpm = 60000;
-
+float Err_Vmag_delta = 0.0;
+int first1 = 0;
+int cnt_Err_Vmag_delta = 0;
 
 //int TripCode = 0;
 
@@ -193,8 +176,9 @@ extern int FaultInfo;
 extern FAULT fault;
 extern float over_speed_ratio;
 extern float motor_rate_rpm;
-extern float faultOV_set;
-extern float faultUV_set;
+extern int first1;
+extern float Err_Vmag_delta;
+extern int cnt_Err_Vmag_delta;
 //extern int TripCode;
 #endif
 

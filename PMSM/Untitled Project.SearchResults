@@ -1,6 +1,3 @@
----- Temp_Registers Matches (5 in 2 files) ----
-eCAN.c (src):WORD Temp_Registers[1024];
-eCAN.c (src):	if(Data_Registers[reg_TxOffset] != Temp_Registers[reg_TxOffset])
-eCAN.c (src):		Temp_Registers[reg_TxOffset] = Data_Registers[reg_TxOffset];
-Main.c (src):extern WORD Temp_Registers[1024];
-Main.c (src):		Temp_Registers[i]=0xffff;
+---- cana_rx_flag Matches (2 in 1 files) ----
+eCAN.c (src):BOOL cana_rx_flag=FALSE;	// CAN-A에 새로운 수신 데이터를 받았는지 여부
+eCAN.c (src):			cana_rx_flag = TRUE;

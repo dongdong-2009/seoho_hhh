@@ -1,38 +1,6 @@
 #define _SC_
 #include "main_def.h"
 
-void op_master()
-{
-flagcontrol = flag.control;
-flagFOC = flag.FOC;
-flagGT1_ENA = flag.GT1_ENA;
-
-	switch(flag.control)
-	{
-		case 1 :
-			flag.GT1_ENA = 1;
-			if(op_cnt == 100)
-			{
-				op_cnt = 0;
-			}
-			else
-			{
-				op_cnt++;
-				flag.control = 0.;
-			}
-			break;
-		case 2 :		
-			break;
-		case 0 :
-		default :
-			flag.GT1_ENA = 0;
-			flag.PWM_CTR = 0;
-			break;
-	}
-}
-
-
-
 /* 1msec routine */
 void speed_controller()
 {
@@ -47,12 +15,18 @@ void speed_controller()
 				Wrpm_ref = 0;
 				break;
 			case 2 : 
-				if(Wrpm_ref > Wrpm_base_speed)	
+//			Base_spd = 5000.;
+				if(Wrpm_ref > Base_spd)	
 				{	
-					Wrpm_ref = Wrpm_base_speed;	
-//					DRIVE_ENABLE = 0;	// for test Kemf
+					Wrpm_ref = Base_spd;	
 					sensorless_mode = 4;
-					Idse_ref = Idse_ref_sensorless;
+	//				Idse_ref = Idse_ref_sensorless;
+//				if(Wrpm_hat < 7000)
+		//		{
+		//			Idse_ref = Idse_ref_max;
+		//		}
+		//		else Idse_ref - 0.1;
+		//		if (Idse_ref < 5) Idse_ref = 5.;
 				}										
 				break;
 			case 3 :
