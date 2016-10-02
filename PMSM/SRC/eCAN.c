@@ -51,31 +51,34 @@ LONG canb_rx_high_data=0;	// CAN-B 수신 High Word Data
 //----------------------------------------------------------------------------
 
 
-WORD Data_Registers[1024];
-WORD Temp_Registers[1024];
+
+WORD Data_Registers[Buf_MAX];
+WORD Temp_Registers[Buf_MAX];
 WORD reg_TxOffset=0;
 WORD test=0;
 void cana_Tx_process(void)
 {
 	if(Data_Registers[reg_TxOffset] != Temp_Registers[reg_TxOffset])
 	{
-		Temp_Registers[reg_TxOffset] = Data_Registers[reg_TxOffset];
+		if(!ECanaRegs.CANTRS.bit.TRS1)
+		{
+			test++;
 
+			SendDataToECanA(0x1L, 0x08, ((LONG)Data_Registers[reg_TxOffset] & 0x0000FFFF), ((LONG)reg_TxOffset & 0x0000FFFF));
+			//SendDataToECanA(0x1L, 0x08, ((LONG)reg_TxOffset & 0x0000FFFF), ((LONG)reg_TxOffset & 0x0000FFFF));
 
-		while(ECanaRegs.CANTRS.bit.TRS1);
-		test++;
+			//while(!ECanaRegs.CANTA.bit.TA1);///scic 통신에 영향을 미침
+			
+			// Clear transmit-acknowledge pending flag
+			ECanaRegs.CANTA.bit.TA1 = 1;	
 
-		SendDataToECanA(0x1L, 0x08, ((LONG)Data_Registers[reg_TxOffset] & 0x0000FFFF), ((LONG)reg_TxOffset & 0x0000FFFF));
-		//SendDataToECanA(0x1L, 0x08, ((LONG)reg_TxOffset & 0x0000FFFF), ((LONG)reg_TxOffset & 0x0000FFFF));
-
-		while(!ECanaRegs.CANTA.bit.TA1);
-		
-		// Clear transmit-acknowledge pending flag
-		ECanaRegs.CANTA.bit.TA1 = 1;		
+			Temp_Registers[reg_TxOffset] = Data_Registers[reg_TxOffset];
+			reg_TxOffset ++;	
+		}
 	}
 
-	reg_TxOffset ++;
-	if(1024 <= reg_TxOffset) reg_TxOffset = 0;
+	
+	if(Buf_MAX <= reg_TxOffset) reg_TxOffset = 0;
 }
 
 

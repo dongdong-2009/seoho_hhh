@@ -81,8 +81,10 @@
 	#define BIT15_MASK   	0x8000
 
 //통신 데이터 어레이
-extern WORD Data_Registers[1024];
-extern WORD Temp_Registers[1024];
+#define Buf_MAX 0x600
+
+extern WORD Data_Registers[Buf_MAX];
+extern WORD Temp_Registers[Buf_MAX];
 extern WORD reg_TxOffset;
 
 

@@ -110,7 +110,7 @@ void main(void)
 //======================================================
 	for(itmp_cnt=0 ; itmp_cnt<3000 ; itmp_cnt++) 
 	{
-		Comm_array[itmp_cnt] = 0 ;
+		Comm_array[itmp_cnt] = 1234 ;
 	}
 //======================================================
 
@@ -130,6 +130,7 @@ void main(void)
 	eeprom2sys();
 	
 	while(1) {
+
 	//==========================
 	Word_Read_data(addr_ch, &data1);
 	Serial_Comm_Service();
@@ -146,10 +147,6 @@ void main(void)
 		if(fault_chk() != 0) TripProc();
 	}
 
-//	GetAnaMonitCount(&ChACount,&ChBCount);
-
-//		EPwm5Regs.CMPA.half.CMPA 	= 3750 - (int)( Wrpm_set_user/61.5);// ChACount;
-//		EPwm5Regs.CMPB  			= 3750 - (int)( Wrpm_hat/61.5);//ChBCount;
 		Vmag_ref = Vdse_ref * Vdse_ref + Vqse_ref * Vqse_ref;
 		Vs_mag = sqrt(Vmag_ref);
 		Vmag_ffa = Vdse_ref_ffa * Vdse_ref_ffa + Vqse_ref_ffa * Vqse_ref_ffa;
@@ -158,8 +155,12 @@ void main(void)
 		Update_var();
 
 
-	cana_Tx_process();
-	cana_Rx_process();
+	//cana_Tx_process();//scic 동작을 방해함
+	//cana_Rx_process();
+
+
+//delay(30000);
+//	scic_TxChar(0x55);
 		
    }
 }

@@ -9,5 +9,6 @@ ConfigSetUserWorkspaceParser=''
 ConfigSetUserWorkspaceTimeStamp=%ld
 ConfigSetUserWorkspaceAutoSync=%ld
 
+
 [Project.".\Seoho_PMSM.pjt"]
 

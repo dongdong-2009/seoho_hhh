@@ -92,8 +92,8 @@ void scic_init(){
 	ScicRegs.SCICTL2.bit.RXBKINTENA = 1;	// RX/BK INT ENA=1,
 	ScicRegs.SCICTL2.bit.TXINTENA = 1;		// TX INT ENA=1,
 
-    ScicRegs.SCIHBAUD = SCIB_BRR_VAL >> 8;
-    ScicRegs.SCILBAUD = SCIB_BRR_VAL & 0xff;
+    ScicRegs.SCIHBAUD = SCIC_BRR_VAL >> 8;
+    ScicRegs.SCILBAUD = SCIC_BRR_VAL & 0xff;
 
 	ScicRegs.SCICTL1.all = 0x0023;			// Relinquish SCI from Reset  
     
@@ -709,8 +709,7 @@ void Serial_Comm_Service(void)
 			#endif
 		}
 
-		if ((CRC.byte.b1 == Read_ReceiveSerialStack(Packet_ByteCnt - 2))
-			&& (CRC.byte.b0 == Read_ReceiveSerialStack(Packet_ByteCnt - 1)))
+		if ((CRC.byte.b1 == Read_ReceiveSerialStack(Packet_ByteCnt - 2))&& (CRC.byte.b0 == Read_ReceiveSerialStack(Packet_ByteCnt - 1)))
 		{
 			Packet_Head.OP = Read_ReceiveSerialStack(0);	// operator
 			Packet_Head.OBJ = Read_ReceiveSerialStack(1);	// object
@@ -731,98 +730,55 @@ void Serial_Comm_Service(void)
 						 switch(Comm_GROUP)
 						 {
 							// Mode 2 
-							case 0 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[Comm_INDEX]);
-									 break ;
-							case 1 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[40+Comm_INDEX]);
-									 break ;
-							case 2 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[60+Comm_INDEX]);
-									 break ;
-							case 3 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[80+Comm_INDEX]);
-									 break ;
-							case 4 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[190+Comm_INDEX]);
-									 break ;
-							case 5 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[300+Comm_INDEX]);
-									 break ;
-							case 6 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[400+Comm_INDEX]);
-									 break ;
-							case 7 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[550+Comm_INDEX]);
-									 break ;
-							case 8 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[610+Comm_INDEX]);
-									 break ;
-							case 9 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[660+Comm_INDEX]);
-									 break ;
-							case 10: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[700+Comm_INDEX]);
-									 break ;
-							case 11: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[740+Comm_INDEX]);
-									 break ;
-							case 12: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[760+Comm_INDEX]);
-									 break ;
-							case 13: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[780+Comm_INDEX]);
-									 break ;
-							case 14: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[810+Comm_INDEX]);
-									 break ;
-							case 15: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[830+Comm_INDEX]);
-									 break ;
-							case 16: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[890+Comm_INDEX]);
-									 break ;
-							case 17: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[950+Comm_INDEX]);
-									 break ;
-							case 18: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1060+Comm_INDEX]);
-									 break ;
-							case 19: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1170+Comm_INDEX]);
-									 break ;
-							case 20: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1260+Comm_INDEX]);
-									 break ;
-							case 21: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1350+Comm_INDEX]);
-									 break ;
-							case 22: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1370+Comm_INDEX]);
-									 break ;
-							case 23: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1390+Comm_INDEX]);
-									 break ;
-							case 24: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1420+Comm_INDEX]);
-									 break ;
-							case 25: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1460+Comm_INDEX]);
-									 break ;
-							case 26: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1490+Comm_INDEX]);
-									 break ;
-							case 27: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1550+Comm_INDEX]);
-									 break ;
-							case 28: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1640+Comm_INDEX]);
-									 break ;
-							case 29: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1670+Comm_INDEX]);
-									 break ;
-							case 30: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1740+Comm_INDEX]);
-									 break ;
-							case 31: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1950+Comm_INDEX]);
-									 break ;
-							case 32: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2000+Comm_INDEX]);
-									 break ;
+							case 0 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[Comm_INDEX]);									 break ;
+							case 1 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[40+Comm_INDEX]);									 break ;
+							case 2 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[60+Comm_INDEX]);									 break ;
+							case 3 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[80+Comm_INDEX]);									 break ;
+							case 4 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[190+Comm_INDEX]);									 break ;
+							case 5 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[300+Comm_INDEX]);									 break ;
+							case 6 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[400+Comm_INDEX]);									 break ;
+							case 7 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[550+Comm_INDEX]);									 break ;
+							case 8 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[610+Comm_INDEX]);									 break ;
+							case 9 : Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[660+Comm_INDEX]);									 break ;
+							case 10: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[700+Comm_INDEX]);									 break ;
+							case 11: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[740+Comm_INDEX]);									 break ;
+							case 12: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[760+Comm_INDEX]);									 break ;
+							case 13: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[780+Comm_INDEX]);									 break ;
+							case 14: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[810+Comm_INDEX]);									 break ;
+							case 15: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[830+Comm_INDEX]);									 break ;
+							case 16: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[890+Comm_INDEX]);									 break ;
+							case 17: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[950+Comm_INDEX]);									 break ;
+							case 18: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1060+Comm_INDEX]);									 break ;
+							case 19: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1170+Comm_INDEX]);									 break ;
+							case 20: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1260+Comm_INDEX]);									 break ;
+							case 21: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1350+Comm_INDEX]);									 break ;
+							case 22: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1370+Comm_INDEX]);									 break ;
+							case 23: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1390+Comm_INDEX]);									 break ;
+							case 24: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1420+Comm_INDEX]);									 break ;
+							case 25: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1460+Comm_INDEX]);									 break ;
+							case 26: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1490+Comm_INDEX]);									 break ;
+							case 27: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1550+Comm_INDEX]);									 break ;
+							case 28: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1640+Comm_INDEX]);									 break ;
+							case 29: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1670+Comm_INDEX]);									 break ;
+							case 30: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1740+Comm_INDEX]);									 break ;
+							case 31: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[1950+Comm_INDEX]);									 break ;
+							case 32: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2000+Comm_INDEX]);									 break ;
 							// Mode 0
-							case 50: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2100+Comm_INDEX]);
-									 break ;
+							case 50: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2100+Comm_INDEX]);									 break ;
 							// Mode 1
-							case 51: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2110+Comm_INDEX]);
-									 break ;
-							case 52: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2140+Comm_INDEX]);
-									 break ;
-							case 53: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2150+Comm_INDEX]);
-									 break ;
+							case 51: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2110+Comm_INDEX]);									 break ;
+							case 52: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2140+Comm_INDEX]);									 break ;
+							case 53: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2150+Comm_INDEX]);									 break ;
 							// Mode 3
-							case 60: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2170+Comm_INDEX]);
-									 break ;
+							case 60: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2170+Comm_INDEX]);									 break ;
 							// Mode 4
-							case 70: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2180+Comm_INDEX]);
-									 break ;
+							case 70: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2180+Comm_INDEX]);									 break ;
 							// Mode 5
-							case 80: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2280+Comm_INDEX]);
-									 break ;
+							case 80: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2280+Comm_INDEX]);									 break ;
 							// Mode 6
-							case 90: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2290+Comm_INDEX]);
-									 break ;
-							case 91: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2291+Comm_INDEX]);
-									 break ;
-							case 92: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2296+Comm_INDEX]);
-									 break ;
+							case 90: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2290+Comm_INDEX]);									 break ;
+							case 91: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2291+Comm_INDEX]);									 break ;
+							case 92: Read_Answer(Comm_GROUP, Comm_INDEX, Comm_array[2296+Comm_INDEX]);									 break ;
 						 }
 						 //SCIC_TX_iSTART;
 					     break;
@@ -839,89 +795,49 @@ void Serial_Comm_Service(void)
 						 switch(Comm_GROUP)
 						 {
 							// Mode 2
-							case 0 : Comm_array[Comm_INDEX] = Comm_DATA;
-
-									 break ;
-							case 1 : Comm_array[40+Comm_INDEX]= Comm_DATA;
-									 break ;
-							case 2 : Comm_array[60+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 3 : Comm_array[80+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 4 : Comm_array[190+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 5 : Comm_array[300+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 6 : Comm_array[400+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 7 : Comm_array[550+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 8 : Comm_array[610+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 9 : Comm_array[660+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 10: Comm_array[700+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 11: Comm_array[740+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 12: Comm_array[760+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 13: Comm_array[780+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 14: Comm_array[810+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 15: Comm_array[830+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 16: Comm_array[890+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 17: Comm_array[950+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 18: Comm_array[1060+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 19: Comm_array[1170+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 20: Comm_array[1260+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 21: Comm_array[1350+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 22: Comm_array[1370+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 23: Comm_array[1390+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 24: Comm_array[1420+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 25: Comm_array[1460+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 26: Comm_array[1490+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 27: Comm_array[1550+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 28: Comm_array[1640+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 29: Comm_array[1670+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 30: Comm_array[1740+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 31: Comm_array[1950+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 32: Comm_array[2000+Comm_INDEX] = Comm_DATA;
-									 break ;
+							case 0 : Comm_array[Comm_INDEX] = Comm_DATA;									 break ;
+							case 1 : Comm_array[40+Comm_INDEX]= Comm_DATA;									 break ;
+							case 2 : Comm_array[60+Comm_INDEX] = Comm_DATA;									 break ;
+							case 3 : Comm_array[80+Comm_INDEX] = Comm_DATA;									 break ;
+							case 4 : Comm_array[190+Comm_INDEX] = Comm_DATA;									 break ;
+							case 5 : Comm_array[300+Comm_INDEX] = Comm_DATA;									 break ;
+							case 6 : Comm_array[400+Comm_INDEX] = Comm_DATA;									 break ;
+							case 7 : Comm_array[550+Comm_INDEX] = Comm_DATA;									 break ;
+							case 8 : Comm_array[610+Comm_INDEX] = Comm_DATA;									 break ;
+							case 9 : Comm_array[660+Comm_INDEX] = Comm_DATA;									 break ;
+							case 10: Comm_array[700+Comm_INDEX] = Comm_DATA;									 break ;
+							case 11: Comm_array[740+Comm_INDEX] = Comm_DATA;									 break ;
+							case 12: Comm_array[760+Comm_INDEX] = Comm_DATA;									 break ;
+							case 13: Comm_array[780+Comm_INDEX] = Comm_DATA;									 break ;
+							case 14: Comm_array[810+Comm_INDEX] = Comm_DATA;									 break ;
+							case 15: Comm_array[830+Comm_INDEX] = Comm_DATA;									 break ;
+							case 16: Comm_array[890+Comm_INDEX] = Comm_DATA;									 break ;
+							case 17: Comm_array[950+Comm_INDEX] = Comm_DATA;									 break ;
+							case 18: Comm_array[1060+Comm_INDEX] = Comm_DATA;									 break ;
+							case 19: Comm_array[1170+Comm_INDEX] = Comm_DATA;									 break ;
+							case 20: Comm_array[1260+Comm_INDEX] = Comm_DATA;									 break ;
+							case 21: Comm_array[1350+Comm_INDEX] = Comm_DATA;									 break ;
+							case 22: Comm_array[1370+Comm_INDEX] = Comm_DATA;									 break ;
+							case 23: Comm_array[1390+Comm_INDEX] = Comm_DATA;									 break ;
+							case 24: Comm_array[1420+Comm_INDEX] = Comm_DATA;									 break ;
+							case 25: Comm_array[1460+Comm_INDEX] = Comm_DATA;									 break ;
+							case 26: Comm_array[1490+Comm_INDEX] = Comm_DATA;									 break ;
+							case 27: Comm_array[1550+Comm_INDEX] = Comm_DATA;									 break ;
+							case 28: Comm_array[1640+Comm_INDEX] = Comm_DATA;									 break ;
+							case 29: Comm_array[1670+Comm_INDEX] = Comm_DATA;									 break ;
+							case 30: Comm_array[1740+Comm_INDEX] = Comm_DATA;									 break ;
+							case 31: Comm_array[1950+Comm_INDEX] = Comm_DATA;									 break ;
+							case 32: Comm_array[2000+Comm_INDEX] = Comm_DATA;									 break ;
 							// Mode 0
-							case 50: Comm_array[2100+Comm_INDEX] = Comm_DATA;
-									 break ;
+							case 50: Comm_array[2100+Comm_INDEX] = Comm_DATA;									 break ;
 							// Mode 3
-							case 60: Comm_array[2170+Comm_INDEX] = Comm_DATA;
-									 break ;
+							case 60: Comm_array[2170+Comm_INDEX] = Comm_DATA;									 break ;
 							// Mode 5
-							case 80: Comm_array[2280+Comm_INDEX] = Comm_DATA;
-									 break ;
+							case 80: Comm_array[2280+Comm_INDEX] = Comm_DATA;									 break ;
 							// Mode 6
-							case 90: Comm_array[2290+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 91:Comm_array[2291+Comm_INDEX] = Comm_DATA;
-									 break ;
-							case 92: Comm_array[2296+Comm_INDEX] = Comm_DATA;
-									 break ;
+							case 90: Comm_array[2290+Comm_INDEX] = Comm_DATA;									 break ;
+							case 91:Comm_array[2291+Comm_INDEX] = Comm_DATA;									 break ;
+							case 92: Comm_array[2296+Comm_INDEX] = Comm_DATA;									 break ;
 						 }	
 
 						 Write_Answer(Comm_GROUP,Comm_INDEX,Comm_DATA);

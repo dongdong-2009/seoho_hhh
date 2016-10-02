@@ -1,7 +1,7 @@
 ; Code Composer Project File, Version 2.0 (do not modify or remove this line)
 
 [Project Settings]
-ProjectDir="D:\work\SEOHO_VD\Seoho_PMSM_100903_p\"
+ProjectDir="D:\work\SEOHO_VD\Seoho_PMSM_101005_p\"
 ProjectType=Executable
 CPUFamily=TMS320C28XX
 Tool="Compiler"
@@ -57,7 +57,7 @@ Source="CMD\DSP2833x_Headers_nonBIOS.cmd"
 Source="CMD\F28335.cmd"
 
 ["Compiler" Settings: "Debug"]
-Options=-gt -fr"$(Proj_dir)\Debug" -i"D:\work\SEOHO_VD\Seoho_PMSM_100903_p\DSP2833x_include" -i"D:\work\SEOHO_VD\Seoho_PMSM_100903_p\PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32
+Options=-gt -fr"$(Proj_dir)\Debug" -i"D:\work\SEOHO_VD\Seoho_PMSM_101005_p\DSP2833x_include" -i"D:\work\SEOHO_VD\Seoho_PMSM_101005_p\PMSM_include" -d"_DEBUG" -d"LARGE_MODEL" -ml -mt -v28 --float_support=fpu32
 
 ["Compiler" Settings: "Release"]
 Options=-pdsw225 -o3 -fr"$(Proj_dir)\Release" -d"LARGE_MODEL" -ml -v28

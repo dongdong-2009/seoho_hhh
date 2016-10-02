@@ -31,7 +31,7 @@
 #define	SCIB_BRR_VAL	(SCIB_LSPCLK/(8*SCIB_BAUDRATE)-1)	// SCI-B BaudRate 설정 Register 값
 
 #define	SCIC_LSPCLK		(CPUCLK/4)							// Peripheral Low Speed Clock for SCI-C
-#define	SCIC_BAUDRATE	115200L								// SCI-C Baudrate
+#define	SCIC_BAUDRATE	19200L								// SCI-C Baudrate
 //#define	SCIC_BAUDRATE	9600L								// SCI-C Baudrate
 #define	SCIC_BRR_VAL	(SCIC_LSPCLK/(8*SCIC_BAUDRATE)-1)	// SCI-C BaudRate 설정 Register 값
 
