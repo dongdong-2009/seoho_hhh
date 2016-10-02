@@ -23,7 +23,7 @@
 #define UP		0xFFFD
 #define DN		0xFF7F
 #define RIGHT	0xFFDF
-#define LIFT		0xFFF7
+#define LEFT		0xFFF7
 #define ESC		0xFFFE
 #define ENTER	0xFFFB
 #define MENU	0xFFEF
@@ -46,6 +46,7 @@ extern unsigned char EventTimeC;
 extern unsigned char EventTimeD;
 extern unsigned char EventTimeE;
 
+extern unsigned char TimeTic_500ms;
 
 extern unsigned int Temporary;
 

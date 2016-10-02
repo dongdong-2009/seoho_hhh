@@ -83,13 +83,8 @@
 #define PANEL_INDEX_PARAMETER		102
 
 //-----------------------------------------------------------------------------------------
-
-
 //-- 패널 연결 
 #define	PANEL_CONNECTION_REFLESH_TIME	0.5
-
-
-
 
 
 //-- 백라이트가 켜져 있는 시간
@@ -106,13 +101,8 @@
 	extern unsigned CRC16_Table[256];
 #endif
 
-
-
 #define	EXTERNAL_MEMORY_BASE		0x8000
 
-
-unsigned char Auto_BR_Detection_Mode;
-unsigned char Auto_BR_Detection_Cnt;
 
 //-- Serial Data Stack  
 unsigned char 	RRXD_Stack[RXD_STACK_LENGTH];
@@ -154,6 +144,15 @@ unsigned int     Comm_arry_ptr;
 
 unsigned int 	err_cnt ;
 
+
+unsigned char Comm_GROUP = 0;
+unsigned char Comm_INDEX = 0; 
+
+unsigned char Read_GROUP = 0;
+unsigned char Read_INDEX = 0; 
+
+unsigned char NewDataFlag=0;
+
 #if __CRC16_LOOK_UP_TABLE_
 
 unsigned CRC16_Table[256] ={0,34849,39011,4162,47335,12486,8324,43173,63983,29134,
@@ -186,7 +185,7 @@ unsigned CRC16_Table[256] ={0,34849,39011,4162,47335,12486,8324,43173,63983,2913
 #endif
 
 
-void wait(void) 
+void Wait(void) 
 {
         while(s_reg != ms_cnt) ;                //s_reg = ms_cnt일때까지 기다린다.
 }
@@ -217,8 +216,8 @@ void UART_init(void)
 
 	COMM_Watchdog_Timer = 0 ;
 
-	Auto_BR_Detection_Cnt = 0 ;
-	Auto_BR_Detection_Mode = 0 ;
+//	Auto_BR_Detection_Cnt = 0 ;
+//	Auto_BR_Detection_Mode = 0 ;
 
 	RXD = 0;			// 수신 데이타
 	RXD_StackWritePtr = 0;		// Serial 데이타의 수신 스택 포인터
@@ -439,7 +438,7 @@ unsigned char Read_ReceiveSerialStack(unsigned char RXD_StackOffset)
 // 외부에서 데이타 수신되고 B/R체크 모드가 아니면 실행된다.
 // 외부에서 수신된 데이타(=RXD)는 RXD_STACK[]에 저장 된다.
 
-void Serial_Comm_Protocol()
+void Serial_Comm_Protocol(void)
 {
 	switch (NewFrame_Packet_State)
 	{
@@ -452,7 +451,7 @@ void Serial_Comm_Protocol()
 				// 체크하도록 한다.
 
 				NewFrame_Packet_State++ ;
-				Auto_BR_Detection_Cnt = 0 ;	// BR 자동 검출 완료
+				//Auto_BR_Detection_Cnt = 0 ;	// BR 자동 검출 완료
 			 }
 			 else if (RXD == CR)
 			 {
@@ -460,14 +459,14 @@ void Serial_Comm_Protocol()
 			 }
 			 else if (RXD != CR)
 			 {
-				Auto_BR_Detection_Cnt++ ;		// 카운터를 증가하고 5가 넘으면 B/R을 다시 체크 한다. 
+			//	Auto_BR_Detection_Cnt++ ;		// 카운터를 증가하고 5가 넘으면 B/R을 다시 체크 한다. 
 			 }
 			break;
 		// <STX>
 		case 1 : if (RXD == STX)
 			 {
 			 	NewFrame_Packet_State++ ;
-			 	Auto_BR_Detection_Cnt = 0 ;	// BR 자동 검출 완료
+	//		 	Auto_BR_Detection_Cnt = 0 ;	// BR 자동 검출 완료
 			 }
 			 else
 			 {
@@ -675,18 +674,27 @@ void Serial_Comm_Service(void)
 			//	0xC0	:	ANSWER
 			Packet_Head.OP=Read_ReceiveSerialStack(0);	// operator
 			Packet_Head.OBJ=Read_ReceiveSerialStack(1);	// object
+			//=Read_ReceiveSerialStack(2);	//data num
+			//=Read_ReceiveSerialStack(3);	//data type
+			Comm_GROUP = Read_ReceiveSerialStack(4);
+			Comm_INDEX = Read_ReceiveSerialStack(5);
+
+			data_flg.Byte.b1 = Read_ReceiveSerialStack(6);		// DATA MSB
+			data_flg.Byte.b0 = Read_ReceiveSerialStack(7);		// DATA LSB
+			//Comm_DATA = _code.word;
 
 			if (Packet_Head.OP==OP_ANSWER)
 			{
 				// OP_ANSWER의 패킷이 수신 되면 => 감시 타이머 ->  0
 				// Packet_Head.OBJ의 값은 OBJ_PARAMETER_BLOCK_ACCESS(0x25)임
 				COMM_Watchdog_Timer=0;
-				switch (Packet_Head.OBJ)
+				if(Packet_Head.OBJ == OBJ_PARAMETER_ACCESS)
 				{
-					case OBJ_PARAMETER_ACCESS :			WRITE_Packet_PARAMETER_ACCESS();	 		break;// 0x24
-					//case OBJ_PARAMETER_BLOCK_ACCESS	:	WRITE_Packet_PARAMETER_BLOCK_ACCESS();	break;// 0x25
-						
-					    	
+					//(*(volatile int *)(0x8000 + (((Comm_GROUP*100) + Comm_INDEX )<<1) ))		=	data_flg.Byte.b1;	    	
+					//(*(volatile int *)(0x8000 + (((Comm_GROUP*100) + Comm_INDEX )<<1)+1))	=	data_flg.Byte.b0;	   
+
+					Temporary = data_flg.Word;
+					NewDataFlag = 1;
 				}
 			}
 		}
@@ -728,7 +736,7 @@ void Serial_Comm_Service(void)
 void WRITE_Packet_PARAMETER_ACCESS(void)
 {
 	unsigned char StackIndex;
-	unsigned char _data;
+//	unsigned char _data;
 
 	union
 	{
@@ -907,7 +915,7 @@ void Send_Parameter(unsigned char GROUP,unsigned char INDEX,unsigned DATA)
 	Xmitt_Packet_End() ;
 
 	s_reg = ms_cnt + 200 ;
-	wait() ;
+	Wait() ;
 
 	//DATA_Sending_flg = 0;
 }
@@ -959,7 +967,7 @@ void Read_DATA_from_ControlBoard(unsigned char GROUP, unsigned char INDEX)
 	Read_Parameter(GROUP, INDEX) ;
 	Para_count = 0 ;
 	s_reg = ms_cnt + 200 ;
-	wait() ;
+	Wait() ;
 
 }
 

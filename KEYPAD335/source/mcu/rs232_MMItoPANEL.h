@@ -34,12 +34,28 @@ typedef	union
 } CRC_flg ;
 CRC_flg	CRC ;
 
+//---------------------------------------
+typedef	union
+{
+	unsigned int Word;
+	struct
+	{
+		unsigned char b0;	// CRC16 하위 바이트
+		unsigned char b1;	// CRC16 상위 바이트
+	} Byte;
+}Data_flg;
+Data_flg	data_flg;
+
 extern unsigned int	ms_cnt ;
 extern unsigned int	s_reg ;
 
-extern unsigned char Auto_BR_Detection_Mode;
-extern unsigned char Auto_BR_Detection_Cnt;
+extern unsigned char Read_GROUP;
+extern unsigned char Read_INDEX;
 
+extern unsigned char NewDataFlag;
+
+
+void Wait(void); 
 
 void UART_init(void);
 
@@ -47,9 +63,12 @@ void TX0_char( char data);
 
 void Initialize_SCI_Stack(void);
 
+void Send_Parameter(unsigned char GROUP,unsigned char INDEX,unsigned DATA) ;
+
 void WRITE_Packet_PARAMETER_ACCESS(void);
 void WRITE_Packet_PARAMETER_BLOCK_ACCESS(void); 
 
+void Serial_Comm_Protocol(void);
 void Serial_Comm_Service(void); 
 void Read_DATA_from_ControlBoard(unsigned char GROUP, unsigned char INDEX);
 

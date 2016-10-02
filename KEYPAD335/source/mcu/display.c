@@ -38,9 +38,11 @@ char password[4]={0,0,0,0};
 char _password[4]={0,0,0,0};
 
 unsigned char pass_pos=0;
-char confirm = 0;
 
+char Edit_flag = 0;
 char posInpage=6;
+
+char EnterFlag=0;
 
 char setTime[7]; 
 unsigned char Tset_pos=0;
@@ -49,6 +51,8 @@ unsigned char Tset_pos=0;
 char text_buf[256];
 
 unsigned int eeprom_addr=0;
+
+char waiting_flag=0;
 
 
 
@@ -78,6 +82,8 @@ prog_char  PAGE_ROOT[8][17]=
 	"M6 Password     "
 };
 
+
+unsigned int edit_Temp=0;
 void PAGE_1(void)
 {
 	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_ROOT[0][0]));
@@ -666,7 +672,7 @@ prog_char  PAGE_DIR_3_01_XX[10][17]={
 void PAGE_3_01_00(void)
 {
 	CLCD_string(0x80,(char*)_cpy_flash2memory(&PAGE_DIR_3_01_XX[0][0]));
-	CLCD_string(0xC0,"                ");
+	CLCD_string(0xC0,(char*)_TEXT("         % 3u.% 1ukW",(edit_Temp/10),(edit_Temp%10)));
 }
 void PAGE_3_01_01(void)
 {
@@ -5589,16 +5595,17 @@ void PAGE_0xFFFFFFFF(void)
 
 
 unsigned int Temporary=0;
+
 void SYS_1(void)
 {
+	Read_GROUP =50;
+	Read_INDEX = 0;
+
 	if(KeyState.KeyValue == UP)naviMENU = 7;
 	else if(KeyState.KeyValue == DN)naviMENU = 2;
 	else if(KeyState.KeyValue == ENTER)
 	{
-		Read_DATA_from_ControlBoard(50, 0);
-		if(Temporary)naviMENU = 100;
-		//else if(Temporary==0)naviMENU = 10;
-		else naviMENU = 10;
+		 naviMENU = 10;
 	}
 	else if(KeyState.KeyValue == (ESC  & RUN & STOP & ENTER) )	naviMENU = 0xFFFFFFFF;
 
@@ -5652,29 +5659,29 @@ void SYS_7(void)
 
 void SYS_1_0(void)
 {
-	unsigned char c;
+//	unsigned char c;
 	if(KeyState.KeyValue == ENTER)
 	{
 		Send_Parameter(50,0,1); 
-		Read_DATA_from_ControlBoard(50, 0);
-		if(Temporary)naviMENU = 100;
 	}
 	else if(KeyState.KeyValue == ESC)naviMENU = 1;
 	else if(KeyState.KeyValue == UP)naviMENU = 15;
 	else if(KeyState.KeyValue == DN)naviMENU = 11;
+
+	if(Temporary==1)naviMENU = 100;
 }
 void SYS_1_0_0(void)
 {
-	unsigned char c;
+//	unsigned char c;
 	if(KeyState.KeyValue == ENTER)
 	{
 		Send_Parameter(50,0,0); 
-		Read_DATA_from_ControlBoard(50, 0);
-		if(!Temporary)naviMENU = 10;
 	}
 	else if(KeyState.KeyValue == ESC)naviMENU = 1;
 	else if(KeyState.KeyValue == UP)naviMENU = 15;
 	else if(KeyState.KeyValue == DN)naviMENU = 11;
+
+	if(Temporary==0)naviMENU = 10;
 }
 void SYS_1_1(void)
 {
@@ -5881,6 +5888,8 @@ void SYS_3_00(void)
 }
 void SYS_3_01(void)
 {
+	Read_GROUP =1;
+	Read_INDEX = 0;
 	SYS_Base_KeyFunction();
 }
 void SYS_3_02(void)
@@ -6096,8 +6105,113 @@ void SYS_3_00_15(void)
 
 void SYS_3_01_00(void)
 {
- 	SYS_Base_KeyFunction();
-	if(KeyState.KeyValue == UP)naviMENU = 30109;
+	if(!Edit_flag)
+	{
+		edit_Temp = Temporary;
+ 		SYS_Base_KeyFunction();
+		if(KeyState.KeyValue == UP)naviMENU = 30109;
+		else if(KeyState.KeyValue == ENTER)
+		{
+			Edit_flag = 1;
+			EnterFlag =0;
+			posInpage = 0;
+		}
+	}
+	else
+	{
+		if(EnterFlag)
+		{
+			if(NewDataFlag)
+			{
+				if(Temporary != edit_Temp)
+				{
+					Send_Parameter(1,0,edit_Temp); 
+				}
+				else
+				{
+					EnterFlag =0;
+					Edit_flag = 0;
+				}
+				NewDataFlag=0;
+			}
+		}
+		else
+		{
+			if(posInpage ==0) CLCD_cursor_ON(0xC0,13);
+			else if(posInpage ==1) CLCD_cursor_ON(0xC0,11);
+			else if(posInpage ==2) CLCD_cursor_ON(0xC0,10);
+			else if(posInpage ==3) CLCD_cursor_ON(0xC0,9);
+
+			if(KeyState.KeyValue == ENTER)
+			{
+				EnterFlag = 1;
+				//Send_Parameter(1,0,edit_Temp); 
+				CLCD_cursor_OFF();
+				//Edit_flag = 0;
+			}
+			else if(KeyState.KeyValue == ESC)
+			{
+				Edit_flag = 0;
+				CLCD_cursor_OFF();
+			}
+			else if(KeyState.KeyValue == UP)
+			{
+				if(posInpage == 0)
+				{
+					if(1499 >= edit_Temp)edit_Temp = edit_Temp + 1;
+				}
+				else if(posInpage == 1)
+				{
+					if(1490 >= edit_Temp)edit_Temp = edit_Temp + 10;
+				}
+				else if(posInpage == 2)
+				{
+					if(1400 >= edit_Temp)edit_Temp = edit_Temp + 100;
+				}
+				else if(posInpage == 3)
+				{
+					if(500 >= edit_Temp)edit_Temp = edit_Temp + 1000;
+				}
+				RefreshFlag=1;
+			}
+			else if(KeyState.KeyValue == DN)
+			{
+				if(posInpage == 0)
+				{
+					if(edit_Temp > 0) edit_Temp = edit_Temp - 1;
+				}
+				else if(posInpage == 1)
+				{
+					if(edit_Temp > 9)edit_Temp = edit_Temp - 10;
+				}
+				else if(posInpage == 2)
+				{
+					if(edit_Temp > 99)edit_Temp = edit_Temp - 100;
+				}
+				else if(posInpage == 3)
+				{
+					if(edit_Temp > 999)edit_Temp = edit_Temp - 1000;
+				}
+				RefreshFlag=1;
+			}
+			else if(KeyState.KeyValue == RIGHT)
+			{
+				if(posInpage != 0)
+				{
+					posInpage--;
+				}
+			}
+			else if(KeyState.KeyValue == LEFT)
+			{
+				if(3 > posInpage)
+				{
+					posInpage++;
+				}
+			}
+		}
+	
+
+	}
 	 
 	 
 }
@@ -11332,7 +11446,7 @@ void SYS_7_01_00_05(void)
 		if(3 <pass_pos)pass_pos=0;
 		RefreshFlag=1;
 	}
-	else if(KeyState.KeyValue == LIFT)
+	else if(KeyState.KeyValue == LEFT)
 	{
 		if(pass_pos)pass_pos--;
 		else pass_pos = 3;
@@ -11387,7 +11501,7 @@ void SYS_7_01_01_05(void)
 		if(3 <pass_pos)pass_pos=0;
 		RefreshFlag=1;
 	}
-	else if(KeyState.KeyValue == LIFT)
+	else if(KeyState.KeyValue == LEFT)
 	{
 		if(pass_pos)pass_pos--;
 		else pass_pos = 3;
@@ -11442,7 +11556,7 @@ void SYS_7_01_02_05(void)
 		if(3 <pass_pos)pass_pos=0;
 		RefreshFlag=1;
 	}
-	else if(KeyState.KeyValue == LIFT)
+	else if(KeyState.KeyValue == LEFT)
 	{
 		if(pass_pos)pass_pos--;
 		else pass_pos = 3;
@@ -11497,7 +11611,7 @@ void SYS_7_01_03_05(void)
 		if(3 <pass_pos)pass_pos=0;
 		RefreshFlag=1;
 	}
-	else if(KeyState.KeyValue == LIFT)
+	else if(KeyState.KeyValue == LEFT)
 	{
 		if(pass_pos)pass_pos--;
 		else pass_pos = 3;
@@ -11552,7 +11666,7 @@ void SYS_7_01_04_05(void)
 		if(3 <pass_pos)pass_pos=0;
 		RefreshFlag=1;
 	}
-	else if(KeyState.KeyValue == LIFT)
+	else if(KeyState.KeyValue == LEFT)
 	{
 		if(pass_pos)pass_pos--;
 		else pass_pos = 3;
@@ -11657,7 +11771,7 @@ void SYS_7_02_00_05(void)
 		if(3 <pass_pos)pass_pos=0;
 		RefreshFlag=1;
 	}
-	else if(KeyState.KeyValue == LIFT)
+	else if(KeyState.KeyValue == LEFT)
 	{
 		if(pass_pos)pass_pos--;
 		else pass_pos = 3;
@@ -11704,7 +11818,7 @@ void SYS_7_02_00_06(void)
 		if(3 <pass_pos)pass_pos=0;
 		RefreshFlag=1;
 	}
-	else if(KeyState.KeyValue == LIFT)
+	else if(KeyState.KeyValue == LEFT)
 	{
 		if(pass_pos)pass_pos--;
 		else pass_pos = 3;
@@ -11751,7 +11865,7 @@ void SYS_7_02_01_05(void)
 		if(3 <pass_pos)pass_pos=0;
 		RefreshFlag=1;
 	}
-	else if(KeyState.KeyValue == LIFT)
+	else if(KeyState.KeyValue == LEFT)
 	{
 		if(pass_pos)pass_pos--;
 		else pass_pos = 3;
@@ -11798,7 +11912,7 @@ void SYS_7_02_01_06(void)
 		if(3 <pass_pos)pass_pos=0;
 		RefreshFlag=1;
 	}
-	else if(KeyState.KeyValue == LIFT)
+	else if(KeyState.KeyValue == LEFT)
 	{
 		if(pass_pos)pass_pos--;
 		else pass_pos = 3;
@@ -11845,7 +11959,7 @@ void SYS_7_02_02_05(void)
 		if(3 <pass_pos)pass_pos=0;
 		RefreshFlag=1;
 	}
-	else if(KeyState.KeyValue == LIFT)
+	else if(KeyState.KeyValue == LEFT)
 	{
 		if(pass_pos)pass_pos--;
 		else pass_pos = 3;
@@ -11892,7 +12006,7 @@ void SYS_7_02_02_06(void)
 		if(3 <pass_pos)pass_pos=0;
 		RefreshFlag=1;
 	}
-	else if(KeyState.KeyValue == LIFT)
+	else if(KeyState.KeyValue == LEFT)
 	{
 		if(pass_pos)pass_pos--;
 		else pass_pos = 3;
@@ -11939,7 +12053,7 @@ void SYS_7_02_03_05(void)
 		if(3 <pass_pos)pass_pos=0;
 		RefreshFlag=1;
 	}
-	else if(KeyState.KeyValue == LIFT)
+	else if(KeyState.KeyValue == LEFT)
 	{
 		if(pass_pos)pass_pos--;
 		else pass_pos = 3;
@@ -11986,7 +12100,7 @@ void SYS_7_02_03_06(void)
 		if(3 <pass_pos)pass_pos=0;
 		RefreshFlag=1;
 	}
-	else if(KeyState.KeyValue == LIFT)
+	else if(KeyState.KeyValue == LEFT)
 	{
 		if(pass_pos)pass_pos--;
 		else pass_pos = 3;
@@ -12033,7 +12147,7 @@ void SYS_7_02_04_05(void)
 		if(3 <pass_pos)pass_pos=0;
 		RefreshFlag=1;
 	}
-	else if(KeyState.KeyValue == LIFT)
+	else if(KeyState.KeyValue == LEFT)
 	{
 		if(pass_pos)pass_pos--;
 		else pass_pos = 3;
@@ -12080,7 +12194,7 @@ void SYS_7_02_04_06(void)
 		if(3 <pass_pos)pass_pos=0;
 		RefreshFlag=1;
 	}
-	else if(KeyState.KeyValue == LIFT)
+	else if(KeyState.KeyValue == LEFT)
 	{
 		if(pass_pos)pass_pos--;
 		else pass_pos = 3;

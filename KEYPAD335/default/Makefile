@@ -15,7 +15,7 @@ COMMON = -mmcu=$(MCU)
 
 ## Compile options common for all C compilation units.
 CFLAGS = $(COMMON)
-CFLAGS += -Wall -gdwarf-2                                                              -DF_CPU=16000000UL -O0 -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+CFLAGS += -Wall -gdwarf-2                                                                        -DF_CPU=16000000UL -O0 -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 CFLAGS += -MD -MP -MT $(*F).o -MF dep/$(@F).d 
 
 ## Assembly specific flags
@@ -25,7 +25,7 @@ ASMFLAGS += -x assembler-with-cpp -Wa,-gdwarf2
 
 ## Linker flags
 LDFLAGS = $(COMMON)
-LDFLAGS += 
+LDFLAGS +=  -Wl,-Map=OK2560_BD.map
 
 
 ## Intel Hex file production flags
@@ -37,7 +37,7 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
 
 ## Include Directories
-INCLUDES = -I"D:\work\SEOHO_VD\KEYPAD335_101026\source\mcu" 
+INCLUDES = -I"D:\work\SEOHO_VD\KEYPAD335_101110\source\mcu" 
 
 ## Objects that must be built in order to link
 OBJECTS = main.o util.o debug_printf.o key.o display.o rs232_MMItoPANEL.o 16by2CLCD.o 
@@ -46,7 +46,7 @@ OBJECTS = main.o util.o debug_printf.o key.o display.o rs232_MMItoPANEL.o 16by2C
 LINKONLYOBJECTS = 
 
 ## Build
-all: $(TARGET) OK2560_BD.hex OK2560_BD.eep size
+all: $(TARGET) OK2560_BD.hex OK2560_BD.eep OK2560_BD.lss size
 
 ## Compile
 main.o: ../source/main.c
@@ -90,7 +90,8 @@ size: ${TARGET}
 ## Clean target
 .PHONY: clean
 clean:
-	-rm -rf $(OBJECTS) OK2560_BD.elf dep/* OK2560_BD.hex OK2560_BD.eep
+	-rm -rf $(OBJECTS) OK2560_BD.elf dep/* OK2560_BD.hex OK2560_BD.eep OK2560_BD.lss OK2560_BD.map
+
 
 ## Other dependencies
 -include $(shell mkdir dep 2>NUL) $(wildcard dep/*)

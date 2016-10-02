@@ -20,7 +20,7 @@
 #include <avr/pgmspace.h>
 
 #include "16by2CLCD.h"
-
+#include "util.h"
 
 void CLCD_command(unsigned char command)		/* write a command(instruction) to text LCD */
 {

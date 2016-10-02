@@ -289,14 +289,17 @@ int main(void)
 
 //	RS485_RX_EN0;
 	sei();	
-	wait() ;
+	//wait() ;
 
-	//Delay_ms(500); 
-	//Delay_ms(500); 
-	//Delay_ms(500); 
-	//Delay_ms(500);
+	Delay_ms(500); 
+	Delay_ms(500); 
+	Delay_ms(500); 
+	Delay_ms(500);
 	
 	EventFlagE = 1;
+
+	Read_GROUP =50;
+	Read_INDEX = 0;
 	
 	while(1)
 	{
@@ -308,8 +311,8 @@ int main(void)
 		if(TimeTic_10ms)
 		{
 			KeyProc();
-			MainSYSTEM();
 			Menu();
+			MainSYSTEM();
 		}
 
 		if(TimeTic_100ms)
@@ -322,21 +325,13 @@ int main(void)
 
 		if(TimeTic_500ms)
 		{
-			//PORTL = PORTL ^ 0x0F; 
-			//All_Value_Refresh();
-
-			//communication_fault_cnt++;
-			//if(5 < communication_fault_cnt)	communication_fault = 1;
-
-			//TX0_char(0x55);
-			// Write_TransmitSerialStack(0x55);
-			
+				
 		}
 
 		if(TimeTic_1s)
 		{
+			Read_DATA_from_ControlBoard(Read_GROUP, Read_INDEX);		
 			//GLCD_print0508(7, 7,_TEXT("20%02d/%02d/%02d %02d:%02d:%02d",year,month,date,hour,min,second));
-
 		}
 
 		Serial_Comm_Service(); 
