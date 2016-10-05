@@ -1,0 +1,8 @@
+---------------------  Seoho NV Drive Program.pjt - Debug  ---------------------
+[Shell_Communication_SCI.c] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -gt -pdsw225 -fr"D:/work/SEOHO_VD/SEOHO_HHH/Seoho NV Drive Program_110824/Debug" -i"D:/work/SEOHO_VD/SEOHO_HHH/Seoho NV Drive Program_110824/lib" -i"D:/work/SEOHO_VD/SEOHO_HHH/Seoho NV Drive Program_110824/include/Seoho include" -i"D:/work/SEOHO_VD/SEOHO_HHH/Seoho NV Drive Program_110824/include/TI include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 --float_support=fpu32 -@"../../Debug.lkf" "Shell_Communication_SCI.c"
+
+[Linking...] "C:\CCStudio_v3.3\C2000\cgtools\bin\cl2000" -@"Debug.lkf"
+<Linking>
+
+Build Complete,
+  0 Errors, 0 Warnings, 0 Remarks.

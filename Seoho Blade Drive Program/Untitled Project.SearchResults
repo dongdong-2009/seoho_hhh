@@ -1,0 +1,6 @@
+---- PBHP_110901 Matches (5 in 3 files) ----
+All_Main.c (source\seoho source):unsigned int InOutDataSize=8;//PBHP_110901 변수 추가
+All_Main.c (source\seoho source):	InOutDataSize = 32;//PBHP_110901 변수 추가
+All_Main.c (source\seoho source):			//InOutAddr = InOutAddr + InOutDataSize;   //PBHP_110901 한번에 받을 수 있으므로 삭제
+CANOPEN_SCI_B.c (source\seoho source):#define SD_RX_BUFFER_SIZE     100  ////PBHP_110901 버퍼의 사이즈는 수신패킷보다 커야함
+Mb.h (include\seoho include)://PBHP_110901 : 10이하일때 데이터 수신이 원활하게 이루어지지 않을 수 있음

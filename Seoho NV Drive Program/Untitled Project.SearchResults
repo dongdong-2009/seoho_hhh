@@ -1,0 +1,4 @@
+---- AutoSendDis Matches (3 in 1 files) ----
+Shell_Communication_SCI.c (source\seoho source):unsigned int AutoSendDis=1;
+Shell_Communication_SCI.c (source\seoho source):					AutoSendDis = 	RxBuf[4]; 
+Shell_Communication_SCI.c (source\seoho source):			if(AutoSendDis)

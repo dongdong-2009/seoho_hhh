@@ -1,0 +1,3 @@
+---- SCIC_Process Matches (2 in 2 files) ----
+Main.c (src):	SCIC_Process();//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11111
+SCI_BC.c (src):void SCIC_Process(void)
